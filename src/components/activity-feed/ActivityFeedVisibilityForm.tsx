@@ -108,8 +108,14 @@ export function ActivityFeedVisibilityForm({
       ) : null}
 
       <div>
-        <Label className="sr-only">Save</Label>
-        <Button type="submit" disabled={pending}>
+        <Label htmlFor="visibility-submit-btn" className="sr-only">
+          Save
+        </Label>
+        <Button
+          id="visibility-submit-btn"
+          type="submit"
+          disabled={pending}
+        >
           {pending ? "Saving…" : "Save visibility"}
         </Button>
       </div>
