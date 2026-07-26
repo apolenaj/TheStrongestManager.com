@@ -1,0 +1,31 @@
+export {
+  AI_FAILURE_MODES_ENGINE_VERSION,
+  AI_FAILURE_MODES_HONESTY,
+  AI_FAILURE_KINDS,
+  AI_FAILURE_KIND_LABELS,
+  AI_FAILURE_KIND_TITLES,
+  AI_CAPABILITY_IDS,
+  AI_CAPABILITY_LABELS,
+  CORE_APP_LINKS,
+  buildAiFailure,
+  techniqueBackendCapabilityStatus,
+  coachBrainCapabilityStatus,
+  flagGatedCapabilityStatus,
+  shouldSuppressAiOutput,
+  failureKindFromTechniqueBackend,
+  type AiFailureKind,
+  type AiCapabilityId,
+  type AiCapabilityMode,
+  type AiCapabilityStatusLevel,
+  type AiFailure,
+  type AiCapabilityStatus,
+  type CoreAppLink,
+} from "@/domain/ai-failure-modes/constants";
+
+export {
+  buildAiCapabilityRegistrySnapshot,
+  getAiCapabilityStatus,
+  listAiCapabilityIds,
+  type AiCapabilityRegistryInput,
+  type AiCapabilityRegistrySnapshot,
+} from "@/domain/ai-failure-modes/registry";

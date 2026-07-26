@@ -1,0 +1,473 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import {
+  Alert,
+  ButtonLink,
+  Input,
+  Label,
+  Select,
+} from "@/design-system";
+import {
+  DEFAULT_BAR_KG,
+  DEFAULT_TRAINING_MAX_FRACTION,
+  attemptPlannerRefusalReason,
+  computeAttemptPlan,
+  computeDots,
+  computeEstimated1rm,
+  computePlateLoading,
+  computeTrainingMax,
+  computeVolume,
+  dotsRefusalReason,
+  estimated1rmRefusalReason,
+  plateCalculatorRefusalReason,
+  trainingMaxRefusalReason,
+  type CalculatorId,
+} from "@/domain/calculator-suite";
+import type { AttemptLift, AttemptRiskPreference } from "@/domain/attempt-selector";
+import type { DotsSex } from "@/domain/calculator-suite";
+
+function num(value: string): number {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function Estimated1rmForm() {
+  const [weight, setWeight] = useState("100");
+  const [reps, setReps] = useState("5");
+  const weightKg = num(weight);
+  const repsN = Math.trunc(num(reps));
+  const refusal = estimated1rmRefusalReason({ weightKg, reps: repsN });
+  const result = refusal ? null : computeEstimated1rm({ weightKg, reps: repsN });
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <Label htmlFor="e1rm-weight">Load (kg)</Label>
+          <Input
+            id="e1rm-weight"
+            type="number"
+            min={1}
+            step={0.5}
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor="e1rm-reps">Reps (2–12)</Label>
+          <Input
+            id="e1rm-reps"
+            type="number"
+            min={2}
+            max={12}
+            step={1}
+            value={reps}
+            onChange={(e) => setReps(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+      </div>
+      {refusal ? (
+        <Alert tone="warning" title="Cannot compute">
+          {refusal}
+        </Alert>
+      ) : result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <p className="font-[family-name:var(--font-display)] text-3xl">
+            {result.displayKg}{" "}
+            <span className="text-base text-[var(--color-muted)]">kg e1RM</span>
+          </p>
+          <p className="mt-2 text-sm text-[var(--color-muted)]">
+            {result.formulaLabel}
+          </p>
+          <p className="mt-2 text-xs text-[var(--color-muted)]">
+            {result.precisionNote}
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function PlateForm() {
+  const [target, setTarget] = useState("100");
+  const [bar, setBar] = useState(String(DEFAULT_BAR_KG));
+  const targetKg = num(target);
+  const barKg = num(bar);
+  const refusal = plateCalculatorRefusalReason({ targetKg, barKg });
+  const result = refusal ? null : computePlateLoading({ targetKg, barKg });
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <Label htmlFor="plate-target">Target (kg)</Label>
+          <Input
+            id="plate-target"
+            type="number"
+            min={0}
+            step={0.5}
+            value={target}
+            onChange={(e) => setTarget(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor="plate-bar">Bar (kg)</Label>
+          <Input
+            id="plate-bar"
+            type="number"
+            min={0}
+            step={0.5}
+            value={bar}
+            onChange={(e) => setBar(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+      </div>
+      {refusal ? (
+        <Alert tone="warning" title="Cannot compute">
+          {refusal}
+        </Alert>
+      ) : result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-3">
+          <p className="font-[family-name:var(--font-display)] text-2xl">
+            {result.loadableKg} kg loadable
+            {!result.exact ? (
+              <span className="ml-2 text-sm text-[var(--color-muted)]">
+                (remainder {result.remainderKg} kg)
+              </span>
+            ) : null}
+          </p>
+          <p className="text-sm text-[var(--color-muted)]">
+            {result.perSideKg} kg per side
+          </p>
+          <ul className="text-sm">
+            {result.platesPerSide.map((p) => (
+              <li key={p.plateKg}>
+                {p.countPerSide}× {p.plateKg} kg each side
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function DotsForm() {
+  const [sex, setSex] = useState<DotsSex>("male");
+  const [bw, setBw] = useState("83");
+  const [total, setTotal] = useState("550");
+  const input = {
+    sex,
+    bodyweightKg: num(bw),
+    totalKg: num(total),
+  };
+  const refusal = dotsRefusalReason(input);
+  const result = refusal ? null : computeDots(input);
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div>
+          <Label htmlFor="dots-sex">Coefficients</Label>
+          <Select
+            id="dots-sex"
+            value={sex}
+            onChange={(e) => setSex(e.target.value as DotsSex)}
+            className="mt-1"
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="dots-bw">Bodyweight (kg)</Label>
+          <Input
+            id="dots-bw"
+            type="number"
+            min={1}
+            step={0.1}
+            value={bw}
+            onChange={(e) => setBw(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor="dots-total">Total (kg)</Label>
+          <Input
+            id="dots-total"
+            type="number"
+            min={1}
+            step={0.5}
+            value={total}
+            onChange={(e) => setTotal(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+      </div>
+      {refusal ? (
+        <Alert tone="warning" title="Cannot compute">
+          {refusal}
+        </Alert>
+      ) : result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-2">
+          <p className="font-[family-name:var(--font-display)] text-3xl">
+            {result.displayDots}{" "}
+            <span className="text-base text-[var(--color-muted)]">DOTS</span>
+          </p>
+          {result.bodyweightClamped ? (
+            <p className="text-sm text-[var(--color-muted)]">
+              Bodyweight clamped to {result.bodyweightUsedKg} kg for the published
+              curve.
+            </p>
+          ) : null}
+          <p className="text-xs text-[var(--color-muted)]">{result.citation}</p>
+          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function VolumeForm() {
+  const [load, setLoad] = useState("100");
+  const [reps, setReps] = useState("5");
+  const [sets, setSets] = useState("3");
+  const [load2, setLoad2] = useState("80");
+  const [reps2, setReps2] = useState("8");
+  const [sets2, setSets2] = useState("3");
+
+  const result = useMemo(() => {
+    const rows = [
+      {
+        loadKg: num(load),
+        reps: Math.trunc(num(reps)),
+        sets: Math.trunc(num(sets)),
+        label: "Exercise A",
+      },
+      {
+        loadKg: num(load2),
+        reps: Math.trunc(num(reps2)),
+        sets: Math.trunc(num(sets2)),
+        label: "Exercise B",
+      },
+    ];
+    return computeVolume(rows);
+  }, [load, reps, sets, load2, reps2, sets2]);
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div>
+          <Label htmlFor="vol-load">A · Load (kg)</Label>
+          <Input id="vol-load" type="number" value={load} onChange={(e) => setLoad(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="vol-reps">A · Reps</Label>
+          <Input id="vol-reps" type="number" value={reps} onChange={(e) => setReps(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="vol-sets">A · Sets</Label>
+          <Input id="vol-sets" type="number" value={sets} onChange={(e) => setSets(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="vol-load2">B · Load (kg)</Label>
+          <Input id="vol-load2" type="number" value={load2} onChange={(e) => setLoad2(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="vol-reps2">B · Reps</Label>
+          <Input id="vol-reps2" type="number" value={reps2} onChange={(e) => setReps2(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="vol-sets2">B · Sets</Label>
+          <Input id="vol-sets2" type="number" value={sets2} onChange={(e) => setSets2(e.target.value)} className="mt-1" />
+        </div>
+      </div>
+      {result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-2">
+          <p className="font-[family-name:var(--font-display)] text-2xl">
+            {result.totalTonnageKg}{" "}
+            <span className="text-base text-[var(--color-muted)]">kg tonnage</span>
+          </p>
+          <ul className="text-sm text-[var(--color-muted)]">
+            {result.rows.map((r) => (
+              <li key={r.label}>
+                {r.label}: {r.tonnageKg} kg · {r.totalReps} reps
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+        </div>
+      ) : (
+        <Alert tone="warning" title="Cannot compute">
+          Enter positive load, integer reps, and integer sets for both rows.
+        </Alert>
+      )}
+    </div>
+  );
+}
+
+function AttemptForm() {
+  const [ceiling, setCeiling] = useState("200");
+  const [risk, setRisk] = useState<AttemptRiskPreference>("balanced");
+  const [lift, setLift] = useState<AttemptLift>("squat");
+  const [goal, setGoal] = useState("");
+  const input = {
+    planningCeilingKg: num(ceiling),
+    risk,
+    lift,
+    goalKg: goal.trim() ? num(goal) : null,
+  };
+  const refusal = attemptPlannerRefusalReason(input);
+  const result = refusal ? null : computeAttemptPlan(input);
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <Label htmlFor="att-ceiling">Planning ceiling (kg)</Label>
+          <Input
+            id="att-ceiling"
+            type="number"
+            value={ceiling}
+            onChange={(e) => setCeiling(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+        <div>
+          <Label htmlFor="att-lift">Lift</Label>
+          <Select
+            id="att-lift"
+            value={lift}
+            onChange={(e) => setLift(e.target.value as AttemptLift)}
+            className="mt-1"
+          >
+            <option value="squat">Squat</option>
+            <option value="bench">Bench</option>
+            <option value="deadlift">Deadlift</option>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="att-risk">Risk</Label>
+          <Select
+            id="att-risk"
+            value={risk}
+            onChange={(e) => setRisk(e.target.value as AttemptRiskPreference)}
+            className="mt-1"
+          >
+            <option value="conservative">Conservative</option>
+            <option value="balanced">Balanced</option>
+            <option value="aggressive">Aggressive</option>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="att-goal">Goal third (optional)</Label>
+          <Input
+            id="att-goal"
+            type="number"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className="mt-1"
+          />
+        </div>
+      </div>
+      {refusal ? (
+        <Alert tone="warning" title="Cannot compute">
+          {refusal}
+        </Alert>
+      ) : result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-2">
+          <p className="font-[family-name:var(--font-display)] text-lg">
+            Opener {result.selection.openerKg} · Second {result.selection.secondKg} ·
+            Third {result.selection.third.lowKg}–{result.selection.third.highKg} kg
+          </p>
+          <p className="text-sm text-[var(--color-muted)]">
+            {result.selection.third.condition}
+          </p>
+          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+          <ButtonLink href="/app/attempt-selector" variant="secondary" size="sm">
+            Open full attempt selector
+          </ButtonLink>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function TrainingMaxForm() {
+  const [oneRm, setOneRm] = useState("200");
+  const [weight, setWeight] = useState("");
+  const [reps, setReps] = useState("");
+  const [fraction, setFraction] = useState(String(DEFAULT_TRAINING_MAX_FRACTION));
+  const input = {
+    oneRmKg: oneRm.trim() ? num(oneRm) : null,
+    weightKg: weight.trim() ? num(weight) : null,
+    reps: reps.trim() ? Math.trunc(num(reps)) : null,
+    fraction: num(fraction),
+  };
+  const refusal = trainingMaxRefusalReason(input);
+  const result = refusal ? null : computeTrainingMax(input);
+
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <Label htmlFor="tm-1rm">1RM (kg)</Label>
+          <Input id="tm-1rm" type="number" value={oneRm} onChange={(e) => setOneRm(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="tm-w">Or load (kg)</Label>
+          <Input id="tm-w" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="tm-r">Or reps</Label>
+          <Input id="tm-r" type="number" value={reps} onChange={(e) => setReps(e.target.value)} className="mt-1" />
+        </div>
+        <div>
+          <Label htmlFor="tm-f">Fraction</Label>
+          <Input id="tm-f" type="number" min={0.01} max={1} step={0.01} value={fraction} onChange={(e) => setFraction(e.target.value)} className="mt-1" />
+        </div>
+      </div>
+      {refusal ? (
+        <Alert tone="warning" title="Cannot compute">
+          {refusal}
+        </Alert>
+      ) : result ? (
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-2">
+          <p className="font-[family-name:var(--font-display)] text-3xl">
+            {result.displayKg}{" "}
+            <span className="text-base text-[var(--color-muted)]">kg TM</span>
+          </p>
+          <p className="text-sm text-[var(--color-muted)]">
+            From {result.oneRmUsedKg} kg ({result.oneRmSource}) × {result.fraction}
+          </p>
+          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function CalculatorTool({ slug }: { slug: CalculatorId }) {
+  switch (slug) {
+    case "estimated-1rm":
+      return <Estimated1rmForm />;
+    case "plate-calculator":
+      return <PlateForm />;
+    case "dots":
+      return <DotsForm />;
+    case "volume-calculator":
+      return <VolumeForm />;
+    case "attempt-planner":
+      return <AttemptForm />;
+    case "training-max":
+      return <TrainingMaxForm />;
+    default:
+      return null;
+  }
+}

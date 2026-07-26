@@ -1,0 +1,3236 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// Auth (Auth.js) — identity only. Athlete domain is separate.
+// =============================================================================
+
+/// Application user. Athlete profile / onboarding is separate from this record.
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  /// Present for email/password accounts; null for OAuth-only users.
+  passwordHash  String?
+  /// Performance OS athlete role (default). Can coexist with isCoach.
+  isAthlete     Boolean   @default(true)
+  /// Coach Mode role. Requires explicit CoachAthleteAccess grants to see athletes.
+  isCoach       Boolean   @default(false)
+  /// Staff admin — content CMS + flags. Never expose controls to non-admins.
+  isAdmin       Boolean   @default(false)
+  /// Isolated Demo Mode account only (seed). Never set on production signups.
+  isDemoAccount Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts            Account[]
+  sessions            Session[]
+  passwordResetTokens PasswordResetToken[]
+
+  athleteProfile AthleteProfile?
+  subscription   Subscription?
+  creditBalance  CreditBalance?
+  creditTransactions CreditTransaction[]
+  billingInvoices BillingInvoice[]
+  couponRedemptions CouponRedemption[]
+  coachAccessAsCoach    CoachAthleteAccess[] @relation("CoachAthleteAccessAsCoach")
+  coachNotesAuthored    CoachNote[]          @relation("CoachNoteAuthor")
+  coachNoteSummariesRequested CoachNoteSummary[] @relation("CoachNoteSummaryRequester")
+  coachModificationsAuthored CoachModification[] @relation("CoachModificationAuthor")
+  coachAiSuggestionsReceived CoachAiSuggestion[] @relation("CoachAiSuggestionCoach")
+  coachAiSuggestionsDecided  CoachAiSuggestion[] @relation("CoachAiSuggestionDecider")
+  /// Public marketplace listing (Prompt 37) — separate from Coach Mode grants.
+  coachMarketplaceProfile CoachMarketplaceProfile?
+  /// Admin/staff who verified credentials (optional).
+  credentialsVerified CoachCredential[] @relation("CoachCredentialVerifier")
+  /// Staff who reviewed verified-lift claims (Prompt 77).
+  verifiedLiftsReviewed VerifiedLiftClaim[] @relation("VerifiedLiftReviewer")
+  /// Verified experts who completed technique reviews (Prompt 95).
+  techniqueExpertReviews TechniqueExpertReview[] @relation("TechniqueExpertReviewer")
+  techniqueExpertReviewsRequested TechniqueExpertReview[] @relation("TechniqueExpertReviewRequester")
+  humanAnalysisOrdersAsExpert HumanAnalysisOrder[] @relation("HumanAnalysisExpert")
+  academyEnrollments AcademyEnrollment[]
+  adminAuditLogs     AdminAuditLog[]    @relation("AdminAuditActor")
+  communityQaModeration CommunityQaModerationEvent[] @relation("CommunityQaModerator")
+  expertContributorProfile ExpertContributorProfile?
+  expertContributorsVerified ExpertContributorProfile[] @relation("ExpertContributorVerifier")
+  orgMemberships OrgMembership[]
+  teamMemberships TeamMembership[]
+  organizationsCreated Organization[] @relation("OrganizationCreator")
+  modelFeedbackAuthored ModelFeedback[] @relation("ModelFeedbackActor")
+  programVersionsChanged ProgramVersion[] @relation("ProgramVersionActor")
+  messageThreadsAsCoach MessageThread[] @relation("MessageThreadCoach")
+  messagesSent Message[] @relation("MessageSender")
+  messageModerationEvents MessageModerationEvent[] @relation("MessageModerationActor")
+  coachCheckInTemplates CoachCheckInTemplate[] @relation("CoachCheckInTemplateCoach")
+  weeklyCheckInSummariesRequested WeeklyCheckInSummary[] @relation("WeeklyCheckInSummaryRequester")
+  premiumCoachingApplications PremiumCoachingApplication[] @relation("PremiumCoachingApplicant")
+  premiumCoachingStageChanges PremiumCoachingApplication[] @relation("PremiumCoachingStageActor")
+  /// Personal invite code (Prompt 135) — one per user.
+  userReferralCode UserReferralCode?
+  referralsAsReferrer Referral[] @relation("ReferralReferrer")
+  referralsAsReferred Referral[] @relation("ReferralReferred")
+  referralRewards ReferralReward[] @relation("ReferralRewardBeneficiary")
+  referralAccessGrants ReferralAccessGrant[]
+  /// Affiliate partner profile (Prompt 136) — creators / coaches / partners.
+  affiliatePartner AffiliatePartner?
+  affiliateConversions AffiliateConversion[] @relation("AffiliateConvertedUser")
+  /// Creator Program partnership application (Prompt 137).
+  creatorPartnership CreatorPartnership?
+  creatorPartnershipsReviewed CreatorPartnership[] @relation("CreatorPartnershipReviewer")
+  /// Program marketplace (Prompt 138).
+  programMarketplaceListings ProgramMarketplaceListing[] @relation("ProgramMarketplaceCreator")
+  programMarketplaceReviews ProgramMarketplaceListing[] @relation("ProgramMarketplaceListingReviewer")
+  programMarketplacePurchases ProgramMarketplacePurchase[]
+  programMarketplaceRatings ProgramMarketplaceRating[]
+  /// Content moderation (Prompt 139).
+  contentModerationReportsFiled ContentModerationReport[] @relation("ContentModerationReporter")
+  contentModerationReportsReviewed ContentModerationReport[] @relation("ContentModerationReportReviewer")
+  contentModerationAuditLogs ContentModerationAuditLog[] @relation("ContentModerationAuditActor")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// =============================================================================
+// Athlete domain
+// =============================================================================
+
+/// Performance profile for an authenticated user (1:1 with User).
+model AthleteProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  /// Display name inside the Performance OS (optional; auth name stays on User).
+  displayName String?
+  sex       String?
+  birthYear Int?
+  /// Primary sport focus: powerlifting | bodybuilding | strongman | weightlifting | general | hybrid | coach
+  primaryDiscipline String?
+  timezone  String?  // IANA e.g. Europe/Prague — store UTC, display local (docs/TIMEZONE_SYSTEM.md)
+  units     String   @default("kg") // kg | lb — presentation; mass/length/distance stored as kg/cm/m (see docs/UNIT_SYSTEM.md)
+  /// Set when progressive onboarding finishes successfully.
+  onboardingCompletedAt DateTime?
+  /// User acknowledged pain/injury caution (not a medical intake).
+  painCautionAcknowledgedAt DateTime?
+  /// Optional free-text movement caution — skippable; not a diagnosis.
+  movementNotes String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  goals               Goal[]
+  bodyMetrics         BodyMetric[]
+  trainingExperience  TrainingExperience?
+  programs            Program[]
+  trainingSessions    TrainingSession[]
+  techniqueAnalyses   TechniqueAnalysis[]
+  athleteScores       AthleteScore[]
+  recoveryEntries     RecoveryEntry[]
+  progressMetrics     ProgressMetric[]
+  recommendations     Recommendation[]
+  workouts            Workout[]
+  programAdaptations  ProgramAdaptation[]
+  coachAccessGrants   CoachAthleteAccess[]
+  coachNotes          CoachNote[]
+  coachNoteSummaries  CoachNoteSummary[]
+  coachModifications  CoachModification[]
+  coachAiSuggestions  CoachAiSuggestion[]
+  coachBrainAuditLogs CoachBrainAuditLog[]
+  weeklyAthleteReviews WeeklyAthleteReview[]
+  monthlyAthleteReports MonthlyAthleteReport[]
+  monthlyReportShares MonthlyReportShare[]
+  performanceStoryShares PerformanceStoryShare[]
+  yearInReviewShares YearInReviewShare[]
+  programAiReviews ProgramAiReview[]
+  competitionPreps CompetitionPrep[]
+  prShares PrShare[]
+  techniqueShares TechniqueShare[]
+  publicProfile AthletePublicProfile?
+  leaderboardOptIn LeaderboardOptIn?
+  verifiedLiftClaims VerifiedLiftClaim[]
+  challengeEnrollments ChallengeEnrollment[]
+  achievements AthleteAchievement[]
+  athleteLevelOptIn AthleteLevelOptIn?
+  dataMoatConsent DataMoatConsent?
+  /// Account-level consent preferences (Prompt 179) — separate from per-video opts.
+  consentPreference AthleteConsentPreference?
+  communityQuestions CommunityQuestion[]
+  communityAnswers CommunityAnswer[]
+  communityVotes CommunityVote[]
+  orgMemberships OrgMembership[]
+  teamMemberships TeamMembership[]
+  modelFeedbacks ModelFeedback[]
+  humanAnalysisOrders HumanAnalysisOrder[]
+  notificationPreference NotificationPreference?
+  athleteNotifications AthleteNotification[]
+  activityFeedPreference ActivityFeedPreference?
+  personalTrainingExperiments PersonalTrainingExperiment[]
+  painSafeReports PainSafeReport[]
+  travelTrainingModes TravelTrainingMode[]
+  injuryModifications InjuryModification[]
+  messageThreads MessageThread[]
+  weeklyCheckIns WeeklyCheckIn[]
+  coachCheckInTemplatesAsAthlete CoachCheckInTemplate[]
+  premiumCoachingApplications PremiumCoachingApplication[]
+}
+
+/// Injury-Modification Architecture (Prompt 130).
+/// User-declared training limitations — NOT injury diagnosis.
+model InjuryModification {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// avoid_painful_movement | temporary_restriction | professional_instruction
+  declarationKind  String
+  /// active | cleared
+  status           String    @default("active")
+  notes            String?
+  /// Optional free-text focus (pattern / area) — athlete-declared, not a diagnosis.
+  affectedArea     String?
+  /// Optional source label for professional_instruction (PT, MD, coach) — not verified.
+  instructionSource String?
+  startsAt         DateTime  @default(now())
+  endsAt           DateTime?
+  clearedAt        DateTime?
+  engineVersion    String    @default("injury_modification.v1")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status, startsAt])
+  @@index([athleteProfileId, status])
+}
+
+/// Travel Training Mode (Prompt 129).
+/// Temporary equipment overlay — original program preserved via checkpoint.
+model TravelTrainingMode {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// hotel_gym | no_gym | limited
+  preset           String
+  /// active | ended
+  status           String    @default("active")
+  /// JSON string[] — onboarding equipment IDs used while traveling
+  equipmentOverrideJson String @default("[]")
+  /// JSON snapshot of home availableEquipment + equipmentProfileId
+  homeEquipmentSnapshotJson String @default("{}")
+  /// Active athlete program checkpointed at travel start (optional)
+  programId        String?
+  preTravelVersionNumber Int?
+  notes            String?
+  startedAt        DateTime  @default(now())
+  endedAt          DateTime?
+  engineVersion    String    @default("travel_training_mode.v1")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status, startedAt])
+  @@index([athleteProfileId, status])
+}
+
+/// Pain-Safe Response System (Prompt 126).
+/// Explicit athlete-reported red-flag categories — never a diagnosis.
+model PainSafeReport {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// sharp_pain | neurological | serious_injury
+  category         String
+  notes            String?
+  /// user_report | inferred
+  source           String    @default("user_report")
+  active           Boolean   @default(true)
+  clearedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, active, createdAt])
+  @@index([athleteProfileId, category])
+}
+
+/// Personal training experiment (Prompt 119).
+/// Athlete-owned n=1 coaching check — NOT scientific research.
+model PersonalTrainingExperiment {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  title            String
+  /// What the athlete will test (e.g. "Paused deadlift for 6 weeks").
+  intervention     String
+  /// Personal prediction — never framed as a research hypothesis in product copy.
+  hypothesis       String
+  /// JSON string[] of measure keys (deadlift_performance, technique, …).
+  measuresJson     String   @default("[]")
+  durationWeeks    Int
+  /// planned | active | completed | abandoned
+  status           String   @default("planned")
+  plannedStartAt   DateTime?
+  startedAt        DateTime?
+  endedAt          DateTime?
+  abandonedAt      DateTime?
+  /// Frozen signals at start (honest nulls preserved).
+  baselineSnapshotJson String @default("{}")
+  /// Frozen signals at complete/abandon.
+  outcomeSnapshotJson  String @default("{}")
+  athleteNotes     String?
+  engineVersion    String   @default("personal_training_experiment.v1")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status])
+  @@index([athleteProfileId, startedAt])
+}
+
+/// Athlete competition preparation plan (Prompt 70).
+model CompetitionPrep {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// powerlifting | deadlift_only | strongman
+  sport            String
+  name             String?
+  competitionDate  DateTime
+  /// Display label e.g. "83 kg" — not a medical body-comp claim.
+  weightClassLabel String?
+  /// Class limit in kg when known (weigh-in ceiling).
+  weightClassLimitKg Float?
+  /// JSON: { squatKg?, benchKg?, deadliftKg?, notes? } planned targets / openers intent.
+  targetLiftsJson  String   @default("{}")
+  /// planned | active | completed | cancelled
+  status           String   @default("active")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status])
+  @@index([athleteProfileId, competitionDate])
+}
+
+/// Shareable snapshot of a personal-record celebration card (Prompt 72).
+model PrShare {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Public opaque token for /share/pr/[token]
+  token            String   @unique
+  /// Frozen card JSON (headline, types, related notes) — no private session dumps.
+  payloadJson      String
+  createdAt        DateTime @default(now())
+  /// Optional expiry; null = until revoked.
+  expiresAt        DateTime?
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Shareable technique score card + referral snapshot (Prompt 74).
+model TechniqueShare {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Optional source analysis (not required for frozen payload).
+  techniqueAnalysisId String?
+  /// Public opaque token for /share/technique/[token]
+  token            String   @unique
+  /// Short referral code for ?ref= URLs
+  referralCode     String   @unique
+  /// Frozen card JSON — only athlete-selected fields.
+  payloadJson      String
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime?
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Optional public athlete profile (Prompt 75). Default private.
+model AthletePublicProfile {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  /// false = private (default). Public page 404s when false.
+  isPublic         Boolean  @default(false)
+  /// Custom URL slug for /u/[slug] — unique when set.
+  slug             String?  @unique
+  /// Optional short public bio.
+  bio              String?
+  /// JSON visibility flags — see domain public-profile/visibility.
+  visibilityJson   String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([isPublic, slug])
+}
+
+/// Lift verification claim (Prompt 77). Never imply officially verified without criteria.
+model VerifiedLiftClaim {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// squat | bench | deadlift | overhead_press | other
+  liftKey          String
+  liftLabel        String?
+  loadKg           Float
+  reps             Int      @default(1)
+  /// self_reported | video_submitted | competition_verified
+  level            String   @default("self_reported")
+  /// none | pending_review | approved | rejected | revoked
+  reviewStatus     String   @default("none")
+  /// video_submitted | competition_verified — what athlete requested in review
+  reviewTarget     String?
+  techniqueAnalysisId String?
+  videoStorageKey  String?
+  /// JSON: performedAt, bodyweightKg, meetName, meetDate, federation, …
+  metadataJson     String   @default("{}")
+  athleteNote      String?
+  reviewNote       String?
+  submittedForReviewAt DateTime?
+  reviewedAt       DateTime?
+  reviewedByUserId String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile    AthleteProfile     @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  techniqueAnalysis TechniqueAnalysis? @relation(fields: [techniqueAnalysisId], references: [id], onDelete: SetNull)
+  reviewedBy        User?              @relation("VerifiedLiftReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([athleteProfileId, createdAt])
+  @@index([reviewStatus, submittedForReviewAt])
+  @@index([level])
+}
+
+/// Opt-in leaderboard participation (Prompt 76). Default: not opted in.
+model LeaderboardOptIn {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  /// false = excluded from all boards (default).
+  optedIn          Boolean  @default(false)
+  /// ISO 3166-1 alpha-2 when athlete chooses to share.
+  countryCode      String?
+  /// Display label e.g. "83 kg"
+  bodyweightClassLabel String?
+  bodyweightClassMaxKg Float?
+  /// powerlifting | strongman | weightlifting | general | …
+  sport            String?
+  /// JSON: which categories to appear on.
+  categoriesJson   String   @default("{}")
+  /// Show display name vs anonymous handle.
+  showDisplayName  Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([optedIn, sport])
+  @@index([optedIn, countryCode])
+}
+
+/// Athlete enrollment in a catalog challenge (Prompt 78).
+model ChallengeEnrollment {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Stable catalog challenge id (e.g. chal_30_day_technique).
+  challengeId      String
+  /// active | completed | abandoned
+  status           String   @default("active")
+  startedAt        DateTime @default(now())
+  completedAt      DateTime?
+  /// Last computed progress value (sessions, days, delta, …).
+  progressValue    Float    @default(0)
+  /// JSON progress snapshot for honesty / debug.
+  progressJson     String   @default("{}")
+  /// Set when completion badge is awarded.
+  badgeAwardedAt   DateTime?
+  /// Opt into this challenge’s optional leaderboard (default false).
+  leaderboardOptIn Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([athleteProfileId, challengeId])
+  @@index([challengeId, status])
+  @@index([athleteProfileId, status])
+}
+
+/// Earned achievement unlock (Prompt 79). Awarded only from real evidence.
+model AthleteAchievement {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Catalog achievement id (e.g. first_workout).
+  achievementId    String
+  earnedAt         DateTime @default(now())
+  /// Honest evidence snapshot JSON.
+  evidenceJson     String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([athleteProfileId, achievementId])
+  @@index([athleteProfileId, earnedAt])
+}
+
+/// Optional Athlete Level participation (Prompt 80). Default: not opted in.
+model AthleteLevelOptIn {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  /// false = level not shown / not computed for display (default).
+  optedIn          Boolean  @default(false)
+  /// Last computed level id snapshot (foundation…elite) — informational.
+  lastLevelId      String?
+  lastComposite    Float?
+  lastComputedAt   DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+}
+
+/// Account-level consent preferences (Prompt 179).
+/// Never bundles service use, expert review, and research into one checkbox.
+model AthleteConsentPreference {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  /// Prefer allowing expert review when the athlete later opts in per video / request.
+  /// Default false — never implies research/model-improvement consent.
+  expertReviewOptIn Boolean @default(false)
+  expertReviewUpdatedAt DateTime?
+  /// Policy version shown when expert preference last changed.
+  expertReviewPolicyVersion String @default("model_improvement_consent.v1")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+}
+
+/// Data moat consent (Prompt 91) — default off. Platform aggregates only with explicit opt-in.
+model DataMoatConsent {
+  id               String    @id @default(cuid())
+  athleteProfileId String    @unique
+  /// false = excluded from all platform moat jobs (default).
+  optedIn          Boolean   @default(false)
+  /// JSON DataMoatConsentScopes — training / technique / strength aggregates.
+  scopesJson       String    @default("{}")
+  /// Policy text version athlete accepted.
+  policyVersion    String    @default("data_moat_policy.v1")
+  consentedAt      DateTime?
+  revokedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([optedIn, policyVersion])
+}
+
+/// Batch anonymized aggregation job (Prompt 91) — outputs cohort stats only; no PII warehouse.
+model AggregationJob {
+  id                String    @id @default(cuid())
+  /// e.g. technique_patterns_weekly
+  jobKey            String
+  /// technique_patterns | training_outcomes | exercise_response | programming_trends
+  insightKind       String
+  windowStart       DateTime
+  windowEnd         DateTime
+  /// queued | running | completed | failed | cancelled
+  status            String    @default("queued")
+  /// Cohort filter buckets JSON — never user ids.
+  cohortFiltersJson String    @default("{}")
+  minCohortSize     Int       @default(5)
+  sourcePolicyVersion String  @default("data_moat_policy.v1")
+  rowsConsidered    Int       @default(0)
+  rowsIncluded      Int       @default(0)
+  rowsSuppressed    Int       @default(0)
+  /// Anonymized result JSON (cohort stats) — must pass sanitizeMoatOutputProps.
+  resultJson        String?
+  errorMessage      String?
+  engineVersion     String    @default("data_moat.v1")
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([jobKey, status])
+  @@index([insightKind, windowStart])
+  @@index([status, createdAt])
+}
+
+/// AI recommendation feedback (Prompt 92). Never auto-retrains production models.
+model ModelFeedback {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  actorUserId      String
+  /// athlete | coach
+  role             String
+  /// program_adaptation | coach_ai_suggestion | recommendation | program_ai_review | insight
+  relatedType      String
+  relatedId        String
+  /// helpful | not_helpful | accepted | modified | rejected
+  verdict          String
+  /// Optional free-text reason — stored here only; never sent to product analytics.
+  reason           String?
+  engineVersion    String   @default("model_feedback.v1")
+  /// Explicit: feedback is for review queues — never a live retrain trigger.
+  autoRetrainBlocked Boolean @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  actorUser      User           @relation("ModelFeedbackActor", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@unique([actorUserId, relatedType, relatedId])
+  @@index([athleteProfileId, relatedType, createdAt])
+  @@index([relatedType, relatedId])
+  @@index([verdict, createdAt])
+}
+
+/// Community Knowledge Q&A question (Prompt 81).
+model CommunityQuestion {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// technique | programming | powerlifting | bodybuilding | strongman | nutrition | recovery
+  category         String
+  title            String
+  body             String
+  /// open | closed | hidden | removed
+  status           String   @default("open")
+  score            Int      @default(0)
+  /// Accepted human answer id (no FK — avoids circular Question↔Answer dependency).
+  acceptedAnswerId String?
+  /// AI rollup only — never a human Answer row; always labelled AI in UI.
+  aiSummary        String?
+  aiSummaryAt      DateTime?
+  aiEngineVersion  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  answers        CommunityAnswer[]
+  votes          CommunityVote[]
+  moderationEvents CommunityQaModerationEvent[]
+
+  @@index([category, status, createdAt])
+  @@index([athleteProfileId, createdAt])
+  @@index([status, score])
+}
+
+/// Human answer only — authorship never ai_engine.
+model CommunityAnswer {
+  id               String   @id @default(cuid())
+  questionId       String
+  athleteProfileId String
+  body             String
+  /// human_athlete | human_coach — never AI
+  authorship       String   @default("human_athlete")
+  /// Set only when author had a verified coach credential at post time.
+  expertBadgeAt    DateTime?
+  /// published | hidden | removed
+  status           String   @default("published")
+  score            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  question       CommunityQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile    @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  votes          CommunityVote[]
+  moderationEvents CommunityQaModerationEvent[]
+
+  @@index([questionId, status, score])
+  @@index([athleteProfileId, createdAt])
+}
+
+model CommunityVote {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// question | answer
+  targetType       String
+  /// Stable key e.g. "question:cuid" | "answer:cuid" for unique votes.
+  targetKey        String
+  questionId       String?
+  answerId         String?
+  /// +1 | -1
+  value            Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile     @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  question       CommunityQuestion? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answer         CommunityAnswer?   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+
+  @@unique([athleteProfileId, targetKey])
+  @@index([questionId])
+  @@index([answerId])
+}
+
+model CommunityQaModerationEvent {
+  id          String   @id @default(cuid())
+  questionId  String?
+  answerId    String?
+  /// flag | hide | restore | remove | note
+  action      String
+  reason      String?
+  actorUserId String
+  createdAt   DateTime @default(now())
+
+  question CommunityQuestion? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answer   CommunityAnswer?   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  actor    User               @relation("CommunityQaModerator", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([questionId, createdAt])
+  @@index([answerId, createdAt])
+}
+
+/// Explicit Expert Contributor profile (Prompt 82). Never auto-granted from coach flags.
+model ExpertContributorProfile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  displayName String
+  bio         String?
+  /// JSON string array of specialization labels.
+  specializationsJson String @default("[]")
+  /// Free-text credentials summary (claims — verification is separate).
+  credentialsSummary String?
+  /// Years / background — not an expert grant by itself.
+  experienceSummary  String?
+  /// none | pending_review | verified | rejected | revoked
+  verificationStatus String @default("none")
+  verifiedAt         DateTime?
+  verifiedByUserId   String?
+  verificationNote   String?
+  /// Public URL slug for /experts/[slug]
+  seoSlug            String? @unique
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verifiedBy User? @relation("ExpertContributorVerifier", fields: [verifiedByUserId], references: [id], onDelete: SetNull)
+  articles   ExpertArticle[]
+
+  @@index([verificationStatus])
+  @@index([seoSlug])
+}
+
+/// Expert-written article with SEO Person author when contributor is verified.
+model ExpertArticle {
+  id            String   @id @default(cuid())
+  contributorId String
+  slug          String   @unique
+  title         String
+  description   String
+  body          String
+  /// draft | published | archived
+  status        String   @default("draft")
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  contributor ExpertContributorProfile @relation(fields: [contributorId], references: [id], onDelete: Cascade)
+
+  @@index([contributorId, status, publishedAt])
+  @@index([status, publishedAt])
+}
+
+model Goal {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// strength | physique | performance | skill | body_comp | other
+  category         String
+  title            String
+  description      String?
+  targetValue      Float?
+  targetUnit       String?
+  /// active | achieved | abandoned | paused
+  status           String    @default("active")
+  priority         Int       @default(0)
+  targetDate       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status])
+}
+
+/// Point-in-time body measurements (weight, girths, etc.).
+model BodyMetric {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// bodyweight | height | bodyfat_est | girth_* | other
+  metricKey        String
+  value            Float
+  unit             String
+  /// observed | reported | estimated
+  source           String   @default("reported")
+  recordedAt       DateTime @default(now())
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, metricKey, recordedAt])
+}
+
+/// Current training background for the athlete (1:1). History can be versioned later.
+model TrainingExperience {
+  id                   String   @id @default(cuid())
+  athleteProfileId     String   @unique
+  /// beginner | intermediate | advanced | elite
+  level                String?
+  yearsTraining        Float?
+  daysPerWeek          Int?
+  sessionLengthMinutes Int?
+  coachingStatus       String? // self | coached | mixed
+  /// JSON string array of sport keys selected in onboarding.
+  preferredSports      String?
+  /// JSON string array of equipment keys available to the athlete.
+  availableEquipment   String?
+  /// commercial_gym | home_gym | powerlifting_gym | minimal | custom
+  equipmentProfileId   String?
+  /// Athlete-reported recent training summary (optional).
+  recentHistory        String?
+  /// Athlete-reported recovery habits (optional) — not clinical data.
+  recoveryHabits       String?
+  notes                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+}
+
+// =============================================================================
+// Exercise intelligence (global catalog)
+// =============================================================================
+
+/// Canonical exercise intelligence entry. Coaching copy is not an evidence claim.
+model Exercise {
+  id          String @id @default(cuid())
+  slug        String @unique
+  name        String
+  /// JSON string array of alternate names / search aliases.
+  aliases     String @default("[]")
+  /// Short marketing/list blurb (coaching summary — not a study abstract).
+  description String?
+
+  /// compound | isolation | olympic | accessory | other
+  category        String
+  /// squat | hinge | push | pull | carry | olympic | accessory | other
+  movementPattern String
+  /// JSON string array of muscle keys (primary).
+  primaryMuscles  String  @default("[]")
+  /// JSON string array of muscle keys (secondary).
+  secondaryMuscles String @default("[]")
+  /// JSON string array of equipment keys (primary first).
+  equipment       String  @default("[]")
+  /// beginner | intermediate | advanced
+  difficulty      String
+  /// bilateral | unilateral
+  laterality      String?
+  /// JSON map of sport key → high | moderate | low | none
+  sportRelevance  String  @default("{}")
+
+  /// Coaching sections — knowledgeKind is always coaching_practice unless noted in docs.
+  executionOverview String?
+  setup             String?
+  execution         String?
+  breathingBracing  String?
+  /// JSON string array of common mistake cues (coaching practice).
+  commonMistakes    String @default("[]")
+  /// JSON array of { label, note, relatedSlug? } coaching regressions.
+  regressions       String @default("[]")
+  /// JSON array of { label, note, relatedSlug? } coaching progressions.
+  progressions      String @default("[]")
+  /// JSON array of { label, note, relatedSlug? } named variations (also see relations).
+  variations        String @default("[]")
+  programmingUses   String?
+  safetyNotes       String?
+
+  /// Always "coaching_practice" for seeded instructional fields.
+  contentKind   String  @default("coaching_practice")
+  /// draft | reviewed
+  contentStatus String  @default("draft")
+  isPublished   Boolean @default(false)
+  publishedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  namedVariations     ExerciseVariation[]
+  relationsFrom       ExerciseRelation[]      @relation("ExerciseRelationFrom")
+  relationsTo         ExerciseRelation[]      @relation("ExerciseRelationTo")
+  evidenceClaims      ExerciseEvidenceClaim[]
+  workoutExercises    WorkoutExercise[]
+  techniqueAnalyses   TechniqueAnalysis[]
+  sessionExercises    SessionExercise[]
+
+  @@index([isPublished, category])
+  @@index([movementPattern])
+}
+
+/// Named modifier variant (e.g. pause squat) belonging to a parent exercise.
+model ExerciseVariation {
+  id          String   @id @default(cuid())
+  exerciseId  String
+  slug        String
+  name        String
+  description String?
+  /// high_bar | low_bar | pause | tempo | etc.
+  modifierKey String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([exerciseId, slug])
+  @@index([exerciseId])
+}
+
+/// Directed link between catalog exercises (regression / progression / variation).
+model ExerciseRelation {
+  id             String @id @default(cuid())
+  fromExerciseId String
+  toExerciseId   String
+  /// regression | progression | variation
+  relationType   String
+  note           String?
+  sortOrder      Int    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  fromExercise Exercise @relation("ExerciseRelationFrom", fields: [fromExerciseId], references: [id], onDelete: Cascade)
+  toExercise   Exercise @relation("ExerciseRelationTo", fields: [toExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([fromExerciseId, toExerciseId, relationType])
+  @@index([fromExerciseId, relationType])
+  @@index([toExerciseId])
+}
+
+/// Evidence-backed claims only. Do not insert rows without a real citation.
+/// Seeded catalog ships with zero claims — coaching text lives on Exercise.
+model ExerciseEvidenceClaim {
+  id            String   @id @default(cuid())
+  exerciseId    String
+  claim         String
+  /// Human citation label (Author, Year, outlet) — required; never invent.
+  citationLabel String
+  /// Optional URL to the source; null if offline-only citation.
+  citationUrl   String?
+  /// limited | moderate | strong — honesty about support, not marketing.
+  supportLevel  String   @default("limited")
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([exerciseId])
+}
+
+// =============================================================================
+// Programming — templates vs athlete programs (Prompt 21)
+// Hierarchy: Program → Block → Week → Day → Workout → Exercise → Set
+// Completed TrainingSession history is snapshotted (SessionExercise / SessionSet).
+// =============================================================================
+
+/// Reusable workout template (library) or athlete-owned prescription day.
+model Workout {
+  id               String   @id @default(cuid())
+  athleteProfileId String?
+  /// template | athlete — library templates stay separate from assigned copies.
+  kind             String   @default("template")
+  slug             String?
+  name             String
+  description      String?
+  estimatedMinutes Int?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile   AthleteProfile?  @relation(fields: [athleteProfileId], references: [id], onDelete: SetNull)
+  workoutExercises WorkoutExercise[]
+  programWeeks     ProgramWeek[]
+  programDays      ProgramDay[]
+  trainingSessions TrainingSession[]
+
+  @@index([athleteProfileId])
+  @@index([kind])
+}
+
+model WorkoutExercise {
+  id             String   @id @default(cuid())
+  workoutId      String
+  exerciseId     String
+  sortOrder      Int      @default(0)
+  notes          String?
+  targetSets     Int?
+  /// e.g. "5" or "8-10"
+  targetReps     String?
+  targetRpe      Float?
+  targetRir      Float?
+  /// % of reference max when used (0–100+).
+  targetPercent  Float?
+  /// Canonical kg load when absolute load is prescribed.
+  targetLoadKg   Float?
+  /// e.g. "31X1" or "3-1-1-0"
+  targetTempo    String?
+  restSeconds    Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  workout     Workout       @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise    Exercise      @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+  workoutSets WorkoutSet[]
+  progressionRules ProgressionRule[]
+  adaptations      ProgramAdaptation[]
+
+  @@index([workoutId, sortOrder])
+  @@index([exerciseId])
+}
+
+model WorkoutSet {
+  id                String   @id @default(cuid())
+  workoutExerciseId String
+  setNumber         Int
+  /// work | warmup | backoff | amrap | drop
+  setType           String   @default("work")
+  targetReps        Int?
+  /// Absolute load in canonical kg (preferred over unit+weight pair for new writes).
+  targetLoadKg      Float?
+  targetWeight      Float?
+  targetWeightUnit  String?  @default("kg")
+  targetPercent     Float?
+  targetRpe         Float?
+  targetRir         Float?
+  targetTempo       String?
+  restSeconds       Int?
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  workoutExercise WorkoutExercise @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([workoutExerciseId, setNumber])
+  @@index([workoutExerciseId])
+}
+
+/// Multi-week / multi-block program — `template` library vs `athlete` assignment.
+model Program {
+  id               String    @id @default(cuid())
+  athleteProfileId String?
+  /// template | athlete
+  kind             String    @default("athlete")
+  /// When kind=athlete and cloned from a library template.
+  sourceTemplateId String?
+  name             String
+  description      String?
+  /// draft | active | completed | archived
+  status           String    @default("draft")
+  startDate        DateTime?
+  endDate          DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile   AthleteProfile?  @relation(fields: [athleteProfileId], references: [id], onDelete: SetNull)
+  sourceTemplate   Program?         @relation("ProgramTemplateClones", fields: [sourceTemplateId], references: [id], onDelete: SetNull)
+  clones           Program[]        @relation("ProgramTemplateClones")
+  blocks           ProgramBlock[]
+  weeks            ProgramWeek[]
+  trainingSessions TrainingSession[]
+  progressionRules ProgressionRule[]
+  adaptations      ProgramAdaptation[]
+  aiReviews        ProgramAiReview[]
+  versions         ProgramVersion[]
+  /// Latest saved version number (v1, v2, …). 0 means no version saved yet.
+  currentVersionNumber Int @default(0)
+  marketplaceListings ProgramMarketplaceListing[]
+
+  @@index([athleteProfileId, status])
+  @@index([kind, status])
+  @@index([sourceTemplateId])
+}
+
+/// Append-only program version history (Prompt 118).
+/// Snapshots editable prescription structure — never rewrites completed TrainingSession ledgers.
+model ProgramVersion {
+  id              String   @id @default(cuid())
+  programId       String
+  /// Monotonic version number → UI label v1, v2, v3, …
+  versionNumber   Int
+  /// Optional human label (defaults to v{n}).
+  label           String?
+  changedByUserId String
+  /// Why this version was created (required for restore / manual saves).
+  reason          String
+  /// JSON snapshot of program meta + blocks/weeks/days + workout prescription lines.
+  snapshotJson    String
+  /// restore | save | assign | adaptation | checkpoint
+  source          String   @default("save")
+  /// When this version was created by restoring another version.
+  restoredFromVersionNumber Int?
+  createdAt       DateTime @default(now())
+
+  program   Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  changedBy User    @relation("ProgramVersionActor", fields: [changedByUserId], references: [id], onDelete: Restrict)
+
+  @@unique([programId, versionNumber])
+  @@index([programId, createdAt])
+  @@index([changedByUserId])
+}
+
+/// Training block within a program (e.g. hypertrophy block, peaking block).
+model ProgramBlock {
+  id         String    @id @default(cuid())
+  programId  String
+  blockNumber Int
+  name       String?
+  focus      String?
+  notes      String?
+  startDate  DateTime?
+  endDate    DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  program Program       @relation(fields: [programId], references: [id], onDelete: Cascade)
+  weeks   ProgramWeek[]
+
+  @@unique([programId, blockNumber])
+  @@index([programId])
+}
+
+model ProgramWeek {
+  id          String   @id @default(cuid())
+  programId   String
+  blockId     String?
+  weekNumber  Int
+  name        String?
+  focus       String?
+  /// Legacy single-workout pointer — prefer ProgramDay for multi-day weeks.
+  workoutId   String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  program Program       @relation(fields: [programId], references: [id], onDelete: Cascade)
+  block   ProgramBlock? @relation(fields: [blockId], references: [id], onDelete: SetNull)
+  workout Workout?      @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+  days    ProgramDay[]
+
+  @@unique([programId, weekNumber])
+  @@index([programId])
+  @@index([blockId])
+  @@index([workoutId])
+}
+
+/// Day within a program week (supports multi-day weeks).
+model ProgramDay {
+  id            String   @id @default(cuid())
+  programWeekId String
+  /// 1–7 typical training-week day index.
+  dayIndex      Int
+  name          String?
+  notes         String?
+  workoutId     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  programWeek ProgramWeek @relation(fields: [programWeekId], references: [id], onDelete: Cascade)
+  workout     Workout?    @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+  trainingSessions TrainingSession[]
+
+  @@unique([programWeekId, dayIndex])
+  @@index([programWeekId])
+  @@index([workoutId])
+}
+
+/// Deterministic progression rule attached to a program and/or workout exercise.
+model ProgressionRule {
+  id                String   @id @default(cuid())
+  programId         String?
+  workoutExerciseId String?
+  /// add_load | add_reps | double_progression | percent_wave | custom
+  ruleKind          String
+  /// Structured params JSON (e.g. {"kg":2.5,"when":"all_sets_hit"}).
+  paramsJson        String   @default("{}")
+  /// recommended | heuristic — never claim observed outcomes without logs.
+  source            String   @default("recommended")
+  notes             String?
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  program         Program?         @relation(fields: [programId], references: [id], onDelete: Cascade)
+  workoutExercise WorkoutExercise? @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade)
+
+  @@index([programId])
+  @@index([workoutExerciseId])
+}
+
+// =============================================================================
+// Execution, technique, scoring, recovery, progress
+// =============================================================================
+
+/// Logged training occurrence — distinct from editable Workout templates.
+/// When completed, prescriptionLockedAt + SessionExercise/SessionSet freeze history.
+model TrainingSession {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  programId        String?
+  programDayId     String?
+  workoutId        String?
+  /// planned | in_progress | completed | skipped
+  status           String    @default("planned")
+  scheduledAt      DateTime?
+  startedAt        DateTime?
+  completedAt      DateTime?
+  /// Set when status becomes completed — prescription snapshot is immutable afterward.
+  prescriptionLockedAt DateTime?
+  /// Display name copied from workout at lock time (survives template renames).
+  workoutNameSnapshot  String?
+  perceivedEffort  Float?
+  notes            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile    AthleteProfile      @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  program           Program?            @relation(fields: [programId], references: [id], onDelete: SetNull)
+  programDay        ProgramDay?         @relation(fields: [programDayId], references: [id], onDelete: SetNull)
+  workout           Workout?            @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+  techniqueAnalyses TechniqueAnalysis[]
+  sessionExercises  SessionExercise[]
+  adaptations       ProgramAdaptation[]
+
+  @@index([athleteProfileId, scheduledAt])
+  @@index([programId])
+  @@index([programDayId])
+  @@index([workoutId])
+  @@index([athleteProfileId, status])
+  /// Scale audit (Prompt 153) — completed-session windows for reports / coach.
+  @@index([athleteProfileId, completedAt])
+}
+
+/// Snapshotted exercise line for a completed (or in-progress locked) session.
+model SessionExercise {
+  id                String   @id @default(cuid())
+  trainingSessionId String
+  exerciseId        String
+  sortOrder         Int      @default(0)
+  exerciseNameSnapshot String
+  notes             String?
+  /// Prescribed fields copied from WorkoutExercise at lock time.
+  prescribedSets    Int?
+  prescribedReps    String?
+  prescribedRpe     Float?
+  prescribedRir     Float?
+  prescribedPercent Float?
+  prescribedLoadKg  Float?
+  prescribedTempo   String?
+  prescribedRestSeconds Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  trainingSession TrainingSession @relation(fields: [trainingSessionId], references: [id], onDelete: Cascade)
+  exercise        Exercise        @relation(fields: [exerciseId], references: [id], onDelete: Restrict)
+  sessionSets     SessionSet[]
+
+  @@index([trainingSessionId, sortOrder])
+  @@index([exerciseId])
+}
+
+/// Snapshotted / performed set — historical rows are not rewritten when programs change.
+model SessionSet {
+  id                String   @id @default(cuid())
+  sessionExerciseId String
+  setNumber         Int
+  /// work | warmup | backoff | amrap | drop
+  setType           String   @default("work")
+  prescribedReps    Int?
+  prescribedLoadKg  Float?
+  prescribedPercent Float?
+  prescribedRpe     Float?
+  prescribedRir     Float?
+  prescribedTempo   String?
+  prescribedRestSeconds Int?
+  performedReps     Int?
+  /// Canonical kg.
+  performedLoadKg   Float?
+  performedRpe      Float?
+  performedRir      Float?
+  /// reported | observed
+  source            String   @default("reported")
+  notes             String?
+  completedAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  sessionExercise SessionExercise @relation(fields: [sessionExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionExerciseId, setNumber])
+  @@index([sessionExerciseId])
+  /// Scale audit (Prompt 153) — set-history and previous-performance orderBy.
+  @@index([completedAt])
+}
+
+model TechniqueAnalysis {
+  id                String   @id @default(cuid())
+  athleteProfileId  String
+  exerciseId        String?
+  trainingSessionId String?
+  /// pending | awaiting_backend | processing | completed | failed | deleted
+  status            String   @default("pending")
+  /// Overall score 0–100 when a real backend computes it — never randomly invented.
+  overallScore      Float?
+  /// observed | heuristic | mixed — honesty label for the overall result
+  confidenceBasis   String?
+  summary           String?
+  /// Legacy public URL field — prefer storageKey + signed media route.
+  mediaUrl          String?
+
+  /// Secure object key in private storage (not a public URL).
+  storageKey        String?
+  originalFileName  String?
+  mimeType          String?
+  fileSizeBytes     Int?
+  /// Client-reported duration (seconds) validated against limits.
+  durationSeconds   Float?
+  widthPx           Int?
+  heightPx          Int?
+  /// front | side | rear | forty_five | overhead | other
+  cameraAngle       String?
+  /// Optional load in canonical kg.
+  loadKg            Float?
+  reps              Int?
+  /// Athlete consented to technique analysis of this video.
+  analysisConsentAt DateTime?
+  /// Video Privacy Controls (Prompt 178) — private by default; expert share only with explicit opt-in.
+  /// Mirrors expertReviewConsentAt when set at upload or later from privacy controls.
+  allowExpertReview Boolean @default(false)
+  /// Anonymous model-improvement opt-in for this video only — null/false = excluded. No hidden consent.
+  modelImprovementConsentAt DateTime?
+  /// Policy version shown when athlete set privacy opts (e.g. video_privacy.v1).
+  videoPrivacyVersion String @default("video_privacy.v1")
+  /// unavailable | development_stub | queued | processing | completed | failed
+  analysisBackendStatus String @default("unavailable")
+  privacyNote       String?
+  deletedAt         DateTime?
+
+  /// Serialized MovementReport JSON (Prompt 17). overallScore stays null unless a real scorer writes it.
+  movementReportJson String?
+  /// Pose adapter id that produced landmarks (e.g. browser_mediapipe, diagnostics_fixture).
+  poseProvider       String?
+  poseFrameCount     Int?
+
+  /// Cached expert review status (Prompt 95): none | pending_review | confirmed | corrected | commented | withdrawn
+  /// Never set to confirmed/corrected/commented without a TechniqueExpertReview decision.
+  expertReviewStatus String @default("none")
+  /// Athlete consented to share this analysis with verified expert reviewers.
+  expertReviewConsentAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  athleteProfile  AthleteProfile    @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  exercise        Exercise?         @relation(fields: [exerciseId], references: [id], onDelete: SetNull)
+  trainingSession TrainingSession?  @relation(fields: [trainingSessionId], references: [id], onDelete: SetNull)
+  metrics         TechniqueMetric[]
+  verifiedLiftClaims VerifiedLiftClaim[]
+  expertReviews   TechniqueExpertReview[]
+  humanAnalysisOrders HumanAnalysisOrder[]
+
+  @@index([athleteProfileId, createdAt])
+  @@index([exerciseId])
+  @@index([trainingSessionId])
+  @@index([athleteProfileId, status])
+  @@index([expertReviewStatus, updatedAt])
+  /// Scale audit (Prompt 153) — soft-delete aware athlete lists.
+  @@index([athleteProfileId, deletedAt, createdAt])
+  /// Media signing / purge by object key.
+  @@index([storageKey])
+}
+
+/// Optional expert review of a technique analysis (Prompt 95).
+/// AI analysis is never presented as expert-reviewed until confirm / correct / comment.
+model TechniqueExpertReview {
+  id                  String   @id @default(cuid())
+  techniqueAnalysisId String
+  athleteProfileId    String
+  /// none was never used — rows start as pending_review
+  /// pending_review | confirmed | corrected | commented | withdrawn
+  status              String   @default("pending_review")
+  /// confirm | correct | comment — set when expert decides
+  decision            String?
+  comment             String?
+  correctedOverallScore Float?
+  correctedSummary    String?
+  /// JSON: free-form field corrections for offline datasets
+  correctionJson      String   @default("{}")
+  /// none | score | summary | qualitative | mixed
+  disagreementKind    String   @default("none")
+  /// Snapshot of AI outputs at decision time (for disagreement tracking)
+  aiOverallScoreAtReview Float?
+  aiSummaryAtReview   String?
+  requestedAt         DateTime @default(now())
+  requestedByUserId   String
+  expertUserId        String?
+  decidedAt           DateTime?
+  /// May feed future offline model improvement — never a live retrain trigger
+  modelImprovementEligible Boolean @default(true)
+  autoRetrainBlocked  Boolean  @default(true)
+  engineVersion       String   @default("technique_review.v1")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  techniqueAnalysis TechniqueAnalysis @relation(fields: [techniqueAnalysisId], references: [id], onDelete: Cascade)
+  requestedBy       User @relation("TechniqueExpertReviewRequester", fields: [requestedByUserId], references: [id], onDelete: Cascade)
+  expert            User? @relation("TechniqueExpertReviewer", fields: [expertUserId], references: [id], onDelete: SetNull)
+
+  @@index([status, requestedAt])
+  @@index([techniqueAnalysisId, status])
+  @@index([expertUserId, status])
+  @@index([athleteProfileId, status])
+  @@index([disagreementKind, decidedAt])
+}
+
+/// Paid Expert Technique Review order (Prompt 96).
+/// Flow: Purchase → Upload → Queue → Expert review → Report.
+/// Never promises turnaround unless capacity env is published.
+model HumanAnalysisOrder {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// single_lift_review | full_training_review | competition_prep_review
+  productSku       String
+  /// awaiting_purchase | purchased | awaiting_upload | queued | in_review | report_ready | canceled | refunded
+  status           String   @default("awaiting_purchase")
+  /// unpaid | paid | refunded | waived_dev
+  paymentStatus    String   @default("unpaid")
+  amountCents      Int?
+  currency         String   @default("usd")
+  stripeCheckoutSessionId String?
+  stripePaymentIntentId   String?
+  /// Idempotency key for payment / grant
+  externalRef      String?  @unique
+  techniqueAnalysisId String?
+  programId        String?
+  competitionPrepId String?
+  athleteNote      String?
+  /// Structured expert report JSON
+  expertReportJson String   @default("{}")
+  expertSummary    String?
+  expertUserId     String?
+  purchasedAt      DateTime?
+  queuedAt         DateTime?
+  assignedAt       DateTime?
+  reportReadyAt    DateTime?
+  /// Snapshot of capacity messaging at queue time (never invent SLA later)
+  capacitySnapshotJson String @default("{}")
+  engineVersion    String   @default("human_analysis.v1")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile    AthleteProfile     @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  techniqueAnalysis TechniqueAnalysis? @relation(fields: [techniqueAnalysisId], references: [id], onDelete: SetNull)
+  expert            User?              @relation("HumanAnalysisExpert", fields: [expertUserId], references: [id], onDelete: SetNull)
+
+  @@index([athleteProfileId, status, createdAt])
+  @@index([status, queuedAt])
+  @@index([productSku, status])
+  @@index([paymentStatus, createdAt])
+  @@index([expertUserId, status])
+}
+
+model TechniqueMetric {
+  id                  String   @id @default(cuid())
+  techniqueAnalysisId String
+  metricKey           String
+  value               Float?
+  unit                String?
+  /// observed | heuristic | reported | recommended
+  source              String
+  /// excellent | good | needsAttention | critical
+  scoreLevel          String?
+  note                String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  techniqueAnalysis TechniqueAnalysis @relation(fields: [techniqueAnalysisId], references: [id], onDelete: Cascade)
+
+  @@index([techniqueAnalysisId, metricKey])
+}
+
+model AthleteScore {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// strength | technique | recovery | adherence | composite | custom
+  scoreKey         String
+  value            Float
+  /// excellent | good | needsAttention | critical
+  scoreLevel       String?
+  /// observed | heuristic | reported | recommended
+  source           String
+  windowStart      DateTime?
+  windowEnd        DateTime?
+  recordedAt       DateTime @default(now())
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, scoreKey, recordedAt])
+}
+
+model RecoveryEntry {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  recordedAt       DateTime @default(now())
+  /// Sleep duration in hours — null when not logged (never fabricate).
+  sleepHours       Float?
+  /// Athlete-reported sleep quality 1–10 — null when not logged.
+  sleepQuality     Float?
+  /// Stored Recovery Readiness estimate 0–100 when computed from check-in; null if insufficient inputs.
+  readiness        Float?
+  /// Soreness 1–10 (higher = more sore).
+  soreness         Float?
+  /// Stress 1–10 (higher = more stress).
+  stress           Float?
+  /// Motivation 1–10 (higher = more motivation).
+  motivation       Float?
+  /// Subjective fatigue 1–10 (higher = more fatigued).
+  fatigue          Float?
+  hrv              Float?
+  restingHr        Float?
+  /// reported | device | mixed — device reserved for future wearable adapters (none connected yet).
+  source           String   @default("reported")
+  /// Which inputs contributed to readiness, JSON array of keys (audit / honesty).
+  readinessInputsJson String?
+  /// low | medium | high — confidence of the estimate given available inputs.
+  readinessConfidence String?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, recordedAt])
+}
+
+model ProgressMetric {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// e1rm_squat | volume_load | bodyweight | custom key
+  metricKey        String
+  value            Float
+  unit             String?
+  /// Optional reps for the logged effort — enables Estimated 1RM (Epley). Null = load only.
+  reps             Int?
+  /// observed | heuristic | reported | recommended
+  source           String   @default("observed")
+  recordedAt       DateTime @default(now())
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, metricKey, recordedAt])
+}
+
+/// Actionable “what next” suggestions — never silent fake CTAs in product.
+model Recommendation {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// training | technique | recovery | nutrition | assessment | other
+  category         String
+  title            String
+  body             String
+  /// pending | accepted | dismissed | completed | expired
+  status           String    @default("pending")
+  priority         Int       @default(0)
+  /// Optional polymorphic pointer without marketplace complexity
+  relatedType      String?
+  relatedId        String?
+  expiresAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, status, priority])
+}
+
+/// Adaptive programming proposal — never applied without explicit athlete decision.
+/// Engine suggests; athlete Accept / Modify / Decline. Full audit via events.
+model ProgramAdaptation {
+  id                String    @id @default(cuid())
+  athleteProfileId  String
+  programId         String?
+  workoutExerciseId String?
+  workoutId         String?
+  trainingSessionId String?
+  exerciseId        String?
+  /// increase_load | keep_load | reduce_load | increase_volume | reduce_volume | deload
+  changeKind        String
+  /// Short athlete-facing recommended change label.
+  recommendedChange String
+  reason            String
+  /// low | medium | high — honesty about signal strength, not marketing.
+  confidence        String
+  /// pending | accepted | modified | declined | expired | superseded
+  status            String    @default("pending")
+  /// Frozen input signals used to produce this suggestion (audit).
+  inputsJson        String    @default("{}")
+  /// Engine-proposed params JSON (e.g. {"deltaKg":2.5,"setsDelta":0}).
+  proposedParamsJson String   @default("{}")
+  /// Athlete-modified params when status=modified (before/while applying).
+  modifiedParamsJson String?
+  /// Params actually written to the live program (null until applied).
+  appliedParamsJson String?
+  /// Before-state snapshot of targeted prescription (audit).
+  beforeStateJson   String?
+  /// After-state snapshot once applied (audit).
+  afterStateJson    String?
+  /// recommended | heuristic
+  source            String    @default("recommended")
+  /// Engine id + version, e.g. adaptive.v1
+  engineVersion     String    @default("adaptive.v1")
+  decidedAt         DateTime?
+  appliedAt         DateTime?
+  decisionNote      String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  athleteProfile  AthleteProfile          @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  program         Program?                @relation(fields: [programId], references: [id], onDelete: SetNull)
+  workoutExercise WorkoutExercise?        @relation(fields: [workoutExerciseId], references: [id], onDelete: SetNull)
+  trainingSession TrainingSession?        @relation(fields: [trainingSessionId], references: [id], onDelete: SetNull)
+  events          ProgramAdaptationEvent[]
+
+  @@index([athleteProfileId, status, createdAt])
+  @@index([programId, status])
+  @@index([workoutExerciseId, status])
+  @@index([trainingSessionId])
+}
+
+/// Append-only audit trail for ProgramAdaptation lifecycle.
+model ProgramAdaptationEvent {
+  id           String   @id @default(cuid())
+  adaptationId String
+  /// proposed | accepted | modified | declined | applied | superseded | expired
+  eventType    String
+  actorUserId  String?
+  detailJson   String   @default("{}")
+  createdAt    DateTime @default(now())
+
+  adaptation ProgramAdaptation @relation(fields: [adaptationId], references: [id], onDelete: Cascade)
+
+  @@index([adaptationId, createdAt])
+}
+
+// =============================================================================
+// Billing primitives (no marketplace)
+// =============================================================================
+
+model Subscription {
+  id                     String    @id @default(cuid())
+  userId                 String    @unique
+  /// free | pro | performance | elite_coaching
+  /// Legacy: athlete → pro, coach_premium → elite_coaching (normalizePlanId)
+  plan                   String    @default("free")
+  /// trialing | active | past_due | canceled | incomplete
+  status                 String    @default("active")
+  /// monthly | annual — Billing 2.0 (Prompt 157)
+  billingInterval        String?
+  provider               String? // stripe | none
+  providerCustomerId     String?
+  providerSubscriptionId String?
+  providerPriceId        String?
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  /// Trial end from provider — never invented from frontend.
+  trialEndsAt            DateTime?
+  /// Past-due grace — paid entitlements may continue until this instant.
+  graceEndsAt            DateTime?
+  /// Scheduled plan after period (downgrade/upgrade at period end).
+  pendingPlan            String?
+  /// Last applied coupon / promo code (opaque).
+  couponCode             String?
+  cancelAtPeriodEnd      Boolean   @default(false)
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, currentPeriodEnd])
+  @@index([providerSubscriptionId])
+}
+
+/// Idempotent Stripe (or compatible) webhook event ledger (Prompt 157).
+model BillingWebhookEvent {
+  id              String    @id @default(cuid())
+  /// Provider event id — unique so retries never double-apply.
+  providerEventId String    @unique
+  eventType       String
+  /// received | processed | ignored | failed
+  status          String    @default("received")
+  userId          String?
+  /// Sanitized result summary JSON — never raw payment method or email.
+  resultJson      String?
+  errorMessage    String?
+  processedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([eventType, createdAt])
+  @@index([status, createdAt])
+}
+
+/// Provider invoice mirror for athlete billing history (Prompt 157).
+model BillingInvoice {
+  id                String    @id @default(cuid())
+  userId            String
+  providerInvoiceId String    @unique
+  /// draft | open | paid | void | uncollectible
+  status            String
+  amountDueCents    Int       @default(0)
+  amountPaidCents   Int       @default(0)
+  currency          String    @default("usd")
+  billingInterval   String?
+  periodStart       DateTime?
+  periodEnd         DateTime?
+  hostedInvoiceUrl  String?
+  invoicePdfUrl     String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}
+
+/// Coupon / promotion redemption audit (Prompt 157). Never grants plan alone.
+model CouponRedemption {
+  id                       String   @id @default(cuid())
+  userId                   String
+  couponCode               String
+  providerPromotionCodeId  String?
+  providerCouponId         String?
+  /// Opaque percent or amount label from provider metadata — display only.
+  discountLabel            String?
+  redeemedAt               DateTime @default(now())
+  createdAt                DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, redeemedAt])
+  @@index([couponCode])
+  @@unique([userId, couponCode, providerPromotionCodeId])
+}
+
+/// Wallet cache for technique analysis credits (and future metered features).
+/// Append-only history lives in CreditTransaction — balance updates are atomic with ledger rows.
+model CreditBalance {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  balance    Int      @default(0)
+  lastReason String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// Append-only credit ledger (Prompt 34).
+model CreditTransaction {
+  id           String    @id @default(cuid())
+  userId       String
+  /// Signed delta: +grant / −spend / −expire
+  delta        Int
+  balanceAfter Int
+  /// grant_monthly | grant_trial | grant_pack | grant_referral | spend_analysis | refund_analysis | expire | adjust
+  kind         String
+  reason       String
+  /// Optional polymorphic link (e.g. technique_analysis)
+  relatedType  String?
+  relatedId    String?
+  /// When set on grants, unused remainder may expire after this instant.
+  expiresAt    DateTime?
+  /// For expire rows: the grant transaction this expire settles.
+  settlesGrantId String?
+  createdAt    DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, kind])
+  @@index([relatedType, relatedId])
+  @@index([expiresAt])
+}
+
+// =============================================================================
+// Coach platform (Prompt 35) — explicit grants only; no accidental health exposure
+// =============================================================================
+
+/// Explicit coach ↔ athlete relationship. No coach read without an active grant.
+model CoachAthleteAccess {
+  id               String    @id @default(cuid())
+  coachUserId      String
+  athleteProfileId String
+  /// pending | active | revoked | declined | expired
+  status           String    @default("pending")
+  /// JSON string array of scope keys. Empty = training-safe defaults only.
+  scopesJson       String    @default("[]")
+  invitedByUserId  String?
+  /// Athlete email or note at invite time (not a health field).
+  inviteNote       String?
+  grantedAt        DateTime?
+  revokedAt        DateTime?
+  revokedByUserId  String?
+  revokeReason     String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  coachUser      User           @relation("CoachAthleteAccessAsCoach", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([coachUserId, athleteProfileId])
+  @@index([coachUserId, status])
+  @@index([athleteProfileId, status])
+}
+
+/// Athlete–coach messaging thread (Prompt 132). One open thread per coach↔athlete pair.
+model MessageThread {
+  id               String    @id @default(cuid())
+  coachUserId      String
+  athleteProfileId String
+  /// Denormalized grant id at open time (audit); writes still re-check active grant.
+  coachAthleteAccessId String?
+  /// open | archived | locked
+  status           String    @default("open")
+  lastMessageAt    DateTime?
+  lastMessagePreview String?
+  athleteLastReadAt DateTime?
+  coachLastReadAt  DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  coachUser      User           @relation("MessageThreadCoach", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  messages       Message[]
+
+  @@unique([coachUserId, athleteProfileId])
+  @@index([athleteProfileId, lastMessageAt])
+  @@index([coachUserId, lastMessageAt])
+  @@index([status, lastMessageAt])
+}
+
+model Message {
+  id           String    @id @default(cuid())
+  threadId     String
+  /// coach | athlete
+  senderRole   String
+  senderUserId String
+  body         String?
+  /// text | attachment | reference | mixed
+  kind         String    @default("text")
+  /// training_session | technique_analysis
+  relatedType  String?
+  relatedId    String?
+  /// active | deleted | hidden | removed
+  status       String    @default("active")
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  thread      MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sender      User          @relation("MessageSender", fields: [senderUserId], references: [id], onDelete: Cascade)
+  attachments MessageAttachment[]
+  moderationEvents MessageModerationEvent[]
+
+  @@index([threadId, createdAt])
+  @@index([senderUserId, createdAt])
+  @@index([relatedType, relatedId])
+  @@index([status, createdAt])
+}
+
+model MessageAttachment {
+  id               String   @id @default(cuid())
+  messageId        String
+  /// image | video | file
+  mediaType        String
+  storageKey       String
+  originalFileName String?
+  mimeType         String?
+  fileSizeBytes    Int?
+  /// pending | ready | deleted
+  status           String   @default("ready")
+  createdAt        DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@index([storageKey])
+}
+
+model MessageModerationEvent {
+  id          String   @id @default(cuid())
+  messageId   String?
+  threadId    String?
+  /// flag | hide | restore | remove | note
+  action      String
+  reason      String?
+  actorUserId String
+  createdAt   DateTime @default(now())
+
+  message Message? @relation(fields: [messageId], references: [id], onDelete: SetNull)
+  actor   User     @relation("MessageModerationActor", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([messageId, createdAt])
+  @@index([threadId, createdAt])
+}
+
+/// Coach-configurable weekly check-in question set (Prompt 133).
+/// athleteProfileId null = coach default template for all their athletes.
+model CoachCheckInTemplate {
+  id               String   @id @default(cuid())
+  coachUserId      String
+  /// Null = default for this coach; set = athlete-specific override.
+  athleteProfileId String?
+  /// JSON string[] of allowlisted question keys only.
+  enabledQuestionKeysJson String @default("[]")
+  /// weekly
+  cadence          String   @default("weekly")
+  /// active | archived
+  status           String   @default("active")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  coachUser      User            @relation("CoachCheckInTemplateCoach", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile? @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([coachUserId, status])
+  @@index([athleteProfileId, status])
+  @@unique([coachUserId, athleteProfileId])
+}
+
+/// Athlete weekly check-in response (Prompt 133) — not a medical intake.
+model WeeklyCheckIn {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  weekKey          String
+  weekStart        DateTime
+  /// pending | submitted
+  status           String    @default("pending")
+  /// JSON map of questionKey → answer
+  responsesJson    String    @default("{}")
+  /// Frozen enabled questions at submit time
+  templateSnapshotJson String @default("[]")
+  /// Coach whose template applied (optional)
+  configuredByCoachUserId String?
+  submittedAt      DateTime?
+  engineVersion    String    @default("check_in_system.v1")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  summaries      WeeklyCheckInSummary[]
+
+  @@unique([athleteProfileId, weekKey])
+  @@index([athleteProfileId, submittedAt])
+  @@index([weekKey])
+}
+
+/// AI summary of a weekly check-in — always labelled "AI summary".
+model WeeklyCheckInSummary {
+  id                String   @id @default(cuid())
+  checkInId         String
+  summaryBody       String
+  /// Always ai_summary
+  source            String   @default("ai_summary")
+  engineVersion     String   @default("check_in_system.v1")
+  requestedByUserId String?
+  createdAt         DateTime @default(now())
+
+  checkIn     WeeklyCheckIn @relation(fields: [checkInId], references: [id], onDelete: Cascade)
+  requestedBy User?         @relation("WeeklyCheckInSummaryRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([checkInId, createdAt])
+}
+
+/// Premium coaching sales application (Prompt 134).
+/// Apply → Review → Consultation → Offer. Never promises acceptance.
+model PremiumCoachingApplication {
+  id               String    @id @default(cuid())
+  /// Applicant user (may apply before athlete profile exists).
+  applicantUserId  String
+  athleteProfileId String?
+  /// strength | hypertrophy | competition_prep | technique | general_fitness | weight_management
+  goal             String
+  /// beginner | intermediate | advanced
+  experienceLevel  String
+  /// under_150 | 150_300 | 300_500 | 500_plus | undecided
+  budgetRange      String
+  /// weekdays | evenings | weekends | flexible | limited
+  availability     String
+  /// Optional free-text — never sent to analytics.
+  notes            String?
+  /// applied | in_review | consultation | offer | declined | withdrawn | expired
+  status           String    @default("applied")
+  appliedAt        DateTime  @default(now())
+  reviewStartedAt  DateTime?
+  consultationAt   DateTime?
+  offerPresentedAt DateTime?
+  declinedAt       DateTime?
+  withdrawnAt      DateTime?
+  /// Staff/coach who last advanced or declined the application.
+  stageChangedByUserId String?
+  /// Optional offer snapshot JSON (terms proposal — not a payment).
+  offerJson        String?
+  engineVersion    String    @default("premium_coaching_sales.v1")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  applicant      User            @relation("PremiumCoachingApplicant", fields: [applicantUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile? @relation(fields: [athleteProfileId], references: [id], onDelete: SetNull)
+  stageChangedBy User?           @relation("PremiumCoachingStageActor", fields: [stageChangedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([applicantUserId, createdAt])
+  @@index([status, createdAt])
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Personal referral code owned by a user (Prompt 135).
+model UserReferralCode {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  /// 6–16 alphanumeric — shared via ?ref=
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referrals Referral[]
+
+  @@index([code])
+}
+
+/// Single-level referral edge (Prompt 135). Never multi-tier / pyramid.
+/// One attribution per referred user. Rewards after onboarding qualification.
+model Referral {
+  id              String    @id @default(cuid())
+  codeId          String
+  /// Denormalized code string for audit.
+  code            String
+  referrerUserId  String
+  referredUserId  String    @unique
+  /// attributed | qualified | rewarded | voided
+  status          String    @default("attributed")
+  /// self_referral | demo_account | abuse_cap | multi_level_blocked | invalid_code | already_attributed | staff
+  voidReason      String?
+  attributedAt    DateTime  @default(now())
+  qualifiedAt     DateTime?
+  rewardedAt      DateTime?
+  engineVersion   String    @default("referral_program.v1")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  codeOwner UserReferralCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  referrer  User             @relation("ReferralReferrer", fields: [referrerUserId], references: [id], onDelete: Cascade)
+  referred  User             @relation("ReferralReferred", fields: [referredUserId], references: [id], onDelete: Cascade)
+  rewards   ReferralReward[]
+
+  @@index([referrerUserId, status, createdAt])
+  @@index([status, createdAt])
+  @@index([code, createdAt])
+}
+
+/// Ledgered referral reward (Prompt 135). Idempotent per (referral, role, kind).
+model ReferralReward {
+  id                String    @id @default(cuid())
+  referralId        String
+  beneficiaryUserId String
+  /// referrer | referee
+  beneficiaryRole   String
+  /// technique_credits | free_month | premium_features
+  rewardKind        String
+  /// pending | granted | revoked | skipped
+  status            String    @default("pending")
+  creditsAmount     Int?
+  idempotencyKey    String    @unique
+  grantedAt         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  referral    Referral             @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  beneficiary User                 @relation("ReferralRewardBeneficiary", fields: [beneficiaryUserId], references: [id], onDelete: Cascade)
+  accessGrant ReferralAccessGrant?
+
+  @@index([referralId, status])
+  @@index([beneficiaryUserId, createdAt])
+  @@index([rewardKind, status])
+}
+
+/// Time-boxed complimentary plan access from referral (free month / premium features).
+model ReferralAccessGrant {
+  id               String    @id @default(cuid())
+  userId           String
+  referralRewardId String    @unique
+  /// complimentary_month | premium_feature_bundle
+  kind             String
+  /// pro | performance
+  planId           String
+  startsAt         DateTime
+  endsAt           DateTime
+  /// active | expired | revoked
+  status           String    @default("active")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reward ReferralReward @relation(fields: [referralRewardId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, endsAt])
+}
+
+/// Affiliate partner (Prompt 136) — creator | coach | partner.
+/// Public listings require disclosure; never show without it.
+model AffiliatePartner {
+  id                       String    @id @default(cuid())
+  userId                   String    @unique
+  /// Public display name (not email).
+  displayName              String
+  slug                     String    @unique
+  /// creator | coach | partner
+  partnerType              String
+  /// pending | active | suspended | rejected
+  status                   String    @default("pending")
+  /// Partner acknowledged disclosure terms when applying.
+  disclosureAcknowledgedAt DateTime?
+  engineVersion            String    @default("affiliate_system.v1")
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links        AffiliateLink[]
+  clicks       AffiliateClick[]
+  conversions  AffiliateConversion[]
+  commissions  AffiliateCommission[]
+  creatorPartnerships CreatorPartnership[]
+
+  @@index([partnerType, status])
+  @@index([status, createdAt])
+}
+
+/// Trackable affiliate link (Prompt 136). Distinct from personal referral ?ref=.
+model AffiliateLink {
+  id              String   @id @default(cuid())
+  partnerId       String
+  /// 6–20 alphanumeric tracking code
+  code            String   @unique
+  /// Path after click continue (default /signup via builder)
+  destinationPath String   @default("/signup")
+  label           String?
+  /// active | disabled
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  partner     AffiliatePartner      @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  clicks      AffiliateClick[]
+  conversions AffiliateConversion[]
+
+  @@index([partnerId, status])
+}
+
+/// Affiliate click event (Prompt 136). No PII — opaque visitor key only.
+model AffiliateClick {
+  id              String   @id @default(cuid())
+  partnerId       String
+  linkId          String
+  /// Opaque hash / rate-limit key — never email or IP plaintext in analytics.
+  visitorKey      String?
+  destinationPath String
+  createdAt       DateTime @default(now())
+
+  partner AffiliatePartner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  link    AffiliateLink    @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, createdAt])
+  @@index([linkId, createdAt])
+}
+
+/// Affiliate conversion (Prompt 136) — signup or subscription attributed to a link.
+model AffiliateConversion {
+  id              String    @id @default(cuid())
+  partnerId       String
+  linkId          String?
+  clickId         String?
+  /// Converted user (one signup conversion per user).
+  convertedUserId String?
+  /// signup | subscription
+  eventType       String
+  /// attributed | commissioned | voided
+  status          String    @default("attributed")
+  voidReason      String?
+  attributedAt    DateTime  @default(now())
+  engineVersion   String    @default("affiliate_system.v1")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  partner       AffiliatePartner     @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  link          AffiliateLink?       @relation(fields: [linkId], references: [id], onDelete: SetNull)
+  convertedUser User?                @relation("AffiliateConvertedUser", fields: [convertedUserId], references: [id], onDelete: SetNull)
+  commission    AffiliateCommission?
+
+  @@unique([convertedUserId, eventType])
+  @@index([partnerId, status, createdAt])
+  @@index([eventType, createdAt])
+}
+
+/// Commission ledger (Prompt 136). Estimates only — paid_external is outside the app.
+model AffiliateCommission {
+  id             String    @id @default(cuid())
+  conversionId   String    @unique
+  partnerId      String
+  amountCents    Int
+  currency       String    @default("usd")
+  /// pending | accrued | voided | paid_external
+  status         String    @default("pending")
+  idempotencyKey String    @unique
+  accruedAt      DateTime?
+  voidedAt       DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  conversion AffiliateConversion @relation(fields: [conversionId], references: [id], onDelete: Cascade)
+  partner    AffiliatePartner    @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@index([partnerId, status, createdAt])
+}
+
+/// Creator Program partnership application (Prompt 137).
+/// Capabilities unlock only when status === approved. Never imply partnership until approved.
+model CreatorPartnership {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  /// Public display name (not email).
+  displayName     String
+  /// Optional handle / brand line.
+  handle          String?
+  /// pending | approved | rejected | suspended
+  status          String    @default("pending")
+  /// JSON array of CreatorCapability strings requested at apply time.
+  requestedCapabilitiesJson String @default("[]")
+  /// Optional note from applicant — never sent to analytics.
+  notes           String?
+  /// Staff who last reviewed (approve / reject / suspend).
+  reviewedByUserId String?
+  reviewedAt      DateTime?
+  reviewNote      String?
+  /// Optional link to AffiliatePartner when earn_referral_revenue is active.
+  affiliatePartnerId String?
+  appliedAt       DateTime  @default(now())
+  engineVersion   String    @default("creator_program.v1")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy       User?            @relation("CreatorPartnershipReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  affiliatePartner AffiliatePartner? @relation(fields: [affiliatePartnerId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([affiliatePartnerId])
+}
+
+/// Program marketplace listing (Prompt 138).
+/// Published only after copyright attestation + staff review. Ratings require purchase.
+model ProgramMarketplaceListing {
+  id                 String    @id @default(cuid())
+  creatorUserId      String
+  /// Optional link to an in-app Program template / draft.
+  programId          String?
+  title              String
+  /// Public preview copy — not the full program prescription.
+  preview            String
+  /// powerlifting | bodybuilding | strongman | weightlifting | technique | general
+  sport              String
+  /// strength | hypertrophy | competition_prep | technique | general_fitness | weight_management
+  goal               String
+  durationWeeks      Int
+  /// beginner | intermediate | advanced
+  difficulty         String
+  /// JSON array of equipment keys.
+  equipmentJson      String    @default("[]")
+  priceCents         Int       @default(0)
+  currency           String    @default("usd")
+  /// draft | pending_review | published | rejected | suspended | archived
+  listingStatus      String    @default("draft")
+  /// Required before pending_review / publish path.
+  copyrightAttestedAt DateTime?
+  copyrightAttestationVersion String?
+  reviewedByUserId   String?
+  reviewedAt         DateTime?
+  reviewNote         String?
+  publishedAt        DateTime?
+  engineVersion      String    @default("program_marketplace.v1")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  creator   User     @relation("ProgramMarketplaceCreator", fields: [creatorUserId], references: [id], onDelete: Cascade)
+  program   Program? @relation(fields: [programId], references: [id], onDelete: SetNull)
+  reviewedBy User?   @relation("ProgramMarketplaceListingReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  purchases ProgramMarketplacePurchase[]
+  ratings   ProgramMarketplaceRating[]
+  commissions ProgramMarketplaceCommission[]
+
+  @@index([listingStatus, createdAt])
+  @@index([creatorUserId, createdAt])
+  @@index([sport, goal, difficulty])
+  @@index([programId])
+}
+
+/// Verified purchase of a marketplace program (Prompt 138).
+/// Architecture stub — completed status enables rating; checkout may still be offline.
+model ProgramMarketplacePurchase {
+  id           String   @id @default(cuid())
+  listingId    String
+  buyerUserId  String
+  /// completed | refunded | voided
+  status       String   @default("completed")
+  priceCents   Int
+  currency     String   @default("usd")
+  /// Opaque external checkout ref when payments exist.
+  externalRef  String?
+  purchasedAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  listing ProgramMarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer   User                      @relation(fields: [buyerUserId], references: [id], onDelete: Cascade)
+  rating  ProgramMarketplaceRating?
+  commission ProgramMarketplaceCommission?
+
+  @@unique([listingId, buyerUserId])
+  @@index([buyerUserId, createdAt])
+  @@index([status, createdAt])
+}
+
+/// Rating — ONLY from a verified (completed) purchase (Prompt 138).
+model ProgramMarketplaceRating {
+  id         String   @id @default(cuid())
+  listingId  String
+  purchaseId String   @unique
+  buyerUserId String
+  /// 1–5
+  stars      Int
+  /// Optional short comment — never sent to analytics.
+  comment    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  listing  ProgramMarketplaceListing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  purchase ProgramMarketplacePurchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  buyer    User                       @relation(fields: [buyerUserId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, createdAt])
+}
+
+/// Platform commission ledger on marketplace sales (Prompt 138).
+model ProgramMarketplaceCommission {
+  id             String    @id @default(cuid())
+  listingId      String
+  purchaseId     String    @unique
+  /// Platform take in cents.
+  platformCents  Int
+  /// Creator remainder estimate in cents.
+  creatorCents   Int
+  currency       String    @default("usd")
+  /// pending | accrued | voided | paid_external
+  status         String    @default("pending")
+  idempotencyKey String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  listing  ProgramMarketplaceListing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  purchase ProgramMarketplacePurchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, status, createdAt])
+}
+
+/// Coach workspace comment / note (Prompt 36). Timestamped; soft-delete preserves audit.
+model CoachNote {
+  id               String    @id @default(cuid())
+  coachUserId      String
+  athleteProfileId String
+  /// overview | training | technique | progress | recovery | notes | recommendations
+  section          String    @default("notes")
+  body             String
+  /// Private notes — never used for AI summaries or unrelated product features.
+  isPrivate        Boolean   @default(false)
+  /// When false, note is excluded from AI summarization (still visible as Coach note).
+  allowAiSummarize Boolean   @default(true)
+  /// Optional polymorphic link (training_session | technique_analysis | program | adaptation)
+  relatedType      String?
+  relatedId        String?
+  /// active | deleted
+  status           String    @default("active")
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  coachUser      User           @relation("CoachNoteAuthor", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, section, createdAt])
+  @@index([coachUserId, createdAt])
+  @@index([relatedType, relatedId])
+  @@index([athleteProfileId, isPrivate, status])
+}
+
+/// AI summary of eligible coach notes (Prompt 131). Never labelled as a coach note.
+model CoachNoteSummary {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Coach who requested the summary (access-gated).
+  requestedByUserId String
+  /// JSON string[] of CoachNote ids included (private notes never listed).
+  sourceNoteIdsJson String  @default("[]")
+  summaryBody      String
+  excludedPrivateCount Int  @default(0)
+  engineVersion    String   @default("coaching_notes_intelligence.v1")
+  /// Always ai_summary — product must show source label "AI summary".
+  source           String   @default("ai_summary")
+  createdAt        DateTime @default(now())
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  requestedBy    User           @relation("CoachNoteSummaryRequester", fields: [requestedByUserId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, createdAt])
+  @@index([requestedByUserId, createdAt])
+}
+
+/// Human coach suggested modification — never auto-applied. Distinct from AI ProgramAdaptation.
+model CoachModification {
+  id               String    @id @default(cuid())
+  coachUserId      String
+  athleteProfileId String
+  /// training_review | program_change | technique_focus | recovery_guidance | general
+  kind             String    @default("general")
+  title            String
+  body             String
+  /// Optional structured proposal JSON (never applied without athlete/product decision later).
+  proposedChangeJson String  @default("{}")
+  /// open | acknowledged | withdrawn | superseded
+  status           String    @default("open")
+  /// Always human_coach — AI suggestions live on ProgramAdaptation / Recommendation.
+  authorship       String    @default("human_coach")
+  relatedType      String?
+  relatedId        String?
+  withdrawnAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  coachUser      User                    @relation("CoachModificationAuthor", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile          @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  events         CoachModificationEvent[]
+
+  @@index([athleteProfileId, status, createdAt])
+  @@index([coachUserId, createdAt])
+}
+
+/// Append-only audit trail for coach modifications.
+model CoachModificationEvent {
+  id             String   @id @default(cuid())
+  modificationId String
+  /// created | updated | withdrawn | acknowledged | superseded
+  eventType      String
+  actorUserId    String?
+  detailJson     String   @default("{}")
+  createdAt      DateTime @default(now())
+
+  modification CoachModification @relation(fields: [modificationId], references: [id], onDelete: Cascade)
+
+  @@index([modificationId, createdAt])
+}
+
+/// Coach AI Copilot suggestion (Prompt 85). Never auto-applied; coach must accept/edit/reject.
+model CoachAiSuggestion {
+  id               String    @id @default(cuid())
+  coachUserId      String
+  athleteProfileId String
+  /// Always ai_engine until coach decides — never presented as human_coach by default.
+  authorship       String    @default("ai_engine")
+  /// week_summary | performance_change | program_adjustment_draft | missing_data
+  kind             String
+  title            String
+  suggestedChange  String
+  why              String
+  /// JSON string array of supporting data lines.
+  supportingDataJson String @default("[]")
+  /// low | medium | high
+  confidence       String    @default("low")
+  /// pending | accepted | edited | rejected | withdrawn | superseded
+  status           String    @default("pending")
+  engineVersion    String
+  proposedChangeJson String  @default("{}")
+  /// Coach-edited change text when decision=edit.
+  editedChange     String?
+  decisionNote     String?
+  decidedAt        DateTime?
+  decidedByUserId  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  coachUser      User                   @relation("CoachAiSuggestionCoach", fields: [coachUserId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile         @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  decidedBy      User?                  @relation("CoachAiSuggestionDecider", fields: [decidedByUserId], references: [id], onDelete: SetNull)
+  events         CoachAiSuggestionEvent[]
+
+  @@index([coachUserId, athleteProfileId, status, createdAt])
+  @@index([athleteProfileId, status])
+}
+
+model CoachAiSuggestionEvent {
+  id           String   @id @default(cuid())
+  suggestionId String
+  /// proposed | accepted | edited | rejected | superseded
+  eventType    String
+  actorUserId  String?
+  detailJson   String   @default("{}")
+  createdAt    DateTime @default(now())
+
+  suggestion CoachAiSuggestion @relation(fields: [suggestionId], references: [id], onDelete: Cascade)
+
+  @@index([suggestionId, createdAt])
+}
+
+// =============================================================================
+// Gym / team organizations (Prompt 87)
+// Org roles never replace CoachAthleteAccess for private athlete data.
+// =============================================================================
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  /// gym | team | club | facility | other
+  kind        String   @default("gym")
+  /// active | archived
+  status      String   @default("active")
+  createdByUserId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy   User?            @relation("OrganizationCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  memberships OrgMembership[]
+  teams       Team[]
+  permissions OrgPermission[]
+  subscription OrgSubscription?
+  brandingProfile BrandingProfile?
+
+  @@index([status, kind])
+}
+
+/// Reserved white-label branding profile (Prompt 89) — not a full product yet.
+/// Middleware must not route on customHostname until white-label ships.
+model BrandingProfile {
+  id               String   @id @default(cuid())
+  organizationId   String   @unique
+  displayName      String?
+  logoUrl          String?
+  faviconUrl       String?
+  /// JSON BrandingColors overlay
+  colorsJson       String   @default("{}")
+  /// Reserved custom hostname — unused by routing today
+  customHostname   String?
+  pathPrefix       String?
+  /// JSON BrandingEmailConfig overlay
+  emailJson        String   @default("{}")
+  /// draft | active | archived
+  status           String   @default("draft")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+/// B2B organization subscription (Prompt 88) — seats & usage; separate from user Subscription.
+model OrgSubscription {
+  id                     String    @id @default(cuid())
+  organizationId         String    @unique
+  /// org_free | org_team | org_facility | org_enterprise
+  plan                   String    @default("org_free")
+  /// trialing | active | past_due | canceled | incomplete
+  status                 String    @default("active")
+  /// monthly | annual | null (free)
+  billingInterval        String?
+  provider               String?
+  providerCustomerId     String?
+  providerSubscriptionId String?
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  cancelAtPeriodEnd      Boolean   @default(false)
+  /// Optional sold seat overrides (null = use plan catalog limits).
+  coachSeatLimit         Int?
+  athleteSeatLimit       Int?
+  /// Technique analyses used in the current usage window (org pool).
+  techniqueUsageCount    Int       @default(0)
+  techniqueUsagePeriodStart DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([plan, status])
+}
+
+model OrgMembership {
+  id               String    @id @default(cuid())
+  organizationId   String
+  userId           String
+  /// Optional link when member is an athlete with a profile.
+  athleteProfileId String?
+  /// org_admin | org_coach | org_athlete | org_staff
+  role             String
+  /// invited | active | revoked
+  status           String    @default("invited")
+  /// Athlete must opt in before appearing in org aggregate analytics.
+  aggregateOptIn   Boolean   @default(false)
+  joinedAt         DateTime?
+  revokedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile? @relation(fields: [athleteProfileId], references: [id], onDelete: SetNull)
+
+  @@unique([organizationId, userId])
+  @@index([organizationId, role, status])
+  @@index([athleteProfileId, status])
+}
+
+model Team {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  /// active | archived
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  memberships  TeamMembership[]
+
+  @@index([organizationId, status])
+}
+
+model TeamMembership {
+  id               String   @id @default(cuid())
+  teamId           String
+  userId           String
+  athleteProfileId String?
+  /// team_coach | team_athlete | team_lead
+  role             String   @default("team_athlete")
+  /// active | revoked
+  status           String   @default("active")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  team           Team            @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  athleteProfile AthleteProfile? @relation(fields: [athleteProfileId], references: [id], onDelete: SetNull)
+
+  @@unique([teamId, userId])
+  @@index([teamId, status])
+  @@index([athleteProfileId, status])
+}
+
+/// Org-level capability grants (not athlete health scopes).
+model OrgPermission {
+  id             String   @id @default(cuid())
+  organizationId String
+  /// role | user
+  principalType  String
+  /// role key (e.g. org_coach) or userId
+  principalKey   String
+  /// JSON string array of OrgCapability keys
+  permissionsJson String  @default("[]")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, principalType, principalKey])
+  @@index([organizationId])
+}
+
+// =============================================================================
+// Coach marketplace foundation (Prompt 37) — schema ready; no fake supply
+// Public discovery is separate from Coach Mode grants (CoachAthleteAccess).
+// =============================================================================
+
+/// Public coach listing profile. Draft until published; never invent rows for marketing.
+model CoachMarketplaceProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  /// URL slug for /coaching/[slug] when marketplace launches.
+  slug   String @unique
+  /// Public display name (may differ from User.name).
+  displayName String
+  bio         String?
+  /// JSON string array of specialization keys/labels.
+  specializationsJson String @default("[]")
+  /// JSON string array of BCP-47 / language labels.
+  languagesJson       String @default("[]")
+  /// Years or free-text experience summary — not a verification claim.
+  experienceSummary   String?
+  /// Accepting clients status: closed | limited | open
+  availabilityStatus  String  @default("closed")
+  /// Structured availability for future booking (timezone + weekly windows).
+  availabilityJson    String  @default("{}")
+  /// Structured pricing for future checkout (currency, amounts, period).
+  pricingJson         String  @default("{}")
+  /// JSON tags for match goals (Prompt 84).
+  goalTagsJson        String  @default("[]")
+  /// beginner | intermediate | advanced (JSON array).
+  experienceLevelsJson String @default("[]")
+  /// Coaching style tags for matching.
+  coachingStylesJson  String  @default("[]")
+  timezone            String?
+  locationLabel       String?
+  /// Explicit paid placement — must be labeled Sponsored; never boosts organic match rank.
+  sponsoredPlacement  Boolean @default(false)
+  /// draft | pending_review | published | suspended | archived
+  listingStatus       String  @default("draft")
+  publishedAt         DateTime?
+  suspendedAt         DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user         User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentials  CoachCredential[]
+  reviews      CoachMarketplaceReview[]
+  /// Reserved for future match / inquiry / engagement tables (platform extension).
+  inquiries    CoachMarketplaceInquiry[]
+
+  @@index([listingStatus, publishedAt])
+  @@index([availabilityStatus])
+}
+
+/// Credential claim with explicit verification status — never imply verified unless verified.
+model CoachCredential {
+  id        String @id @default(cuid())
+  profileId String
+  title     String
+  issuer    String?
+  /// Year awarded or earned (optional).
+  yearEarned Int?
+  /// External evidence URL (certificate page) — not proof by itself.
+  evidenceUrl String?
+  /// unverified | pending_review | verified | rejected | expired | revoked
+  verificationStatus String @default("unverified")
+  verifiedAt         DateTime?
+  verifiedByUserId   String?
+  verificationNote   String?
+  expiresAt          DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  profile    CoachMarketplaceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  verifiedBy User?                   @relation("CoachCredentialVerifier", fields: [verifiedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([profileId, verificationStatus])
+  @@index([verificationStatus])
+}
+
+/// Athlete reviews — only publish from real engagements later; empty until supply + engagements exist.
+model CoachMarketplaceReview {
+  id               String  @id @default(cuid())
+  profileId        String
+  /// Reviewer athlete profile when known (optional until engagements land).
+  athleteProfileId String?
+  /// 1–5 integer rating when present.
+  rating           Int?
+  body             String?
+  /// pending | published | hidden | removed
+  status           String  @default("pending")
+  /// Future link to engagement / booking id (polymorphic reserved).
+  relatedType      String?
+  relatedId        String?
+  publishedAt      DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  profile CoachMarketplaceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, status, publishedAt])
+}
+
+/// Future matching / inquiry stub — athletes express interest without inventing coaches.
+model CoachMarketplaceInquiry {
+  id               String    @id @default(cuid())
+  profileId        String
+  athleteUserId    String?
+  message          String?
+  /// open | closed | converted | spam
+  status           String    @default("open")
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  closedAt         DateTime?
+
+  profile CoachMarketplaceProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, status, createdAt])
+}
+
+// =============================================================================
+// Academy (Prompt 38) — curriculum in domain catalog; progress + completion in DB
+// Certificates are "certificate of completion" only — never fake accredited certs.
+// =============================================================================
+
+/// Student enrollment in a curated Academy course (course identified by stable slug).
+model AcademyEnrollment {
+  id        String    @id @default(cuid())
+  userId    String
+  /// Stable catalog slug, e.g. deadlift-specialist
+  courseSlug String
+  /// active | completed | withdrawn
+  status    String    @default("active")
+  enrolledAt DateTime @default(now())
+  completedAt DateTime?
+  withdrawnAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user         User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonProgress AcademyLessonProgress[]
+  quizAttempts AcademyQuizAttempt[]
+  certificate  AcademyCompletionCertificate?
+
+  @@unique([userId, courseSlug])
+  @@index([userId, status])
+  @@index([courseSlug, status])
+}
+
+/// Per-lesson completion within an enrollment.
+model AcademyLessonProgress {
+  id           String    @id @default(cuid())
+  enrollmentId String
+  /// Catalog lesson id (stable within course).
+  lessonId     String
+  completedAt  DateTime  @default(now())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  enrollment AcademyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId, completedAt])
+}
+
+/// Quiz attempt — scored against catalog answer keys server-side.
+model AcademyQuizAttempt {
+  id           String   @id @default(cuid())
+  enrollmentId String
+  quizId       String
+  scorePercent Int
+  passed       Boolean  @default(false)
+  answersJson  String   @default("{}")
+  createdAt    DateTime @default(now())
+
+  enrollment AcademyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@index([enrollmentId, quizId, createdAt])
+}
+
+/// Issued only as Certificate of Completion — never as accredited certification.
+model AcademyCompletionCertificate {
+  id              String   @id @default(cuid())
+  enrollmentId    String   @unique
+  /// Always certificate_of_completion unless a real accredited program is wired later.
+  certificateKind String   @default("certificate_of_completion")
+  /// Display title, e.g. "Certificate of Completion — Deadlift Specialist"
+  title           String
+  /// Opaque verification code for public verify at /verify/certificate/[code] (not an accreditation number).
+  code            String   @unique
+  issuedAt        DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  enrollment AcademyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@index([issuedAt])
+}
+
+// =============================================================================
+// Admin CMS (Prompt 41) — role-gated; never expose to standard users
+// =============================================================================
+
+/// Append-only audit trail for important admin / content operations.
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  actorUserId String
+  /// e.g. content.reviewed | content.note | flags.reviewed | admin.access | program.template_note
+  action      String
+  /// exercise | method | article | program_template | academy | feature_flag | system
+  entityType  String
+  entityId    String?
+  summary     String
+  detailJson  String   @default("{}")
+  createdAt   DateTime @default(now())
+
+  actor User @relation("AdminAuditActor", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([entityType, entityId])
+  @@index([action, createdAt])
+}
+
+/// User report into the unified content moderation queue (Prompt 139).
+/// Targets: community | marketplace | coach_profile | user_generated_content.
+model ContentModerationReport {
+  id           String    @id @default(cuid())
+  /// community | marketplace | coach_profile | user_generated_content
+  target       String
+  /// community_question | community_answer | program_listing | coach_marketplace_profile | message | …
+  relatedType  String
+  relatedId    String
+  /// spam | harassment | copyright | misinformation | inappropriate | impersonation | other
+  reason       String
+  /// Optional reporter note — never sent to analytics.
+  details      String?
+  /// open | in_review | resolved | dismissed
+  status       String    @default("open")
+  reporterUserId String
+  reviewedByUserId String?
+  reviewedAt   DateTime?
+  resolutionAction String?
+  resolutionNote String?
+  engineVersion String   @default("content_moderation.v1")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  reporter   User @relation("ContentModerationReporter", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  reviewedBy User? @relation("ContentModerationReportReviewer", fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  auditLogs  ContentModerationAuditLog[]
+
+  @@index([status, createdAt])
+  @@index([target, status, createdAt])
+  @@index([relatedType, relatedId])
+  @@index([reporterUserId, createdAt])
+}
+
+/// Append-only moderation audit log (Prompt 139).
+/// Covers report, review, remove, suspend, restore, dismiss, note.
+model ContentModerationAuditLog {
+  id          String   @id @default(cuid())
+  reportId    String?
+  /// report | review | remove | suspend | restore | dismiss | note
+  action      String
+  target      String
+  relatedType String
+  relatedId   String
+  /// Optional opaque reason enum when known.
+  reasonCode  String?
+  /// Staff/user note — never sent to analytics.
+  note        String?
+  actorUserId String
+  engineVersion String @default("content_moderation.v1")
+  createdAt   DateTime @default(now())
+
+  report ContentModerationReport? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  actor  User                     @relation("ContentModerationAuditActor", fields: [actorUserId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([target, relatedType, relatedId])
+  @@index([action, createdAt])
+  @@index([reportId, createdAt])
+}
+
+// =============================================================================
+// AI Coach Brain audit (Prompt 52) — append-only; never auto-applies programs
+// =============================================================================
+
+/// Append-only audit for AI Coach Brain runs (tools → rules → reasoning → safety).
+/// Stores structured outputs only — never hidden chain-of-thought.
+model CoachBrainAuditLog {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Athlete user who triggered the run when known.
+  actorUserId      String?
+  /// Correlates all events in one coach-brain run.
+  runId            String
+  /// run.started | tools.gathered | rules.evaluated | reasoning.completed | safety.rejected | safety.passed | recommendation.emitted
+  action           String
+  engineVersion    String
+  /// stub | future llm provider id
+  adapterId        String
+  summary          String
+  /// Structured JSON (tool summaries, recommendations) — never raw CoT.
+  detailJson       String   @default("{}")
+  safetyFlagsJson  String   @default("[]")
+  createdAt        DateTime @default(now())
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, createdAt])
+  @@index([runId, createdAt])
+  @@index([action, createdAt])
+}
+
+/// Stored weekly athlete performance review (Prompt 55).
+/// One row per athlete per weekKey — regenerated upserts update reviewJson.
+model WeeklyAthleteReview {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Monday 00:00 local start of the reviewed week.
+  weekStart        DateTime
+  /// e.g. 2026-W30
+  weekKey          String
+  engineVersion    String
+  /// Athlete-facing headline (main improvement or honest empty).
+  summary          String?
+  /// Full WeeklyAthleteReviewPayload JSON — honest nulls preserved.
+  reviewJson       String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([athleteProfileId, weekKey])
+  @@index([athleteProfileId, weekStart])
+}
+
+/// Stored monthly athlete performance report (Prompt 98).
+/// Lazy upsert on visit — one row per athlete per monthKey; historical archive.
+model MonthlyAthleteReport {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// First day of calendar month (UTC).
+  monthStart       DateTime
+  /// e.g. 2026-07
+  monthKey         String
+  engineVersion    String
+  summary          String?
+  /// Full MonthlyAthleteReportPayload JSON — honest nulls preserved.
+  reportJson       String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  shares         MonthlyReportShare[]
+
+  @@unique([athleteProfileId, monthKey])
+  @@index([athleteProfileId, monthStart])
+}
+
+/// Public share snapshot of a monthly report (Prompt 98).
+model MonthlyReportShare {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  reportId         String?
+  token            String   @unique
+  /// Public-safe frozen summary JSON — not full private report.
+  payloadJson      String
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime?
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  report         MonthlyAthleteReport? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Public share snapshot of a yearly Performance Story (Prompt 192).
+model PerformanceStoryShare {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Calendar year key e.g. 2026
+  yearKey          String
+  token            String   @unique
+  /// Public-safe frozen yearly review JSON — no private notes or causal claims.
+  payloadJson      String
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime?
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, yearKey])
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Public share snapshot of Year in Review cards (Prompt 193).
+model YearInReviewShare {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  /// Calendar year key e.g. 2026
+  yearKey          String
+  token            String   @unique
+  /// Public-safe card deck JSON — no private notes.
+  payloadJson      String
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime?
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, yearKey])
+  @@index([athleteProfileId, createdAt])
+}
+
+/// Stored AI-assisted program analysis (Prompt 56).
+/// History rows — re-running creates a new review (does not overwrite).
+model ProgramAiReview {
+  id               String   @id @default(cuid())
+  athleteProfileId String
+  programId        String
+  engineVersion    String
+  /// Short athlete-facing headline.
+  summary          String?
+  /// Full ProgramAiReviewPayload JSON.
+  reviewJson       String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+  program        Program        @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@index([athleteProfileId, createdAt])
+  @@index([programId, createdAt])
+}
+
+/// Activity Feed MVP visibility controls (Prompt 195).
+/// Optional finite milestone feed — not endless social engagement.
+model ActivityFeedPreference {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  /// Master switch — when false, feed is empty by design.
+  feedEnabled      Boolean  @default(true)
+  showPrs          Boolean  @default(true)
+  showCompetitionResults Boolean @default(true)
+  showAchievements Boolean  @default(true)
+  showSharedTechnique Boolean @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+}
+
+/// Athlete notification channel + frequency preferences (Prompt 101).
+model NotificationPreference {
+  id               String   @id @default(cuid())
+  athleteProfileId String   @unique
+  inAppEnabled     Boolean  @default(true)
+  emailEnabled     Boolean  @default(false)
+  /// Preference only — push delivery requires a future device registry.
+  pushEnabled      Boolean  @default(false)
+  /// realtime | daily_digest | weekly_digest | muted
+  frequency        String   @default("realtime")
+  kindWorkoutToday            Boolean @default(true)
+  kindTechniqueReanalysis     Boolean @default(true)
+  kindCompetitionCountdown    Boolean @default(true)
+  kindWeeklyReview            Boolean @default(true)
+  kindRecoveryTrend           Boolean @default(true)
+  kindPrAchieved              Boolean @default(true)
+  kindCoachMessage            Boolean @default(true)
+  /// Anti-spam daily cap (accepted new notifications per UTC day).
+  maxPerDay        Int      @default(5)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+}
+
+/// In-app notification inbox row (Prompt 101).
+model AthleteNotification {
+  id               String    @id @default(cuid())
+  athleteProfileId String
+  /// workout_today | technique_reanalysis_due | competition_countdown | weekly_review_ready | recovery_trend_declining | pr_achieved | coach_message
+  kind             String
+  title            String
+  body             String
+  href             String?
+  /// JSON string array of channels intended: in_app | email | push
+  channelsJson     String    @default("[\"in_app\"]")
+  /// Idempotency key — one row per athlete + dedupeKey
+  dedupeKey        String
+  /// unread | read | dismissed
+  status           String    @default("unread")
+  priority         Int       @default(0)
+  relatedType      String?
+  relatedId        String?
+  engineVersion    String    @default("smart_notifications.v1")
+  createdAt        DateTime  @default(now())
+  readAt           DateTime?
+  emailSentAt      DateTime?
+  updatedAt        DateTime  @updatedAt
+
+  athleteProfile AthleteProfile @relation(fields: [athleteProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([athleteProfileId, dedupeKey])
+  @@index([athleteProfileId, status, createdAt])
+  @@index([athleteProfileId, kind, createdAt])
+}
+
