@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Alert, Badge, Button } from "@/design-system";
 import {
   requestTechniqueExpertReviewAction,
@@ -132,12 +133,12 @@ export function TechniqueExpertReviewPanel({
       <p className="text-xs text-[var(--color-muted)]">{honesty[2]}</p>
       <p className="text-xs text-[var(--color-muted)]">
         Need a paid written expert report?{" "}
-        <a
+        <Link
           href="/app/human-analysis"
           className="text-[var(--color-accent)] underline-offset-2 hover:underline"
         >
           Expert Technique Review products
-        </a>
+        </Link>
       </p>
     </section>
   );

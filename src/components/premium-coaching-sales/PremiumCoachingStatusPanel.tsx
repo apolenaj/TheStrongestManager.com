@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Alert, Badge, Button } from "@/design-system";
 import {
   PREMIUM_COACHING_AVAILABILITY_LABELS,
@@ -30,12 +31,12 @@ export function PremiumCoachingStatusPanel({
       {applications.length === 0 ? (
         <p className="text-sm text-[var(--color-muted)]">
           No applications yet.{" "}
-          <a
+          <Link
             href="/coaching/premium/apply"
             className="underline underline-offset-2"
           >
             Apply here
-          </a>
+          </Link>
           .
         </p>
       ) : (

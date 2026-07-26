@@ -198,7 +198,7 @@ export async function createVerifiedLiftClaim(
   }
 
   const liftKey = parseLiftKey(input.liftKey);
-  let techniqueAnalysisId = input.techniqueAnalysisId?.trim() || null;
+  const techniqueAnalysisId = input.techniqueAnalysisId?.trim() || null;
   if (techniqueAnalysisId) {
     const tech = await prisma.techniqueAnalysis.findFirst({
       where: {
