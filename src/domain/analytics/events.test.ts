@@ -60,6 +60,9 @@ describe("product analytics catalog", () => {
       "content_moderation_suspended",
       "growth_experiment_exposure",
       "growth_experiment_conversion",
+      "program_viewed",
+      "free_program_started",
+      "paid_program_purchased",
     ]);
   });
 

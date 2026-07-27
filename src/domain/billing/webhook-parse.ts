@@ -50,6 +50,17 @@ export type BillingWebhookCommand =
       externalRef: string;
     }
   | {
+      /** One-time program purchase — never grants Subscription. */
+      kind: "grant_program_entitlement";
+      userId: string;
+      productId: string;
+      orderId: string;
+      stripeCheckoutSessionId: string;
+      stripePaymentIntentId?: string | null;
+      amountTotalCents?: number | null;
+      currency?: string | null;
+    }
+  | {
       kind: "redeem_coupon";
       userId: string;
       couponCode: string;
@@ -292,20 +303,50 @@ export function parseStripeBillingEvent(
     if (!userId) {
       commands.push({ kind: "ignore", reason: "checkout_missing_userId" });
     } else if (mode === "payment") {
-      const packId = str(meta?.packId) ?? str(meta?.pack_id);
+      const commerceKind = str(meta?.commerceKind) ?? str(meta?.commerce_kind);
+      const productId = str(meta?.productId) ?? str(meta?.product_id);
+      const orderId = str(meta?.orderId) ?? str(meta?.order_id);
       const sessionId = str(object.id);
-      if (packId && sessionId) {
-        commands.push({
-          kind: "grant_credit_pack",
-          userId,
-          packId,
-          externalRef: sessionId,
-        });
+      const paymentStatus = str(object.payment_status);
+
+      if (
+        commerceKind === "program_product" &&
+        productId &&
+        orderId &&
+        sessionId
+      ) {
+        if (paymentStatus && paymentStatus !== "paid" && paymentStatus !== "no_payment_required") {
+          commands.push({
+            kind: "ignore",
+            reason: `program_checkout_unpaid_${paymentStatus}`,
+          });
+        } else {
+          commands.push({
+            kind: "grant_program_entitlement",
+            userId,
+            productId,
+            orderId,
+            stripeCheckoutSessionId: sessionId,
+            stripePaymentIntentId: str(object.payment_intent),
+            amountTotalCents: num(object.amount_total),
+            currency: str(object.currency),
+          });
+        }
       } else {
-        commands.push({
-          kind: "ignore",
-          reason: "checkout_payment_missing_packId",
-        });
+        const packId = str(meta?.packId) ?? str(meta?.pack_id);
+        if (packId && sessionId) {
+          commands.push({
+            kind: "grant_credit_pack",
+            userId,
+            packId,
+            externalRef: sessionId,
+          });
+        } else {
+          commands.push({
+            kind: "ignore",
+            reason: "checkout_payment_missing_packId_or_program",
+          });
+        }
       }
     } else if (mode === "subscription") {
       const plan = planIdFromProviderMetadata(

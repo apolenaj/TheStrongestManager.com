@@ -14,7 +14,7 @@ export type ClientAnalyticsState = {
 };
 
 /**
- * Client-safe beacon for page/view events (homepage, signup, pricing).
+ * Client-safe beacon for page/view events (homepage, signup, pricing, programs).
  * Only catalogued events; props must already match the typed map.
  */
 export async function trackClientAnalyticsAction(input: {
@@ -25,12 +25,12 @@ export async function trackClientAnalyticsAction(input: {
     return { ok: false, error: "Unknown analytics event." };
   }
 
-  // Client may only emit a subset — prevent arbitrary server-side events from the browser.
   const clientAllowed: ProductEventName[] = [
     "homepage_viewed",
     "signup_started",
     "pricing_viewed",
     "premium_coaching_landing_viewed",
+    "program_viewed",
   ];
   if (!clientAllowed.includes(input.name)) {
     return { ok: false, error: "Event is not client-emittable." };
@@ -41,7 +41,8 @@ export async function trackClientAnalyticsAction(input: {
     | "homepage_viewed"
     | "signup_started"
     | "pricing_viewed"
-    | "premium_coaching_landing_viewed";
+    | "premium_coaching_landing_viewed"
+    | "program_viewed";
 
   if (name === "homepage_viewed") {
     const result = await trackProductEvent({
@@ -66,6 +67,27 @@ export async function trackClientAnalyticsAction(input: {
       name: "signup_started",
       props: {
         method: method as ProductEventPropsMap["signup_started"]["method"],
+      },
+      userId: session?.user?.id ?? null,
+    });
+    return result.ok ? { ok: true } : { ok: false, error: result.error };
+  }
+
+  if (name === "program_viewed") {
+    const productSlug =
+      typeof input.props?.productSlug === "string" &&
+      input.props.productSlug.trim().length > 0 &&
+      input.props.productSlug.length <= 120
+        ? input.props.productSlug.trim()
+        : null;
+    if (!productSlug) {
+      return { ok: false, error: "Invalid product slug." };
+    }
+    const result = await trackProductEvent({
+      name: "program_viewed",
+      props: {
+        productSlug,
+        isFree: Boolean(input.props?.isFree),
       },
       userId: session?.user?.id ?? null,
     });

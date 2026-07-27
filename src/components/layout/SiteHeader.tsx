@@ -16,6 +16,7 @@ import {
   SITE_NAV_CATEGORIES,
   STRENGTH_AUDIT_CTA,
   STRENGTH_AUDIT_HREF,
+  siteNavCategoryLinks,
   type SiteNavCategory,
 } from "@/components/layout/site-nav";
 
@@ -26,50 +27,101 @@ function MegaMenuPanel({
   category: SiteNavCategory;
   menuId: string;
 }) {
+  const hasColumns = Boolean(category.columns?.length);
+
   return (
     <div
       id={menuId}
       role="menu"
       aria-label={`${category.label} menu`}
-      className="absolute left-1/2 top-full z-50 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 pt-3"
+      className="absolute left-1/2 top-full z-50 w-[min(44rem,calc(100vw-2rem))] -translate-x-1/2 pt-3"
     >
       <div className="overflow-hidden rounded-sm border border-[var(--color-border)] bg-[var(--color-surface-elevated)] shadow-[var(--shadow-overlay)] backdrop-blur-md">
         <div
           className={cn(
             "grid gap-0",
-            category.featured ? "lg:grid-cols-[1.2fr_0.8fr]" : "grid-cols-1",
+            category.featured ? "lg:grid-cols-[1.25fr_0.75fr]" : "grid-cols-1",
           )}
         >
-          <ul className="grid gap-1 p-3 sm:grid-cols-2 sm:p-4">
-            {category.links.map((link) => {
-              const Icon = link.icon;
-              return (
-                <li key={`${category.id}-${link.href}-${link.label}`} role="none">
-                  <Link
-                    href={link.href}
-                    role="menuitem"
-                    className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-3 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-                  >
-                    {Icon ? (
-                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)]">
-                        <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-                      </span>
-                    ) : null}
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium text-[var(--color-foreground)]">
-                        {link.label}
-                      </span>
-                      {link.description ? (
-                        <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
-                          {link.description}
+          {hasColumns ? (
+            <div className="grid gap-6 p-4 sm:grid-cols-2 sm:gap-4 sm:p-5">
+              {category.columns!.map((column) => (
+                <div key={column.id}>
+                  <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                    {column.label}
+                  </p>
+                  <ul className="grid gap-1">
+                    {column.links.map((link) => {
+                      const Icon = link.icon;
+                      return (
+                        <li
+                          key={`${category.id}-${column.id}-${link.href}-${link.label}`}
+                          role="none"
+                        >
+                          <Link
+                            href={link.href}
+                            role="menuitem"
+                            className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-2.5 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                          >
+                            {Icon ? (
+                              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)]">
+                                <Icon
+                                  className="h-3.5 w-3.5"
+                                  strokeWidth={1.5}
+                                  aria-hidden
+                                />
+                              </span>
+                            ) : null}
+                            <span className="min-w-0">
+                              <span className="block text-sm font-medium text-[var(--color-foreground)]">
+                                {link.label}
+                              </span>
+                              {link.description ? (
+                                <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
+                                  {link.description}
+                                </span>
+                              ) : null}
+                            </span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul className="grid gap-1 p-3 sm:grid-cols-2 sm:p-4">
+              {category.links.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <li key={`${category.id}-${link.href}-${link.label}`} role="none">
+                    <Link
+                      href={link.href}
+                      role="menuitem"
+                      className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-3 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                    >
+                      {Icon ? (
+                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)]">
+                          <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
                         </span>
                       ) : null}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                      <span className="min-w-0">
+                        <span className="block text-sm font-medium text-[var(--color-foreground)]">
+                          {link.label}
+                        </span>
+                        {link.description ? (
+                          <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
+                            {link.description}
+                          </span>
+                        ) : null}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
           {category.featured ? (
             <aside className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-5 lg:border-l lg:border-t-0">
@@ -85,7 +137,7 @@ function MegaMenuPanel({
               <Link
                 href={category.featured.href}
                 role="menuitem"
-                className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:text-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 text-sm font-semibold text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
               >
                 {category.featured.cta}
                 <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
@@ -217,31 +269,54 @@ function MobileAccordion({
         )}
       >
         <div className="overflow-hidden">
-          <ul className="space-y-1">
-            {category.links.map((link) => (
-              <li key={`${category.id}-m-${link.href}-${link.label}`}>
-                <Link
-                  href={link.href}
-                  onClick={onNavigate}
-                  className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            {category.featured ? (
-              <li>
-                <Link
-                  href={category.featured.href}
-                  onClick={onNavigate}
-                  className="mt-2 flex min-h-12 items-center justify-between gap-3 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-                >
-                  {category.featured.title}
-                  <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
-                </Link>
-              </li>
-            ) : null}
-          </ul>
+          {category.columns?.length ? (
+            <div className="space-y-5">
+              {category.columns.map((column) => (
+                <div key={`${category.id}-m-col-${column.id}`}>
+                  <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                    {column.label}
+                  </p>
+                  <ul className="space-y-1">
+                    {column.links.map((link) => (
+                      <li key={`${category.id}-m-${column.id}-${link.href}-${link.label}`}>
+                        <Link
+                          href={link.href}
+                          onClick={onNavigate}
+                          className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul className="space-y-1">
+              {siteNavCategoryLinks(category).map((link) => (
+                <li key={`${category.id}-m-${link.href}-${link.label}`}>
+                  <Link
+                    href={link.href}
+                    onClick={onNavigate}
+                    className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+          {category.featured ? (
+            <Link
+              href={category.featured.href}
+              onClick={onNavigate}
+              className="mt-4 flex min-h-12 items-center justify-between gap-3 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            >
+              {category.featured.title}
+              <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>

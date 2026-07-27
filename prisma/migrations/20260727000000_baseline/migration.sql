@@ -1,0 +1,2 @@
+-- Baseline placeholder for the existing Postgres schema previously synced via `prisma db push`.
+-- No-op: tables already exist in the database.

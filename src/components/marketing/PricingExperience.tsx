@@ -73,7 +73,7 @@ export function PricingExperience({
         </p>
       </div>
 
-      <ul className="grid gap-8 lg:grid-cols-2 xl:grid-cols-4">
+      <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {view.tiers.map((tier) => {
           const priceLabel =
             interval === "annual"

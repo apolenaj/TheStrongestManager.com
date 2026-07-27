@@ -14,7 +14,8 @@
     "db:migrate": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:seed:exercises": "npx tsx src/domain/exercises/seed-priority.ts",
-    "db:seed:demo": "npx tsx src/domain/demo/seed-cli.ts"
+    "db:seed:demo": "npx tsx src/domain/demo/seed-cli.ts",
+    "db:seed:programs": "npx tsx src/domain/program-catalog/seed-cli.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

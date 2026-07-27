@@ -171,4 +171,9 @@ export const ALLOWED_ANALYTICS_PROP_KEYS = [
   "armId",
   "surface",
   "outcome",
+  "productSlug",
+  "productId",
+  "userProgramId",
+  "orderId",
+  "isFree",
 ] as const;

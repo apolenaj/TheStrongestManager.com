@@ -96,6 +96,11 @@ model User {
   contentModerationReportsFiled ContentModerationReport[] @relation("ContentModerationReporter")
   contentModerationReportsReviewed ContentModerationReport[] @relation("ContentModerationReportReviewer")
   contentModerationAuditLogs ContentModerationAuditLog[] @relation("ContentModerationAuditActor")
+  /// Commercial program marketplace entitlements (catalog products).
+  programEntitlements ProgramEntitlement[]
+  userPrograms        UserProgram[]
+  programOrders       ProgramOrder[]
+  programCompletions  ProgramCompletion[]
 }
 
 model Account {
@@ -3233,5 +3238,302 @@ model AthleteNotification {
   @@unique([athleteProfileId, dedupeKey])
   @@index([athleteProfileId, status, createdAt])
   @@index([athleteProfileId, kind, createdAt])
+}
+
+// =============================================================================
+// Commercial training-program marketplace (catalog + entitlements)
+// Does NOT replace athlete Program / ProgramVersion history models above.
+// CatalogProgramVersion = PRD "ProgramVersion" (renamed to avoid name collision).
+// =============================================================================
+
+enum ProgramProductStatus {
+  draft
+  published
+  archived
+}
+
+enum CatalogProgramVersionStatus {
+  draft
+  published
+  deprecated
+}
+
+enum ProgramEntitlementSource {
+  free
+  purchase
+  bundle
+  admin
+}
+
+enum UserProgramRunStatus {
+  active
+  paused
+  completed
+  abandoned
+}
+
+enum ProgramOrderStatus {
+  pending
+  paid
+  failed
+  refunded
+  voided
+}
+
+/// Sellable / free catalog product (commercial marketplace SKU).
+model ProgramProduct {
+  id                 String               @id @default(cuid())
+  slug               String               @unique
+  name               String
+  description        String
+  /// Optional link to training-methods catalog slug / id.
+  methodId           String?
+  durationWeeks      Int
+  /// Schedule keys offered for this product, e.g. ["3day", "4day"].
+  availableSchedules String[]
+  /// beginner | intermediate | advanced (free-form for catalog flexibility).
+  difficulty         String
+  /// low | moderate | high (free-form).
+  recoveryDemand     String
+  isFree             Boolean              @default(false)
+  status             ProgramProductStatus @default(draft)
+  defaultCurrency    String               @default("usd")
+  /// Display price in minor units (cents). 0 when isFree.
+  displayPrice       Int                  @default(0)
+  stripePriceId      String?
+  /// Related bundle product ids (opaque references).
+  bundleIds          String[]             @default([])
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  versions      CatalogProgramVersion[]
+  entitlements  ProgramEntitlement[]
+  orders        ProgramOrder[]
+  completions   ProgramCompletion[]
+
+  @@index([status, isFree])
+  @@index([methodId])
+  @@index([stripePriceId])
+}
+
+/// Published catalog revision for a ProgramProduct (PRD: ProgramVersion).
+model CatalogProgramVersion {
+  id           String                      @id @default(cuid())
+  productId    String
+  /// Semver or monotonic label, e.g. "1.0.0" or "v3".
+  version      String
+  status       CatalogProgramVersionStatus @default(draft)
+  releaseNotes String?
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+
+  product   ProgramProduct    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  templates ProgramTemplate[]
+  userPrograms UserProgram[]
+
+  @@unique([productId, version])
+  @@index([productId, status])
+  @@map("catalog_program_versions")
+}
+
+/// Structured template payload for a catalog version + schedule variant.
+model ProgramTemplate {
+  id               String   @id @default(cuid())
+  programVersionId String
+  /// Matches one of ProgramProduct.availableSchedules.
+  scheduleVariant  String
+  /// Structured JSON — see src/types/programs.ts (ProgramBlocksJson).
+  blocks           Json
+  /// Structured JSON — see src/types/programs.ts (ProgramWeeksJson).
+  weeks            Json
+  /// Structured JSON — see src/types/programs.ts (ProgramSessionsJson).
+  sessions         Json
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  programVersion CatalogProgramVersion @relation(fields: [programVersionId], references: [id], onDelete: Cascade)
+
+  @@unique([programVersionId, scheduleVariant])
+  @@index([programVersionId])
+}
+
+/// Access grant to a catalog product for a user.
+model ProgramEntitlement {
+  id        String                   @id @default(cuid())
+  userId    String
+  productId String
+  source    ProgramEntitlementSource
+  orderId   String?
+  grantedAt DateTime                 @default(now())
+  expiresAt DateTime?
+  createdAt DateTime                 @default(now())
+  updatedAt DateTime                 @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      ProgramProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  order        ProgramOrder? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  userPrograms UserProgram[]
+
+  @@index([userId, productId])
+  @@index([productId, source])
+  @@index([orderId])
+  @@index([expiresAt])
+}
+
+/// Active (or historical) run of a catalog program for a user.
+model UserProgram {
+  id               String              @id @default(cuid())
+  userId           String
+  entitlementId    String
+  programVersionId String
+  startDate        DateTime
+  scheduleVariant  String
+  /// kg | lb
+  unitSystem       String              @default("kg")
+  /// JSON map of lift keys → training max — see TrainingMaxesJson.
+  trainingMaxes    Json                @default("{}")
+  /// Optional meet / test date collected at free onboarding.
+  competitionDate  DateTime?
+  /// Generated week-1 prescription from onboarding — see ProgramWeekPrescription.
+  firstWeekJson    Json                @default("{}")
+  status           UserProgramRunStatus @default(active)
+  currentWeek      Int                 @default(1)
+  completedAt      DateTime?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  user           User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entitlement    ProgramEntitlement    @relation(fields: [entitlementId], references: [id], onDelete: Restrict)
+  programVersion CatalogProgramVersion @relation(fields: [programVersionId], references: [id], onDelete: Restrict)
+  completion     ProgramCompletion?
+  workoutSessions CatalogWorkoutSession[]
+  tmAdjustments  CatalogTmAdjustment[]
+
+  @@index([userId, status])
+  @@index([entitlementId])
+  @@index([programVersionId])
+}
+
+/// Checkout / commercial order for a catalog product.
+model ProgramOrder {
+  id                      String             @id @default(cuid())
+  userId                  String
+  productId               String
+  status                  ProgramOrderStatus @default(pending)
+  currency                String             @default("usd")
+  amountCents             Int                @default(0)
+  stripeCheckoutSessionId String?
+  stripePaymentIntentId   String?
+  /// Opaque provider metadata (never invent fulfillment).
+  providerMetaJson        Json               @default("{}")
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  paidAt                  DateTime?
+
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      ProgramProduct       @relation(fields: [productId], references: [id], onDelete: Restrict)
+  entitlements ProgramEntitlement[]
+
+  @@index([userId, createdAt])
+  @@index([productId, status])
+  @@index([stripeCheckoutSessionId])
+  @@index([status, createdAt])
+}
+
+/// Recorded completion of a UserProgram run.
+model ProgramCompletion {
+  id            String   @id @default(cuid())
+  userId        String
+  productId     String
+  userProgramId String   @unique
+  completedAt   DateTime @default(now())
+  /// Optional structured summary — see ProgramCompletionSummaryJson.
+  summaryJson   Json     @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     ProgramProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  userProgram UserProgram  @relation(fields: [userProgramId], references: [id], onDelete: Cascade)
+
+  @@index([userId, completedAt])
+  @@index([productId, completedAt])
+}
+
+enum CatalogWorkoutSessionStatus {
+  planned
+  in_progress
+  completed
+  skipped
+}
+
+enum CatalogTmAdjustmentStatus {
+  pending
+  approved
+  dismissed
+}
+
+/// Logged catalog-program training day for a UserProgram run.
+model CatalogWorkoutSession {
+  id            String                      @id @default(cuid())
+  userProgramId String
+  weekNumber    Int
+  dayKey        String
+  dayLabel      String?
+  status        CatalogWorkoutSessionStatus @default(in_progress)
+  startedAt     DateTime                    @default(now())
+  completedAt   DateTime?
+  createdAt     DateTime                    @default(now())
+  updatedAt     DateTime                    @updatedAt
+
+  userProgram UserProgram            @relation(fields: [userProgramId], references: [id], onDelete: Cascade)
+  setLogs     CatalogWorkoutSetLog[]
+
+  @@unique([userProgramId, weekNumber, dayKey])
+  @@index([userProgramId, status])
+}
+
+/// Per-set log for catalog workout execution.
+model CatalogWorkoutSetLog {
+  id                String   @id @default(cuid())
+  sessionId         String
+  exerciseId        String
+  exerciseName      String
+  setIndex          Int
+  prescribedReps    Int?
+  prescribedPercent Float?
+  prescribedRpe     Float?
+  suggestedWeight   Float?
+  actualWeight      Float?
+  actualRpe         Float?
+  actualRir         Float?
+  notes             String?
+  /// Athlete-reported pain/issue — never treated as a diagnosis.
+  painFlag          Boolean  @default(false)
+  loggedAt          DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  session CatalogWorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, exerciseId, setIndex])
+  @@index([sessionId])
+}
+
+/// Proposed training-max change — never applied without explicit athlete approval.
+model CatalogTmAdjustment {
+  id              String                   @id @default(cuid())
+  userProgramId   String
+  liftKey         String
+  fromTm          Float
+  toTm            Float
+  reason          String
+  status          CatalogTmAdjustmentStatus @default(pending)
+  triggerSetLogId String?
+  createdAt       DateTime                 @default(now())
+  resolvedAt      DateTime?
+
+  userProgram UserProgram @relation(fields: [userProgramId], references: [id], onDelete: Cascade)
+
+  @@index([userProgramId, status])
 }
 

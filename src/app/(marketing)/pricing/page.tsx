@@ -1,35 +1,54 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AnalyticsBeacon } from "@/components/analytics/AnalyticsBeacon";
 import { MarketingContainer } from "@/components/marketing/MarketingContainer";
-import { PricingExperience } from "@/components/marketing/PricingExperience";
+import { PricingHub } from "@/components/marketing/PricingHub";
 import { PageIntro } from "@/components/ui/PageIntro";
 import { getPricingPageView } from "@/services/billing/billing-service";
 import { resolvePricingFreeCtaLabel } from "@/services/growth-experiments";
+import { listPaidProgramsForPricing } from "@/services/program-commerce/checkout-service";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Free, Pro, and Performance plans with features, limits, monthly and annual prices, and clear cancellation. Self-serve checkout when Stripe is configured.",
+    "One-time training programs, recurring platform plans, and coaching applications — clearly separated.",
   alternates: { canonical: "/pricing" },
 };
 
 export default async function PricingPage() {
-  const view = getPricingPageView();
-  const freeCtaLabel = await resolvePricingFreeCtaLabel();
+  const [platformView, freeCtaLabel, programPricing] = await Promise.all([
+    Promise.resolve(getPricingPageView()),
+    resolvePricingFreeCtaLabel(),
+    listPaidProgramsForPricing(),
+  ]);
 
   return (
     <MarketingContainer>
       <AnalyticsBeacon
         name="pricing_viewed"
-        checkoutEnabled={view.checkoutEnabled}
+        checkoutEnabled={
+          platformView.checkoutEnabled || programPricing.checkoutEnabled
+        }
       />
       <PageIntro
-        eyebrow="Plans"
+        eyebrow="Commerce"
         title="Pricing"
-        description="Compare Free, Pro, and Performance. Cancel anytime. Monthly is the default; annual is optional. Elite Coaching is listed as a future option — not self-serve checkout today."
+        description="Programs are one-time purchases. Platform plans are subscriptions. Coaching is application-based. No fake scarcity."
       />
       <div className="mt-10">
-        <PricingExperience view={view} freeCtaLabel={freeCtaLabel} />
+        <Suspense
+          fallback={
+            <p className="text-sm text-[var(--color-muted)]">Loading pricing…</p>
+          }
+        >
+          <PricingHub
+            platformView={platformView}
+            freeCtaLabel={freeCtaLabel}
+            programs={programPricing.programs}
+            programHonesty={programPricing.honesty}
+            programsCheckoutEnabled={programPricing.checkoutEnabled}
+          />
+        </Suspense>
       </div>
     </MarketingContainer>
   );

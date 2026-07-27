@@ -47,6 +47,9 @@ export const PRODUCT_EVENT_NAMES = [
   "content_moderation_suspended",
   "growth_experiment_exposure",
   "growth_experiment_conversion",
+  "program_viewed",
+  "free_program_started",
+  "paid_program_purchased",
 ] as const;
 
 export type ProductEventName = (typeof PRODUCT_EVENT_NAMES)[number];
@@ -241,6 +244,22 @@ export type ProductEventPropsMap = {
     armId: string;
     surface: string;
     outcome: string;
+  };
+  /** Public commercial program detail view. */
+  program_viewed: {
+    productSlug: string;
+    isFree: boolean;
+  };
+  /** Free catalog program onboarding created a UserProgram. */
+  free_program_started: {
+    productSlug: string;
+    userProgramId: string;
+  };
+  /** One-time paid program entitlement granted via verified webhook. */
+  paid_program_purchased: {
+    productId: string;
+    orderId: string;
+    priceCents: number;
   };
 };
 

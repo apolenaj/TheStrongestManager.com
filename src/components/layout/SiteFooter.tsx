@@ -30,7 +30,7 @@ export function SiteFooter() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {SITE_FOOTER_COLUMNS.map((column) => (
             <div key={column.title}>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.2em] text-[var(--color-accent)]">

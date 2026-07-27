@@ -14,6 +14,7 @@ import { normalizePlanId, type PlanId } from "@/domain/billing/catalog";
 import { prisma } from "@/lib/db";
 import { grantCreditPack } from "@/services/billing/credit-service";
 import { emitSubscriptionActivatedEvent } from "@/services/billing/billing-service";
+import { fulfillProgramPurchase } from "@/services/program-commerce/fulfillment";
 
 export type ApplyWebhookResult =
   | {
@@ -200,6 +201,24 @@ async function applyCommand(
         result.ok
           ? `grant_credit_pack:${command.packId}:${result.credits}`
           : `grant_credit_pack_failed:${command.packId}`,
+      );
+      return;
+    }
+
+    case "grant_program_entitlement": {
+      const result = await fulfillProgramPurchase({
+        userId: command.userId,
+        productId: command.productId,
+        orderId: command.orderId,
+        stripeCheckoutSessionId: command.stripeCheckoutSessionId,
+        stripePaymentIntentId: command.stripePaymentIntentId,
+        amountTotalCents: command.amountTotalCents,
+        currency: command.currency,
+      });
+      actions.push(
+        result.ok
+          ? `grant_program_entitlement:${command.productId}:${result.entitlementId}:${result.created ? "created" : "existing"}`
+          : `grant_program_entitlement_failed:${result.error}`,
       );
       return;
     }

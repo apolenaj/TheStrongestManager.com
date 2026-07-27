@@ -33,13 +33,32 @@ export type SiteNavFeatured = {
   cta: string;
 };
 
+export type SiteNavColumn = {
+  id: string;
+  label: string;
+  links: readonly SiteNavLink[];
+};
+
 export type SiteNavCategory = {
   id: string;
   label: string;
   href?: string;
+  /** Flat link list (used when `columns` is absent). */
   links: readonly SiteNavLink[];
+  /** Optional mega-menu columns (e.g. Programs: By Method / By Goal). */
+  columns?: readonly SiteNavColumn[];
   featured?: SiteNavFeatured;
 };
+
+/** Flatten columns + links for mobile accordions. */
+export function siteNavCategoryLinks(
+  category: SiteNavCategory,
+): readonly SiteNavLink[] {
+  if (category.columns?.length) {
+    return category.columns.flatMap((column) => column.links);
+  }
+  return category.links;
+}
 
 /** Public mega-menu + mobile accordion structure (Phase 2). */
 export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
@@ -153,33 +172,102 @@ export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
   {
     id: "programs",
     label: "Programs",
-    href: "/goals",
-    links: [
+    href: "/programs",
+    links: [],
+    columns: [
       {
-        href: "/goals",
-        label: "Sport & goal landings",
-        description: "Powerlifting, strongman, and more",
-        icon: Target,
+        id: "by-method",
+        label: "By Method",
+        links: [
+          {
+            href: "/programs/linear-strength-builder",
+            label: "Linear Strength Builder",
+            description: "Volume-to-intensity progression",
+            icon: LineChart,
+          },
+          {
+            href: "/programs/dup-powerlifting-system",
+            label: "DUP Powerlifting System",
+            description: "Undulating SBD emphasis",
+            icon: BarChart3,
+          },
+          {
+            href: "/programs/block-periodisation",
+            label: "Block Periodisation",
+            description: "Concentrated training blocks",
+            icon: LayoutGrid,
+          },
+          {
+            href: "/programs/conjugate-strength-system",
+            label: "Conjugate Strength System",
+            description: "Max-effort / dynamic rotation",
+            icon: Dumbbell,
+          },
+          {
+            href: "/programs/high-frequency-sbd",
+            label: "High-Frequency SBD",
+            description: "Frequent competition-lift practice",
+            icon: Target,
+          },
+          {
+            href: "/programs/powerbuilding-hybrid",
+            label: "Powerbuilding Hybrid",
+            description: "Strength plus hypertrophy",
+            icon: Wrench,
+          },
+        ],
       },
       {
-        href: "/programs/marketplace",
-        label: "Program marketplace",
-        description: "Browse listed training programs",
-        icon: LayoutGrid,
-      },
-      {
-        href: "/academy/powerlifting-programming",
-        label: "Powerlifting programming",
-        description: "Academy path for meet programming",
-        icon: GraduationCap,
-      },
-      {
-        href: "/features",
-        label: "Product features",
-        description: "What the platform actually includes",
-        icon: LayoutGrid,
+        id: "by-goal",
+        label: "By Goal",
+        links: [
+          {
+            href: "/programs?goal=strength",
+            label: "Build strength",
+            description: "General strength systems",
+            icon: Dumbbell,
+          },
+          {
+            href: "/programs?goal=powerlifting",
+            label: "Powerlifting",
+            description: "SBD-focused cycles",
+            icon: Flag,
+          },
+          {
+            href: "/programs?goal=hypertrophy",
+            label: "Hypertrophy",
+            description: "Muscle-oriented hybrids",
+            icon: Target,
+          },
+          {
+            href: "/programs?goal=competition_prep",
+            label: "Competition prep",
+            description: "Meet-oriented preparation",
+            icon: Award,
+          },
+          {
+            href: "/programs",
+            label: "Browse all programs",
+            description: "Full public catalog",
+            icon: LayoutGrid,
+          },
+          {
+            href: "/programs/complete-method-collection",
+            label: "Complete Method Collection",
+            description: "All six full paid systems",
+            icon: Library,
+          },
+        ],
       },
     ],
+    featured: {
+      href: "/programs/find-my-program",
+      eyebrow: "Featured",
+      title: "Find My Program",
+      description:
+        "Answer a few honest questions and get a recommended system — no countdown timers, no fake scarcity.",
+      cta: "FIND MY PROGRAM",
+    },
   },
   {
     id: "results",
@@ -259,6 +347,15 @@ export const SITE_FOOTER_COLUMNS = [
       { href: "/coaching/match", label: "Coach matching" },
       { href: "/goals/powerlifting-program", label: "Competition Prep" },
       { href: "/program-audit", label: "Strength Audit" },
+    ],
+  },
+  {
+    title: "Programs",
+    links: [
+      { href: "/programs", label: "Program catalog" },
+      { href: "/programs/find-my-program", label: "Find my program" },
+      { href: "/programs/complete-method-collection", label: "Method collection" },
+      { href: "/programs/marketplace", label: "Creator marketplace" },
     ],
   },
   {

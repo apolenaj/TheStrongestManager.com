@@ -14,7 +14,7 @@
 
 1. **Central catalog** — every product event name and allowed props live in `events.ts`. Do not invent ad-hoc strings in UI.
 2. **Privacy first** — never send sensitive notes, raw health/biometrics, private video content, pose landmarks, emails, or free-text summaries.
-3. **Services emit** — track after successful domain actions (auth, onboarding, workout, technique, billing, premium coaching, referrals, affiliates, creator program, program marketplace, content moderation). Client may only emit `homepage_viewed`, `signup_started`, `pricing_viewed`, and `premium_coaching_landing_viewed`.
+3. **Services emit** — track after successful domain actions (auth, onboarding, workout, technique, billing, premium coaching, referrals, affiliates, creator program, program marketplace, content moderation, commercial catalog programs). Client may only emit `homepage_viewed`, `signup_started`, `pricing_viewed`, `premium_coaching_landing_viewed`, and `program_viewed`.
 4. **Honest delivery** — default adapters are console (dev) or noop (production). Register a real vendor adapter when configured; do not invent successful telemetry.
 
 ---
@@ -64,6 +64,9 @@
 | `content_moderation_suspended` | Listing/profile suspended via queue | `reportId`, `target`, `relatedType` |
 | `growth_experiment_exposure` | Sticky arm assignment shown | `experimentId`, `armId`, `surface` |
 | `growth_experiment_conversion` | Funnel outcome for assigned arm | `experimentId`, `armId`, `surface`, `outcome` |
+| `program_viewed` | Public commercial program detail mounts | `productSlug`, `isFree` |
+| `free_program_started` | Free catalog onboarding creates a UserProgram | `productSlug`, `userProgramId` |
+| `paid_program_purchased` | Verified one-time program entitlement granted | `productId`, `orderId`, `priceCents` |
 
 Opaque `userId` may accompany events when authenticated. It is **not** an email.
 
@@ -121,6 +124,9 @@ Subscription activation: call `emitSubscriptionActivatedEvent` from billing afte
 | `pricing_viewed` | `AnalyticsBeacon` on pricing page |
 | `checkout_started` | `tryCreateCheckoutSession` |
 | `subscription_activated` | `emitSubscriptionActivatedEvent` (lifecycle hook) |
+| `program_viewed` | `AnalyticsBeacon` on `/programs/[slug]` |
+| `free_program_started` | `startFreeProgramOnboarding` |
+| `paid_program_purchased` | `fulfillProgramPurchase` (new entitlement) |
 
 ---
 
