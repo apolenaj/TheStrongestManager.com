@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "TheStrongestManager",
   domain: "thestrongestmanager.com",
   description:
-    "Training, technique review, recovery, and progress tools for strength athletes and coaches.",
-  tagline: "What should I do next to improve?",
+    "Online powerlifting coach tools, powerlifting programs, technique feedback, and evidence-led training systems for serious strength athletes.",
+  tagline: "Build strength that survives the platform.",
 } as const;
 
 /** Absolute site origin for sitemaps, canonicals, and JSON-LD. */

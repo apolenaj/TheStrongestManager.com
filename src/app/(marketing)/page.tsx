@@ -1,34 +1,51 @@
 import type { Metadata } from "next";
 import { AnalyticsBeacon } from "@/components/analytics/AnalyticsBeacon";
-import { HomeAbout } from "@/components/marketing/HomeAbout";
-import { HomeFinalCta } from "@/components/marketing/HomeFinalCta";
+import { HomeAboutPreview } from "@/components/marketing/HomeAboutPreview";
+import { HomeCoachingOptions } from "@/components/marketing/HomeCoachingOptions";
+import { HomeCoachingProcess } from "@/components/marketing/HomeCoachingProcess";
+import { HomeConversionCta } from "@/components/marketing/HomeConversionCta";
+import { HomeGoalCards } from "@/components/marketing/HomeGoalCards";
 import { HomeHero } from "@/components/marketing/HomeHero";
-import { HomePillars } from "@/components/marketing/HomePillars";
-import { HomeTrainingApproach } from "@/components/marketing/HomeTrainingApproach";
+import { HomeKnowledgeHub } from "@/components/marketing/HomeKnowledgeHub";
+import { HomeMethodFinder } from "@/components/marketing/HomeMethodFinder";
+import { HomePlatformPreview } from "@/components/marketing/HomePlatformPreview";
+import { HomeProof } from "@/components/marketing/HomeProof";
+import { HomeStrengthAuditPreview } from "@/components/marketing/HomeStrengthAuditPreview";
 import { siteConfig } from "@/config/site";
 import { homeCopy } from "@/lib/content/home";
 
 /**
  * Metadata is intentionally fixed for all traffic intents (anti-cloaking).
- * Soft hero support may vary via ?intent= — title/description/canonical do not.
  */
-const pageDescription = homeCopy.heroSupport;
+const pageTitle =
+  "Online Powerlifting Coach & Program Tools | The Strongest Manager";
+const pageDescription =
+  "Structured powerlifting coaching, free strength audits, technique feedback, and evidence-led training tools for serious lifters who refuse to guess.";
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${homeCopy.brand} — Od hrubé síly k absolutnímu leadershipu.`,
+    absolute: pageTitle,
   },
   description: pageDescription,
+  keywords: [
+    "online powerlifting coach",
+    "powerlifting program",
+    "powerlifting coaching",
+    "strength audit",
+    "technique feedback",
+    "IPF powerlifting",
+  ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: homeCopy.brand,
+    title: pageTitle,
     description: pageDescription,
     url: "/",
     type: "website",
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: homeCopy.brand,
+    title: pageTitle,
     description: pageDescription,
   },
 };
@@ -45,20 +62,13 @@ function orgJsonLd() {
   };
 }
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    intent?: string | string[];
-    utm_campaign?: string | string[];
-  }>;
-}) {
-  const params = await searchParams;
-  const { resolvePersonalizedHomepageVariant } = await import(
-    "@/services/personalized-homepage"
-  );
-  const variant = resolvePersonalizedHomepageVariant(params);
-
+/**
+ * Homepage funnel:
+ * Phase 3 — Hero → Goals → Strength Audit Preview
+ * Phase 4 — Knowledge Hub → Method Finder → Coaching → Platform → Proof
+ * Phase 5 — About Josef → Coaching Options → Final CTA
+ */
+export default function HomePage() {
   return (
     <>
       <AnalyticsBeacon name="homepage_viewed" />
@@ -66,20 +76,17 @@ export default async function HomePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd()) }}
       />
-      <HomeHero
-        primaryCtaLabel={homeCopy.ctaPrimary}
-        heroSupport={
-          variant.intentId === "default"
-            ? homeCopy.heroSupport
-            : variant.heroSupport
-        }
-        secondaryHref="/methods"
-        secondaryLabel={homeCopy.ctaSecondary}
-      />
-      <HomeAbout />
-      <HomePillars />
-      <HomeTrainingApproach />
-      <HomeFinalCta />
+      <HomeHero />
+      <HomeGoalCards />
+      <HomeStrengthAuditPreview />
+      <HomeKnowledgeHub />
+      <HomeMethodFinder />
+      <HomeCoachingProcess />
+      <HomePlatformPreview />
+      <HomeProof />
+      <HomeAboutPreview />
+      <HomeCoachingOptions />
+      <HomeConversionCta />
     </>
   );
 }

@@ -1,22 +1,22 @@
 /**
- * Color tokens — premium strength-performance technology.
- * Gold accent used selectively. Green/red reserved for performance/alerts.
+ * Color tokens — Phase 1 premium redesign.
+ * Signal Lime is reserved for primary CTAs, active states, and highlights only.
  */
 export const colors = {
-  background: "#0a0a0b",
-  surface: "#111114",
-  surfaceElevated: "#18181c",
-  surfaceOverlay: "#1c1c22",
-  foreground: "#f5f5f4",
-  foregroundMuted: "#a1a1aa",
-  foregroundSubtle: "#71717a",
-  border: "#27272a",
-  borderStrong: "#3f3f46",
-  accent: "#d4a017",
-  accentHover: "#e0b020",
-  accentMuted: "rgba(212, 160, 23, 0.14)",
-  accentForeground: "#0a0a0b",
-  focusRing: "#d4a017",
+  background: "#070807",
+  surface: "#121412",
+  surfaceElevated: "#181B18",
+  surfaceOverlay: "#1C201C",
+  foreground: "#F3F1EA",
+  foregroundMuted: "#A6AAA5",
+  foregroundSubtle: "#8B908A",
+  border: "rgba(255, 255, 255, 0.10)",
+  borderStrong: "rgba(255, 255, 255, 0.16)",
+  accent: "#B7FF2A",
+  accentHover: "#C8FF52",
+  accentMuted: "rgba(183, 255, 42, 0.14)",
+  accentForeground: "#070807",
+  focusRing: "#B7FF2A",
   /** Score / performance states */
   score: {
     excellent: "#22c55e",

@@ -9,12 +9,17 @@ import {
 import { breadcrumbJsonLd } from "@/domain/seo";
 
 export const metadata: Metadata = {
-  title: "Learn",
+  title: "Learn Powerlifting & Strength Training",
   description:
-    "Guides on exercise technique, training methods, programming, and strength sports — linked to tools in TheStrongestManager.",
+    "Free guides on powerlifting technique, training methods, and programming — linked to real tools inside The Strongest Manager.",
+  keywords: [
+    "powerlifting guide",
+    "strength training education",
+    "powerlifting technique",
+  ],
   alternates: { canonical: "/learn" },
   openGraph: {
-    title: "Learn · strength guides",
+    title: "Learn Powerlifting & Strength Training",
     description:
       "Technique, methods, programming, and strength-sport guides with links into the product.",
     url: "/learn",

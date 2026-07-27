@@ -4,10 +4,22 @@ import { MarketplaceBrowse } from "@/components/marketplace/MarketplaceBrowse";
 import { getMarketplacePublicState } from "@/services/marketplace/marketplace-service";
 
 export const metadata: Metadata = {
-  title: "Coaching",
+  title: "Online Powerlifting Coach Marketplace",
   description:
-    "Premium human coaching marketplace for TheStrongestManager — real coaches only when published.",
+    "Find online powerlifting coaching and premium 1:1 support — real coaches when published, with an honest application flow.",
+  keywords: [
+    "online powerlifting coach",
+    "powerlifting coaching",
+    "1:1 strength coach",
+  ],
   alternates: { canonical: "/coaching" },
+  openGraph: {
+    title: "Online Powerlifting Coach Marketplace",
+    description:
+      "Browse coaching options and apply for 1:1 premium coaching — acceptance is never promised on submit.",
+    url: "/coaching",
+    type: "website",
+  },
 };
 
 export default async function CoachingPage({

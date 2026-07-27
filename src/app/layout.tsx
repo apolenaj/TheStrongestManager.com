@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import { DM_Sans, Oswald } from "next/font/google";
 import { CookieConsentBanner } from "@/components/gdpr/CookieConsentBanner";
 import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
 import { PwaInstallPrompt } from "@/components/pwa/PwaInstallPrompt";
@@ -8,12 +8,14 @@ import { siteConfig } from "@/config/site";
 import { t } from "@/domain/i18n";
 import "./globals.css";
 
-const display = Syne({
+/** Athletic condensed display for headings / brand marks. */
+const display = Oswald({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
 
+/** Clean readable sans for body UI. */
 const body = DM_Sans({
   variable: "--font-body",
   subsets: ["latin"],

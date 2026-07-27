@@ -11,15 +11,21 @@ import {
 } from "@/domain/program-audit";
 
 export const metadata: Metadata = {
-  title: "Free program audit",
+  title: "Free Powerlifting Program Audit",
   description:
-    "Paste your training program for a basic deterministic audit — volume, balance, density, and progression cues. No fake scores. Unlock detailed recommendations with an account.",
+    "Paste your powerlifting program for a free deterministic strength audit — volume, balance, and progression cues. No fake scores.",
+  keywords: [
+    "powerlifting program audit",
+    "strength audit",
+    "free program review",
+  ],
   alternates: { canonical: "/program-audit" },
   openGraph: {
-    title: "Free program audit",
+    title: "Free Powerlifting Program Audit",
     description:
       "Basic structural program audit before signup. Deterministic checks — never a fabricated grade.",
     url: "/program-audit",
+    type: "website",
   },
 };
 

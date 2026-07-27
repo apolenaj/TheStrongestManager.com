@@ -95,17 +95,17 @@ export function PublicHeader() {
               size="sm"
               className="hidden min-h-10 sm:inline-flex"
             >
-              Přihlásit
+              Log in
             </ButtonLink>
             <ButtonLink
               href="/signup"
               size="sm"
-              className="hidden min-h-10 rounded-sm bg-[#e8c547] px-4 font-semibold text-[#0a0a0b] shadow-none hover:bg-[#f0d15c] sm:inline-flex"
+              className="hidden min-h-10 sm:inline-flex"
             >
-              Zahájit trénink
+              Start training
             </ButtonLink>
             <IconButton
-              aria-label="Otevřít menu"
+              aria-label="Open menu"
               size="md"
               className="lg:hidden"
               onClick={() => setMenuOpen(true)}
@@ -150,14 +150,14 @@ export function PublicHeader() {
             className="mt-4 w-full min-h-11"
             onClick={() => setMenuOpen(false)}
           >
-            Přihlásit
+            Log in
           </ButtonLink>
           <ButtonLink
             href="/signup"
-            className="w-full min-h-11 rounded-sm bg-[#e8c547] font-semibold text-[#0a0a0b] shadow-none hover:bg-[#f0d15c]"
+            className="w-full min-h-11"
             onClick={() => setMenuOpen(false)}
           >
-            Zahájit trénink
+            Start training
           </ButtonLink>
         </nav>
       </Drawer>

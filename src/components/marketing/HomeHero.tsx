@@ -1,55 +1,42 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { homeCopy } from "@/lib/content/home";
+import { STRENGTH_AUDIT_HREF } from "@/components/layout/site-nav";
 
-export function HomeHero({
-  primaryCtaLabel = homeCopy.ctaPrimary,
-  heroSupport = homeCopy.heroSupport,
-  secondaryHref = "/methods",
-  secondaryLabel = homeCopy.ctaSecondary,
-}: {
-  primaryCtaLabel?: string;
-  heroSupport?: string;
-  secondaryHref?: string;
-  secondaryLabel?: string;
-}) {
+export function HomeHero() {
   return (
     <section
       aria-labelledby="home-hero-heading"
-      className="relative isolate overflow-hidden border-b border-white/10"
+      className="relative isolate overflow-hidden border-b border-[var(--color-border)]"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[#050505]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[var(--color-background)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(72,72,78,0.45)_0%,rgba(24,24,27,0.35)_35%,rgba(5,5,5,0.98)_72%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_30%_0%,rgba(183,255,42,0.08)_0%,transparent_42%),radial-gradient(ellipse_at_70%_20%,rgba(24,27,24,0.9)_0%,rgba(7,8,7,0.98)_70%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.2]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.16]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
+          backgroundSize: "72px 72px",
           maskImage:
-            "radial-gradient(ellipse at 50% 20%, black 10%, transparent 70%)",
+            "radial-gradient(ellipse at 40% 10%, black 12%, transparent 68%)",
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-24 top-24 h-64 w-64 rounded-full bg-yellow-500/[0.06] blur-3xl"
-      />
 
-      <div className="mx-auto flex min-h-[88svh] w-full max-w-6xl flex-col justify-center px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-20">
-        <p className="home-rise font-[family-name:var(--font-display)] text-[clamp(1.65rem,4.5vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-white">
-          The Strongest <span className="text-yellow-500">Manager</span>
+      <div className="mx-auto flex min-h-[min(92svh,52rem)] w-full max-w-6xl flex-col justify-center px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
+        <p className="font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
+          {homeCopy.brand}
         </p>
 
         <h1
           id="home-hero-heading"
-          className="home-rise home-rise-delay-1 mt-8 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(2rem,5.5vw,4.25rem)] font-bold leading-[1.05] tracking-[-0.035em] text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.55)]"
+          className="mt-6 max-w-5xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,7vw,5.25rem)] font-bold uppercase leading-[0.98] tracking-[0.01em] text-[var(--color-foreground)] [text-shadow:0_2px_48px_rgba(0,0,0,0.55)]"
         >
           {homeCopy.heroLines.map((line) => (
             <span key={line} className="block">
@@ -58,25 +45,37 @@ export function HomeHero({
           ))}
         </h1>
 
-        <p className="home-rise home-rise-delay-2 mt-7 max-w-2xl text-base leading-relaxed text-gray-300 sm:text-lg">
-          {heroSupport}
+        <p className="mt-7 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
+          {homeCopy.heroSupport}
         </p>
 
-        <div className="home-rise home-rise-delay-3 mt-11 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link
-            href="/signup"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-yellow-500 px-6 text-base font-semibold tracking-tight text-black transition-all duration-300 hover:bg-yellow-400"
+            href={STRENGTH_AUDIT_HREF}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-6 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
-            {primaryCtaLabel}
-            <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+            {homeCopy.ctaPrimary}
+            <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           </Link>
           <Link
-            href={secondaryHref}
-            className="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/10 bg-white/[0.03] px-6 text-base font-medium text-white transition-all duration-300 hover:border-yellow-500/50 hover:bg-white/[0.06]"
+            href="/learn"
+            className="inline-flex min-h-12 items-center justify-center rounded-sm border border-[var(--color-border)] bg-white/[0.02] px-6 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-foreground)] transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)] hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
-            {secondaryLabel}
+            {homeCopy.ctaSecondary}
           </Link>
         </div>
+
+        <ul className="mt-14 grid gap-3 border-t border-[var(--color-border)] pt-8 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-[var(--color-border)]">
+          {homeCopy.trustRow.map((item) => (
+            <li
+              key={item}
+              className="text-sm font-medium tracking-tight text-[var(--color-muted)] sm:px-5 sm:first:pl-0 sm:last:pr-0"
+            >
+              <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] align-middle" />
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

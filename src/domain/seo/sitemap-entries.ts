@@ -52,10 +52,14 @@ export function buildPublicSitemapEntries(): MetadataRoute.Sitemap {
       { path: "/decision-trees", priority: 0.75, freq: "monthly" },
       { path: "/academy", priority: 0.8, freq: "weekly" },
       { path: "/learn", priority: 0.9, freq: "weekly" },
+      { path: "/about", priority: 0.85, freq: "monthly" },
+      { path: "/program-audit", priority: 0.9, freq: "weekly" },
+      { path: "/tools", priority: 0.8, freq: "monthly" },
       { path: "/fit", priority: 0.7, freq: "monthly" },
       { path: "/compare", priority: 0.7, freq: "monthly" },
       { path: "/guides", priority: 0.75, freq: "monthly" },
-      { path: "/coaching", priority: 0.5, freq: "monthly" },
+      { path: "/coaching", priority: 0.85, freq: "weekly" },
+      { path: "/coaching/apply", priority: 0.7, freq: "monthly" },
       { path: "/pricing", priority: 0.7, freq: "monthly" },
     ];
 

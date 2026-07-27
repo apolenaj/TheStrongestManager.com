@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors */
-  --color-background: #0a0a0b;
-  --color-surface: #111114;
-  --color-surface-elevated: #18181c;
-  --color-surface-overlay: #1c1c22;
-  --color-foreground: #f5f5f4;
-  --color-muted: #a1a1aa;
-  --color-subtle: #71717a;
-  --color-border: #27272a;
-  --color-border-strong: #3f3f46;
-  --color-accent: #d4a017;
-  --color-accent-hover: #e0b020;
-  --color-accent-muted: rgba(212, 160, 23, 0.14);
-  --color-accent-foreground: #0a0a0b;
-  --color-focus: #d4a017;
+  /* Phase 1 palette — Carbon / Graphite / Signal Lime */
+  --color-background: #070807;
+  --color-surface: #121412;
+  --color-surface-elevated: #181b18;
+  --color-surface-overlay: #1c201c;
+  --color-foreground: #f3f1ea;
+  --color-muted: #a6aaa5;
+  --color-subtle: #8b908a;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-accent: #b7ff2a;
+  --color-accent-hover: #c8ff52;
+  --color-accent-muted: rgba(183, 255, 42, 0.14);
+  --color-accent-foreground: #070807;
+  --color-focus: #b7ff2a;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
@@ -63,7 +63,7 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
   --shadow-overlay: 0 24px 48px rgba(0, 0, 0, 0.65);
-  --shadow-accent-soft: 0 0 0 1px rgba(212, 160, 23, 0.22);
+  --shadow-accent-soft: 0 0 0 1px rgba(183, 255, 42, 0.22);
   --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.03) inset,
     0 8px 24px rgba(0, 0, 0, 0.35);
 
@@ -111,19 +111,27 @@ html {
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, sans-serif;
   font-feature-settings: "ss01" on, "kern" on;
   letter-spacing: -0.01em;
   line-height: var(--leading-body);
   min-height: 100vh;
   overflow-x: hidden;
-  /* Subtle vertical atmosphere — no giant gradients */
   background-image: radial-gradient(
-    ellipse 120% 60% at 50% -20%,
-    rgba(24, 24, 28, 0.9),
-    transparent 55%
+    ellipse 120% 55% at 50% -18%,
+    rgba(24, 27, 24, 0.95),
+    transparent 58%
   );
   background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, sans-serif;
+  letter-spacing: -0.03em;
 }
 
 @media (prefers-reduced-motion: reduce) {

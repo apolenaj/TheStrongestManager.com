@@ -5,10 +5,23 @@ import { PageIntro } from "@/components/ui/PageIntro";
 import { searchMethods } from "@/domain/methods";
 
 export const metadata: Metadata = {
-  title: "Training Methods",
+  title: "Powerlifting Programs & Training Methods",
   description:
-    "Historical and modern training methods for powerlifting, bodybuilding, strongman, weightlifting, and general strength — with clear limits.",
+    "Explore powerlifting program methods — linear periodization, conjugate, DUP, and more — with origins, use cases, and clear limits.",
+  keywords: [
+    "powerlifting program",
+    "linear periodization",
+    "conjugate method",
+    "training methods",
+  ],
   alternates: { canonical: "/methods" },
+  openGraph: {
+    title: "Powerlifting Programs & Training Methods",
+    description:
+      "Historical and modern training methods for powerlifting and strength sports — with honest limitations.",
+    url: "/methods",
+    type: "website",
+  },
 };
 
 type MethodsPageProps = {

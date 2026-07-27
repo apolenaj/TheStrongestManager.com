@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 const FOOTER_LINKS = [
-  { href: "/methods", label: "Metody" },
+  { href: "/methods", label: "Methods" },
   { href: "/pricing", label: "Pricing" },
   { href: "/academy", label: "Academy" },
   { href: "/trust", label: "Trust" },
@@ -12,16 +12,17 @@ const FOOTER_LINKS = [
 
 export function PublicFooter() {
   return (
-    <footer className="mt-auto border-t border-[var(--color-border)] bg-[#08080a]">
+    <footer className="mt-auto border-t border-[var(--color-border)] bg-[var(--color-background)]">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-14">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-[var(--color-foreground)]">
-              The Strongest Manager
+            <p className="font-[family-name:var(--font-display)] text-lg font-semibold uppercase tracking-[0.04em] text-[var(--color-foreground)]">
+              The Strongest{" "}
+              <span className="text-[var(--color-accent)]">Manager</span>
             </p>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--color-muted)]">
-              Silový trénink a mentální disciplína pro lidi, kteří vedou pod
-              tlakem.
+              Strength training and mental discipline for people who lead under
+              pressure.
             </p>
           </div>
           <nav

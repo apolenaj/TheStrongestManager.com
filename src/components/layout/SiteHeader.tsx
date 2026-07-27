@@ -1,0 +1,452 @@
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { cn } from "@/design-system/utils/cn";
+import {
+  SITE_NAV_CATEGORIES,
+  STRENGTH_AUDIT_CTA,
+  STRENGTH_AUDIT_HREF,
+  type SiteNavCategory,
+} from "@/components/layout/site-nav";
+
+function MegaMenuPanel({
+  category,
+  menuId,
+}: {
+  category: SiteNavCategory;
+  menuId: string;
+}) {
+  return (
+    <div
+      id={menuId}
+      role="menu"
+      aria-label={`${category.label} menu`}
+      className="absolute left-1/2 top-full z-50 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 pt-3"
+    >
+      <div className="overflow-hidden rounded-sm border border-[var(--color-border)] bg-[var(--color-surface-elevated)] shadow-[var(--shadow-overlay)] backdrop-blur-md">
+        <div
+          className={cn(
+            "grid gap-0",
+            category.featured ? "lg:grid-cols-[1.2fr_0.8fr]" : "grid-cols-1",
+          )}
+        >
+          <ul className="grid gap-1 p-3 sm:grid-cols-2 sm:p-4">
+            {category.links.map((link) => {
+              const Icon = link.icon;
+              return (
+                <li key={`${category.id}-${link.href}-${link.label}`} role="none">
+                  <Link
+                    href={link.href}
+                    role="menuitem"
+                    className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-3 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                  >
+                    {Icon ? (
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--color-border)] text-[var(--color-accent)]">
+                        <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                      </span>
+                    ) : null}
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-[var(--color-foreground)]">
+                        {link.label}
+                      </span>
+                      {link.description ? (
+                        <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
+                          {link.description}
+                        </span>
+                      ) : null}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {category.featured ? (
+            <aside className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-5 lg:border-l lg:border-t-0">
+              <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[var(--color-accent)]">
+                {category.featured.eyebrow}
+              </p>
+              <p className="mt-3 font-[family-name:var(--font-display)] text-xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
+                {category.featured.title}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
+                {category.featured.description}
+              </p>
+              <Link
+                href={category.featured.href}
+                role="menuitem"
+                className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:text-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              >
+                {category.featured.cta}
+                <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+              </Link>
+            </aside>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DesktopNavItem({
+  category,
+  open,
+  onOpen,
+  onClose,
+}: {
+  category: SiteNavCategory;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
+  const menuId = useId();
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  function onTriggerKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
+    if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onOpen();
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      onClose();
+    }
+  }
+
+  return (
+    <div
+      ref={itemRef}
+      className="relative"
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+      onFocusCapture={onOpen}
+      onBlurCapture={(event) => {
+        if (!itemRef.current?.contains(event.relatedTarget as Node | null)) {
+          onClose();
+        }
+      }}
+    >
+      <button
+        type="button"
+        className="inline-flex min-h-11 items-center gap-1.5 px-3 py-2 text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+        onClick={() => (open ? onClose() : onOpen())}
+        onKeyDown={onTriggerKeyDown}
+      >
+        {category.label}
+        <ChevronDown
+          className={cn(
+            "h-3.5 w-3.5 transition-transform duration-200",
+            open && "rotate-180",
+          )}
+          strokeWidth={1.75}
+          aria-hidden
+        />
+      </button>
+      <div
+        className={cn(
+          "transition-opacity duration-200",
+          open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
+        )}
+      >
+        {open ? <MegaMenuPanel category={category} menuId={menuId} /> : null}
+      </div>
+      {category.href ? (
+        <Link href={category.href} className="sr-only">
+          {category.label} overview
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+function MobileAccordion({
+  category,
+  open,
+  onToggle,
+  onNavigate,
+}: {
+  category: SiteNavCategory;
+  open: boolean;
+  onToggle: () => void;
+  onNavigate: () => void;
+}) {
+  const panelId = useId();
+  const buttonId = useId();
+
+  return (
+    <div className="border-b border-[var(--color-border)]">
+      <button
+        id={buttonId}
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={onToggle}
+        className="flex min-h-12 w-full items-center justify-between gap-3 py-3 text-left font-[family-name:var(--font-display)] text-lg font-semibold uppercase tracking-[0.04em] text-[var(--color-foreground)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+      >
+        {category.label}
+        <ChevronDown
+          className={cn(
+            "h-5 w-5 shrink-0 text-[var(--color-muted)] transition-transform duration-200",
+            open && "rotate-180 text-[var(--color-accent)]",
+          )}
+          strokeWidth={1.75}
+          aria-hidden
+        />
+      </button>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={buttonId}
+        hidden={!open}
+        className={cn(
+          "grid transition-all duration-200 ease-[var(--easing-standard)]",
+          open ? "grid-rows-[1fr] pb-4" : "grid-rows-[0fr]",
+        )}
+      >
+        <div className="overflow-hidden">
+          <ul className="space-y-1">
+            {category.links.map((link) => (
+              <li key={`${category.id}-m-${link.href}-${link.label}`}>
+                <Link
+                  href={link.href}
+                  onClick={onNavigate}
+                  className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            {category.featured ? (
+              <li>
+                <Link
+                  href={category.featured.href}
+                  onClick={onNavigate}
+                  className="mt-2 flex min-h-12 items-center justify-between gap-3 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                >
+                  {category.featured.title}
+                  <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
+                </Link>
+              </li>
+            ) : null}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SiteHeader() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [scrolled, setScrolled] = useState(!isHome);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string | null>("coaching");
+  const [openMegaId, setOpenMegaId] = useState<string | null>(null);
+
+  const closeMobile = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
+  const closeMega = useCallback(() => {
+    setOpenMegaId(null);
+  }, []);
+
+  useEffect(() => {
+    closeMobile();
+    closeMega();
+  }, [pathname, closeMobile, closeMega]);
+
+  useEffect(() => {
+    if (!isHome) {
+      setScrolled(true);
+      return;
+    }
+
+    function onScroll() {
+      setScrolled(window.scrollY > 24);
+    }
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      if (mobileOpen) closeMobile();
+      if (openMegaId) closeMega();
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen, openMegaId, closeMobile, closeMega]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileOpen]);
+
+  const solid = scrolled || mobileOpen || !isHome;
+
+  return (
+    <>
+      <header
+        className={cn(
+          "sticky top-0 z-[var(--z-sticky)] w-full transition-[background-color,border-color,backdrop-filter] duration-200",
+          solid
+            ? "border-b border-[var(--color-border)] bg-[#070807]/95 backdrop-blur-md"
+            : "border-b border-transparent bg-transparent",
+        )}
+      >
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-[4.25rem] sm:px-6">
+          <Link
+            href="/"
+            className="min-w-0 shrink-0 font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] sm:text-base"
+          >
+            The Strongest{" "}
+            <span className="text-[var(--color-accent)]">Manager</span>
+          </Link>
+
+          <nav aria-label="Primary" className="hidden items-center xl:flex">
+            {SITE_NAV_CATEGORIES.map((category) => (
+              <DesktopNavItem
+                key={category.id}
+                category={category}
+                open={openMegaId === category.id}
+                onOpen={() => setOpenMegaId(category.id)}
+                onClose={closeMega}
+              />
+            ))}
+          </nav>
+
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <Link
+              href="/login"
+              className="hidden min-h-11 items-center px-3 text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
+            >
+              Log In
+            </Link>
+            <Link
+              href="/signup"
+              className="hidden min-h-11 items-center rounded-sm bg-[var(--color-accent)] px-4 text-sm font-semibold tracking-tight text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
+            >
+              Start Free
+            </Link>
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="site-mobile-nav"
+              className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] transition-colors duration-200 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] xl:hidden"
+              onClick={() => setMobileOpen((value) => !value)}
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+              ) : (
+                <Menu className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {mobileOpen ? (
+        <div
+          id="site-mobile-nav"
+          className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-[#070807] xl:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          style={{
+            paddingTop: "env(safe-area-inset-top)",
+            paddingBottom: "env(safe-area-inset-bottom)",
+          }}
+        >
+          <div className="flex h-16 items-center justify-between border-b border-[var(--color-border)] px-4 sm:h-[4.25rem] sm:px-6">
+            <Link
+              href="/"
+              onClick={closeMobile}
+              className="font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            >
+              The Strongest{" "}
+              <span className="text-[var(--color-accent)]">Manager</span>
+            </Link>
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              onClick={closeMobile}
+            >
+              <X className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+            </button>
+          </div>
+
+          <nav
+            aria-label="Primary mobile"
+            className="flex-1 overflow-y-auto px-4 py-4 sm:px-6"
+          >
+            {SITE_NAV_CATEGORIES.map((category) => (
+              <MobileAccordion
+                key={category.id}
+                category={category}
+                open={openAccordion === category.id}
+                onToggle={() =>
+                  setOpenAccordion((current) =>
+                    current === category.id ? null : category.id,
+                  )
+                }
+                onNavigate={closeMobile}
+              />
+            ))}
+
+            <div className="mt-6 flex flex-col gap-2 border-t border-[var(--color-border)] pt-6">
+              <Link
+                href="/login"
+                onClick={closeMobile}
+                className="flex min-h-11 items-center justify-center text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/signup"
+                onClick={closeMobile}
+                className="flex min-h-12 items-center justify-center rounded-sm bg-[var(--color-accent)] text-base font-semibold text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              >
+                Start Free
+              </Link>
+            </div>
+          </nav>
+
+          <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:px-6">
+            <Link
+              href={STRENGTH_AUDIT_HREF}
+              onClick={closeMobile}
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-sm border border-[var(--color-accent)] bg-[var(--color-accent)] px-4 text-center text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            >
+              {STRENGTH_AUDIT_CTA}
+              <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+            </Link>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}

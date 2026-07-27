@@ -1,79 +1,119 @@
+/**
+ * Homepage top-funnel copy (Phase 3 Part 1).
+ * Brand + heroLines stay canonical for personalization anti-cloaking.
+ */
+
 export const homeCopy = {
   brand: "The Strongest Manager",
   /** Canonical hero lines — never swapped by personalization. */
   heroLines: [
-    "Od hrubé síly",
-    "k absolutnímu leadershipu.",
+    "Build strength that",
+    "survives the platform.",
   ],
   heroSupport:
-    "Systém pro ty, kteří vyžadují maximální výkon v byznysu i pod činkou.",
+    "Structured powerlifting coaching, technique feedback and evidence-led training tools for serious lifters who refuse to guess.",
   ambition:
-    "Žádné motivační plakáty. Přesný plán, měřitelný progres a disciplína, která se přenáší z platformy do boardroomu.",
-  ctaPrimary: "Zahájit trénink",
-  ctaSecondary: "O tréninkových metodách",
+    "No motivational posters. Precise planning, measurable progress, and discipline that transfers from logged sessions to better decisions.",
+  ctaPrimary: "GET YOUR FREE STRENGTH AUDIT",
+  ctaSecondary: "EXPLORE THE FREE TRAINING LIBRARY",
+  trustRow: [
+    "Evidence-led programming",
+    "Individual progression",
+    "Competition-focused coaching",
+  ],
+  goals: [
+    {
+      id: "stronger",
+      title: "GET STRONGER",
+      body: "Progressive loading, volume control, and next-session clarity from real logs.",
+      href: "/goals/improve-deadlift",
+      icon: "dumbbell",
+    },
+    {
+      id: "technique",
+      title: "FIX MY TECHNIQUE",
+      body: "Upload a lift, get labeled feedback — observed vs estimated, never invented certainty.",
+      href: "/technique-check",
+      icon: "scan",
+    },
+    {
+      id: "meet",
+      title: "PREPARE FOR A MEET",
+      body: "Peaking timelines, attempt strategy sketches, and IPF-aware competition context.",
+      href: "/goals/powerlifting-program",
+      icon: "flag",
+    },
+    {
+      id: "learn",
+      title: "LEARN FOR FREE",
+      body: "Methods, academy paths, exercises, and guides — education without a paywall gate.",
+      href: "/learn",
+      icon: "book",
+    },
+  ],
   about: {
-    eyebrow: "O mně",
-    title: "Lídr, který měří výkon stejně pod činkou i v operacích",
+    eyebrow: "About",
+    title: "A leader who measures performance under the bar and in operations",
     paragraphs: [
-      "Vedl jsem masivní retailové a logistické operace, kde se výkon neomlouvá — počítá se throughput, přesnost a schopnost rozhodnout pod tlakem. Stejný mentální model přenáším do silového tréninku: jasný cíl, kontrolovaný proces, tvrdá zpětná vazba z reality.",
-      "Zázemí v IT mi dává návyk stavět systémy, ne nálady. Data, periodizace a biomechanika nejsou dekorace — jsou řídicí vrstva. Psychologie managementu doplňuje techniku: disciplína, klid a accountability, když je série těžká nebo rozhodnutí nepohodlné.",
-      "Soutěžní powerlifting beru striktně dle IPF pravidel. Hloubka, lockout a standardy platformy nejsou detail — jsou kontrakt s výsledkem. The Strongest Manager spojuje tyto světy do jednoho operačního systému pro sílu i leadership.",
+      "I have led large-scale retail and logistics operations where performance is not excused — throughput, precision, and the ability to decide under pressure are what count. I bring the same mental model to strength training: a clear objective, a controlled process, and hard feedback from reality.",
+      "A deep IT background built the habit of designing systems, not moods. Data, periodization, and biomechanics are not decoration — they are the control layer. Management psychology completes the picture: discipline, composure, and accountability when the set is heavy or the decision is uncomfortable.",
+      "Competitive powerlifting is held strictly to IPF standards. Depth, lockout, and platform rules are not details — they are a contract with the result. The Strongest Manager connects these worlds into one operating system for strength and leadership.",
     ],
     closing:
-      "Optimalizace výkonu není motivace. Je to řízení: plán, provedení, měření, korekce.",
+      "Performance optimization is not motivation. It is management: plan, execute, measure, correct.",
   },
   pillars: [
     {
       id: "powerlifting",
-      title: "Silový trojboj",
-      body: "Dřep, bench press a mrtvý tah jako základ síly. Technika, zátěž a progres řízené podle reálných tréninků — ne podle sloganů.",
+      title: "The big three",
+      body: "Squat, bench press, and deadlift as the foundation of strength. Technique, load, and progress driven by real sessions — not slogans.",
     },
     {
       id: "mental",
-      title: "Mentální odolnost",
-      body: "Disciplína z těžkých sérií se přenáší do byznysu: klid pod tlakem, dlouhodobá konzistence a rozhodnutí bez emocionálního šumu.",
+      title: "Mental resilience",
+      body: "Discipline from hard sets transfers to business: composure under pressure, long-horizon consistency, and decisions without emotional noise.",
     },
     {
       id: "data",
-      title: "Datová analýza progresu",
-      body: "Sleduj objem, intenzitu a trendy jen z dat, která opravdu zaloguješ. Žádné vymyšlené skóre ani falešné úspěšnosti.",
+      title: "Progress analytics",
+      body: "Track volume, intensity, and trends only from data you actually log. No invented scores or fabricated success rates.",
     },
   ],
   approach: {
-    eyebrow: "Tréninkový přístup",
-    title: "Profesionální silový systém, ne fitness trend",
+    eyebrow: "Training approach",
+    title: "A professional strength system — not a fitness trend",
     description:
-      "Přístup postavený na periodizaci, biomechanice a standardech soutěžního powerliftingu — se striktním plánováním každého cyklu.",
+      "Built on periodization, biomechanics, and competitive powerlifting standards — with strict planning for every cycle.",
     items: [
       {
         id: "periodization",
-        title: "Přesná periodizace",
-        body: "Bloková a undulující struktura: zátěž, objem a intenzita se plánují dopředu a upravují podle odvedené práce.",
+        title: "Precise periodization",
+        body: "Block and undulating structures: load, volume, and intensity are planned ahead and adjusted from work completed.",
         span: "lg:col-span-2",
       },
       {
         id: "biomechanics",
-        title: "Biomechanika",
-        body: "Technická zpětná vazba k hlavním zdvihům. Pozorované vs. odhadované poznatky jsou vždy jasně označené.",
+        title: "Biomechanics",
+        body: "Technical feedback on the main lifts. Observed vs. estimated insights are always clearly labeled.",
         span: "lg:col-span-1",
       },
       {
         id: "ipf",
-        title: "IPF standardy",
-        body: "Příprava respektuje pravidla a standardy IPF — hloubka, lockout, vybavení a soutěžní kontext, kde dávají smysl.",
+        title: "IPF standards",
+        body: "Preparation respects IPF rules and standards — depth, lockout, equipment, and meet context where they matter.",
         span: "lg:col-span-1",
       },
       {
         id: "planning",
-        title: "Striktní plánování",
-        body: "Každý týden má konkrétní záměr. Dnešní trénink, deload i peak nejsou náhoda — jsou rozhodnutí z plánu.",
+        title: "Strict planning",
+        body: "Every week has a concrete intent. Today's session, deload, and peak are decisions from the plan — not accidents.",
         span: "lg:col-span-2",
       },
     ],
   },
   finalCta: {
-    title: "Začni budovat sílu, která unese tlak.",
-    body: "Vytvoř účet, založ profil a zahaj první strukturovaný cyklus. Data a doporučení přijdou až z reálného tréninku.",
+    title: "Start building strength that holds under pressure.",
+    body: "Create an account, set up your profile, and begin the first structured cycle. Data and recommendations arrive only from real training.",
   },
   intelligence: [
     {
@@ -100,39 +140,39 @@ export const homeCopy = {
   ],
   faq: [
     {
-      question: "Je The Strongest Manager generátor náhodných workoutů?",
+      question: "Is The Strongest Manager a random workout generator?",
       answer:
-        "Ne. Spojuje profil atleta, programování, logování, technickou zpětnou vazbu a progress. Negeneruje náhodný trénink ze sloganu.",
+        "No. It combines athlete profile, programming, logging, technical feedback, and progress. It does not spit out a random workout from a slogan.",
     },
     {
-      question: "Dokáže produkt diagnostikovat zranění?",
+      question: "Can the product diagnose injuries?",
       answer:
-        "Ne. Nediagnostikuje zranění ani onemocnění. Při bolesti sniž zátěž a konzultuj kvalifikovaného klinika.",
+        "No. It does not diagnose injury or disease. If you have pain, reduce load and consult a qualified clinician.",
     },
     {
-      question: "Jak přesná je analýza techniky?",
+      question: "How precise is technique analysis?",
       answer:
-        "Pohybová analýza běží, když to umožní úhel kamery a pose data. Poznatky jsou označené jako observed, estimated, athlete-reported nebo recommended.",
+        "Movement analysis runs when camera angle and pose data allow. Insights are labeled as observed, estimated, athlete-reported, or recommended.",
     },
     {
-      question: "Je napojení Mealnexio live?",
+      question: "Is Mealnexio nutrition sync live?",
       answer:
-        "Zatím ne. Nutrition ukazuje stav připojení a prázdné cíle, dokud nedorazí reálný API adapter. Makra si nevymýšlíme.",
+        "Not yet. Nutrition shows connection status and empty targets until a real API adapter ships. We do not invent macros.",
     },
     {
-      question: "Jak funguje pricing?",
+      question: "How does pricing work?",
       answer:
-        "Free, Pro a Performance jsou na stránce Pricing. Self-serve checkout se otevře jen když je nakonfigurovaný Stripe.",
+        "Free, Pro, and Performance are listed on the Pricing page with features and limits.",
     },
     {
-      question: "Publikujete úspěšnost nebo počty atletů?",
+      question: "Do you publish success rates or athlete counts?",
       answer:
-        "Jen z reálných produkčních dat. Do té doby ukazujeme schopnosti produktu a empty states — ne vymyšlené testimonials.",
+        "Only from real production data. Until then we show product capabilities and empty states — not invented testimonials.",
     },
     {
-      question: "Pro koho je to určené?",
+      question: "Who is it for?",
       answer:
-        "Pro atlety a manažery, kteří berou silový trénink stejně vážně jako výkon v byznysu — powerlifting, síla, koučové.",
+        "Athletes and leaders who treat strength training as seriously as business performance — powerlifting, strength, and coaches.",
     },
   ],
 } as const;
