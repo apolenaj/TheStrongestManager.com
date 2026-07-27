@@ -3,23 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 import { ButtonLink } from "@/design-system";
 import { Drawer } from "@/design-system/components/Drawer";
 import { IconButton } from "@/design-system/components/IconButton";
-import { PublicSearchTrigger } from "@/components/layout/GlobalSearch";
 import { getPublicNavRoutes } from "@/config/routes";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/design-system/utils/cn";
 
-/** Desktop primary strip — conversion + catalog. Rest stay in the mobile drawer / footer. */
-const DESKTOP_PRIMARY_IDS = new Set([
-  "features",
-  "demo",
-  "exercises",
-  "methods",
-  "learn",
-  "pricing",
-]);
+/** Minimal desktop strip — authority over catalog density. */
+const DESKTOP_PRIMARY_IDS = new Set(["methods", "pricing", "academy"]);
 
 /**
  * Public navigation.
@@ -55,21 +48,23 @@ export function PublicHeader() {
         className={cn(
           "z-[var(--z-sticky)] w-full transition-[background-color,border-color,backdrop-filter] duration-[var(--duration-normal)]",
           stuck
-            ? "sticky top-0 border-b border-[var(--color-border)] bg-[var(--color-background)]/90 backdrop-blur-md"
+            ? "sticky top-0 border-b border-[var(--color-border)] bg-[var(--color-background)]/92 backdrop-blur-md"
             : "absolute inset-x-0 top-0 border-b border-transparent bg-transparent",
         )}
       >
-        <div className="mx-auto flex max-w-6xl min-w-0 items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
+        <div className="mx-auto flex max-w-6xl min-w-0 items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <Link
             href="/"
-            className="min-w-0 truncate font-[family-name:var(--font-display)] text-base font-semibold tracking-tight text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] sm:text-lg"
+            className="min-w-0 truncate font-[family-name:var(--font-display)] text-sm font-semibold tracking-[-0.02em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] sm:text-base"
           >
-            {siteConfig.name}
+            {siteConfig.name === "TheStrongestManager"
+              ? "The Strongest Manager"
+              : siteConfig.name}
           </Link>
 
           <nav
             aria-label="Primary"
-            className="hidden min-w-0 items-center gap-0.5 lg:flex"
+            className="hidden min-w-0 items-center gap-1 lg:flex"
           >
             {desktopItems.map((item) => {
               const active =
@@ -81,7 +76,7 @@ export function PublicHeader() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "rounded-sm px-3 py-2.5 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]",
+                    "px-3.5 py-2 text-sm tracking-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
                     active
                       ? "text-[var(--color-foreground)]"
                       : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
@@ -94,29 +89,28 @@ export function PublicHeader() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
-            <PublicSearchTrigger />
             <ButtonLink
               href="/login"
               variant="ghost"
               size="sm"
               className="hidden min-h-10 sm:inline-flex"
             >
-              Log in
+              Přihlásit
             </ButtonLink>
             <ButtonLink
               href="/signup"
               size="sm"
-              className="hidden min-h-10 sm:inline-flex"
+              className="hidden min-h-10 rounded-sm bg-[#e8c547] px-4 font-semibold text-[#0a0a0b] shadow-none hover:bg-[#f0d15c] sm:inline-flex"
             >
-              Start Free
+              Zahájit trénink
             </ButtonLink>
             <IconButton
-              aria-label="Open menu"
+              aria-label="Otevřít menu"
               size="md"
               className="lg:hidden"
               onClick={() => setMenuOpen(true)}
             >
-              <MenuIcon />
+              <Menu className="h-[18px] w-[18px]" strokeWidth={1.5} />
             </IconButton>
           </div>
         </div>
@@ -129,13 +123,6 @@ export function PublicHeader() {
         side="right"
       >
         <nav aria-label="Primary mobile" className="flex flex-col gap-1">
-          <Link
-            href="/search"
-            className="rounded-[var(--radius-sm)] px-3 py-3 text-base text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-foreground)]"
-            onClick={() => setMenuOpen(false)}
-          >
-            Search
-          </Link>
           {items.map((item) => {
             const active =
               pathname === item.href ||
@@ -163,30 +150,17 @@ export function PublicHeader() {
             className="mt-4 w-full min-h-11"
             onClick={() => setMenuOpen(false)}
           >
-            Log in
+            Přihlásit
           </ButtonLink>
           <ButtonLink
             href="/signup"
-            className="w-full min-h-11"
+            className="w-full min-h-11 rounded-sm bg-[#e8c547] font-semibold text-[#0a0a0b] shadow-none hover:bg-[#f0d15c]"
             onClick={() => setMenuOpen(false)}
           >
-            Start Free
+            Zahájit trénink
           </ButtonLink>
         </nav>
       </Drawer>
     </>
-  );
-}
-
-function MenuIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-      <path
-        d="M3 5h12M3 9h12M3 13h12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }

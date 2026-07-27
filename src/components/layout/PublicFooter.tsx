@@ -2,55 +2,60 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 const FOOTER_LINKS = [
-  { href: "/search", label: "Search" },
-  { href: "/learn", label: "Learn" },
-  { href: "/exercises", label: "Exercises" },
-  { href: "/methods", label: "Methods" },
-  { href: "/history", label: "History" },
-  { href: "/academy", label: "Academy" },
+  { href: "/methods", label: "Metody" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/academy", label: "Academy" },
+  { href: "/trust", label: "Trust" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
-  { href: "/trust", label: "Trust Center" },
 ] as const;
 
 export function PublicFooter() {
   return (
-    <footer className="mt-auto border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 text-sm text-[var(--color-muted)] sm:px-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="mt-auto border-t border-[var(--color-border)] bg-[#08080a]">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-14">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-[var(--color-foreground)]">
+              The Strongest Manager
+            </p>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--color-muted)]">
+              Silový trénink a mentální disciplína pro lidi, kteří vedou pod
+              tlakem.
+            </p>
+          </div>
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap gap-x-5 gap-y-2 text-sm"
+          >
+            {FOOTER_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <div className="flex flex-col gap-2 border-t border-[var(--color-border)] pt-6 text-xs text-[var(--color-subtle)] sm:flex-row sm:items-center sm:justify-between">
           <p>
-            <span className="font-[family-name:var(--font-display)] text-[var(--color-foreground)]">
-              {siteConfig.name}
-            </span>
-            <span className="mx-2 text-[var(--color-border-strong)]">·</span>
-            Strength training tools
+            © {new Date().getFullYear()} {siteConfig.domain}
           </p>
           <p>
-            Planned nutrition connection with{" "}
+            Nutrition partner planned:{" "}
             <a
               href="https://mealnexio.com"
-              className="text-[var(--color-foreground)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+              className="text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-foreground)] hover:underline"
               rel="noopener noreferrer"
               target="_blank"
             >
               Mealnexio.com
-            </a>
-            {" "}
-            (not live yet).
+            </a>{" "}
+            (not live yet)
           </p>
         </div>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-4 gap-y-2">
-          {FOOTER_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-foreground)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
       </div>
     </footer>
   );

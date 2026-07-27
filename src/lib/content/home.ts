@@ -1,28 +1,69 @@
 export const homeCopy = {
-  brand: "TheStrongestManager",
+  brand: "The Strongest Manager",
+  /** Canonical hero lines — never swapped by personalization. */
   heroLines: [
-    "Upload a lift.",
-    "See what needs work.",
-    "Know what to change next.",
+    "Buduj hrubou sílu.",
+    "Veď s absolutní jistotou.",
   ],
   heroSupport:
-    "Profile, programming, technique review, recovery, and progress for strength athletes. Charts and scores appear only after you log real training.",
+    "Elitní manažer potřebuje fyzickou dominanci i mentální disciplínu. Platforma spojuje silový trénink na úrovni powerliftingu s rozhodováním, které unese vrcholový management.",
   ambition:
-    "Built for lifters and coaches who want clearer decisions from the sessions they already train — not slogans or invented stats.",
+    "Žádné motivační plakáty. Přesný plán, měřitelný progres a disciplína, která se přenáší z platformy do boardroomu.",
+  ctaPrimary: "Zahájit trénink",
+  ctaSecondary: "O tréninkových metodách",
   pillars: [
     {
-      title: "Understand",
-      body: "Keep goals, training history, technique notes, and recovery check-ins in one athlete profile before you change the plan.",
+      id: "powerlifting",
+      title: "Silový trojboj",
+      body: "Dřep, bench press a mrtvý tah jako základ síly. Technika, zátěž a progres řízené podle reálných tréninků — ne podle sloganů.",
     },
     {
-      title: "Train",
-      body: "Run today’s session from an assigned program, log sets as you go, and keep the next workout concrete.",
+      id: "mental",
+      title: "Mentální odolnost",
+      body: "Disciplína z těžkých sérií se přenáší do byznysu: klid pod tlakem, dlouhodobá konzistence a rozhodnutí bez emocionálního šumu.",
     },
     {
-      title: "Improve",
-      body: "Use Progress and Today to answer one question: what should I do in the next session?",
+      id: "data",
+      title: "Datová analýza progresu",
+      body: "Sleduj objem, intenzitu a trendy jen z dat, která opravdu zaloguješ. Žádné vymyšlené skóre ani falešné úspěšnosti.",
     },
   ],
+  approach: {
+    eyebrow: "Tréninkový přístup",
+    title: "Profesionální silový systém, ne fitness trend",
+    description:
+      "Přístup postavený na periodizaci, biomechanice a standardech soutěžního powerliftingu — se striktním plánováním každého cyklu.",
+    items: [
+      {
+        id: "periodization",
+        title: "Přesná periodizace",
+        body: "Bloková a undulující struktura: zátěž, objem a intenzita se plánují dopředu a upravují podle odvedené práce.",
+        span: "lg:col-span-2",
+      },
+      {
+        id: "biomechanics",
+        title: "Biomechanika",
+        body: "Technická zpětná vazba k hlavním zdvihům. Pozorované vs. odhadované poznatky jsou vždy jasně označené.",
+        span: "lg:col-span-1",
+      },
+      {
+        id: "ipf",
+        title: "IPF standardy",
+        body: "Příprava respektuje pravidla a standardy IPF — hloubka, lockout, vybavení a soutěžní kontext, kde dávají smysl.",
+        span: "lg:col-span-1",
+      },
+      {
+        id: "planning",
+        title: "Striktní plánování",
+        body: "Každý týden má konkrétní záměr. Dnešní trénink, deload i peak nejsou náhoda — jsou rozhodnutí z plánu.",
+        span: "lg:col-span-2",
+      },
+    ],
+  },
+  finalCta: {
+    title: "Začni budovat sílu, která unese tlak.",
+    body: "Vytvoř účet, založ profil a zahaj první strukturovaný cyklus. Data a doporučení přijdou až z reálného tréninku.",
+  },
   intelligence: [
     {
       title: "Athlete profile",
@@ -48,39 +89,39 @@ export const homeCopy = {
   ],
   faq: [
     {
-      question: "Is TheStrongestManager a workout generator?",
+      question: "Je The Strongest Manager generátor náhodných workoutů?",
       answer:
-        "No. It combines athlete profile, programming, workout logging, technique review, recovery check-ins, and progress charts. It does not spit out a random workout from a slogan.",
+        "Ne. Spojuje profil atleta, programování, logování, technickou zpětnou vazbu a progress. Negeneruje náhodný trénink ze sloganu.",
     },
     {
-      question: "Can the product diagnose injuries?",
+      question: "Dokáže produkt diagnostikovat zranění?",
       answer:
-        "No. It does not diagnose injury or disease. If you have pain, reduce load and consult a qualified clinician.",
+        "Ne. Nediagnostikuje zranění ani onemocnění. Při bolesti sniž zátěž a konzultuj kvalifikovaného klinika.",
     },
     {
-      question: "How precise is technique analysis?",
+      question: "Jak přesná je analýza techniky?",
       answer:
-        "Deadlift movement analysis can run today when camera angle and pose data are suitable. Insights are labeled as observed, estimated, athlete-reported, or recommended. We do not invent exact strength-loss percentages or medical certainty.",
+        "Pohybová analýza běží, když to umožní úhel kamery a pose data. Poznatky jsou označené jako observed, estimated, athlete-reported nebo recommended.",
     },
     {
-      question: "Is Mealnexio nutrition sync live?",
+      question: "Je napojení Mealnexio live?",
       answer:
-        "Not yet. Nutrition shows connection status and empty targets until a real Mealnexio API adapter ships. We do not invent macros.",
+        "Zatím ne. Nutrition ukazuje stav připojení a prázdné cíle, dokud nedorazí reálný API adapter. Makra si nevymýšlíme.",
     },
     {
-      question: "How does pricing work?",
+      question: "Jak funguje pricing?",
       answer:
-        "Free, Pro, and Performance are listed on the pricing page with features and limits. Monthly is the default; annual is optional. Self-serve checkout opens only when Stripe is configured — list prices alone do not charge a card.",
+        "Free, Pro a Performance jsou na stránce Pricing. Self-serve checkout se otevře jen když je nakonfigurovaný Stripe.",
     },
     {
-      question: "Do you publish success rates or athlete counts?",
+      question: "Publikujete úspěšnost nebo počty atletů?",
       answer:
-        "Only from real production data. Until then we show product capabilities and empty states — not invented testimonials or statistics.",
+        "Jen z reálných produkčních dat. Do té doby ukazujeme schopnosti produktu a empty states — ne vymyšlené testimonials.",
     },
     {
-      question: "Who is it for?",
+      question: "Pro koho je to určené?",
       answer:
-        "Powerlifting, bodybuilding, strongman, weightlifting, general strength, hybrid athletes, and coaches who want structured training tools — not lifestyle fitness fluff.",
+        "Pro atlety a manažery, kteří berou silový trénink stejně vážně jako výkon v byznysu — powerlifting, síla, koučové.",
     },
   ],
 } as const;
