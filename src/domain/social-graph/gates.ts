@@ -8,6 +8,7 @@ import {
 } from "@/domain/social-graph/constants";
 import type {
   SocialAccountPrivacy,
+  SocialFeedChecklistResult,
   SocialFeedLaunchGate,
   SocialFeedLaunchInput,
   SocialFollowEdge,
@@ -151,13 +152,13 @@ export function evaluateSocialFeedLaunchGate(
         };
       default:
         return {
-          id: "unknown",
-          label: "Unknown checklist item",
+          id: "content_moderation_flag", // known SocialFeedChecklistResult['id'] for exhaustiveness
+          label: "Unknown Item (Fallback)",
           ok: false,
-          detail: "Unknown checklist item.",
-        };
+          detail: "Unknown checklist item encountered.",
+        } as SocialFeedChecklistResult;
     }
-  });
+  }) as SocialFeedChecklistResult[];
 
   const blockers = checklist.filter((c) => !c.ok).map((c) => c.detail);
   const prepOk = input.socialGraphPrepEnabled;
