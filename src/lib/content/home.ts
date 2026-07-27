@@ -2,15 +2,26 @@ export const homeCopy = {
   brand: "The Strongest Manager",
   /** Canonical hero lines — never swapped by personalization. */
   heroLines: [
-    "Buduj hrubou sílu.",
-    "Veď s absolutní jistotou.",
+    "Od hrubé síly",
+    "k absolutnímu leadershipu.",
   ],
   heroSupport:
-    "Elitní manažer potřebuje fyzickou dominanci i mentální disciplínu. Platforma spojuje silový trénink na úrovni powerliftingu s rozhodováním, které unese vrcholový management.",
+    "Systém pro ty, kteří vyžadují maximální výkon v byznysu i pod činkou.",
   ambition:
     "Žádné motivační plakáty. Přesný plán, měřitelný progres a disciplína, která se přenáší z platformy do boardroomu.",
   ctaPrimary: "Zahájit trénink",
   ctaSecondary: "O tréninkových metodách",
+  about: {
+    eyebrow: "O mně",
+    title: "Lídr, který měří výkon stejně pod činkou i v operacích",
+    paragraphs: [
+      "Vedl jsem masivní retailové a logistické operace, kde se výkon neomlouvá — počítá se throughput, přesnost a schopnost rozhodnout pod tlakem. Stejný mentální model přenáším do silového tréninku: jasný cíl, kontrolovaný proces, tvrdá zpětná vazba z reality.",
+      "Zázemí v IT mi dává návyk stavět systémy, ne nálady. Data, periodizace a biomechanika nejsou dekorace — jsou řídicí vrstva. Psychologie managementu doplňuje techniku: disciplína, klid a accountability, když je série těžká nebo rozhodnutí nepohodlné.",
+      "Soutěžní powerlifting beru striktně dle IPF pravidel. Hloubka, lockout a standardy platformy nejsou detail — jsou kontrakt s výsledkem. The Strongest Manager spojuje tyto světy do jednoho operačního systému pro sílu i leadership.",
+    ],
+    closing:
+      "Optimalizace výkonu není motivace. Je to řízení: plán, provedení, měření, korekce.",
+  },
   pillars: [
     {
       id: "powerlifting",

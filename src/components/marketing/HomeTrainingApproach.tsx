@@ -26,27 +26,27 @@ export function HomeTrainingApproach() {
     <section
       id="approach"
       aria-labelledby="home-approach-heading"
-      className="relative border-t border-[var(--color-border)] bg-[var(--color-surface)]"
+      className="relative border-t border-white/10 bg-[#080809]"
     >
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10 lg:items-end">
           <div className="lg:col-span-7">
-            <p className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-[#e8c547]">
+            <p className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-yellow-500">
               {approach.eyebrow}
             </p>
             <h2
               id="home-approach-heading"
-              className="mt-4 max-w-xl font-[family-name:var(--font-display)] text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-[var(--color-foreground)]"
+              className="mt-4 max-w-xl font-[family-name:var(--font-display)] text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white"
             >
               {approach.title}
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--color-muted)]">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-gray-400">
               {approach.description}
             </p>
           </div>
           <MediaPlaceholder
             label="Competition platform photography placeholder"
-            className="home-rise aspect-[16/10] w-full lg:col-span-5"
+            className="home-rise aspect-[16/10] w-full border border-white/10 lg:col-span-5"
           />
         </div>
 
@@ -57,23 +57,23 @@ export function HomeTrainingApproach() {
               <li
                 key={item.id}
                 className={cn(
-                  "home-bento group relative flex flex-col border border-[var(--color-border)] bg-[#0c0c0e] p-7 sm:p-8",
+                  "home-bento group relative flex flex-col border border-white/10 bg-[#0c0c0e] p-7 transition-all duration-300 hover:border-yellow-500/30 sm:p-8",
                   item.span,
                 )}
                 style={{ animationDelay: `${0.05 * index}s` }}
               >
                 <div className="flex items-center justify-between gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center border border-[var(--color-border-strong)] text-[#e8c547] transition-colors duration-[var(--duration-normal)] group-hover:border-[#e8c547]/45">
+                  <div className="flex h-10 w-10 items-center justify-center border border-white/10 text-yellow-500 transition-all duration-300 group-hover:border-yellow-500/40">
                     <Icon className="h-5 w-5 stroke-[1.5]" aria-hidden />
                   </div>
-                  <span className="text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[var(--color-subtle)]">
+                  <span className="text-[0.65rem] font-medium uppercase tracking-[0.18em] text-gray-500">
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-8 font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[var(--color-foreground)]">
+                <h3 className="mt-8 font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-white">
                   {item.title}
                 </h3>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--color-muted)] sm:text-[0.95rem]">
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-400 sm:text-[0.95rem]">
                   {item.body}
                 </p>
               </li>

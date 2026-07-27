@@ -1,5 +1,5 @@
 import { PublicFooter } from "@/components/layout/PublicFooter";
-import { PublicHeader } from "@/components/layout/PublicHeader";
+import { Navbar } from "@/components/Navbar";
 
 export default function MarketingLayout({
   children,
@@ -7,8 +7,8 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <PublicHeader />
+    <div className="flex min-h-screen flex-col bg-[#050505]">
+      <Navbar />
       <main id="main-content" className="w-full flex-1">
         {children}
       </main>

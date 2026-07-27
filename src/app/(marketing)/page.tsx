@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AnalyticsBeacon } from "@/components/analytics/AnalyticsBeacon";
+import { HomeAbout } from "@/components/marketing/HomeAbout";
 import { HomeFinalCta } from "@/components/marketing/HomeFinalCta";
 import { HomeHero } from "@/components/marketing/HomeHero";
 import { HomePillars } from "@/components/marketing/HomePillars";
@@ -15,7 +16,7 @@ const pageDescription = homeCopy.heroSupport;
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${homeCopy.brand} — Buduj hrubou sílu. Veď s absolutní jistotou.`,
+    absolute: `${homeCopy.brand} — Od hrubé síly k absolutnímu leadershipu.`,
   },
   description: pageDescription,
   alternates: { canonical: "/" },
@@ -67,15 +68,15 @@ export default async function HomePage({
       />
       <HomeHero
         primaryCtaLabel={homeCopy.ctaPrimary}
-        heroSupport={variant.heroSupport}
-        secondaryHref={
-          variant.secondaryHref === "/features" ||
-          variant.secondaryHref === "/demo"
-            ? "/methods"
-            : variant.secondaryHref
+        heroSupport={
+          variant.intentId === "default"
+            ? homeCopy.heroSupport
+            : variant.heroSupport
         }
+        secondaryHref="/methods"
         secondaryLabel={homeCopy.ctaSecondary}
       />
+      <HomeAbout />
       <HomePillars />
       <HomeTrainingApproach />
       <HomeFinalCta />
