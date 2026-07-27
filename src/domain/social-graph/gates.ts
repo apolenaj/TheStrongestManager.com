@@ -151,8 +151,8 @@ export function evaluateSocialFeedLaunchGate(
         };
       default:
         return {
-          id: item.id,
-          label: item.label,
+          id: "unknown",
+          label: "Unknown checklist item",
           ok: false,
           detail: "Unknown checklist item.",
         };
