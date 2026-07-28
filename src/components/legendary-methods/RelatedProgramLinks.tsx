@@ -26,13 +26,13 @@ export function RelatedProgramLinks({
   }
 
   return (
-    <ul className="space-y-5">
+    <ul className="grid gap-6 sm:gap-8">
       {programmes.map((programme) => {
         const prompt =
           programme.conversionPrompt?.trim() ||
           defaultLegendaryProgrammeConversionPrompt(category);
         return (
-          <li key={programme.slug}>
+          <li key={programme.slug} className="legendary-surface p-5 sm:p-6">
             <p className="text-sm leading-relaxed text-[var(--color-muted)]">
               {prompt}{" "}
               <LegendaryAnalyticsLink
@@ -47,7 +47,7 @@ export function RelatedProgramLinks({
                 Explore {programme.title}
               </LegendaryAnalyticsLink>
             </p>
-            <p className="mt-1 text-xs text-[var(--color-subtle)]">
+            <p className="mt-2 text-xs text-[var(--color-subtle)]">
               {programme.relationship}
             </p>
           </li>

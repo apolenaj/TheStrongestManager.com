@@ -161,10 +161,23 @@ function findPhraseIndex(
   return -1;
 }
 
+/** Labelled historical documentation sections may recount publicly reported diets/routines. */
+const HISTORICAL_DOCUMENTATION_FIELDS = new Set([
+  "sections.core-training-routine",
+  "sections.documented-nutritional-approach",
+]);
+
+const HISTORICAL_DOCUMENTATION_ALLOWED_PHRASES = new Set([
+  "exact programme",
+  "exact program",
+  "exact diet",
+]);
+
 /**
  * Scan public profile text for prohibited affiliation / exact-programme claims.
  * Negated educational disclaimers (e.g. “not … exact programme”) are allowed.
- * Affirmative uses require an explicit licensing record.
+ * Affirmative uses require an explicit licensing record — except labelled
+ * historical documentation sections, which may recount public historical diets/routines.
  */
 export function findProhibitedWordingHits(
   profile: Parameters<typeof collectPublicTextFields>[0],
@@ -181,6 +194,12 @@ export function findProhibitedWordingHits(
         if (idx === -1) break;
         from = idx + phrase.length;
         if (isNegatedOccurrence(normalized, idx)) continue;
+        if (
+          HISTORICAL_DOCUMENTATION_FIELDS.has(field) &&
+          HISTORICAL_DOCUMENTATION_ALLOWED_PHRASES.has(phrase)
+        ) {
+          continue;
+        }
         if (hasLegendaryLicensingException(phrase, profile.slug)) continue;
         if (hasLegendaryLicensingException(phrase, "*")) continue;
         const excerpt = text

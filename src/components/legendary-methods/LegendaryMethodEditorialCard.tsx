@@ -19,21 +19,21 @@ export function LegendaryMethodEditorialCard({
   const insight = card.shortDescription;
 
   return (
-    <article className="flex h-full flex-col border border-[var(--color-border)] bg-[var(--color-surface-elevated)] transition-[border-color] duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,var(--color-border))]">
+    <article className="legendary-card legendary-surface group flex h-full flex-col overflow-hidden">
       <LegendaryMethodCardArt
         category={card.category}
         title={card.methodFocus || card.profileTitle}
         compact
       />
-      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
+      <div className="flex flex-1 flex-col gap-4 p-5 sm:gap-5 sm:p-6">
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
           {card.categoryLabel}
         </p>
-        <div>
-          <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
+        <div className="space-y-1.5">
+          <h3 className="font-[family-name:var(--font-display)] text-lg font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-xl">
             {card.athleteName}
           </h3>
-          <p className="mt-1 text-sm font-medium leading-snug text-[var(--color-foreground)]">
+          <p className="text-sm font-medium leading-snug text-[var(--color-foreground)]/90">
             {card.profileTitle}
           </p>
         </div>
@@ -42,7 +42,7 @@ export function LegendaryMethodEditorialCard({
             {insight}
           </p>
         ) : null}
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-[var(--color-border)] pt-3">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
           <p className="inline-flex items-center gap-1.5 text-xs text-[var(--color-subtle)]">
             <Clock3 className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />~
             {card.readingTimeMinutes} min read

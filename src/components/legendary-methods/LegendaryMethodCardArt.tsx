@@ -21,21 +21,25 @@ export function LegendaryMethodCardArt({
     <div
       className={
         compact
-          ? "relative aspect-[16/8] w-full overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-surface)] [content-visibility:auto] [contain-intrinsic-size:320px_160px]"
-          : "relative aspect-[16/10] w-full overflow-hidden border-b border-[var(--color-border)] bg-[var(--color-surface)] [content-visibility:auto] [contain-intrinsic-size:320px_200px]"
+          ? "relative aspect-[16/8] w-full overflow-hidden border-b border-white/10 bg-[var(--color-surface)] [content-visibility:auto] [contain-intrinsic-size:320px_160px]"
+          : "relative aspect-[16/10] w-full overflow-hidden border-b border-white/10 bg-[var(--color-surface)] [content-visibility:auto] [contain-intrinsic-size:320px_200px]"
       }
       role="img"
       aria-label={`Abstract ${shortLabel || category} training graphic`}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(183,255,42,0.14),transparent_50%),linear-gradient(160deg,var(--color-surface-elevated)_0%,var(--color-background)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_-10%,rgba(183,255,42,0.18),transparent_55%),radial-gradient(ellipse_at_100%_115%,rgba(255,255,255,0.05),transparent_60%),linear-gradient(155deg,var(--color-surface-elevated)_0%,var(--color-background)_100%)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_-10%,rgba(183,255,42,0.3),transparent_55%)] opacity-0 transition-opacity duration-300 motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
       />
       <svg
         viewBox="0 0 320 200"
         width={320}
         height={200}
-        className="absolute inset-0 h-full w-full text-[var(--color-accent)]"
+        className="absolute inset-0 h-full w-full text-[var(--color-accent)] transition-colors duration-300 motion-reduce:transition-none group-hover:text-[var(--color-accent-hover)]"
         aria-hidden
         focusable="false"
       >
@@ -44,6 +48,7 @@ export function LegendaryMethodCardArt({
         {category === "powerlifting" ? <PowerliftingMotif /> : null}
         {category === "training-system" ? <TrainingSystemMotif /> : null}
       </svg>
+      <div aria-hidden className="legendary-card-sheen" />
     </div>
   );
 }

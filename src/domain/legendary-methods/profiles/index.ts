@@ -8,4 +8,10 @@ export { JOHN_HAACK_RELATIVE_STRENGTH } from "@/domain/legendary-methods/profile
 export { JAMAL_BROWNER_SUMO_DEADLIFT } from "@/domain/legendary-methods/profiles/jamal-browner-sumo-deadlift";
 export { BORIS_SHEIKO_RUSSIAN_POWERLIFTING } from "@/domain/legendary-methods/profiles/boris-sheiko-russian-powerlifting";
 export { LOUIE_SIMMONS_CONJUGATE_METHOD } from "@/domain/legendary-methods/profiles/louie-simmons-conjugate-method";
-export { sectionsWithBodies, CONTENT_ACCESS_DATE } from "@/domain/legendary-methods/profiles/helpers";
+export {
+  sectionsWithBodies,
+  sectionsWithBodiesForSlug,
+  CONTENT_ACCESS_DATE,
+  LEGENDARY_PUBLISH_DATE,
+} from "@/domain/legendary-methods/profiles/helpers";
+export { historicalDocumentationForSlug } from "@/domain/legendary-methods/profiles/historical-documentation";

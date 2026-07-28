@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -11,7 +12,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const EDDIE_HALL_500KG_DEADLIFT: LegendaryMethodProfile = {
   slug: "eddie-hall-500kg-deadlift",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Eddie Hall",
   profileTitle: "Eddie Hall — Building a 500 kg Deadlift: Training Analysis",
   shortTitle: "500 kg Deadlift Training",
@@ -88,7 +92,8 @@ export const EDDIE_HALL_500KG_DEADLIFT: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Strong primary evidence for the official 9 July 2016 competition lift (Giants Live / World Deadlift Championships). Training-method detail relies heavily on a contemporaneous athlete interview plus later reflective interviews; exact proprietary programme files are not public, so session-level reconstruction stays conservative and labelled as interpretation.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "eddie-hall-500kg-deadlift",
     {
       "athlete-and-era": `Eddie Hall’s 500 kg deadlift sits inside modern strongman’s arms race for absolute pulling numbers. The official competition performance is clear and dated: on 9 July 2016, at the World Deadlift Championships contested during Giants Live’s Europe’s Strongest Man in Leeds, Hall became the first athlete to deadlift 500 kg under the event’s strongman rules context (including permitted supportive equipment such as straps and a deadlift suit, as contemporaneous reporting noted).
 

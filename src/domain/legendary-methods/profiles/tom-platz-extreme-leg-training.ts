@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -10,7 +11,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const TOM_PLATZ_EXTREME_LEG_TRAINING: LegendaryMethodProfile = {
   slug: "tom-platz-extreme-leg-training",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Tom Platz",
   profileTitle: "Tom Platz — Analysis of Extreme Leg Training",
   shortTitle: "Extreme Leg Training",
@@ -85,7 +89,8 @@ export const TOM_PLATZ_EXTREME_LEG_TRAINING: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Evidence is primarily Platz’s own public interviews and widely reported first-person accounts of famous sets. Detailed permanent programmes are less consistently documented than highlight performances, so programming claims stay conservative.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "tom-platz-extreme-leg-training",
     {
       "athlete-and-era": `Tom Platz became an emblem of lower-body development in late Golden Era and early 1980s bodybuilding — a period when stage legs were a competitive differentiator and hard training culture was celebrated in gyms and magazines. The relevant analytical frame is his leg-specialisation identity: extreme squat performances and a philosophy that treats high-repetition loading as central to muscular development.
 
@@ -332,5 +337,4 @@ A practical sequence for intermediates: establish consistent depth and bracing o
       "extreme leg hypertrophy",
     ],
   },
-  updatedAt: CONTENT_ACCESS_DATE,
 };

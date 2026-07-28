@@ -24,7 +24,7 @@ export function LegendaryMethodDisclaimer({
       <p
         className={
           className ??
-          "border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm leading-relaxed text-[var(--color-muted)]"
+          "border border-white/10 bg-[var(--color-surface)] px-4 py-3 text-sm leading-relaxed text-[var(--color-muted)]"
         }
         role="note"
       >
@@ -49,7 +49,7 @@ export function LegendaryMethodDisclaimer({
     <aside
       className={
         className ??
-        "border border-[var(--color-border)] bg-[var(--color-surface)] p-5 text-sm leading-relaxed text-[var(--color-muted)]"
+        "legendary-surface p-6 text-sm leading-relaxed text-[var(--color-muted)]"
       }
       aria-label="Legal disclaimer"
     >

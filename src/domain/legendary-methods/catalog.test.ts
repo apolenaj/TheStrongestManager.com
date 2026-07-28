@@ -120,17 +120,23 @@ function basePublishable(
 }
 
 describe("legendary methods registry metadata", () => {
-  it("registers ten draft profiles with required public titles", () => {
+  it("registers ten published profiles with required public titles", () => {
     expect(allLegendaryMethodSlugs()).toEqual([...REQUIRED_SLUGS]);
     expect(LEGENDARY_METHOD_PROFILES.map((p) => p.profileTitle)).toEqual([
       ...REQUIRED_TITLES,
     ]);
     expect(
-      LEGENDARY_METHOD_PROFILES.every((p) => p.status === "draft"),
+      LEGENDARY_METHOD_PROFILES.every((p) => p.status === "published"),
+    ).toBe(true);
+    expect(
+      LEGENDARY_METHOD_PROFILES.every((p) => p.legalReviewStatus === "passed"),
+    ).toBe(true);
+    expect(
+      LEGENDARY_METHOD_PROFILES.every((p) => Boolean(p.publishedAt?.trim())),
     ).toBe(true);
   });
 
-  it("keeps bodybuilding Prompt 5A profiles as sourced drafts with 5+ sources", () => {
+  it("keeps bodybuilding Prompt 5A profiles as fully sourced, published, publishable profiles with 5+ sources", () => {
     const bodybuilding = [
       "arnold-schwarzenegger-golden-era-volume",
       "tom-platz-extreme-leg-training",
@@ -138,61 +144,63 @@ describe("legendary methods registry metadata", () => {
     ].map((slug) => getLegendaryMethodBySlug(slug)!);
 
     for (const profile of bodybuilding) {
-      expect(profile.status).toBe("draft");
+      expect(profile.status).toBe("published");
       expect(profile.summary.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
         profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
       ).toBe(true);
+      for (const requiredId of [
+        "core-training-routine",
+        "documented-nutritional-approach",
+      ] as const) {
+        expect(
+          profile.sections.find((s) => s.id === requiredId)?.body.length,
+        ).toBeGreaterThan(0);
+      }
       const words = [profile.summary, ...profile.sections.map((s) => s.body)]
         .join(" ")
         .trim()
         .split(/\s+/)
         .filter(Boolean).length;
       expect(words).toBeGreaterThanOrEqual(1200);
-      expect(canPublishLegendaryMethod(profile)).toBe(false);
-      expect(
-        canPublishLegendaryMethod({
-          ...profile,
-          legalReviewStatus: "passed",
-          publishedAt: "2026-07-28",
-        }),
-      ).toBe(true);
+      expect(canPublishLegendaryMethod(profile)).toBe(true);
     }
   });
 
-  it("keeps strongman Prompt 5B profiles as sourced drafts with 5+ sources", () => {
+  it("keeps strongman Prompt 5B profiles as fully sourced, published, publishable profiles with 5+ sources", () => {
     const strongman = [
       "eddie-hall-500kg-deadlift",
       "hafthor-bjornsson-strongman-strength",
     ].map((slug) => getLegendaryMethodBySlug(slug)!);
 
     for (const profile of strongman) {
-      expect(profile.status).toBe("draft");
+      expect(profile.status).toBe("published");
       expect(profile.category).toBe("strongman");
       expect(profile.summary.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
         profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
       ).toBe(true);
+      for (const requiredId of [
+        "core-training-routine",
+        "documented-nutritional-approach",
+      ] as const) {
+        expect(
+          profile.sections.find((s) => s.id === requiredId)?.body.length,
+        ).toBeGreaterThan(0);
+      }
       const words = [profile.summary, ...profile.sections.map((s) => s.body)]
         .join(" ")
         .trim()
         .split(/\s+/)
         .filter(Boolean).length;
       expect(words).toBeGreaterThanOrEqual(1200);
-      expect(canPublishLegendaryMethod(profile)).toBe(false);
-      expect(
-        canPublishLegendaryMethod({
-          ...profile,
-          legalReviewStatus: "passed",
-          publishedAt: "2026-07-28",
-        }),
-      ).toBe(true);
+      expect(canPublishLegendaryMethod(profile)).toBe(true);
     }
   });
 
-  it("keeps powerlifting Prompt 5C profiles as sourced drafts with 5+ sources", () => {
+  it("keeps powerlifting Prompt 5C profiles as fully sourced, published, publishable profiles with 5+ sources", () => {
     const powerlifting = [
       "colton-engelbrecht-superheavyweight-powerlifting",
       "john-haack-relative-strength",
@@ -200,70 +208,88 @@ describe("legendary methods registry metadata", () => {
     ].map((slug) => getLegendaryMethodBySlug(slug)!);
 
     for (const profile of powerlifting) {
-      expect(profile.status).toBe("draft");
+      expect(profile.status).toBe("published");
       expect(profile.category).toBe("powerlifting");
       expect(profile.summary.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
         profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
       ).toBe(true);
+      for (const requiredId of [
+        "core-training-routine",
+        "documented-nutritional-approach",
+      ] as const) {
+        expect(
+          profile.sections.find((s) => s.id === requiredId)?.body.length,
+        ).toBeGreaterThan(0);
+      }
       const words = [profile.summary, ...profile.sections.map((s) => s.body)]
         .join(" ")
         .trim()
         .split(/\s+/)
         .filter(Boolean).length;
       expect(words).toBeGreaterThanOrEqual(1200);
-      expect(canPublishLegendaryMethod(profile)).toBe(false);
-      expect(
-        canPublishLegendaryMethod({
-          ...profile,
-          legalReviewStatus: "passed",
-          publishedAt: "2026-07-28",
-        }),
-      ).toBe(true);
+      expect(canPublishLegendaryMethod(profile)).toBe(true);
     }
   });
 
-  it("keeps system Prompt 5D profiles as sourced drafts with Sheiko vs Conjugate comparison", () => {
+  it("keeps system Prompt 5D profiles published with Sheiko vs Conjugate comparison", () => {
     const systems = [
       "boris-sheiko-russian-powerlifting",
       "louie-simmons-conjugate-method",
     ].map((slug) => getLegendaryMethodBySlug(slug)!);
 
     for (const profile of systems) {
-      expect(profile.status).toBe("draft");
+      expect(profile.status).toBe("published");
       expect(profile.category).toBe("training-system");
       expect(profile.summary.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(profile.systemComparison?.title).toBe("Sheiko vs Conjugate");
       expect(profile.systemComparison?.rows.length).toBeGreaterThanOrEqual(8);
+      for (const requiredId of [
+        "core-training-routine",
+        "documented-nutritional-approach",
+      ] as const) {
+        expect(
+          profile.sections.find((s) => s.id === requiredId)?.body.length,
+        ).toBeGreaterThan(0);
+      }
       const words = [profile.summary, ...profile.sections.map((s) => s.body)]
         .join(" ")
         .trim()
         .split(/\s+/)
         .filter(Boolean).length;
       expect(words).toBeGreaterThanOrEqual(1200);
-      expect(canPublishLegendaryMethod(profile)).toBe(false);
-      expect(
-        canPublishLegendaryMethod({
-          ...profile,
-          legalReviewStatus: "passed",
-          publishedAt: "2026-07-28",
-        }),
-      ).toBe(true);
+      expect(canPublishLegendaryMethod(profile)).toBe(true);
     }
   });
 
-  it("excludes drafts from published listings and search", () => {
-    expect(getPublishedLegendaryMethods()).toEqual([]);
-    expect(allPublishedLegendaryMethodSlugs()).toEqual([]);
-    expect(searchLegendaryMethods()).toEqual([]);
+  it("publishes all ten profiles across listings and search", () => {
+    expect(getPublishedLegendaryMethods().length).toBe(10);
+    expect(allPublishedLegendaryMethodSlugs().length).toBe(10);
+    expect(allPublishedLegendaryMethodSlugs()).toEqual([...REQUIRED_SLUGS]);
+    expect(searchLegendaryMethods().length).toBe(10);
     expect(
       getLegendaryMethodDetail("louie-simmons-conjugate-method"),
-    ).toBeNull();
+    ).not.toBeNull();
   });
 
-  it("ships required section shells for bodybuilding drafts with filled narrative", () => {
+  it("still gates a synthetic draft profile out of publish eligibility even with otherwise complete content", () => {
+    const syntheticDraft = basePublishable({
+      slug: "synthetic-unpublished-profile",
+      status: "draft",
+      legalReviewStatus: "pending",
+      publishedAt: undefined,
+    });
+    expect(syntheticDraft.status).toBe("draft");
+    expect(canPublishLegendaryMethod(syntheticDraft)).toBe(false);
+    expect(getLegendaryMethodBySlug(syntheticDraft.slug)).toBeUndefined();
+    expect(
+      searchLegendaryMethods().some((item) => item.slug === syntheticDraft.slug),
+    ).toBe(false);
+  });
+
+  it("ships required section shells for bodybuilding profiles with filled narrative", () => {
     const profile = getLegendaryMethodBySlug(
       "arnold-schwarzenegger-golden-era-volume",
     )!;

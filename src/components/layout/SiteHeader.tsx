@@ -20,6 +20,7 @@ import {
   type SiteNavCategory,
 } from "@/components/layout/site-nav";
 import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 function MegaMenuPanel({
   category,
@@ -195,13 +196,22 @@ function DesktopNavItem({
           }
         }}
         className={cn(
-          "inline-flex min-h-11 items-center px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+          "group inline-flex min-h-11 items-center whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
           active
             ? "text-[var(--color-foreground)]"
             : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
         )}
       >
-        {category.label}
+        <span className="relative">
+          {category.label}
+          <span
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-300 ease-[var(--easing-standard)] motion-reduce:transition-none group-hover:scale-x-100 group-focus-visible:scale-x-100",
+              active && "scale-x-100",
+            )}
+          />
+        </span>
       </Link>
     );
   }
@@ -232,17 +242,26 @@ function DesktopNavItem({
     >
       <button
         type="button"
-        className="inline-flex min-h-11 items-center gap-1.5 px-3 py-2 text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+        className="group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm text-[var(--color-muted)] transition-colors duration-300 motion-reduce:transition-none hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={menuId}
         onClick={() => (open ? onClose() : onOpen())}
         onKeyDown={onTriggerKeyDown}
       >
-        {category.label}
+        <span className="relative">
+          {category.label}
+          <span
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-300 ease-[var(--easing-standard)] motion-reduce:transition-none group-hover:scale-x-100 group-focus-visible:scale-x-100",
+              open && "scale-x-100",
+            )}
+          />
+        </span>
         <ChevronDown
           className={cn(
-            "h-3.5 w-3.5 transition-transform duration-200",
+            "h-3.5 w-3.5 shrink-0 transition-transform duration-200",
             open && "rotate-180",
           )}
           strokeWidth={1.75}
@@ -480,13 +499,16 @@ export function SiteHeader() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-[4.25rem] sm:px-6">
           <Link
             href="/"
-            className="min-w-0 shrink-0 font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] sm:text-base"
+            className="min-w-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            aria-label="The Strongest Manager — Home"
           >
-            The Strongest{" "}
-            <span className="text-[var(--color-accent)]">Manager</span>
+            <BrandLogo size="md" />
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center xl:flex">
+          <nav
+            aria-label="Primary"
+            className="hidden min-w-0 items-center gap-[clamp(0.15rem,0.9vw,0.65rem)] min-[1100px]:flex"
+          >
             {SITE_NAV_CATEGORIES.map((category) => (
               <DesktopNavItem
                 key={category.id}
@@ -516,7 +538,7 @@ export function SiteHeader() {
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="site-mobile-nav"
-              className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] transition-colors duration-200 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] xl:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] transition-colors duration-200 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] min-[1100px]:hidden"
               onClick={() => setMobileOpen((value) => !value)}
             >
               {mobileOpen ? (
@@ -532,7 +554,7 @@ export function SiteHeader() {
       {mobileOpen ? (
         <div
           id="site-mobile-nav"
-          className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-[#070807] xl:hidden"
+          className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-[#070807] min-[1100px]:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
@@ -545,10 +567,10 @@ export function SiteHeader() {
             <Link
               href="/"
               onClick={closeMobile}
-              className="font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              className="min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              aria-label="The Strongest Manager — Home"
             >
-              The Strongest{" "}
-              <span className="text-[var(--color-accent)]">Manager</span>
+              <BrandLogo size="sm" />
             </Link>
             <button
               type="button"

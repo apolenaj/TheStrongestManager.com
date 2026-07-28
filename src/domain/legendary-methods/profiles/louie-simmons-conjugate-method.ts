@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import { conjugateVersusSheikoComparison } from "@/domain/legendary-methods/profiles/sheiko-vs-conjugate";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
@@ -11,7 +12,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const LOUIE_SIMMONS_CONJUGATE_METHOD: LegendaryMethodProfile = {
   slug: "louie-simmons-conjugate-method",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Louie Simmons",
   profileTitle: "Louie Simmons — Understanding the Conjugate Method",
   shortTitle: "The Conjugate Method",
@@ -88,7 +92,8 @@ export const LOUIE_SIMMONS_CONJUGATE_METHOD: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Primary public anchors include Westside Barbell method articles and Louie Simmons essays (including CrossFit Journal’s published Westside conjugate overview). Books such as The Westside Barbell Book of Methods are acknowledged as primary literature but are not reproduced here. Internet ‘conjugate’ templates vary widely; many are adaptations, not official Westside programmes.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "louie-simmons-conjugate-method",
     {
       "athlete-and-era": `Louie Simmons (1947–2022) was the central public figure of Westside Barbell’s conjugate strength culture in Columbus, Ohio. The relevant analytical frame is the training system he synthesised and taught — not merchandise, logos or gym mythology.
 

@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -10,7 +11,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const RONNIE_COLEMAN_HEAVY_HIGH_VOLUME: LegendaryMethodProfile = {
   slug: "ronnie-coleman-heavy-high-volume-training",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Ronnie Coleman",
   profileTitle: "Ronnie Coleman — Heavy High-Volume Training Analysis",
   shortTitle: "Heavy High-Volume Training",
@@ -85,7 +89,8 @@ export const RONNIE_COLEMAN_HEAVY_HIGH_VOLUME: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Strong qualitative evidence from FLEX/Muscle & Fitness reporting and widely recognised Metroflex-era training documentaries. Exact year-round periodisation details are incomplete in public sources; footage shows sessions, not necessarily the full annual plan.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "ronnie-coleman-heavy-high-volume-training",
     {
       "athlete-and-era": `Ronnie Coleman’s Olympia run (eight titles) sits in a late-1990s and 2000s bodybuilding landscape that prized extreme muscular size. Training culture around Metroflex Gym in Arlington, Texas, became part of the public story: hard compound lifting, competitive training partners, and cameras that captured sessions later circulated worldwide — including the widely known Cost of Redemption-era footage.
 
@@ -337,5 +342,4 @@ A practical entry path: choose a body-part or upper/lower split you can recover 
       "compound bodybuilding programme",
     ],
   },
-  updatedAt: CONTENT_ACCESS_DATE,
 };

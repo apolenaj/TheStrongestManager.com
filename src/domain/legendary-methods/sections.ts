@@ -29,6 +29,16 @@ export const REQUIRED_LEGENDARY_SECTION_DEFINITIONS: readonly {
     layer: "documented_historical",
   },
   {
+    id: "core-training-routine",
+    title: "Core Training Routine (Historical Documentation)",
+    layer: "documented_historical",
+  },
+  {
+    id: "documented-nutritional-approach",
+    title: "Documented Nutritional Approach & Exact Diet (Historical)",
+    layer: "documented_historical",
+  },
+  {
     id: "volume-intensity-frequency",
     title: "Volume, Intensity and Frequency Analysis",
     layer: "independent_analysis",

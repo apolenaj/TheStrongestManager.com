@@ -67,12 +67,22 @@ describe("legendary methods SEO and publish integrity", () => {
     expect(descriptions.size).toBe(LEGENDARY_METHOD_PROFILES.length);
   });
 
-  it("requires publish gates including disclaimer, sources, and legal review", () => {
-    const profile = LEGENDARY_METHOD_PROFILES[0]!;
-    expect(canPublishLegendaryMethod(profile)).toBe(false);
-    expect(profile.introductoryDisclaimer.trim().length).toBeGreaterThan(40);
-    expect(profile.sources.length).toBeGreaterThanOrEqual(3);
-    expect(profile.evidenceQuality).toBeTruthy();
+  it("meets publish gates including disclaimer, sources, and legal review for every registry profile", () => {
+    for (const profile of LEGENDARY_METHOD_PROFILES) {
+      expect(canPublishLegendaryMethod(profile)).toBe(true);
+      expect(profile.introductoryDisclaimer.trim().length).toBeGreaterThan(40);
+      expect(profile.sources.length).toBeGreaterThanOrEqual(3);
+      expect(profile.evidenceQuality).toBeTruthy();
+      expect(profile.legalReviewStatus).toBe("passed");
+    }
+  });
+
+  it("still rejects a synthetic profile that has not cleared legal review", () => {
+    const syntheticPendingReview = {
+      ...LEGENDARY_METHOD_PROFILES[0]!,
+      legalReviewStatus: "pending" as const,
+    };
+    expect(canPublishLegendaryMethod(syntheticPendingReview)).toBe(false);
   });
 
   it("does not put athlete photos in the OG image path", () => {

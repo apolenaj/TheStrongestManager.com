@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import { sheikoVersusConjugateComparison } from "@/domain/legendary-methods/profiles/sheiko-vs-conjugate";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
@@ -11,7 +12,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const BORIS_SHEIKO_RUSSIAN_POWERLIFTING: LegendaryMethodProfile = {
   slug: "boris-sheiko-russian-powerlifting",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Boris Sheiko",
   profileTitle: "Boris Sheiko — Understanding Russian Powerlifting Systems",
   shortTitle: "Russian Powerlifting Systems",
@@ -88,7 +92,8 @@ export const BORIS_SHEIKO_RUSSIAN_POWERLIFTING: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Primary anchors include Sheiko’s English-language book Powerlifting: Foundations and Methods, seminar reporting (e.g. Juggernaut), and long-standing reputable discussions of Russian high-frequency methods. Circulating numbered templates (#29–#32 etc.) are popularisations/examples and must not be treated as a single permanent official programme for every lifter.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "boris-sheiko-russian-powerlifting",
     {
       "athlete-and-era": `Boris Sheiko is a Russian powerlifting coach whose systems became globally influential as Western lifters sought explanations for Russian competitive success. The relevant frame is coaching methodology — not athlete biography. English-language access expanded through seminars, interviews and the book Powerlifting: Foundations and Methods (Sheiko with Mike Israetel and Derek Wilcox), which positions itself as a guide to programme-design principles rather than a single forever spreadsheet.
 

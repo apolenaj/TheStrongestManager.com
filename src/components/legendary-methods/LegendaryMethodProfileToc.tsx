@@ -82,7 +82,7 @@ export function LegendaryMethodProfileToc({
           aria-expanded={mobileOpen}
           aria-controls={panelId}
           onClick={() => setMobileOpen((value) => !value)}
-          className="flex min-h-11 w-full items-center justify-between border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-4 text-left text-sm font-semibold text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+          className="flex min-h-11 w-full items-center justify-between border border-white/10 bg-[var(--color-surface-elevated)] px-4 text-left text-sm font-semibold text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
           On this page
           <span className="text-xs font-normal uppercase tracking-[0.12em] text-[var(--color-muted)]">
@@ -92,7 +92,7 @@ export function LegendaryMethodProfileToc({
         <div
           id={panelId}
           hidden={!mobileOpen}
-          className="mt-2 border border-[var(--color-border)] bg-[var(--color-surface)] p-2"
+          className="mt-2 border border-white/10 bg-[var(--color-surface)] p-3"
         >
           <TocLinks onNavigate={() => setMobileOpen(false)} />
         </div>
@@ -100,7 +100,7 @@ export function LegendaryMethodProfileToc({
 
       <nav
         aria-label="On this page"
-        className="hidden max-h-[calc(100vh-7rem)] overflow-y-auto border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-3 lg:block"
+        className="legendary-surface hidden max-h-[calc(100vh-7rem)] overflow-y-auto p-4 lg:block"
       >
         <p className="px-3 pb-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-subtle)]">
           Contents

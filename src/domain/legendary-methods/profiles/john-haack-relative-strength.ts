@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -10,7 +11,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const JOHN_HAACK_RELATIVE_STRENGTH: LegendaryMethodProfile = {
   slug: "john-haack-relative-strength",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "John Haack",
   profileTitle: "John Haack — Elite Strength at a Lower Bodyweight",
   shortTitle: "Elite Strength at a Lower Bodyweight",
@@ -87,7 +91,8 @@ export const JOHN_HAACK_RELATIVE_STRENGTH: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Competition results are high-confidence via OpenPowerlifting. Weekly structure comes from reputable long-form interviews and should be treated as athlete-reported outlines that change over time — not a permanent proprietary programme.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "john-haack-relative-strength",
     {
       "athlete-and-era": `John Haack is an active American raw powerlifter whose OpenPowerlifting record spans IPF/USAPL classic competition and later multi-federation raw meets (USPA, WRPF, PLU and others). The educational theme is relative strength: producing world-class totals at bodyweights far below superheavyweight specialists.
 

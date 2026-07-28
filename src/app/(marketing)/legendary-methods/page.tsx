@@ -68,33 +68,33 @@ export default function LegendaryMethodsPage() {
     <div className="bg-[var(--color-background)]">
       <JsonLdScript data={jsonLd} />
 
-      <section className="relative overflow-hidden border-b border-[var(--color-border)]">
+      <section className="relative overflow-hidden border-b border-white/10">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_0%,rgba(183,255,42,0.12),transparent_52%),linear-gradient(180deg,var(--color-surface)_0%,var(--color-background)_78%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_18%_0%,rgba(183,255,42,0.1),transparent_52%),linear-gradient(180deg,var(--color-surface)_0%,var(--color-background)_78%)]"
         />
-        <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
             Educational library
           </p>
-          <h1 className="mt-4 max-w-4xl font-[family-name:var(--font-display)] text-4xl font-semibold uppercase leading-[1.05] tracking-[0.03em] text-[var(--color-foreground)] sm:text-5xl md:text-6xl">
+          <h1 className="mt-5 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(2.5rem,6vw,4.25rem)] font-bold uppercase leading-[1.02] tracking-tight text-[var(--color-foreground)]">
             Legendary Training Methods
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
+          <p className="legendary-prose mt-6 text-base sm:text-lg">
             {PAGE_DESCRIPTION}
           </p>
-          <div className="mt-6 max-w-2xl">
+          <div className="mt-8 max-w-2xl">
             <LegendaryMethodDisclaimer variant="index" />
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <LegendaryMethodsLibrary cards={cards} />
       </div>
 
-      <div className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+      <div className="border-t border-white/10 bg-[var(--color-surface)]">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
           <LegendaryMethodsLearnSections />
         </div>
       </div>

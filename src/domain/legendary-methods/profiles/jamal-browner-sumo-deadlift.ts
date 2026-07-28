@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -10,7 +11,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const JAMAL_BROWNER_SUMO_DEADLIFT: LegendaryMethodProfile = {
   slug: "jamal-browner-sumo-deadlift",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Jamal Browner",
   profileTitle: "Jamal Browner — Sumo Deadlift Specialisation Analysis",
   shortTitle: "Sumo Deadlift Specialisation",
@@ -87,7 +91,8 @@ export const JAMAL_BROWNER_SUMO_DEADLIFT: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Competition deadlifts and totals are high-confidence via OpenPowerlifting. Gym performances reported by BarBend/Breaking Muscle are useful for capacity context but are lower evidence for programming and must remain labelled as non-competition. Proprietary weekly plans are not public.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "jamal-browner-sumo-deadlift",
     {
       "athlete-and-era": `Jamal Browner is an active American raw powerlifter best known publicly for sumo deadlift specialisation in the 110 kg class. OpenPowerlifting lists a career spanning USAPL, NAPF, USPA, WRPF and related meets from 2016 onward.
 

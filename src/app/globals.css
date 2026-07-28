@@ -7,10 +7,10 @@
   --color-surface-elevated: #181b18;
   --color-surface-overlay: #1c201c;
   --color-foreground: #f3f1ea;
-  --color-muted: #a6aaa5;
-  --color-subtle: #8b908a;
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-muted: #a1a1aa;
+  --color-subtle: #71717a;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
   --color-accent: #b7ff2a;
   --color-accent-hover: #c8ff52;
   --color-accent-muted: rgba(183, 255, 42, 0.14);
@@ -117,11 +117,19 @@ body {
   line-height: var(--leading-body);
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: radial-gradient(
-    ellipse 120% 55% at 50% -18%,
-    rgba(24, 27, 24, 0.95),
-    transparent 58%
-  );
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(
+      ellipse 120% 55% at 50% -18%,
+      rgba(24, 27, 24, 0.95),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 80% 40% at 100% 0%,
+      rgba(183, 255, 42, 0.035),
+      transparent 50%
+    ),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   background-attachment: fixed;
 }
 
@@ -132,6 +140,28 @@ h4,
 .font-display {
   font-family: var(--font-display), ui-sans-serif, sans-serif;
   letter-spacing: -0.03em;
+}
+
+.legendary-prose {
+  max-width: 65ch;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.legendary-surface {
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 42%
+    ),
+    var(--color-surface-elevated);
+  box-shadow: var(--shadow-panel);
+}
+
+.legendary-section-rule {
+  border-color: var(--color-border);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -352,6 +382,69 @@ h4,
     var(--color-surface);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-panel);
+}
+
+/* Legendary Method cards — premium hover treatment (restrained, no neon spam) */
+.legendary-card {
+  position: relative;
+  z-index: 0;
+  transition:
+    transform 300ms var(--easing-standard),
+    box-shadow 300ms var(--easing-standard),
+    border-color 300ms var(--easing-standard);
+}
+
+.legendary-card:hover,
+.legendary-card:focus-within {
+  z-index: 10;
+  transform: translateY(-3px) scale(1.015);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 38%, transparent),
+    var(--shadow-lg);
+}
+
+.legendary-card-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.14) 50%,
+    transparent 58%
+  );
+  transform: translateX(-140%) skewX(-12deg);
+}
+
+.legendary-card:hover .legendary-card-sheen,
+.legendary-card:focus-within .legendary-card-sheen {
+  opacity: 1;
+  animation: legendary-sheen 900ms var(--easing-standard) both;
+}
+
+@keyframes legendary-sheen {
+  from {
+    transform: translateX(-140%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(140%) skewX(-12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legendary-card {
+    transition: border-color 150ms var(--easing-standard);
+  }
+  .legendary-card:hover,
+  .legendary-card:focus-within {
+    transform: none;
+  }
+  .legendary-card-sheen {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

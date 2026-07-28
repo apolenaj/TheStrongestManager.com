@@ -109,16 +109,12 @@ describe("legendary method cards", () => {
     expect(listLegendaryMethodCards([])).toEqual([]);
   });
 
-  it("returns no homepage featured cards until profiles are published", () => {
-    expect(listFeaturedLegendaryMethodCards(LEGENDARY_METHOD_PROFILES, 6)).toEqual(
-      [],
+  it("returns up to 6 homepage featured cards from published registry profiles", () => {
+    expect(LEGENDARY_METHOD_PROFILES.every((p) => p.status === "published")).toBe(
+      true,
     );
-    const published = LEGENDARY_METHOD_PROFILES.map((profile) => ({
-      ...profile,
-      status: "published" as const,
-      legalReviewStatus: "passed" as const,
-    }));
-    const featured = listFeaturedLegendaryMethodCards(published, 6);
+    const featured = listFeaturedLegendaryMethodCards(LEGENDARY_METHOD_PROFILES, 6);
+    expect(featured.length).toBeLessThanOrEqual(6);
     expect(featured).toHaveLength(6);
     expect(featured.map((card) => card.slug)).toEqual([
       "arnold-schwarzenegger-golden-era-volume",
@@ -128,6 +124,20 @@ describe("legendary method cards", () => {
       "boris-sheiko-russian-powerlifting",
       "louie-simmons-conjugate-method",
     ]);
+  });
+
+  it("excludes a synthetic draft profile from homepage featured cards", () => {
+    const syntheticDraft = {
+      ...LEGENDARY_METHOD_PROFILES[0]!,
+      slug: "synthetic-unpublished-profile",
+      status: "draft" as const,
+    };
+    const mixed = [syntheticDraft, ...LEGENDARY_METHOD_PROFILES];
+    const featured = listFeaturedLegendaryMethodCards(mixed, 6);
+    expect(featured.some((card) => card.slug === syntheticDraft.slug)).toBe(
+      false,
+    );
+    expect(featured).toHaveLength(6);
   });
 
   it("extracts a one-sentence insight for compact cards", () => {

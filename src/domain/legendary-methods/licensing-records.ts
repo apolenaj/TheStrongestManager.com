@@ -2,6 +2,9 @@
  * Explicit licensing / permission records for rare cases where otherwise
  * prohibited wording or a licensed asset is intentionally allowed.
  * Empty by default — add a record only with documented permission.
+ *
+ * Historical diet/routine sections use a field-scoped wording exception in
+ * `prohibited-wording.ts` (editorial policy for labelled historical documentation).
  */
 
 export type LegendaryLicensingRecord = {

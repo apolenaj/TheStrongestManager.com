@@ -8,6 +8,7 @@ import {
   STRENGTH_AUDIT_HREF,
 } from "@/components/layout/site-nav";
 import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 export function SiteFooter() {
   return (
@@ -15,11 +16,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
         <div className="flex flex-col gap-10 border-b border-[var(--color-border)] pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-md">
-            <p className="font-[family-name:var(--font-display)] text-xl font-semibold uppercase tracking-[0.05em] text-[var(--color-foreground)]">
-              The Strongest{" "}
-              <span className="text-[var(--color-accent)]">Manager</span>
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+            <BrandLogo size="lg" />
+            <p className="mt-5 text-sm leading-relaxed text-[var(--color-muted)]">
               Strength systems for people who lead under pressure — powerlifting
               standards, structured coaching, and tools that only claim what they
               can measure.

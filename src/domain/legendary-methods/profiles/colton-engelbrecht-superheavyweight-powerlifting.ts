@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -11,7 +12,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const COLTON_ENGELBRECHT_SUPERHEAVYWEIGHT: LegendaryMethodProfile = {
   slug: "colton-engelbrecht-superheavyweight-powerlifting",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Colton Engelbrecht",
   profileTitle: "Colton Engelbrecht — Elite Superheavyweight Powerlifting Analysis",
   shortTitle: "Elite Superheavyweight Powerlifting",
@@ -89,7 +93,8 @@ export const COLTON_ENGELBRECHT_SUPERHEAVYWEIGHT: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Competition lifts are high-confidence via OpenPowerlifting and contemporaneous meet reporting. Training-method detail relies on public interviews/podcasts and must be treated as principle-level athlete claims — not a complete proprietary programme. Social-media sessions are lower evidence for programming.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "colton-engelbrecht-superheavyweight-powerlifting",
     {
       "athlete-and-era": `Colton Engelbrecht is an active South African powerlifter whose public career, as catalogued on OpenPowerlifting, runs from 2019 onward under federations including WPC-SA, ProRaw and WRPF. The analytical frame for this profile is absolute-strength total building — not biography, and not speculation about private medical or pharmacological context.
 

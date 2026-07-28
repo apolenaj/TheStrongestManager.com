@@ -105,11 +105,11 @@ export default async function LegendaryMethodDetailPage({
   return (
     <div className="bg-[var(--color-background)]">
       {jsonLd ? <JsonLdScript data={jsonLd} /> : null}
-      <MarketingContainer>
+      <MarketingContainer className="py-16 sm:py-24">
         <LegendaryProfileOpenedBeacon slug={profile.slug} />
         {!isPublished ? (
           <p
-            className="mb-6 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm text-[var(--color-muted)]"
+            className="mb-8 border border-white/10 bg-[var(--color-surface)] px-4 py-3 text-sm leading-relaxed text-[var(--color-muted)]"
             role="status"
           >
             Draft preview (ALLOW_LEGENDARY_DRAFT_PREVIEW) — noindex, excluded from

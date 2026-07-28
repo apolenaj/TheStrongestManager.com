@@ -1,6 +1,7 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
@@ -10,7 +11,10 @@ import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
  */
 export const HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH: LegendaryMethodProfile = {
   slug: "hafthor-bjornsson-strongman-strength",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Hafþór Björnsson",
   profileTitle: "Hafþór Björnsson — Strongman Strength and Athleticism Analysis",
   shortTitle: "Strongman Strength and Athleticism",
@@ -90,7 +94,8 @@ export const HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Competition results and major record attempts are well documented by official organisers and reputable outlets. Detailed proprietary week plans are not fully public; therefore exercise menus beyond high-level principles are treated as reconstructed coaching interpretation. Time-sensitive claims are period-dated.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "hafthor-bjornsson-strongman-strength",
     {
       "athlete-and-era": `Hafþór Júlíus Björnsson’s public strength career is best read as a sequence of periods, not as one frozen “Thor programme.”
 

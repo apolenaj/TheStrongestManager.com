@@ -144,22 +144,39 @@ describe("draft access control", () => {
     expect(canServeLegendaryMethodProfile("draft")).toBe(true);
   });
 
-  it("excludes drafts from sitemap, cards, search, and published slug lists", () => {
-    expect(allPublishedLegendaryMethodSlugs()).toEqual([]);
-    expect(getPublishedLegendaryMethods()).toEqual([]);
-    expect(searchLegendaryMethods()).toEqual([]);
-    expect(listLegendaryMethodCards(getPublishedLegendaryMethods())).toEqual(
-      [],
+  it("publishes all ten registry profiles into the sitemap, cards, search, and published slug lists", () => {
+    expect(allPublishedLegendaryMethodSlugs().length).toBe(10);
+    expect(getPublishedLegendaryMethods().length).toBe(10);
+    expect(searchLegendaryMethods().length).toBe(10);
+    expect(listLegendaryMethodCards(getPublishedLegendaryMethods())).toHaveLength(
+      10,
     );
 
     const sitemapPaths = buildPublicSitemapEntries().map((e) => e.url);
     for (const profile of LEGENDARY_METHOD_PROFILES) {
-      expect(profile.status).toBe("draft");
+      expect(profile.status).toBe("published");
       expect(
         sitemapPaths.some((url) =>
           url.includes(`/legendary-methods/${profile.slug}`),
         ),
-      ).toBe(false);
+      ).toBe(true);
     }
+  });
+
+  it("excludes a synthetic draft profile from sitemap-eligible, search, and card listings", () => {
+    const syntheticDraft = {
+      ...LEGENDARY_METHOD_PROFILES[0]!,
+      slug: "synthetic-unpublished-profile",
+      status: "draft" as const,
+    };
+    expect(canServeLegendaryMethodProfile(syntheticDraft.status)).toBe(false);
+    expect(
+      searchLegendaryMethods().some((item) => item.slug === syntheticDraft.slug),
+    ).toBe(false);
+    expect(
+      getPublishedLegendaryMethods().some(
+        (profile) => profile.slug === syntheticDraft.slug,
+      ),
+    ).toBe(false);
   });
 });

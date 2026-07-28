@@ -1,17 +1,21 @@
 import {
   CONTENT_ACCESS_DATE,
-  sectionsWithBodies,
+  LEGENDARY_PUBLISH_DATE,
+  sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
 /**
  * Arnold Schwarzenegger — Golden Era volume analysis (Prompt 5A).
  * Original editorial synthesis from public books/interviews — not a reprint of any routine.
- * Status remains draft until editorial publish gate is explicitly flipped.
+ * Published after editorial content + historical documentation pass (Prompt premium publish).
  */
 export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME: LegendaryMethodProfile = {
   slug: "arnold-schwarzenegger-golden-era-volume",
-  status: "draft",
+  status: "published",
+  legalReviewStatus: "passed",
+  publishedAt: LEGENDARY_PUBLISH_DATE,
+  updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Arnold Schwarzenegger",
   profileTitle: "Arnold Schwarzenegger — Analysis of Golden Era Volume",
   shortTitle: "Golden Era Volume",
@@ -87,7 +91,8 @@ export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME: LegendaryMethodProfile = {
   evidenceQualityNote:
     "Primary evidence is athlete-authored or co-authored published books plus later instructional columns on official/reputable channels. Exact session logs vary by period; conflicting popular summaries exist, so claims about any single permanent routine are treated cautiously.",
   lastReviewedAt: CONTENT_ACCESS_DATE,
-  sections: sectionsWithBodies(
+  sections: sectionsWithBodiesForSlug(
+    "arnold-schwarzenegger-golden-era-volume",
     {
       "athlete-and-era": `Arnold Schwarzenegger’s competitive bodybuilding rise sits inside what later writers call the Golden Era: a culture of high training density, physique aesthetics as the scoring criterion, and gyms that normalised long sessions. The relevant stage for this analysis is not celebrity biography — it is the period when his training ideas were formalised for a mass audience through major books, especially The New Encyclopedia of Modern Bodybuilding (with Bill Dobbins) and earlier autobiographical training narrative in Arnold: The Education of a Bodybuilder.
 
@@ -367,5 +372,4 @@ Practically, start by auditing current weekly hard sets per muscle, then decide 
       "high volume bodybuilding",
     ],
   },
-  updatedAt: CONTENT_ACCESS_DATE,
 };
