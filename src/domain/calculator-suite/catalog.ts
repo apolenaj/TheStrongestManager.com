@@ -37,6 +37,12 @@ export const CALCULATOR_DEFINITIONS: readonly CalculatorDefinition[] = [
         reason: "Strength numbers matter more when the pattern is owned.",
         surface: "public",
       },
+      {
+        href: "/legendary-methods",
+        label: "Legendary Methods",
+        reason: "Educational analyses of elite deadlift and strength systems.",
+        surface: "public",
+      },
     ],
     faqs: [
       {
@@ -217,6 +223,12 @@ export const CALCULATOR_DEFINITIONS: readonly CalculatorDefinition[] = [
         href: "/goals/powerlifting-program",
         label: "Powerlifting program goal",
         reason: "Route from meet intent into programming and logging features.",
+        surface: "public",
+      },
+      {
+        href: "/legendary-methods",
+        label: "Legendary Methods",
+        reason: "Educational peaking and strength-system analyses.",
         surface: "public",
       },
     ],

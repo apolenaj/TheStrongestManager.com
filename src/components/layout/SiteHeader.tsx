@@ -19,6 +19,7 @@ import {
   siteNavCategoryLinks,
   type SiteNavCategory,
 } from "@/components/layout/site-nav";
+import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
 
 function MegaMenuPanel({
   category,
@@ -61,6 +62,14 @@ function MegaMenuPanel({
                           <Link
                             href={link.href}
                             role="menuitem"
+                            onClick={() => {
+                              if (link.href === "/legendary-methods") {
+                                trackLegendaryAnalytics(
+                                  "legendary_methods_nav_click",
+                                  { surface: "learn_menu" },
+                                );
+                              }
+                            }}
                             className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-2.5 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                           >
                             {Icon ? (
@@ -99,6 +108,13 @@ function MegaMenuPanel({
                     <Link
                       href={link.href}
                       role="menuitem"
+                      onClick={() => {
+                        if (link.href === "/legendary-methods") {
+                          trackLegendaryAnalytics("legendary_methods_nav_click", {
+                            surface: "learn_menu",
+                          });
+                        }
+                      }}
                       className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-3 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                     >
                       {Icon ? (
@@ -163,6 +179,32 @@ function DesktopNavItem({
 }) {
   const menuId = useId();
   const itemRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  if (category.presentation === "link" && category.href) {
+    const active =
+      pathname === category.href || pathname.startsWith(`${category.href}/`);
+    return (
+      <Link
+        href={category.href}
+        onClick={() => {
+          if (category.id === "legendary-methods") {
+            trackLegendaryAnalytics("legendary_methods_nav_click", {
+              surface: "header",
+            });
+          }
+        }}
+        className={cn(
+          "inline-flex min-h-11 items-center px-3 py-2 text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+          active
+            ? "text-[var(--color-foreground)]"
+            : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
+        )}
+      >
+        {category.label}
+      </Link>
+    );
+  }
 
   function onTriggerKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
     if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
@@ -237,6 +279,35 @@ function MobileAccordion({
 }) {
   const panelId = useId();
   const buttonId = useId();
+  const pathname = usePathname();
+
+  if (category.presentation === "link" && category.href) {
+    const active =
+      pathname === category.href || pathname.startsWith(`${category.href}/`);
+    return (
+      <div className="border-b border-[var(--color-border)]">
+        <Link
+          href={category.href}
+          onClick={() => {
+            if (category.id === "legendary-methods") {
+              trackLegendaryAnalytics("legendary_methods_nav_click", {
+                surface: "mobile_nav",
+              });
+            }
+            onNavigate();
+          }}
+          className={cn(
+            "flex min-h-12 w-full items-center py-3 font-[family-name:var(--font-display)] text-lg font-semibold uppercase tracking-[0.04em] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+            active
+              ? "text-[var(--color-accent)]"
+              : "text-[var(--color-foreground)]",
+          )}
+        >
+          {category.label}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="border-b border-[var(--color-border)]">
@@ -281,7 +352,15 @@ function MobileAccordion({
                       <li key={`${category.id}-m-${column.id}-${link.href}-${link.label}`}>
                         <Link
                           href={link.href}
-                          onClick={onNavigate}
+                          onClick={() => {
+                            if (link.href === "/legendary-methods") {
+                              trackLegendaryAnalytics(
+                                "legendary_methods_nav_click",
+                                { surface: "mobile_nav" },
+                              );
+                            }
+                            onNavigate();
+                          }}
                           className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                         >
                           {link.label}
@@ -298,7 +377,14 @@ function MobileAccordion({
                 <li key={`${category.id}-m-${link.href}-${link.label}`}>
                   <Link
                     href={link.href}
-                    onClick={onNavigate}
+                    onClick={() => {
+                      if (link.href === "/legendary-methods") {
+                        trackLegendaryAnalytics("legendary_methods_nav_click", {
+                          surface: "mobile_nav",
+                        });
+                      }
+                      onNavigate();
+                    }}
                     className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                   >
                     {link.label}

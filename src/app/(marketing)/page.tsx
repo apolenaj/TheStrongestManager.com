@@ -7,6 +7,7 @@ import { HomeConversionCta } from "@/components/marketing/HomeConversionCta";
 import { HomeGoalCards } from "@/components/marketing/HomeGoalCards";
 import { HomeHero } from "@/components/marketing/HomeHero";
 import { HomeKnowledgeHub } from "@/components/marketing/HomeKnowledgeHub";
+import { HomeLegendaryMethods } from "@/components/marketing/HomeLegendaryMethods";
 import { HomeMethodFinder } from "@/components/marketing/HomeMethodFinder";
 import { HomePlatformPreview } from "@/components/marketing/HomePlatformPreview";
 import { HomeProof } from "@/components/marketing/HomeProof";
@@ -65,7 +66,7 @@ function orgJsonLd() {
 /**
  * Homepage funnel:
  * Phase 3 — Hero → Goals → Strength Audit Preview
- * Phase 4 — Knowledge Hub → Method Finder → Coaching → Platform → Proof
+ * Phase 4 — Knowledge Hub → Legendary Methods → Method Finder → Coaching → Platform → Proof
  * Phase 5 — About Josef → Coaching Options → Final CTA
  */
 export default function HomePage() {
@@ -80,6 +81,7 @@ export default function HomePage() {
       <HomeGoalCards />
       <HomeStrengthAuditPreview />
       <HomeKnowledgeHub />
+      <HomeLegendaryMethods />
       <HomeMethodFinder />
       <HomeCoachingProcess />
       <HomePlatformPreview />

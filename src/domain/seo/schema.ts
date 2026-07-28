@@ -28,7 +28,21 @@ export function articleJsonLd(input: {
   description: string;
   path: string;
   dateModified?: string;
+  datePublished?: string;
+  /** Absolute image URL(s). Prefer original abstract artwork — never athlete photos. */
+  image?: string | string[];
+  /**
+   * Author attribution. Defaults to The Strongest Manager editorial team
+   * with Josef as the named editorial lead.
+   */
+  authorName?: string;
 }): JsonLd {
+  const images = input.image
+    ? Array.isArray(input.image)
+      ? input.image
+      : [input.image]
+    : undefined;
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -36,17 +50,22 @@ export function articleJsonLd(input: {
     description: input.description,
     mainEntityOfPage: absoluteUrl(input.path),
     author: {
-      "@type": "Organization",
-      name: siteConfig.name,
+      "@type": "Person",
+      name: input.authorName ?? "Josef",
+      worksFor: {
+        "@type": "Organization",
+        name: "The Strongest Manager editorial team",
+        url: absoluteUrl("/"),
+      },
     },
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
       url: absoluteUrl("/"),
     },
-    ...(input.dateModified
-      ? { dateModified: input.dateModified }
-      : {}),
+    ...(input.datePublished ? { datePublished: input.datePublished } : {}),
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+    ...(images && images.length > 0 ? { image: images } : {}),
   };
 }
 

@@ -50,6 +50,12 @@ export const PRODUCT_EVENT_NAMES = [
   "program_viewed",
   "free_program_started",
   "paid_program_purchased",
+  "legendary_methods_nav_click",
+  "legendary_methods_homepage_click",
+  "legendary_profile_opened",
+  "legendary_profile_source_clicked",
+  "legendary_profile_programme_clicked",
+  "legendary_methods_filter_used",
 ] as const;
 
 export type ProductEventName = (typeof PRODUCT_EVENT_NAMES)[number];
@@ -260,6 +266,33 @@ export type ProductEventPropsMap = {
     productId: string;
     orderId: string;
     priceCents: number;
+  };
+  /** Legendary Methods nav / footer / learn-menu discovery click. */
+  legendary_methods_nav_click: {
+    surface: "header" | "footer" | "learn_menu" | "mobile_nav";
+  };
+  /** Homepage “Learn From the Strongest” CTA or featured card click. */
+  legendary_methods_homepage_click: {
+    target: "cta" | "card";
+    /** Published profile slug when target is card. */
+    slug?: string;
+  };
+  /** Legendary Methods profile page opened. */
+  legendary_profile_opened: {
+    slug: string;
+  };
+  /** External source link clicked on a profile. */
+  legendary_profile_source_clicked: {
+    slug: string;
+  };
+  /** Related independent programme CTA clicked from a profile. */
+  legendary_profile_programme_clicked: {
+    slug: string;
+    programmeSlug: string;
+  };
+  /** Library category filter used on /legendary-methods. */
+  legendary_methods_filter_used: {
+    filter: string;
   };
 };
 

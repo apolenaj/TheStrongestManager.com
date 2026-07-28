@@ -63,6 +63,12 @@ describe("product analytics catalog", () => {
       "program_viewed",
       "free_program_started",
       "paid_program_purchased",
+      "legendary_methods_nav_click",
+      "legendary_methods_homepage_click",
+      "legendary_profile_opened",
+      "legendary_profile_source_clicked",
+      "legendary_profile_programme_clicked",
+      "legendary_methods_filter_used",
     ]);
   });
 

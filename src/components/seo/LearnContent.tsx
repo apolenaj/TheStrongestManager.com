@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Alert,
   Badge,
@@ -27,6 +28,17 @@ export function LearnHub({ clusters }: { clusters: SeoTopicCluster[] }) {
           </>
         ) : null}
       </Alert>
+
+      <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+        Prefer sourced athlete and system analyses?{" "}
+        <Link
+          href="/legendary-methods"
+          className="font-medium text-[var(--color-accent)] underline-offset-2 hover:underline"
+        >
+          Explore Legendary Methods
+        </Link>
+        .
+      </p>
 
       <ul className="grid gap-5 md:grid-cols-2">
         {clusters.map((cluster) => (

@@ -1,0 +1,11 @@
+export { ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME } from "@/domain/legendary-methods/profiles/arnold-schwarzenegger-golden-era-volume";
+export { TOM_PLATZ_EXTREME_LEG_TRAINING } from "@/domain/legendary-methods/profiles/tom-platz-extreme-leg-training";
+export { RONNIE_COLEMAN_HEAVY_HIGH_VOLUME } from "@/domain/legendary-methods/profiles/ronnie-coleman-heavy-high-volume-training";
+export { EDDIE_HALL_500KG_DEADLIFT } from "@/domain/legendary-methods/profiles/eddie-hall-500kg-deadlift";
+export { HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH } from "@/domain/legendary-methods/profiles/hafthor-bjornsson-strongman-strength";
+export { COLTON_ENGELBRECHT_SUPERHEAVYWEIGHT } from "@/domain/legendary-methods/profiles/colton-engelbrecht-superheavyweight-powerlifting";
+export { JOHN_HAACK_RELATIVE_STRENGTH } from "@/domain/legendary-methods/profiles/john-haack-relative-strength";
+export { JAMAL_BROWNER_SUMO_DEADLIFT } from "@/domain/legendary-methods/profiles/jamal-browner-sumo-deadlift";
+export { BORIS_SHEIKO_RUSSIAN_POWERLIFTING } from "@/domain/legendary-methods/profiles/boris-sheiko-russian-powerlifting";
+export { LOUIE_SIMMONS_CONJUGATE_METHOD } from "@/domain/legendary-methods/profiles/louie-simmons-conjugate-method";
+export { sectionsWithBodies, CONTENT_ACCESS_DATE } from "@/domain/legendary-methods/profiles/helpers";

@@ -4,6 +4,9 @@ import {
   allArchiveProfileSlugs,
   allHistoryEraSlugs,
 } from "@/domain/history";
+import {
+  getPublishedLegendaryMethods,
+} from "@/domain/legendary-methods";
 import { allMethodSlugs } from "@/domain/methods";
 import { allMythVsRealitySlugs } from "@/domain/myth-vs-reality";
 import { allDecisionTreeSlugs } from "@/domain/decision-trees";
@@ -44,6 +47,7 @@ export function buildPublicSitemapEntries(): MetadataRoute.Sitemap {
       { path: "/features", priority: 0.8, freq: "monthly" },
       { path: "/exercises", priority: 0.9, freq: "weekly" },
       { path: "/methods", priority: 0.9, freq: "weekly" },
+      { path: "/legendary-methods", priority: 0.9, freq: "weekly" },
       { path: "/history", priority: 0.8, freq: "monthly" },
       { path: "/history/archive", priority: 0.8, freq: "monthly" },
       { path: "/evidence", priority: 0.75, freq: "monthly" },
@@ -76,6 +80,19 @@ export function buildPublicSitemapEntries(): MetadataRoute.Sitemap {
     entries.push(
       entry(`/methods/${slug}`, { priority: 0.8, changeFrequency: "monthly" }),
     );
+  }
+  for (const profile of getPublishedLegendaryMethods()) {
+    const modifiedRaw =
+      profile.lastReviewedAt ?? profile.updatedAt ?? profile.publishedAt;
+    const lastModified = modifiedRaw ? new Date(modifiedRaw) : new Date();
+    entries.push({
+      url: absoluteUrl(`/legendary-methods/${profile.slug}`),
+      lastModified: Number.isNaN(lastModified.getTime())
+        ? new Date()
+        : lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    });
   }
   for (const slug of allHistoryEraSlugs()) {
     entries.push(

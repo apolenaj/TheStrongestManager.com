@@ -43,6 +43,11 @@ export type SiteNavCategory = {
   id: string;
   label: string;
   href?: string;
+  /**
+   * `mega` (default): dropdown panel.
+   * `link`: top-level direct navigation (no submenu) — use for brand pillars.
+   */
+  presentation?: "mega" | "link";
   /** Flat link list (used when `columns` is absent). */
   links: readonly SiteNavLink[];
   /** Optional mega-menu columns (e.g. Programs: By Method / By Goal). */
@@ -60,115 +65,10 @@ export function siteNavCategoryLinks(
   return category.links;
 }
 
-/** Public mega-menu + mobile accordion structure (Phase 2). */
+/**
+ * Public nav — order: Programs | Legendary Methods | Free Tools | Coaching | Results | Learn | About
+ */
 export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
-  {
-    id: "coaching",
-    label: "Coaching",
-    href: "/coaching",
-    links: [
-      {
-        href: "/coaching/apply",
-        label: "1:1 Coaching",
-        description: "Premium coaching sales and application flow",
-        icon: Users,
-      },
-      {
-        href: "/coaching/match",
-        label: "Coach matching",
-        description: "Find coaches by focus, language, and style",
-        icon: Map,
-      },
-      {
-        href: "/goals/powerlifting-program",
-        label: "Competition Prep",
-        description: "Meet-oriented powerlifting preparation",
-        icon: Flag,
-      },
-    ],
-    featured: {
-      href: "/program-audit",
-      eyebrow: "Featured",
-      title: "Strength Audit",
-      description:
-        "Paste a training block and get a structured audit of volume, intensity, and gaps — free to start.",
-      cta: "GET YOUR FREE STRENGTH AUDIT",
-    },
-  },
-  {
-    id: "tools",
-    label: "Free Tools",
-    href: "/tools",
-    links: [
-      {
-        href: "/tools",
-        label: "Calculator suite",
-        description: "1RM, plates, DOTS, and related tools",
-        icon: Wrench,
-      },
-      {
-        href: "/program-audit",
-        label: "Program audit",
-        description: "Review a program from paste or CSV",
-        icon: FileSearch,
-      },
-      {
-        href: "/technique-check",
-        label: "Technique check",
-        description: "Upload a lift for movement feedback",
-        icon: ClipboardCheck,
-      },
-      {
-        href: "/athlete-assessment",
-        label: "Athlete assessment",
-        description: "Profile-driven readiness and goals",
-        icon: Target,
-      },
-      {
-        href: "/compare",
-        label: "Method compare",
-        description: "Compare training methods side by side",
-        icon: BarChart3,
-      },
-    ],
-  },
-  {
-    id: "learn",
-    label: "Learn",
-    href: "/learn",
-    links: [
-      {
-        href: "/learn",
-        label: "Learning paths",
-        description: "Structured strength education hubs",
-        icon: BookOpen,
-      },
-      {
-        href: "/methods",
-        label: "Training methods",
-        description: "Linear, conjugate, DUP, and more",
-        icon: Library,
-      },
-      {
-        href: "/academy",
-        label: "Academy",
-        description: "Courses for lifters and coaches",
-        icon: GraduationCap,
-      },
-      {
-        href: "/exercises",
-        label: "Exercise library",
-        description: "Technique and variation context",
-        icon: Dumbbell,
-      },
-      {
-        href: "/guides",
-        label: "Guides",
-        description: "Long-form training explainers",
-        icon: Map,
-      },
-    ],
-  },
   {
     id: "programs",
     label: "Programs",
@@ -270,6 +170,83 @@ export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
     },
   },
   {
+    id: "legendary-methods",
+    label: "Legendary Methods",
+    href: "/legendary-methods",
+    presentation: "link",
+    links: [],
+  },
+  {
+    id: "tools",
+    label: "Free Tools",
+    href: "/tools",
+    links: [
+      {
+        href: "/tools",
+        label: "Calculator suite",
+        description: "1RM, plates, DOTS, and related tools",
+        icon: Wrench,
+      },
+      {
+        href: "/program-audit",
+        label: "Program audit",
+        description: "Review a program from paste or CSV",
+        icon: FileSearch,
+      },
+      {
+        href: "/technique-check",
+        label: "Technique check",
+        description: "Upload a lift for movement feedback",
+        icon: ClipboardCheck,
+      },
+      {
+        href: "/athlete-assessment",
+        label: "Athlete assessment",
+        description: "Profile-driven readiness and goals",
+        icon: Target,
+      },
+      {
+        href: "/compare",
+        label: "Method compare",
+        description: "Compare training methods side by side",
+        icon: BarChart3,
+      },
+    ],
+  },
+  {
+    id: "coaching",
+    label: "Coaching",
+    href: "/coaching",
+    links: [
+      {
+        href: "/coaching/apply",
+        label: "1:1 Coaching",
+        description: "Premium coaching sales and application flow",
+        icon: Users,
+      },
+      {
+        href: "/coaching/match",
+        label: "Coach matching",
+        description: "Find coaches by focus, language, and style",
+        icon: Map,
+      },
+      {
+        href: "/goals/powerlifting-program",
+        label: "Competition Prep",
+        description: "Meet-oriented powerlifting preparation",
+        icon: Flag,
+      },
+    ],
+    featured: {
+      href: "/program-audit",
+      eyebrow: "Featured",
+      title: "Strength Audit",
+      description:
+        "Paste a training block and get a structured audit of volume, intensity, and gaps — free to start.",
+      cta: "GET YOUR FREE STRENGTH AUDIT",
+    },
+  },
+  {
     id: "results",
     label: "Results",
     href: "/demo",
@@ -297,6 +274,49 @@ export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
         label: "Evidence base",
         description: "How we label sources and certainty",
         icon: Shield,
+      },
+    ],
+  },
+  {
+    id: "learn",
+    label: "Learn",
+    href: "/learn",
+    links: [
+      {
+        href: "/learn",
+        label: "Learning paths",
+        description: "Structured strength education hubs",
+        icon: BookOpen,
+      },
+      {
+        href: "/methods",
+        label: "Training methods",
+        description: "Linear, conjugate, DUP, and more",
+        icon: Library,
+      },
+      {
+        href: "/legendary-methods",
+        label: "Legendary Methods",
+        description: "Independent analyses of famous training systems",
+        icon: Award,
+      },
+      {
+        href: "/academy",
+        label: "Academy",
+        description: "Courses for lifters and coaches",
+        icon: GraduationCap,
+      },
+      {
+        href: "/exercises",
+        label: "Exercise library",
+        description: "Technique and variation context",
+        icon: Dumbbell,
+      },
+      {
+        href: "/guides",
+        label: "Guides",
+        description: "Long-form training explainers",
+        icon: Map,
       },
     ],
   },
@@ -372,6 +392,7 @@ export const SITE_FOOTER_COLUMNS = [
     title: "Learn",
     links: [
       { href: "/learn", label: "Learning paths" },
+      { href: "/legendary-methods", label: "Legendary Methods" },
       { href: "/methods", label: "Methods" },
       { href: "/academy", label: "Academy" },
       { href: "/exercises", label: "Exercises" },

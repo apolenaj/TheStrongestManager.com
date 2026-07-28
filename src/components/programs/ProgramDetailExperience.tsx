@@ -295,6 +295,17 @@ export function ProgramDetailExperience({
               Back to catalog
             </Link>
           </div>
+          <p className="mt-5 text-sm text-[var(--color-muted)]">
+            Want the educational context behind related training systems?{" "}
+            <Link
+              href="/legendary-methods"
+              className="font-medium text-[var(--color-foreground)] underline-offset-4 hover:text-[var(--color-accent)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            >
+              Read Legendary Methods analyses
+            </Link>
+            {" — "}
+            independent products, not athlete-endorsed plans.
+          </p>
         </section>
       </div>
     </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import {
@@ -5,6 +7,7 @@ import {
   STRENGTH_AUDIT_CTA,
   STRENGTH_AUDIT_HREF,
 } from "@/components/layout/site-nav";
+import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
 
 export function SiteFooter() {
   return (
@@ -41,6 +44,13 @@ export function SiteFooter() {
                   <li key={`${column.title}-${link.href}-${link.label}`}>
                     <Link
                       href={link.href}
+                      onClick={() => {
+                        if (link.href === "/legendary-methods") {
+                          trackLegendaryAnalytics("legendary_methods_nav_click", {
+                            surface: "footer",
+                          });
+                        }
+                      }}
                       className="text-sm text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                     >
                       {link.label}

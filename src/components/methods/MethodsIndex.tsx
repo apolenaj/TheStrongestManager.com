@@ -58,6 +58,10 @@ export function MethodsIndex({
         <Link href="/fit" className="text-[var(--color-accent)]">
           what fits me?
         </Link>
+        {" · "}
+        <Link href="/legendary-methods" className="text-[var(--color-accent)]">
+          Legendary Methods
+        </Link>
         .
       </p>
 

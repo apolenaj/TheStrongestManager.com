@@ -265,6 +265,10 @@ export function MethodDetailContent({
             <Link href="/fit" className="text-[var(--color-accent)]">
               What fits me? →
             </Link>
+            {" · "}
+            <Link href="/legendary-methods" className="text-[var(--color-accent)]">
+              Legendary Methods →
+            </Link>
           </p>
         ) : (
           <p className="pt-2">
@@ -278,6 +282,10 @@ export function MethodDetailContent({
             {" · "}
             <Link href="/fit" className="text-[var(--color-accent)]">
               What fits me? →
+            </Link>
+            {" · "}
+            <Link href="/legendary-methods" className="text-[var(--color-accent)]">
+              Legendary Methods →
             </Link>
           </p>
         )}
