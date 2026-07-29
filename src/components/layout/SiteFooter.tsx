@@ -16,7 +16,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
         <div className="flex flex-col gap-10 border-b border-[var(--color-border)] pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-md">
-            <BrandLogo size="lg" />
+            <BrandLogo />
             <p className="mt-5 text-sm leading-relaxed text-[var(--color-muted)]">
               Strength systems for people who lead under pressure — powerlifting
               standards, structured coaching, and tools that only claim what they

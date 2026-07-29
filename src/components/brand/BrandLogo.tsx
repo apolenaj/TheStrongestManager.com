@@ -1,106 +1,54 @@
-"use client";
-
+import Link from "next/link";
 import { cn } from "@/design-system/utils/cn";
 
-type BrandLogoSize = "sm" | "md" | "lg";
-
-const SIZE_MAP: Record<
-  BrandLogoSize,
-  { mark: string; primary: string; secondary: string; gap: string }
-> = {
-  sm: {
-    mark: "h-4 w-[0.85rem]",
-    primary: "text-[0.7rem] sm:text-[0.75rem]",
-    secondary: "text-[0.55rem] sm:text-[0.58rem]",
-    gap: "gap-2",
-  },
-  md: {
-    mark: "h-[1.125rem] w-4 sm:h-5 sm:w-[1.125rem]",
-    primary: "text-[0.78rem] sm:text-[0.88rem]",
-    secondary: "text-[0.58rem] sm:text-[0.62rem]",
-    gap: "gap-2.5",
-  },
-  lg: {
-    mark: "h-6 w-5",
-    primary: "text-[1.05rem]",
-    secondary: "text-[0.7rem]",
-    gap: "gap-3",
-  },
-};
-
 /**
- * Ultra-minimal brand lockup — hard-edged spark + tight wordmark.
- * No curves, no ornamental frames.
+ * Geometric double-bicep silhouette + aggressive stacked wordmark.
+ * SVG polygon points are intentional — do not alter.
  */
 export function BrandLogo({
   className,
-  size = "md",
-  showWordmark = true,
+  onNavigate,
 }: {
   className?: string;
-  size?: BrandLogoSize;
-  showWordmark?: boolean;
+  /** e.g. close mobile drawer after home navigation */
+  onNavigate?: () => void;
 }) {
-  const tokens = SIZE_MAP[size];
-
   return (
-    <span
+    <Link
+      href="/"
+      onClick={onNavigate}
+      aria-label="The Strongest Manager — Home"
       className={cn(
-        "group/logo inline-flex flex-row items-center",
-        tokens.gap,
+        "group flex min-w-0 flex-row items-center gap-3 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
         className,
       )}
     >
-      <BrandMark className={cn(tokens.mark, "shrink-0")} />
-      {showWordmark ? (
-        <span className="flex min-w-0 flex-col justify-center leading-none">
-          <span
-            className={cn(
-              "font-[family-name:var(--font-display)] font-black uppercase tracking-tighter text-white",
-              tokens.primary,
-            )}
-          >
-            The Strongest
-          </span>
-          <span
-            className={cn(
-              "mt-0.5 font-[family-name:var(--font-display)] font-medium uppercase tracking-[0.38em] text-zinc-400 transition-colors duration-200 group-hover/logo:text-red-600",
-              tokens.secondary,
-            )}
-          >
-            Manager
-          </span>
+      {/* The Geometric Double-Bicep Silhouette */}
+      <div className="flex h-10 w-10 flex-shrink-0 text-white sm:h-12 sm:w-12">
+        <svg
+          viewBox="0 0 100 100"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-full w-full"
+          aria-hidden
+          focusable="false"
+        >
+          {/* Head (Geometric/Spartan block) */}
+          <polygon points="45,22 55,22 53,4 47,4" />
+          {/* Massive V-Taper Torso & Flexing Arms */}
+          <polygon points="42,95 28,55 12,55 5,35 22,15 32,32 43,32 45,25 55,25 57,32 68,32 78,15 95,35 88,55 72,55 58,95" />
+        </svg>
+      </div>
+
+      {/* The Aggressive Typography */}
+      <div className="flex flex-col justify-center">
+        <span className="font-[family-name:var(--font-display)] text-xl font-black uppercase leading-none tracking-tighter text-white sm:text-2xl">
+          The Strongest
         </span>
-      ) : (
-        <span className="sr-only">The Strongest Manager</span>
-      )}
-    </span>
-  );
-}
-
-/**
- * Three thick ascending diagonal slashes — pure hard geometry.
- */
-export function BrandMark({ className }: { className?: string }) {
-  return (
-    <svg
-      className={cn(
-        "origin-center text-red-600 transition-[transform,filter,color] duration-200 ease-[var(--easing-standard)]",
-        "group-hover/logo:-translate-y-px group-hover/logo:text-red-500",
-        "group-hover/logo:drop-shadow-[0_0_8px_rgba(220,38,38,0.55)]",
-        "motion-reduce:transition-none motion-reduce:group-hover/logo:translate-y-0 motion-reduce:group-hover/logo:drop-shadow-none",
-        className,
-      )}
-      viewBox="0 0 18 24"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-      focusable="false"
-    >
-      {/* Ascending // / — sharp rects as polygons, zero radius */}
-      <polygon points="0,18 3.2,18 8.8,6 5.6,6" />
-      <polygon points="5.4,18 8.6,18 14.2,6 11,6" />
-      <polygon points="10.8,18 14,18 18,9.5 14.8,9.5" />
-    </svg>
+        <span className="mt-1 font-[family-name:var(--font-display)] text-[0.65rem] font-bold uppercase leading-tight tracking-[0.3em] text-zinc-400 sm:text-xs">
+          Manager
+        </span>
+      </div>
+    </Link>
   );
 }

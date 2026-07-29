@@ -497,13 +497,7 @@ export function SiteHeader() {
         )}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-[4.25rem] sm:px-6">
-          <Link
-            href="/"
-            className="min-w-0 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-            aria-label="The Strongest Manager — Home"
-          >
-            <BrandLogo size="md" />
-          </Link>
+          <BrandLogo />
 
           <nav
             aria-label="Primary"
@@ -564,14 +558,7 @@ export function SiteHeader() {
           }}
         >
           <div className="flex h-16 items-center justify-between border-b border-[var(--color-border)] px-4 sm:h-[4.25rem] sm:px-6">
-            <Link
-              href="/"
-              onClick={closeMobile}
-              className="min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-              aria-label="The Strongest Manager — Home"
-            >
-              <BrandLogo size="sm" />
-            </Link>
+            <BrandLogo onNavigate={closeMobile} />
             <button
               type="button"
               aria-label="Close menu"
