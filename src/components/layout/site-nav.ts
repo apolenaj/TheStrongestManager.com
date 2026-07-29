@@ -44,10 +44,11 @@ export type SiteNavCategory = {
   label: string;
   href?: string;
   /**
-   * `mega` (default): dropdown panel.
+   * `mega` (default): wide dropdown panel.
+   * `dropdown`: compact single-column list (e.g. athlete profiles).
    * `link`: top-level direct navigation (no submenu) — use for brand pillars.
    */
-  presentation?: "mega" | "link";
+  presentation?: "mega" | "dropdown" | "link";
   /** Flat link list (used when `columns` is absent). */
   links: readonly SiteNavLink[];
   /** Optional mega-menu columns (e.g. Programs: By Method / By Goal). */
@@ -173,8 +174,44 @@ export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
     id: "legendary-methods",
     label: "Legendary Methods",
     href: "/legendary-methods",
-    presentation: "link",
-    links: [],
+    presentation: "dropdown",
+    links: [
+      {
+        href: "/legendary-methods/arnold-schwarzenegger-golden-era-volume",
+        label: "Arnold Schwarzenegger",
+        description: "Golden Era volume",
+      },
+      {
+        href: "/legendary-methods/tom-platz-extreme-leg-training",
+        label: "Tom Platz",
+        description: "Extreme leg training",
+      },
+      {
+        href: "/legendary-methods/ronnie-coleman-heavy-high-volume-training",
+        label: "Ronnie Coleman",
+        description: "Heavy high-volume training",
+      },
+      {
+        href: "/legendary-methods/eddie-hall-500kg-deadlift",
+        label: "Eddie Hall",
+        description: "500 kg deadlift method",
+      },
+      {
+        href: "/legendary-methods/john-haack-relative-strength",
+        label: "John Haack",
+        description: "Relative strength",
+      },
+      {
+        href: "/legendary-methods/boris-sheiko-russian-powerlifting",
+        label: "Boris Sheiko",
+        description: "Russian powerlifting system",
+      },
+      {
+        href: "/legendary-methods",
+        label: "View all analyses",
+        description: "Full Legendary Methods library",
+      },
+    ],
   },
   {
     id: "tools",

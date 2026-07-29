@@ -22,6 +22,64 @@ import {
 import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 
+function trackLegendaryNavClick(
+  surface: "header" | "learn_menu" | "mobile_nav",
+  href: string,
+) {
+  if (href === "/legendary-methods" || href.startsWith("/legendary-methods/")) {
+    trackLegendaryAnalytics("legendary_methods_nav_click", { surface });
+  }
+}
+
+function CompactDropdownPanel({
+  category,
+  menuId,
+}: {
+  category: SiteNavCategory;
+  menuId: string;
+}) {
+  return (
+    <div
+      id={menuId}
+      role="menu"
+      aria-label={`${category.label} menu`}
+      className="absolute left-0 top-full z-50 w-[min(18.5rem,calc(100vw-2rem))] pt-3"
+    >
+      <div className="overflow-hidden rounded-md border border-white/10 bg-zinc-900 shadow-[0_16px_48px_rgba(0,0,0,0.55)]">
+        <ul className="py-2">
+          {category.links.map((link) => {
+            const isOverview = link.href === "/legendary-methods";
+            return (
+              <li key={`${category.id}-${link.href}-${link.label}`} role="none">
+                <Link
+                  href={link.href}
+                  role="menuitem"
+                  onClick={() => trackLegendaryNavClick("header", link.href)}
+                  className={cn(
+                    "flex min-h-11 flex-col justify-center px-4 py-2.5 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-red-600",
+                    isOverview
+                      ? "mt-1 border-t border-white/10 text-sm font-semibold text-red-600 hover:bg-white/[0.04] hover:text-red-500"
+                      : "text-sm text-zinc-400 hover:bg-white/[0.05] hover:text-white",
+                  )}
+                >
+                  <span className={cn(!isOverview && "font-medium text-inherit")}>
+                    {link.label}
+                  </span>
+                  {link.description && !isOverview ? (
+                    <span className="mt-0.5 text-xs text-zinc-500">
+                      {link.description}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function MegaMenuPanel({
   category,
   menuId,
@@ -63,14 +121,9 @@ function MegaMenuPanel({
                           <Link
                             href={link.href}
                             role="menuitem"
-                            onClick={() => {
-                              if (link.href === "/legendary-methods") {
-                                trackLegendaryAnalytics(
-                                  "legendary_methods_nav_click",
-                                  { surface: "learn_menu" },
-                                );
-                              }
-                            }}
+                            onClick={() =>
+                              trackLegendaryNavClick("learn_menu", link.href)
+                            }
                             className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-2.5 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                           >
                             {Icon ? (
@@ -109,13 +162,9 @@ function MegaMenuPanel({
                     <Link
                       href={link.href}
                       role="menuitem"
-                      onClick={() => {
-                        if (link.href === "/legendary-methods") {
-                          trackLegendaryAnalytics("legendary_methods_nav_click", {
-                            surface: "learn_menu",
-                          });
-                        }
-                      }}
+                      onClick={() =>
+                        trackLegendaryNavClick("learn_menu", link.href)
+                      }
                       className="flex min-h-11 gap-3 rounded-sm border border-transparent px-3 py-3 transition-colors duration-200 hover:border-[var(--color-border)] hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                     >
                       {Icon ? (
@@ -181,23 +230,18 @@ function DesktopNavItem({
   const menuId = useId();
   const itemRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const categoryActive = Boolean(
+    category.href &&
+      (pathname === category.href || pathname.startsWith(`${category.href}/`)),
+  );
 
   if (category.presentation === "link" && category.href) {
-    const active =
-      pathname === category.href || pathname.startsWith(`${category.href}/`);
     return (
       <Link
         href={category.href}
-        onClick={() => {
-          if (category.id === "legendary-methods") {
-            trackLegendaryAnalytics("legendary_methods_nav_click", {
-              surface: "header",
-            });
-          }
-        }}
         className={cn(
           "group inline-flex min-h-11 items-center whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
-          active
+          categoryActive
             ? "text-[var(--color-foreground)]"
             : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
         )}
@@ -208,7 +252,7 @@ function DesktopNavItem({
             aria-hidden
             className={cn(
               "pointer-events-none absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-300 ease-[var(--easing-standard)] motion-reduce:transition-none group-hover:scale-x-100 group-focus-visible:scale-x-100",
-              active && "scale-x-100",
+              categoryActive && "scale-x-100",
             )}
           />
         </span>
@@ -242,7 +286,12 @@ function DesktopNavItem({
     >
       <button
         type="button"
-        className="group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm text-[var(--color-muted)] transition-colors duration-300 motion-reduce:transition-none hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+        className={cn(
+          "group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+          categoryActive || open
+            ? "text-[var(--color-foreground)]"
+            : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
+        )}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={menuId}
@@ -255,7 +304,7 @@ function DesktopNavItem({
             aria-hidden
             className={cn(
               "pointer-events-none absolute inset-x-0 -bottom-1 h-px origin-left scale-x-0 bg-[var(--color-accent)] transition-transform duration-300 ease-[var(--easing-standard)] motion-reduce:transition-none group-hover:scale-x-100 group-focus-visible:scale-x-100",
-              open && "scale-x-100",
+              (open || categoryActive) && "scale-x-100",
             )}
           />
         </span>
@@ -274,7 +323,13 @@ function DesktopNavItem({
           open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
         )}
       >
-        {open ? <MegaMenuPanel category={category} menuId={menuId} /> : null}
+        {open ? (
+          category.presentation === "dropdown" ? (
+            <CompactDropdownPanel category={category} menuId={menuId} />
+          ) : (
+            <MegaMenuPanel category={category} menuId={menuId} />
+          )
+        ) : null}
       </div>
       {category.href ? (
         <Link href={category.href} className="sr-only">
@@ -372,12 +427,7 @@ function MobileAccordion({
                         <Link
                           href={link.href}
                           onClick={() => {
-                            if (link.href === "/legendary-methods") {
-                              trackLegendaryAnalytics(
-                                "legendary_methods_nav_click",
-                                { surface: "mobile_nav" },
-                              );
-                            }
+                            trackLegendaryNavClick("mobile_nav", link.href);
                             onNavigate();
                           }}
                           className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
@@ -397,14 +447,15 @@ function MobileAccordion({
                   <Link
                     href={link.href}
                     onClick={() => {
-                      if (link.href === "/legendary-methods") {
-                        trackLegendaryAnalytics("legendary_methods_nav_click", {
-                          surface: "mobile_nav",
-                        });
-                      }
+                      trackLegendaryNavClick("mobile_nav", link.href);
                       onNavigate();
                     }}
-                    className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+                    className={cn(
+                      "flex min-h-11 items-center px-1 py-2.5 text-base transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+                      link.href === "/legendary-methods"
+                        ? "font-semibold text-red-600 hover:text-red-500"
+                        : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
+                    )}
                   >
                     {link.label}
                   </Link>
