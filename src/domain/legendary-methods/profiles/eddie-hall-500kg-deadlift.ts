@@ -3,14 +3,14 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Eddie Hall — 500 kg deadlift training analysis (Prompt 5B).
  * Distinguishes official competition performance, interview claims, footage, and independent coaching interpretation.
  * Does not reproduce any proprietary programme.
  */
-export const EDDIE_HALL_500KG_DEADLIFT: LegendaryMethodProfile = {
+export const EDDIE_HALL_500KG_DEADLIFT = fromEnglishProfile({
   slug: "eddie-hall-500kg-deadlift",
   status: "published",
   legalReviewStatus: "passed",
@@ -378,4 +378,4 @@ Do not copy reported ~10,000-calorie intake narratives or ~197 kg contest bodywe
       "500 kg deadlift training principles",
     ],
   },
-};
+});

@@ -1,9 +1,17 @@
 import { hasLegendaryLicensingException } from "@/domain/legendary-methods/licensing-records";
+import { isLocalizedString } from "@/domain/legendary-methods/localized";
+import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 
 /**
  * Public-facing copy must not imply official affiliation, exact proprietary
  * programmes, or guaranteed outcomes — unless an explicit licensing record exists.
  */
+
+function flatText(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (isLocalizedString(value)) return `${value.en}\n${value.cs}`;
+  return "";
+}
 
 export const LEGENDARY_PROHIBITED_PHRASES = [
   "official programme",
@@ -35,97 +43,112 @@ function normalizeForScan(text: string): string {
     .replace(/[’']/g, "'");
 }
 
+type ProhibitedScanProfile = Pick<
+  LegendaryMethodProfile,
+  | "slug"
+  | "summary"
+  | "seo"
+  | "sections"
+  | "whatLiftersGetWrong"
+  | "keyCharacteristics"
+  | "bestFor"
+  | "notRecommendedFor"
+> &
+  Partial<
+    Pick<
+      LegendaryMethodProfile,
+      "exampleWeek" | "modernAdaptation" | "systemComparison"
+    >
+  >;
+
+/** Accept full profiles or lightweight fixtures (string or LocalizedString fields). */
 function collectPublicTextFields(
-  profile: {
-    slug: string;
-    summary: string;
-    seo: { title: string; description: string };
-    sections: Array<{ id: string; body: string }>;
-    whatLiftersGetWrong: string[];
-    keyCharacteristics: string[];
-    bestFor: string[];
-    notRecommendedFor: string[];
-    exampleWeek?: { title: string; disclaimer: string; days: Array<{ focus: string; notes?: string }> };
-    modernAdaptation?: {
-      summary: string;
-      beginnerAdjustment: string;
-      intermediateAdjustment: string;
-      advancedAdjustment: string;
-    };
-    systemComparison?: { summary: string; rows: Array<{ thisSystem: string; otherSystem: string }> };
-  },
+  profile: ProhibitedScanProfile | Record<string, unknown>,
 ): Array<{ field: string; text: string }> {
+  const p = profile as ProhibitedScanProfile;
   const fields: Array<{ field: string; text: string }> = [
-    { field: "summary", text: profile.summary },
-    { field: "seo.title", text: profile.seo.title },
-    { field: "seo.description", text: profile.seo.description },
-    ...profile.sections.map((section) => ({
+    { field: "summary", text: flatText(p.summary) },
+    { field: "seo.title", text: flatText(p.seo.title) },
+    { field: "seo.description", text: flatText(p.seo.description) },
+    ...(p.sections ?? []).map((section) => ({
       field: `sections.${section.id}`,
-      text: section.body,
+      text: flatText(section.body),
     })),
-    ...profile.whatLiftersGetWrong.map((item, i) => ({
+    ...(p.whatLiftersGetWrong ?? []).map((item, i) => ({
       field: `whatLiftersGetWrong[${i}]`,
-      text: item,
+      text: flatText(item),
     })),
-    ...profile.keyCharacteristics.map((item, i) => ({
+    ...(p.keyCharacteristics ?? []).map((item, i) => ({
       field: `keyCharacteristics[${i}]`,
-      text: item,
+      text: flatText(item),
     })),
-    ...profile.bestFor.map((item, i) => ({
+    ...(p.bestFor ?? []).map((item, i) => ({
       field: `bestFor[${i}]`,
-      text: item,
+      text: flatText(item),
     })),
-    ...profile.notRecommendedFor.map((item, i) => ({
+    ...(p.notRecommendedFor ?? []).map((item, i) => ({
       field: `notRecommendedFor[${i}]`,
-      text: item,
+      text: flatText(item),
     })),
   ];
 
-  if (profile.exampleWeek) {
+  if (p.exampleWeek) {
     fields.push(
-      { field: "exampleWeek.title", text: profile.exampleWeek.title },
-      { field: "exampleWeek.disclaimer", text: profile.exampleWeek.disclaimer },
+      { field: "exampleWeek.title", text: flatText(p.exampleWeek.title) },
+      {
+        field: "exampleWeek.disclaimer",
+        text: flatText(p.exampleWeek.disclaimer),
+      },
     );
-    profile.exampleWeek.days.forEach((day, i) => {
-      fields.push({ field: `exampleWeek.days[${i}].focus`, text: day.focus });
+    p.exampleWeek.days.forEach((day, i) => {
+      fields.push({
+        field: `exampleWeek.days[${i}].focus`,
+        text: flatText(day.focus),
+      });
       if (day.notes) {
-        fields.push({ field: `exampleWeek.days[${i}].notes`, text: day.notes });
+        fields.push({
+          field: `exampleWeek.days[${i}].notes`,
+          text: flatText(day.notes),
+        });
       }
     });
   }
 
-  if (profile.modernAdaptation) {
+  if (p.modernAdaptation) {
     fields.push(
-      { field: "modernAdaptation.summary", text: profile.modernAdaptation.summary },
+      {
+        field: "modernAdaptation.summary",
+        text: flatText(p.modernAdaptation.summary),
+      },
       {
         field: "modernAdaptation.beginnerAdjustment",
-        text: profile.modernAdaptation.beginnerAdjustment,
+        text: flatText(p.modernAdaptation.beginnerAdjustment),
       },
       {
         field: "modernAdaptation.intermediateAdjustment",
-        text: profile.modernAdaptation.intermediateAdjustment,
+        text: flatText(p.modernAdaptation.intermediateAdjustment),
       },
       {
         field: "modernAdaptation.advancedAdjustment",
-        text: profile.modernAdaptation.advancedAdjustment,
+        text: flatText(p.modernAdaptation.advancedAdjustment),
       },
     );
   }
 
-  if (profile.systemComparison) {
+  if (p.systemComparison) {
     fields.push({
       field: "systemComparison.summary",
-      text: profile.systemComparison.summary,
+      text: flatText(p.systemComparison.summary),
     });
-    profile.systemComparison.rows.forEach((row, i) => {
+    p.systemComparison.rows.forEach((row, i) => {
       fields.push(
         {
           field: `systemComparison.rows[${i}].thisSystem`,
-          text: row.thisSystem,
+          text: flatText(row.thisSystem),
         },
         {
           field: `systemComparison.rows[${i}].otherSystem`,
-          text: row.otherSystem,
+          text: flatText(row.otherSystem),
         },
       );
     });
@@ -200,7 +223,15 @@ export function findProhibitedWordingHits(
         ) {
           continue;
         }
-        if (hasLegendaryLicensingException(phrase, profile.slug)) continue;
+        if (
+          hasLegendaryLicensingException(
+            phrase,
+            typeof (profile as { slug?: unknown }).slug === "string"
+              ? (profile as { slug: string }).slug
+              : "",
+          )
+        )
+          continue;
         if (hasLegendaryLicensingException(phrase, "*")) continue;
         const excerpt = text
           .slice(Math.max(0, idx - 24), Math.min(text.length, idx + phrase.length + 24))

@@ -3,13 +3,13 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * John Haack — elite relative strength at lower bodyweight (Prompt 5C).
  * Competition claims are meet-dated via OpenPowerlifting; training themes from public interviews.
  */
-export const JOHN_HAACK_RELATIVE_STRENGTH: LegendaryMethodProfile = {
+export const JOHN_HAACK_RELATIVE_STRENGTH = fromEnglishProfile({
   slug: "john-haack-relative-strength",
   status: "published",
   legalReviewStatus: "passed",
@@ -353,4 +353,4 @@ A practical sequence for intermediates: establish a stable bodyweight range for 
       "powerlifting frequency training",
     ],
   },
-};
+});

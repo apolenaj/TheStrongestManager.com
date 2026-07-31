@@ -251,16 +251,17 @@
   },
   "ProgramsPage": {
     "meta": {
-      "title": "Powerlifterské tréninkové programy",
-      "description": "Procházej powerlifterské tréninkové programy — 4týdenní startéry zdarma a plné 12–16týdenní cykly napříč Linear, DUP, Block, Conjugate, High-Frequency SBD a Powerbuilding. Bez falešné scarcity.",
-      "ogTitle": "Powerlifterské tréninkové programy | The Strongest",
-      "ogDescription": "Komerční powerlifterské programy se 4týdenními startéry zdarma a plnými 12–16týdenními cykly — Linear, DUP, Block, Conjugate a další.",
-      "twitterDescription": "Startéry zdarma a plné powerlifterské programy napříč šesti rodinami metod."
+      "title": "Systémy pro elitní sílu",
+      "description": "Originální tréninkové systémy The Strongest — ověřené managementové rámce pro maximální sílu, totál silového trojboje a elitní výkon. Startéry zdarma a plné 12–16týdenní cykly. Bez falešné scarcity.",
+      "ogTitle": "Systémy pro elitní sílu | The Strongest",
+      "ogDescription": "Originální tréninkové systémy pro elitní sílu — Linear, DUP, Block, Conjugate, High-Frequency SBD a Powerbuilding. Startéry zdarma i plné cykly.",
+      "twitterDescription": "Ověřené managementové systémy pro elitní sílu — startéry zdarma a plné cykly silového trojboje."
     },
     "hero": {
-      "eyebrow": "Programy",
-      "title": "Tréninkové systémy postavené na jasném cíli.",
-      "lead": "Šest rodin metod se 4týdenními startéry zdarma a plnými 12–16týdenními cykly. Filtruj podle cíle, metody a dnů — bez countdown triků."
+      "eyebrow": "Programy The Strongest",
+      "title": "SYSTÉMY PRO ELITNÍ SÍLU",
+      "subtitle": "Nekopíruj. Trénuj podle principů, které tvoří šampiony.",
+      "lead": "Tohle nejsou workout PDF. Jsou to ověřené managementové systémy pro elitní výkon — strukturovaný objem, intenzita a pravidla regenerace, která umíš řídit s autoritou."
     },
     "loading": "Načítám katalog…",
     "finder": {
@@ -290,8 +291,8 @@
       "openQuiz": "Otevřít plný finder kvíz"
     },
     "catalog": {
-      "title": "Katalog",
-      "lead": "Filtruj lokálně — ceny zůstávají zveřejněné; žádné urgency divadlo.",
+      "title": "Tréninkové systémy",
+      "lead": "Filtruj podle cíle, metody a rozpisu. Ceny zůstávají zveřejněné — žádné urgency divadlo.",
       "count": "{count, plural, =1 {# systém} other {# systémů}}",
       "empty": "Žádný program neodpovídá filtrům. Uvolni filtr a rozšiř výběr — nevymýšlíme listingy, abychom zaplnili mřížku."
     },
@@ -324,13 +325,25 @@
     },
     "card": {
       "duration": "Délka",
+      "focus": "Zaměření",
+      "difficulty": "Obtížnost",
       "price": "Cena",
       "recovery": "Regenerace",
       "schedules": "Rozpisy",
       "weeks": "{weeks} týdnů",
       "free": "Zdarma",
+      "getStarted": "Začít",
       "tryFree": "Vyzkoušet 4 týdny zdarma",
       "view": "Zobrazit program",
+      "difficultyBeginner": "Začátečník",
+      "difficultyIntermediate": "Středně pokročilý",
+      "difficultyAdvanced": "Pokročilý",
+      "focusMaximalStrength": "Maximální síla",
+      "focusPowerlifting": "Totál silového trojboje",
+      "focusHypertrophy": "Síla + svaly",
+      "focusCompetition": "Příprava na závody",
+      "focusGeneral": "Obecná síla",
+      "focusMulti": "Kompletní kolekce",
       "recoveryLow": "Nízká náročnost regenerace",
       "recoveryModerate": "Střední náročnost regenerace",
       "recoveryHigh": "Vysoká náročnost regenerace",
@@ -344,6 +357,44 @@
       "methodBlock": "Bloková periodizace",
       "methodConjugate": "Conjugate",
       "methodHighFreq": "Vysokofrekvenční trénink"
+    }
+  },
+  "Dashboard": {
+    "meta": {
+      "title": "Dashboard"
+    },
+    "eyebrow": "Athlete HQ",
+    "welcome": "VÍTEJ ZPĚT. ČAS NA PRÁCI.",
+    "welcomeNamed": "VÍTEJ ZPĚT, {name}. ČAS NA PRÁCI.",
+    "signedInAs": "Přihlášen jako {email}",
+    "athleteFallback": "Atlet",
+    "nav": {
+      "aria": "Sekce dashboardu",
+      "myPrograms": "Moje programy",
+      "strengthMetrics": "Silové metriky",
+      "settings": "Nastavení"
+    },
+    "activeProgram": {
+      "title": "Aktivní program",
+      "emptyTitle": "Žádný aktivní program",
+      "emptyBody": "Přiřaď systém a peaking hodinové počítadlo se spustí. Žádný falešný progress, dokud není zalogovaný trénink.",
+      "ctaBrowse": "Prohlédnout programy",
+      "ctaOpen": "Otevřít program",
+      "weekProgress": "Týden {current} z {total}",
+      "placeholderName": "12týdenní peak cyklus",
+      "progressLabel": "Peak progress"
+    },
+    "recentPrs": {
+      "title": "Nedávná PR",
+      "empty": "Zatím žádná osobní maxima. Zaloguj výkony — pak ukážeme čísla.",
+      "ctaLog": "Zalogovat sílu",
+      "observed": "Naměřeno",
+      "reported": "Nahlášeno"
+    },
+    "onboarding": {
+      "title": "Dokonči nastavení",
+      "body": "Atletický profil ještě není připravený. Dokonči onboarding, než se objeví skóre a programy.",
+      "cta": "Spustit onboarding"
     }
   },
   "LegendaryMethods": {
@@ -448,7 +499,42 @@
       "breadcrumbAria": "Drobečková navigace",
       "evidenceBadge": "Evidence · {quality}",
       "reviewedBadge": "Zrevidováno · {date}",
-      "pendingReview": "Čeká na review"
+      "pendingReview": "Čeká na review",
+      "draftPreview": "Náhled draftu (ALLOW_LEGENDARY_DRAFT_PREVIEW) — noindex, mimo sitemap a veřejné karty knihovny.",
+      "contents": "Obsah",
+      "onThisPage": "Na této stránce",
+      "showToc": "Zobrazit",
+      "hideToc": "Skrýt",
+      "emptySummary": "Vzdělávací analytický shell — dlouhý ozdrojovaný obsah se doplní před publikací.",
+      "quickFields": {
+        "primaryGoal": "Primární cíl",
+        "typicalFrequency": "Typická frekvence",
+        "volumeLevel": "Úroveň objemu",
+        "intensityProfile": "Profil intenzity",
+        "recoveryDemand": "Nároky na regeneraci",
+        "technicalDifficulty": "Technická náročnost",
+        "bestSuitedFor": "Nejvhodnější pro",
+        "evidenceQuality": "Kvalita evidence"
+      },
+      "toc": {
+        "quick-method-profile": "Rychlý profil metody",
+        "athlete-and-era": "Atlet a éra",
+        "documented-training-method": "Dokumentovaná tréninková metoda",
+        "training-structure": "Struktura tréninku",
+        "core-training-routine": "Jádrová tréninková rutina",
+        "documented-nutritional-approach": "Dokumentovaná dieta",
+        "volume-intensity-frequency": "Objem, intenzita a frekvence",
+        "example-training-week": "Ukázkový tréninkový týden",
+        "why-it-worked": "Proč to fungovalo",
+        "what-lifters-get-wrong": "Co většina lifterů kazí",
+        "risks-and-recovery": "Rizika a regenerace",
+        "scores": "The Strongest Score",
+        "verdict": "Verdikt",
+        "system-comparison": "Porovnání systémů",
+        "modernised-application": "Modernizovaná aplikace",
+        "sources": "Zdroje",
+        "related-programmes": "Související programy"
+      }
     },
     "categories": {
       "bodybuilding": "Bodybuilding",

@@ -2,7 +2,14 @@
  * Legendary Training Methods — strongly typed content model (Prompt 2 + 4).
  * Profiles live in a typed registry, not duplicated JSX pages.
  * Educational analysis only — not endorsement or official athlete content.
+ *
+ * Readable copy uses LocalizedString ({ en, cs }) — never raw English-only
+ * strings for user-facing narrative fields.
  */
+
+import type { LocalizedString } from "@/domain/legendary-methods/localized";
+
+export type { LocalizedString } from "@/domain/legendary-methods/localized";
 
 /** Integer suitability / demand scores used in the profile header. */
 export type ScoreValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -83,10 +90,10 @@ export type LegendaryMethodSectionId =
 
 export type LegendaryMethodSection = {
   id: LegendaryMethodSectionId;
-  title: string;
+  title: LocalizedString;
   layer: LegendaryContentLayer;
   /** Empty until a sourced content pass fills it — never invent copy to publish. */
-  body: string;
+  body: LocalizedString;
   /** Optional inline source markers (1-based indices into profile.sources). */
   sourceRefs?: number[];
 };
@@ -113,14 +120,14 @@ export type LegendaryMethodSource = {
 };
 
 export type ExampleTrainingSession = {
-  name: string;
-  prescription: string;
+  name: LocalizedString;
+  prescription: LocalizedString;
 };
 
 export type ExampleTrainingDay = {
-  dayLabel: string;
-  focus: string;
-  notes?: string;
+  dayLabel: LocalizedString;
+  focus: LocalizedString;
+  notes?: LocalizedString;
   sessions?: ExampleTrainingSession[];
 };
 
@@ -154,45 +161,45 @@ export const EXAMPLE_WEEK_LABEL_COPY: Record<
 };
 
 export type ExampleTrainingWeek = {
-  title: string;
+  title: LocalizedString;
   label: ExampleWeekLabel;
-  disclaimer: string;
+  disclaimer: LocalizedString;
   days: ExampleTrainingDay[];
 };
 
 export type DistributionSlice = {
-  label: string;
+  label: LocalizedString;
   /** Relative share 0–100 for visual bars — editorial estimate, not lab data. */
   share: number;
 };
 
 export type TrainingStructureVisual = {
-  trainingDays: string;
-  exerciseFrequency: string;
+  trainingDays: LocalizedString;
+  exerciseFrequency: LocalizedString;
   volumeDistribution: DistributionSlice[];
   intensityDistribution: DistributionSlice[];
-  primaryMovements: string[];
-  accessoryWork: string[];
-  progressionApproach: string;
-  recoveryStructure: string;
+  primaryMovements: LocalizedString[];
+  accessoryWork: LocalizedString[];
+  progressionApproach: LocalizedString;
+  recoveryStructure: LocalizedString;
 };
 
 export type WhyItWorkedFactors = {
-  specificity: string;
-  volume: string;
-  intensity: string;
-  technicalPractice: string;
-  athleteExperience: string;
-  bodyweight: string;
-  recovery: string;
-  sportDemands: string;
-  longTermAdaptation: string;
+  specificity: LocalizedString;
+  volume: LocalizedString;
+  intensity: LocalizedString;
+  technicalPractice: LocalizedString;
+  athleteExperience: LocalizedString;
+  bodyweight: LocalizedString;
+  recovery: LocalizedString;
+  sportDemands: LocalizedString;
+  longTermAdaptation: LocalizedString;
 };
 
 /** Score with required short written justification at publish time. */
 export type ScoredMetric = {
   value: ScoreValue | null;
-  justification: string;
+  justification: LocalizedString;
 };
 
 export type LegendaryMethodScores = {
@@ -205,60 +212,60 @@ export type LegendaryMethodScores = {
 };
 
 export type QuickMethodProfile = {
-  primaryGoal: string;
-  typicalFrequency: string;
-  volumeLevel: string;
-  intensityProfile: string;
-  recoveryDemand: string;
-  technicalDifficulty: string;
-  bestSuitedFor: string;
+  primaryGoal: LocalizedString;
+  typicalFrequency: LocalizedString;
+  volumeLevel: LocalizedString;
+  intensityProfile: LocalizedString;
+  recoveryDemand: LocalizedString;
+  technicalDifficulty: LocalizedString;
+  bestSuitedFor: LocalizedString;
   evidenceQuality: EvidenceQuality;
 };
 
 export type ModernAdaptation = {
-  summary: string;
-  beginnerAdjustment: string;
-  intermediateAdjustment: string;
-  advancedAdjustment: string;
-  recommendedFrequency: string;
-  recoveryControls: string[];
-  progressionRules: string[];
-  whenToReduceVolume: string;
-  whoShouldAvoid: string[];
+  summary: LocalizedString;
+  beginnerAdjustment: LocalizedString;
+  intermediateAdjustment: LocalizedString;
+  advancedAdjustment: LocalizedString;
+  recommendedFrequency: LocalizedString;
+  recoveryControls: LocalizedString[];
+  progressionRules: LocalizedString[];
+  whenToReduceVolume: LocalizedString;
+  whoShouldAvoid: LocalizedString[];
 };
 
 export type RelatedProgramme = {
   /** Commercial catalog product slug (`/programs/[slug]`). */
   slug: string;
-  title: string;
+  title: LocalizedString;
   href: string;
-  relationship: string;
+  relationship: LocalizedString;
   /**
    * Conversion hook shown before “Explore {title}”.
    * Must never imply the athlete created, approved, or used the programme.
    */
-  conversionPrompt?: string;
+  conversionPrompt?: LocalizedString;
 };
 
 /** Optional structured comparison between related training systems (Prompt 5D). */
 export type SystemComparisonRow = {
-  dimension: string;
-  thisSystem: string;
-  otherSystem: string;
+  dimension: LocalizedString;
+  thisSystem: LocalizedString;
+  otherSystem: LocalizedString;
 };
 
 export type SystemComparison = {
-  title: string;
+  title: LocalizedString;
   counterpartSlug: string;
-  counterpartName: string;
+  counterpartName: LocalizedString;
   /** Short framing paragraph — original analysis, not a copyrighted table reprint. */
-  summary: string;
+  summary: LocalizedString;
   rows: SystemComparisonRow[];
 };
 
 export type LegendaryMethodSeo = {
-  title: string;
-  description: string;
+  title: LocalizedString;
+  description: LocalizedString;
   canonicalPath: string;
   keywords?: string[];
 };
@@ -274,19 +281,20 @@ export type LegendaryLegalReviewStatus = "pending" | "passed";
 export type LegendaryMethodProfile = {
   slug: string;
   status: LegendaryMethodStatus;
+  /** Proper name — not localized. */
   athleteName: string;
-  profileTitle: string;
-  shortTitle: string;
+  profileTitle: LocalizedString;
+  shortTitle: LocalizedString;
   category: LegendaryMethodCategory;
-  era?: string;
-  nationality?: string;
-  sportLabel: string;
-  summary: string;
-  introductoryDisclaimer: string;
-  keyCharacteristics: string[];
-  bestFor: string[];
-  notRecommendedFor: string[];
-  trainingDays?: string;
+  era?: LocalizedString;
+  nationality?: LocalizedString;
+  sportLabel: LocalizedString;
+  summary: LocalizedString;
+  introductoryDisclaimer: LocalizedString;
+  keyCharacteristics: LocalizedString[];
+  bestFor: LocalizedString[];
+  notRecommendedFor: LocalizedString[];
+  trainingDays?: LocalizedString;
   quickProfile: QuickMethodProfile;
   scores: LegendaryMethodScores;
   evidenceQuality: EvidenceQuality;
@@ -294,7 +302,7 @@ export type LegendaryMethodProfile = {
    * Required when evidenceQuality is "high".
    * Prevents labelling everything as high without justification.
    */
-  evidenceQualityNote?: string;
+  evidenceQualityNote?: LocalizedString;
   lastReviewedAt?: string;
   /**
    * Legal/editorial review gate. Must be "passed" to publish.
@@ -304,7 +312,7 @@ export type LegendaryMethodProfile = {
   sections: LegendaryMethodSection[];
   trainingStructure?: TrainingStructureVisual;
   whyItWorked?: WhyItWorkedFactors;
-  whatLiftersGetWrong: string[];
+  whatLiftersGetWrong: LocalizedString[];
   exampleWeek?: ExampleTrainingWeek;
   modernAdaptation?: ModernAdaptation;
   /** Present on system profiles that include an explicit comparison block. */
@@ -320,12 +328,12 @@ export type LegendaryMethodListItem = {
   slug: string;
   status: LegendaryMethodStatus;
   athleteName: string;
-  profileTitle: string;
-  shortTitle: string;
+  profileTitle: LocalizedString;
+  shortTitle: LocalizedString;
   category: LegendaryMethodCategory;
-  sportLabel: string;
-  era?: string;
-  summary: string;
+  sportLabel: LocalizedString;
+  era?: LocalizedString;
+  summary: LocalizedString;
 };
 
 /** @deprecated Prefer LEGENDARY_METHOD_CATEGORIES — kept for Prompt 1 SportCategoryMark mapping. */
@@ -357,7 +365,7 @@ export function categoryToSportMark(
 }
 
 export function emptyScoredMetric(): ScoredMetric {
-  return { value: null, justification: "" };
+  return { value: null, justification: { en: "", cs: "" } };
 }
 
 export function emptyScores(): LegendaryMethodScores {
@@ -374,14 +382,15 @@ export function emptyScores(): LegendaryMethodScores {
 export function emptyQuickProfile(
   evidenceQuality: EvidenceQuality = "limited",
 ): QuickMethodProfile {
+  const empty = { en: "", cs: "" };
   return {
-    primaryGoal: "",
-    typicalFrequency: "",
-    volumeLevel: "",
-    intensityProfile: "",
-    recoveryDemand: "",
-    technicalDifficulty: "",
-    bestSuitedFor: "",
+    primaryGoal: empty,
+    typicalFrequency: empty,
+    volumeLevel: empty,
+    intensityProfile: empty,
+    recoveryDemand: empty,
+    technicalDifficulty: empty,
+    bestSuitedFor: empty,
     evidenceQuality,
   };
 }

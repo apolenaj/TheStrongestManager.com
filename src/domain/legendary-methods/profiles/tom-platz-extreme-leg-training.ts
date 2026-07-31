@@ -3,13 +3,13 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Tom Platz — extreme leg training analysis (Prompt 5A).
  * Built from Platz’s publicly reported interviews/statements — not a copied workout table.
  */
-export const TOM_PLATZ_EXTREME_LEG_TRAINING: LegendaryMethodProfile = {
+export const TOM_PLATZ_EXTREME_LEG_TRAINING = fromEnglishProfile({
   slug: "tom-platz-extreme-leg-training",
   status: "published",
   legalReviewStatus: "passed",
@@ -337,4 +337,4 @@ A practical sequence for intermediates: establish consistent depth and bracing o
       "extreme leg hypertrophy",
     ],
   },
-};
+});

@@ -7,12 +7,16 @@ import {
   LEGENDARY_CONTENT_LAYER_LABELS,
   LEGENDARY_PROFILE_TOC,
   editorialLabelForContentLayer,
-  estimateLegendaryMethodReadingTimeMinutes,
   type LegendaryContentLayer,
   type LegendaryEditorialLabelId,
-  type LegendaryMethodProfile,
-  type ScoredMetric,
+  type ScoreValue,
 } from "@/domain/legendary-methods";
+import type { ResolvedLegendaryMethodProfile } from "@/domain/legendary-methods/resolve-profile";
+
+type ResolvedScore = {
+  value: ScoreValue | null;
+  justification: string;
+};
 import { LegendaryEditorialLabel } from "@/components/legendary-methods/LegendaryEditorialLabel";
 import { LegendaryMethodCardArt } from "@/components/legendary-methods/LegendaryMethodCardArt";
 import {
@@ -39,7 +43,7 @@ function formatReviewedDate(value?: string): string {
   });
 }
 
-function ScoreBar({ metric, label }: { metric: ScoredMetric; label: string }) {
+function ScoreBar({ metric, label }: { metric: ResolvedScore; label: string }) {
   const value = metric.value;
   const width = value == null ? 0 : value * 10;
   return (
@@ -202,15 +206,15 @@ function PendingCopy({ children }: { children: ReactNode }) {
 }
 
 function getSectionBody(
-  profile: LegendaryMethodProfile,
-  id: LegendaryMethodProfile["sections"][number]["id"],
+  profile: ResolvedLegendaryMethodProfile,
+  id: ResolvedLegendaryMethodProfile["sections"][number]["id"],
 ): string {
   return profile.sections.find((section) => section.id === id)?.body.trim() ?? "";
 }
 
 function getSectionSourceRefs(
-  profile: LegendaryMethodProfile,
-  id: LegendaryMethodProfile["sections"][number]["id"],
+  profile: ResolvedLegendaryMethodProfile,
+  id: ResolvedLegendaryMethodProfile["sections"][number]["id"],
 ): number[] | undefined {
   return profile.sections.find((section) => section.id === id)?.sourceRefs;
 }
@@ -221,10 +225,24 @@ function getSectionSourceRefs(
 export function LegendaryMethodProfileTemplate({
   profile,
 }: {
-  profile: LegendaryMethodProfile;
+  /** Locale-resolved profile (strings already extracted for the active locale). */
+  profile: ResolvedLegendaryMethodProfile;
 }) {
   const t = useTranslations("LegendaryMethods");
-  const readingTime = estimateLegendaryMethodReadingTimeMinutes(profile);
+  // Reading time uses English registry fields when available; fall back via resolved text length.
+  const readingTime = Math.max(
+    5,
+    Math.ceil(
+      [
+        profile.summary,
+        profile.introductoryDisclaimer,
+        ...profile.sections.map((section) => section.body),
+      ]
+        .join(" ")
+        .split(/\s+/)
+        .filter(Boolean).length / 220,
+    ),
+  );
   const reviewed =
     profile.lastReviewedAt ?? profile.updatedAt ?? profile.publishedAt;
   const athleteEraBody = getSectionBody(profile, "athlete-and-era");
@@ -307,7 +325,7 @@ export function LegendaryMethodProfileTemplate({
           <p className="legendary-prose mt-6 text-base sm:text-lg">
             {profile.summary.trim()
               ? profile.summary
-              : "Educational analysis shell — long-form sourced content is added before publish."}
+              : t("profile.emptySummary")}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-2">
@@ -371,14 +389,32 @@ export function LegendaryMethodProfileTemplate({
             <dl className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
               {(
                 [
-                  ["Primary goal", quick.primaryGoal],
-                  ["Typical frequency", quick.typicalFrequency || profile.trainingDays || ""],
-                  ["Volume level", quick.volumeLevel],
-                  ["Intensity profile", quick.intensityProfile],
-                  ["Recovery demand", quick.recoveryDemand],
-                  ["Technical difficulty", quick.technicalDifficulty],
-                  ["Best suited for", quick.bestSuitedFor || profile.bestFor.join(", ")],
-                  ["Evidence quality", quick.evidenceQuality || profile.evidenceQuality],
+                  [t("profile.quickFields.primaryGoal"), quick.primaryGoal],
+                  [
+                    t("profile.quickFields.typicalFrequency"),
+                    quick.typicalFrequency || profile.trainingDays || "",
+                  ],
+                  [t("profile.quickFields.volumeLevel"), quick.volumeLevel],
+                  [
+                    t("profile.quickFields.intensityProfile"),
+                    quick.intensityProfile,
+                  ],
+                  [
+                    t("profile.quickFields.recoveryDemand"),
+                    quick.recoveryDemand,
+                  ],
+                  [
+                    t("profile.quickFields.technicalDifficulty"),
+                    quick.technicalDifficulty,
+                  ],
+                  [
+                    t("profile.quickFields.bestSuitedFor"),
+                    quick.bestSuitedFor || profile.bestFor.join(", "),
+                  ],
+                  [
+                    t("profile.quickFields.evidenceQuality"),
+                    quick.evidenceQuality || profile.evidenceQuality,
+                  ],
                 ] as const
               ).map(([label, value]) => (
                 <div

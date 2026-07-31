@@ -41,6 +41,32 @@ function useProgramCardLabels() {
     return map[methodId] ?? methodId;
   }
 
+  function difficultyLabel(value: string): string {
+    const map: Record<string, string> = {
+      beginner: t("difficultyBeginner"),
+      intermediate: t("difficultyIntermediate"),
+      advanced: t("difficultyAdvanced"),
+    };
+    return map[value] ?? value;
+  }
+
+  function focusLabel(model: ProgramCardModel): string {
+    if (model.familyId === "complete-method-collection") {
+      return t("focusMulti");
+    }
+    const goals = [
+      ...(model.paid?.goals ?? []),
+      ...(model.free?.goals ?? []),
+    ];
+    if (goals.includes("competition_prep")) return t("focusCompetition");
+    if (goals.includes("powerlifting")) return t("focusPowerlifting");
+    if (goals.includes("hypertrophy")) return t("focusHypertrophy");
+    if (goals.includes("strength") || goals.includes("general_strength")) {
+      return t("focusMaximalStrength");
+    }
+    return t("focusGeneral");
+  }
+
   function recoveryLabel(value: string): string {
     const map: Record<string, string> = {
       low: t("recoveryLow"),
@@ -60,14 +86,29 @@ function useProgramCardLabels() {
     return map[value] ?? value;
   }
 
-  return { t, methodLabel, recoveryLabel, scheduleLabel };
+  return {
+    t,
+    methodLabel,
+    difficultyLabel,
+    focusLabel,
+    recoveryLabel,
+    scheduleLabel,
+  };
 }
 
 export function ProgramCard({ model, className, style }: ProgramCardProps) {
-  const { t, methodLabel, recoveryLabel, scheduleLabel } = useProgramCardLabels();
+  const {
+    t,
+    methodLabel,
+    difficultyLabel,
+    focusLabel,
+    recoveryLabel,
+    scheduleLabel,
+  } = useProgramCardLabels();
   const primary = model.paid ?? model.free;
   if (!primary) return null;
 
+  const detailHref = `/programs/${primary.slug}`;
   const durationLabel = t("weeks", {
     weeks: model.paid ? model.paid.durationWeeks : model.free!.durationWeeks,
   });
@@ -79,83 +120,83 @@ export function ProgramCard({ model, className, style }: ProgramCardProps) {
     <article
       style={style}
       className={cn(
-        "group flex h-full flex-col border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-6 transition-[border-color,transform,background-color] duration-[var(--duration-normal)] ease-[var(--easing-standard)] hover:-translate-y-0.5 hover:border-[color-mix(in_srgb,var(--color-accent)_35%,var(--color-border))] hover:bg-[var(--color-surface-overlay)]",
+        "group relative flex h-full flex-col border border-white/10 bg-zinc-900 p-6 transition-[transform,box-shadow,border-color] duration-300 ease-[var(--easing-standard)]",
+        "hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--color-accent)_45%,transparent)]",
+        "hover:shadow-[0_20px_50px_-18px_rgba(183,255,42,0.45),0_0_0_1px_rgba(183,255,42,0.18)]",
         className,
       )}
     >
-      <div className="flex flex-wrap items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
+
+      <div className="flex flex-wrap items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">
         <span>{methodLabel(model.methodId)}</span>
-        <span aria-hidden className="text-[var(--color-border-strong)]">
+        <span aria-hidden className="text-white/20">
           /
         </span>
-        <span className="text-[var(--color-foreground)]">{model.difficulty}</span>
+        <span className="text-zinc-100">{priceLabel}</span>
       </div>
 
-      <h3 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
+      <h3 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-zinc-50">
         <Link
-          href={`/programs/${primary.slug}`}
+          href={detailHref}
           className="transition-colors duration-200 hover:text-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
           {model.name}
         </Link>
       </h3>
 
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--color-muted)]">
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-400">
         {model.description}
       </p>
 
-      <dl className="mt-6 grid grid-cols-2 gap-3 border-t border-[var(--color-border)] pt-5 text-sm">
+      <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-white/10 pt-5 text-sm">
         <div>
-          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-subtle)]">
+          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-zinc-500">
             {t("duration")}
           </dt>
-          <dd className="mt-1 text-[var(--color-foreground)]">{durationLabel}</dd>
+          <dd className="mt-1.5 font-medium text-zinc-100">{durationLabel}</dd>
         </div>
         <div>
-          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-subtle)]">
-            {t("price")}
+          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-zinc-500">
+            {t("focus")}
           </dt>
-          <dd className="mt-1 text-[var(--color-foreground)]">{priceLabel}</dd>
-        </div>
-        <div className="col-span-2">
-          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-subtle)]">
-            {t("recovery")}
-          </dt>
-          <dd className="mt-1 text-[var(--color-foreground)]">
-            {recoveryLabel(model.recoveryDemand)}
+          <dd className="mt-1.5 font-medium text-zinc-100">
+            {focusLabel(model)}
           </dd>
         </div>
-        <div className="col-span-2">
-          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-subtle)]">
-            {t("schedules")}
+        <div>
+          <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-zinc-500">
+            {t("difficulty")}
           </dt>
-          <dd className="mt-1 text-[var(--color-muted)]">
-            {model.availableSchedules.map(scheduleLabel).join(" · ")}
+          <dd className="mt-1.5 font-medium text-zinc-100">
+            {difficultyLabel(model.difficulty)}
           </dd>
         </div>
       </dl>
 
+      <p className="mt-3 text-xs text-zinc-500">
+        {recoveryLabel(model.recoveryDemand)}
+        {" · "}
+        {model.availableSchedules.map(scheduleLabel).join(" · ")}
+      </p>
+
       <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+        <Link
+          href={detailHref}
+          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-[background-color,transform] duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+        >
+          {t("getStarted")}
+          <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
+        </Link>
         {model.free ? (
           <Link
             href={`/programs/start/${model.free.slug}`}
-            className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+            className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-sm border border-white/15 px-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-zinc-100 transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
             {t("tryFree")}
-            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
-          </Link>
-        ) : null}
-        {model.paid ? (
-          <Link
-            href={`/programs/${model.paid.slug}`}
-            className={cn(
-              "inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-sm border border-[var(--color-border-strong)] px-4 text-center text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-foreground)] transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
-              !model.free &&
-                "border-transparent bg-[var(--color-accent)] text-[var(--color-accent-foreground)] hover:bg-[var(--color-accent-hover)] hover:text-[var(--color-accent-foreground)]",
-            )}
-          >
-            {t("view")}
-            <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
           </Link>
         ) : null}
       </div>

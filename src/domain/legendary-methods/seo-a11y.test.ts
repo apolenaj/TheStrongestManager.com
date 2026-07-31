@@ -56,11 +56,11 @@ describe("legendary methods SEO and publish integrity", () => {
       true,
     );
     const titles = new Set(
-      LEGENDARY_METHOD_PROFILES.map((p) => p.seo.title.trim().toLowerCase()),
+      LEGENDARY_METHOD_PROFILES.map((p) => p.seo.title.en.trim().toLowerCase()),
     );
     const descriptions = new Set(
       LEGENDARY_METHOD_PROFILES.map((p) =>
-        p.seo.description.trim().toLowerCase(),
+        p.seo.description.en.trim().toLowerCase(),
       ),
     );
     expect(titles.size).toBe(LEGENDARY_METHOD_PROFILES.length);
@@ -70,7 +70,7 @@ describe("legendary methods SEO and publish integrity", () => {
   it("meets publish gates including disclaimer, sources, and legal review for every registry profile", () => {
     for (const profile of LEGENDARY_METHOD_PROFILES) {
       expect(canPublishLegendaryMethod(profile)).toBe(true);
-      expect(profile.introductoryDisclaimer.trim().length).toBeGreaterThan(40);
+      expect(profile.introductoryDisclaimer.en.trim().length).toBeGreaterThan(40);
       expect(profile.sources.length).toBeGreaterThanOrEqual(3);
       expect(profile.evidenceQuality).toBeTruthy();
       expect(profile.legalReviewStatus).toBe("passed");

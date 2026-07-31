@@ -3,56 +3,124 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
+import { L } from "@/domain/legendary-methods/localized";
 
 /**
  * Arnold Schwarzenegger — Golden Era volume analysis (Prompt 5A).
  * Original editorial synthesis from public books/interviews — not a reprint of any routine.
  * Published after editorial content + historical documentation pass (Prompt premium publish).
  */
-export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME: LegendaryMethodProfile = {
+export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME = fromEnglishProfile({
   slug: "arnold-schwarzenegger-golden-era-volume",
   status: "published",
   legalReviewStatus: "passed",
   publishedAt: LEGENDARY_PUBLISH_DATE,
   updatedAt: LEGENDARY_PUBLISH_DATE,
   athleteName: "Arnold Schwarzenegger",
-  profileTitle: "Arnold Schwarzenegger — Analysis of Golden Era Volume",
-  shortTitle: "Golden Era Volume",
+  profileTitle: L(
+    "Arnold Schwarzenegger — Analysis of Golden Era Volume",
+    "Arnold Schwarzenegger — Analýza objemového tréninku Zlaté éry",
+  ),
+  shortTitle: L("Golden Era Volume", "Objem Zlaté éry"),
   category: "bodybuilding",
-  era: "Golden Era bodybuilding (late 1960s–1970s peak competition years)",
-  nationality: "Austrian / American",
-  sportLabel: "Bodybuilding",
-  summary:
+  era: L(
+    "Golden Era bodybuilding (late 1960s–1970s peak competition years)",
+    "Bodybuilding Zlaté éry (konec 60. a 70. léta — vrcholné závodní roky)",
+  ),
+  nationality: L("Austrian / American", "Rakousko / USA"),
+  sportLabel: L("Bodybuilding", "Bodybuilding"),
+  summary: L(
     "An independent analysis of high-frequency, high-volume Golden Era bodybuilding as documented in Arnold Schwarzenegger’s major published training texts and later instructional writing — focusing on principles, context, and recovery cost rather than treating any single template as a permanent ‘Arnold programme’.",
-  introductoryDisclaimer:
+    "Nezávislá analýza vysokofrekvenčního, vysokobjemového bodybuildingu Zlaté éry, jak je zdokumentován v hlavních publikovaných tréninkových textech Arnolda Schwarzeneggera a pozdějších instruktážních materiálech — důraz na principy, kontext a cenu regenerace, ne na jeden „věčný Arnold program“.",
+  ),
+  introductoryDisclaimer: L(
     "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Arnold Schwarzenegger. Descriptions synthesise publicly available publications; they do not reproduce copyrighted routines, tables, or book chapters. Modernised examples are original The Strongest interpretations.",
+    "Tento profil je nezávislá vzdělávací analýza. Není afilován, autorizován, sponzorován ani endorseován Arnoldem Schwarzeneggerem. Popisy syntetizují veřejně dostupné publikace; nereprodukují copyrightované rutiny, tabulky ani kapitoly knih. Modernizované příklady jsou originální interpretace The Strongest.",
+  ),
   keyCharacteristics: [
-    "High weekly training frequency for major muscle groups",
-    "High set volume across multiple exercises per body part",
-    "Antagonist and same-muscle supersets as intensity/density tools",
-    "Progressive overload framed as continual drive in weight or work",
-    "Competition-era context that ordinary lifters should not copy wholesale",
+    L(
+      "High weekly training frequency for major muscle groups",
+      "Vysoká týdenní frekvence pro hlavní svalové skupiny",
+    ),
+    L(
+      "High set volume across multiple exercises per body part",
+      "Vysoký objem sérií napříč více cviky na partii",
+    ),
+    L(
+      "Antagonist and same-muscle supersets as intensity/density tools",
+      "Antagonistické a same-muscle supersety jako nástroje intenzity a hustoty",
+    ),
+    L(
+      "Progressive overload framed as continual drive in weight or work",
+      "Progresivní přetížení jako permanentní tlak na zátěž nebo odvedenou práci",
+    ),
+    L(
+      "Competition-era context that ordinary lifters should not copy wholesale",
+      "Závodní kontext, který běžný lifter nemá kopírovat 1:1",
+    ),
   ],
   bestFor: [
-    "Intermediate-plus physique-focused lifters with strong recovery capacity",
-    "Athletes exploring antagonist pairing and training density",
-    "Coaches studying historical high-volume hypertrophy culture",
+    L(
+      "Intermediate-plus physique-focused lifters with strong recovery capacity",
+      "Středně pokročilí a výš — physique lifteři se silnou regenerací",
+    ),
+    L(
+      "Athletes exploring antagonist pairing and training density",
+      "Atleti, kteří chtějí antagonistické párování a tréninkovou hustotu",
+    ),
+    L(
+      "Coaches studying historical high-volume hypertrophy culture",
+      "Kouči studující historickou kulturu vysokého hypertrofního objemu",
+    ),
   ],
   notRecommendedFor: [
-    "Beginners still learning basic squat, hinge, press, and pull patterns",
-    "Lifters with unresolved joint pain or sleep/nutrition deficits",
-    "Anyone seeking a minimal effective-dose strength programme",
+    L(
+      "Beginners still learning basic squat, hinge, press, and pull patterns",
+      "Začátečníci, kteří ještě stabilizují dřep, hinge, tlak a tah",
+    ),
+    L(
+      "Lifters with unresolved joint pain or sleep/nutrition deficits",
+      "Lifteři s nevyřešenou bolestí kloubů nebo deficity spánku/výživy",
+    ),
+    L(
+      "Anyone seeking a minimal effective-dose strength programme",
+      "Každý, kdo hledá minimální efektivní silový program",
+    ),
   ],
-  trainingDays: "Often described as near-daily training in competition phases; frequency varied by era and goal",
+  trainingDays: L(
+    "Often described as near-daily training in competition phases; frequency varied by era and goal",
+    "V závodních fázích často popisováno jako téměř denní trénink; frekvence se měnila podle éry a cíle",
+  ),
   quickProfile: {
-    primaryGoal: "Muscular size, shape, and stage conditioning",
-    typicalFrequency: "Major groups often trained ~2–3×/week in documented competition-era templates",
-    volumeLevel: "Very high relative to modern ‘minimum effective dose’ hypertrophy",
-    intensityProfile: "Moderate-to-heavy loads with high effort; frequent failure/near-failure reporting in popular accounts",
-    recoveryDemand: "Very high — sleep, food, and schedule were part of the system",
-    technicalDifficulty: "Moderate movement difficulty; high organisational and recovery difficulty",
-    bestSuitedFor: "Advanced physique athletes with coaching/support and time",
+    primaryGoal: L(
+      "Muscular size, shape, and stage conditioning",
+      "Svalový objem, tvar a stage kondice",
+    ),
+    typicalFrequency: L(
+      "Major groups often trained ~2–3×/week in documented competition-era templates",
+      "Hlavní partie v dokumentovaných závodních šablonách často ~2–3×/týden",
+    ),
+    volumeLevel: L(
+      "Very high relative to modern ‘minimum effective dose’ hypertrophy",
+      "Velmi vysoký oproti moderní ‚minimum effective dose‘ hypertrofii",
+    ),
+    intensityProfile: L(
+      "Moderate-to-heavy loads with high effort; frequent failure/near-failure reporting in popular accounts",
+      "Střední až těžké zátěže s vysokým úsilím; v populárních účtech časté failure / near-failure",
+    ),
+    recoveryDemand: L(
+      "Very high — sleep, food, and schedule were part of the system",
+      "Velmi vysoká — spánek, jídlo a rozvrh byly součástí systému",
+    ),
+    technicalDifficulty: L(
+      "Moderate movement difficulty; high organisational and recovery difficulty",
+      "Střední náročnost cviků; vysoká organizační a regenerační náročnost",
+    ),
+    bestSuitedFor: L(
+      "Advanced physique athletes with coaching/support and time",
+      "Pokročilí physique atleti s koučinkem, zázemím a časem",
+    ),
     evidenceQuality: "moderate",
   },
   scores: {
@@ -361,9 +429,14 @@ Practically, start by auditing current weekly hard sets per muscle, then decide 
     },
   ],
   seo: {
-    title: "Arnold Schwarzenegger Golden Era Volume Training Analysis",
-    description:
+    title: L(
+      "Arnold Schwarzenegger Golden Era Volume Training Analysis",
+      "Arnold Schwarzenegger — Analýza objemového tréninku Zlaté éry",
+    ),
+    description: L(
       "Independent analysis of Golden Era high-volume bodybuilding principles associated with Arnold Schwarzenegger — frequency, supersets, recovery cost, and why not to copy peak competition workloads.",
+      "Nezávislá analýza vysokobjemových bodybuildingových principů Zlaté éry spojených s Arnoldem Schwarzeneggerem — frekvence, supersety, cena regenerace a proč nekopicovat vrcholné závodní zátěže.",
+    ),
     canonicalPath: "/legendary-methods/arnold-schwarzenegger-golden-era-volume",
     keywords: [
       "golden era volume training",
@@ -372,4 +445,4 @@ Practically, start by auditing current weekly hard sets per muscle, then decide 
       "high volume bodybuilding",
     ],
   },
-};
+});

@@ -3,13 +3,13 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Hafþór Björnsson — strongman strength and athleticism analysis (Prompt 5B).
  * Time-sensitive claims are period-dated because his training goals change across career phases.
  */
-export const HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH: LegendaryMethodProfile = {
+export const HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH = fromEnglishProfile({
   slug: "hafthor-bjornsson-strongman-strength",
   status: "published",
   legalReviewStatus: "passed",
@@ -385,4 +385,4 @@ A practical sequence: audit which qualities your next contest or test actually r
       "strongman vs powerlifting preparation",
     ],
   },
-};
+});

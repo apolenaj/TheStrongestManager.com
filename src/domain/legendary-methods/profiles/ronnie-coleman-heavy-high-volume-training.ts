@@ -3,13 +3,13 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Ronnie Coleman — heavy high-volume bodybuilding analysis (Prompt 5A).
  * Synthesises reputable magazine reporting and widely recognised training footage context.
  */
-export const RONNIE_COLEMAN_HEAVY_HIGH_VOLUME: LegendaryMethodProfile = {
+export const RONNIE_COLEMAN_HEAVY_HIGH_VOLUME = fromEnglishProfile({
   slug: "ronnie-coleman-heavy-high-volume-training",
   status: "published",
   legalReviewStatus: "passed",
@@ -342,4 +342,4 @@ A practical entry path: choose a body-part or upper/lower split you can recover 
       "compound bodybuilding programme",
     ],
   },
-};
+});

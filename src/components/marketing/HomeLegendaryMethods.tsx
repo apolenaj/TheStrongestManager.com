@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import {
   getPublishedLegendaryMethods,
   listFeaturedLegendaryMethodCards,
@@ -13,10 +14,12 @@ const SECTION_COPY =
  * Homepage education section — does not redesign the rest of the funnel.
  * Featured cards only appear for published profiles (no empty/coming-soon cards).
  */
-export function HomeLegendaryMethods() {
+export async function HomeLegendaryMethods() {
+  const locale = await getLocale();
   const featured = listFeaturedLegendaryMethodCards(
     getPublishedLegendaryMethods(),
     6,
+    locale,
   );
 
   return (

@@ -3,16 +3,23 @@
 import {
   defaultLegendaryProgrammeConversionPrompt,
   type LegendaryMethodCategory,
-  type RelatedProgramme,
 } from "@/domain/legendary-methods";
 import { LegendaryAnalyticsLink } from "@/components/legendary-methods/LegendaryAnalytics";
+
+type ResolvedRelatedProgramme = {
+  slug: string;
+  title: string;
+  href: string;
+  relationship: string;
+  conversionPrompt?: string;
+};
 
 export function RelatedProgramLinks({
   programmes,
   profileSlug,
   category,
 }: {
-  programmes: RelatedProgramme[];
+  programmes: ResolvedRelatedProgramme[];
   profileSlug: string;
   category: LegendaryMethodCategory;
 }) {

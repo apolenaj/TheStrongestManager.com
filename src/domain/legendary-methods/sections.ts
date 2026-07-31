@@ -1,3 +1,4 @@
+import { L } from "@/domain/legendary-methods/localized";
 import type {
   LegendaryContentLayer,
   LegendaryMethodSection,
@@ -84,9 +85,9 @@ export const REQUIRED_LEGENDARY_SECTION_DEFINITIONS: readonly {
 export function createEmptyRequiredSections(): LegendaryMethodSection[] {
   return REQUIRED_LEGENDARY_SECTION_DEFINITIONS.map((def) => ({
     id: def.id,
-    title: def.title,
+    title: L(def.title),
     layer: def.layer,
-    body: "",
+    body: L(""),
   }));
 }
 

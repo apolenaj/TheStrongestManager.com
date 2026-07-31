@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   LEGENDARY_PROFILE_TOC,
 } from "@/domain/legendary-methods";
@@ -11,6 +12,7 @@ export function LegendaryMethodProfileToc({
 }: {
   sectionIds: readonly string[];
 }) {
+  const t = useTranslations("LegendaryMethods.profile");
   const items = LEGENDARY_PROFILE_TOC.filter((item) =>
     sectionIds.includes(item.id),
   );
@@ -65,7 +67,7 @@ export function LegendaryMethodProfileToc({
                     : "border-transparent text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
                 )}
               >
-                {item.label}
+                {t(`toc.${item.id}`)}
               </a>
             </li>
           );
@@ -76,7 +78,7 @@ export function LegendaryMethodProfileToc({
 
   return (
     <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start">
-      <nav aria-label="On this page" className="lg:hidden">
+      <nav aria-label={t("onThisPage")} className="lg:hidden">
         <button
           type="button"
           aria-expanded={mobileOpen}
@@ -84,9 +86,9 @@ export function LegendaryMethodProfileToc({
           onClick={() => setMobileOpen((value) => !value)}
           className="flex min-h-11 w-full items-center justify-between border border-white/10 bg-[var(--color-surface-elevated)] px-4 text-left text-sm font-semibold text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
-          On this page
+          {t("onThisPage")}
           <span className="text-xs font-normal uppercase tracking-[0.12em] text-[var(--color-muted)]">
-            {mobileOpen ? "Hide" : "Show"}
+            {mobileOpen ? t("hideToc") : t("showToc")}
           </span>
         </button>
         <div
@@ -99,11 +101,11 @@ export function LegendaryMethodProfileToc({
       </nav>
 
       <nav
-        aria-label="On this page"
+        aria-label={t("onThisPage")}
         className="legendary-surface hidden max-h-[calc(100vh-7rem)] overflow-y-auto p-4 lg:block"
       >
         <p className="px-3 pb-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-subtle)]">
-          Contents
+          {t("contents")}
         </p>
         <TocLinks />
       </nav>

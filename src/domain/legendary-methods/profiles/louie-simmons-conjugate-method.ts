@@ -4,13 +4,13 @@ import {
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import { conjugateVersusSheikoComparison } from "@/domain/legendary-methods/profiles/sheiko-vs-conjugate";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Louie Simmons — Conjugate Method analysis (Prompt 5D).
  * Principles from Westside/Simmons public writing — not a reprint of proprietary templates or logos.
  */
-export const LOUIE_SIMMONS_CONJUGATE_METHOD: LegendaryMethodProfile = {
+export const LOUIE_SIMMONS_CONJUGATE_METHOD = fromEnglishProfile({
   slug: "louie-simmons-conjugate-method",
   status: "published",
   legalReviewStatus: "passed",
@@ -347,4 +347,4 @@ A practical raw-friendly sequence: pick two lower and two upper ME variations to
       "sheiko vs conjugate",
     ],
   },
-};
+});

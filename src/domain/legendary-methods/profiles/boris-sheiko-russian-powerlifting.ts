@@ -4,13 +4,13 @@ import {
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
 import { sheikoVersusConjugateComparison } from "@/domain/legendary-methods/profiles/sheiko-vs-conjugate";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Boris Sheiko — Russian powerlifting systems analysis (Prompt 5D).
  * Principles from public books, seminars and reputable coverage — not a reprint of numbered templates.
  */
-export const BORIS_SHEIKO_RUSSIAN_POWERLIFTING: LegendaryMethodProfile = {
+export const BORIS_SHEIKO_RUSSIAN_POWERLIFTING = fromEnglishProfile({
   slug: "boris-sheiko-russian-powerlifting",
   status: "published",
   legalReviewStatus: "passed",
@@ -342,4 +342,4 @@ A practical sequence: audit current weekly hard sets on squat/bench/deadlift; ad
       "sheiko vs conjugate",
     ],
   },
-};
+});

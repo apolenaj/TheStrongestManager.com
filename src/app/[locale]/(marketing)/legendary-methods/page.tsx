@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { LegendaryMethodDisclaimer } from "@/components/legendary-methods/LegendaryMethodDisclaimer";
 import { LegendaryMethodsLibrary } from "@/components/legendary-methods/LegendaryMethodsLibrary";
@@ -54,8 +54,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LegendaryMethodsPage() {
   const t = await getTranslations("LegendaryMethods");
+  const locale = await getLocale();
   const published = getPublishedLegendaryMethods();
-  const cards = listLegendaryMethodCards(published);
+  const cards = listLegendaryMethodCards(published, locale);
   const dateModified = published
     .map((p) => p.lastReviewedAt ?? p.updatedAt ?? p.publishedAt)
     .filter(Boolean)

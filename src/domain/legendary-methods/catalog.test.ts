@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { L } from "@/domain/legendary-methods/localized";
 import {
   LEGENDARY_METHOD_PROFILES,
   REQUIRED_LEGENDARY_SECTION_DEFINITIONS,
@@ -44,7 +45,7 @@ const REQUIRED_TITLES = [
 ] as const;
 
 function scored(value: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10, justification: string) {
-  return { value, justification };
+  return { value, justification: L(justification) };
 }
 
 function basePublishable(
@@ -57,17 +58,17 @@ function basePublishable(
     ...section,
     body:
       section.id === "sources"
-        ? ""
-        : `Documented placeholder body for ${section.id}.`,
+        ? L("")
+        : L(`Documented placeholder body for ${section.id}.`),
   }));
 
   return {
     ...draft,
     status: "draft",
-    summary: "A complete summary for publish validation tests.",
-    keyCharacteristics: ["Max effort rotation", "Dynamic effort practice"],
-    bestFor: ["Intermediate+ powerlifters with coaching support"],
-    notRecommendedFor: ["Absolute beginners without recovery capacity"],
+    summary: L("A complete summary for publish validation tests."),
+    keyCharacteristics: [L("Max effort rotation"), L("Dynamic effort practice")],
+    bestFor: [L("Intermediate+ powerlifters with coaching support")],
+    notRecommendedFor: [L("Absolute beginners without recovery capacity")],
     scores: {
       strengthPotential: scored(9, "High specificity to competition lifts."),
       hypertrophyPotential: scored(5, "Secondary to strength outcomes."),
@@ -110,9 +111,9 @@ function basePublishable(
     relatedProgrammes: [
       {
         slug: "conjugate-strength-system",
-        title: "Conjugate Strength System",
+        title: L("Conjugate Strength System"),
         href: "/programs/conjugate-strength-system",
-        relationship: "Related commercial system",
+        relationship: L("Related commercial system"),
       },
     ],
     ...overrides,
@@ -122,7 +123,7 @@ function basePublishable(
 describe("legendary methods registry metadata", () => {
   it("registers ten published profiles with required public titles", () => {
     expect(allLegendaryMethodSlugs()).toEqual([...REQUIRED_SLUGS]);
-    expect(LEGENDARY_METHOD_PROFILES.map((p) => p.profileTitle)).toEqual([
+    expect(LEGENDARY_METHOD_PROFILES.map((p) => p.profileTitle.en)).toEqual([
       ...REQUIRED_TITLES,
     ]);
     expect(
@@ -145,20 +146,20 @@ describe("legendary methods registry metadata", () => {
 
     for (const profile of bodybuilding) {
       expect(profile.status).toBe("published");
-      expect(profile.summary.length).toBeGreaterThan(80);
+      expect(profile.summary.en.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
-        profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
+        profile.sections.every((s) => s.id === "sources" || s.body.en.length > 0),
       ).toBe(true);
       for (const requiredId of [
         "core-training-routine",
         "documented-nutritional-approach",
       ] as const) {
         expect(
-          profile.sections.find((s) => s.id === requiredId)?.body.length,
+          profile.sections.find((s) => s.id === requiredId)?.body.en.length,
         ).toBeGreaterThan(0);
       }
-      const words = [profile.summary, ...profile.sections.map((s) => s.body)]
+      const words = [profile.summary.en, ...profile.sections.map((s) => s.body.en)]
         .join(" ")
         .trim()
         .split(/\s+/)
@@ -177,20 +178,20 @@ describe("legendary methods registry metadata", () => {
     for (const profile of strongman) {
       expect(profile.status).toBe("published");
       expect(profile.category).toBe("strongman");
-      expect(profile.summary.length).toBeGreaterThan(80);
+      expect(profile.summary.en.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
-        profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
+        profile.sections.every((s) => s.id === "sources" || s.body.en.length > 0),
       ).toBe(true);
       for (const requiredId of [
         "core-training-routine",
         "documented-nutritional-approach",
       ] as const) {
         expect(
-          profile.sections.find((s) => s.id === requiredId)?.body.length,
+          profile.sections.find((s) => s.id === requiredId)?.body.en.length,
         ).toBeGreaterThan(0);
       }
-      const words = [profile.summary, ...profile.sections.map((s) => s.body)]
+      const words = [profile.summary.en, ...profile.sections.map((s) => s.body.en)]
         .join(" ")
         .trim()
         .split(/\s+/)
@@ -210,20 +211,20 @@ describe("legendary methods registry metadata", () => {
     for (const profile of powerlifting) {
       expect(profile.status).toBe("published");
       expect(profile.category).toBe("powerlifting");
-      expect(profile.summary.length).toBeGreaterThan(80);
+      expect(profile.summary.en.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
       expect(
-        profile.sections.every((s) => s.id === "sources" || s.body.length > 0),
+        profile.sections.every((s) => s.id === "sources" || s.body.en.length > 0),
       ).toBe(true);
       for (const requiredId of [
         "core-training-routine",
         "documented-nutritional-approach",
       ] as const) {
         expect(
-          profile.sections.find((s) => s.id === requiredId)?.body.length,
+          profile.sections.find((s) => s.id === requiredId)?.body.en.length,
         ).toBeGreaterThan(0);
       }
-      const words = [profile.summary, ...profile.sections.map((s) => s.body)]
+      const words = [profile.summary.en, ...profile.sections.map((s) => s.body.en)]
         .join(" ")
         .trim()
         .split(/\s+/)
@@ -242,19 +243,19 @@ describe("legendary methods registry metadata", () => {
     for (const profile of systems) {
       expect(profile.status).toBe("published");
       expect(profile.category).toBe("training-system");
-      expect(profile.summary.length).toBeGreaterThan(80);
+      expect(profile.summary.en.length).toBeGreaterThan(80);
       expect(profile.sources.length).toBeGreaterThanOrEqual(5);
-      expect(profile.systemComparison?.title).toBe("Sheiko vs Conjugate");
+      expect(profile.systemComparison?.title.en).toBe("Sheiko vs Conjugate");
       expect(profile.systemComparison?.rows.length).toBeGreaterThanOrEqual(8);
       for (const requiredId of [
         "core-training-routine",
         "documented-nutritional-approach",
       ] as const) {
         expect(
-          profile.sections.find((s) => s.id === requiredId)?.body.length,
+          profile.sections.find((s) => s.id === requiredId)?.body.en.length,
         ).toBeGreaterThan(0);
       }
-      const words = [profile.summary, ...profile.sections.map((s) => s.body)]
+      const words = [profile.summary.en, ...profile.sections.map((s) => s.body.en)]
         .join(" ")
         .trim()
         .split(/\s+/)
@@ -296,7 +297,7 @@ describe("legendary methods registry metadata", () => {
     expect(profile.sections.map((s) => s.id)).toEqual(
       REQUIRED_LEGENDARY_SECTION_DEFINITIONS.map((d) => d.id),
     );
-    expect(profile.sections.find((s) => s.id === "athlete-and-era")?.body.length).toBeGreaterThan(
+    expect(profile.sections.find((s) => s.id === "athlete-and-era")?.body.en.length).toBeGreaterThan(
       200,
     );
     expect(assertLegendaryMethodRegistryIntegrity(LEGENDARY_METHOD_PROFILES).ok).toBe(
@@ -309,7 +310,7 @@ describe("validateLegendaryMethodForPublish", () => {
   it("rejects incomplete draft metadata", () => {
     const draft: LegendaryMethodProfile = {
       ...getLegendaryMethodBySlug("louie-simmons-conjugate-method")!,
-      summary: "",
+      summary: L(""),
       sources: [],
       sections: createEmptyRequiredSections(),
       scores: emptyScores(),
@@ -350,7 +351,7 @@ describe("validateLegendaryMethodForPublish", () => {
   it("rejects evidenceQuality high without justification", () => {
     const profile = basePublishable({
       evidenceQuality: "high",
-      evidenceQualityNote: "",
+      evidenceQualityNote: L(""),
     });
     const result = validateLegendaryMethodForPublish(profile);
     expect(result.ok).toBe(false);
@@ -365,9 +366,9 @@ describe("validateLegendaryMethodForPublish", () => {
       relatedProgrammes: [
         {
           slug: "louie-simmons-official-program",
-          title: "Louie Simmons Official Program",
+          title: L("Louie Simmons Official Program"),
           href: "/programs/louie-simmons-official-program",
-          relationship: "Invalid naming",
+          relationship: L("Invalid naming"),
         },
       ],
     });
@@ -381,7 +382,7 @@ describe("validateLegendaryMethodForPublish", () => {
   });
 
   it("rejects missing disclaimer", () => {
-    const profile = basePublishable({ introductoryDisclaimer: "   " });
+    const profile = basePublishable({ introductoryDisclaimer: L("   ") });
     const result = validateLegendaryMethodForPublish(profile);
     expect(result.ok).toBe(false);
     if (result.ok) return;
@@ -402,8 +403,7 @@ describe("validateLegendaryMethodForPublish", () => {
 
   it("rejects prohibited wording in public copy", () => {
     const profile = basePublishable({
-      summary:
-        "This is the official programme approved by the athlete with guaranteed results.",
+      summary: L("This is the official programme approved by the athlete with guaranteed results."),
     });
     const result = validateLegendaryMethodForPublish(profile);
     expect(result.ok).toBe(false);
@@ -416,8 +416,9 @@ describe("validateLegendaryMethodForPublish", () => {
   it("accepts a fully sourced publishable profile", () => {
     const profile = basePublishable({
       evidenceQuality: "high",
-      evidenceQualityNote:
+      evidenceQualityNote: L(
         "Multiple contemporaneous coaching texts and competition records cited in sources[].",
+      ),
     });
     const result = validateLegendaryMethodForPublish(profile);
     expect(result).toEqual({ ok: true });
@@ -428,7 +429,7 @@ describe("validateLegendaryMethodForPublish", () => {
     const invalidPublished: LegendaryMethodProfile = {
       ...getLegendaryMethodBySlug("louie-simmons-conjugate-method")!,
       status: "published",
-      summary: "",
+      summary: L(""),
       sources: [],
       sections: createEmptyRequiredSections(),
       scores: emptyScores(),

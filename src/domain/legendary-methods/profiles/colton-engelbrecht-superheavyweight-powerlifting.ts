@@ -3,14 +3,14 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Colton Engelbrecht — elite superheavyweight / absolute-strength powerlifting analysis (Prompt 5C).
  * Competition claims are meet-dated via OpenPowerlifting and reputable meet reporting.
  * Training claims stay at interview-supported principle level — not a proprietary programme.
  */
-export const COLTON_ENGELBRECHT_SUPERHEAVYWEIGHT: LegendaryMethodProfile = {
+export const COLTON_ENGELBRECHT_SUPERHEAVYWEIGHT = fromEnglishProfile({
   slug: "colton-engelbrecht-superheavyweight-powerlifting",
   status: "published",
   legalReviewStatus: "passed",
@@ -347,4 +347,4 @@ Practically: pick one meet date, choose sleeves or wraps deliberately, build 8�
       "superheavyweight powerlifting training principles",
     ],
   },
-};
+});

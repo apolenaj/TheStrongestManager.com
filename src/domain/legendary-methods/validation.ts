@@ -57,7 +57,7 @@ export function relatedProgrammeUsesAthleteName(
   if (tokens.length === 0) return false;
 
   for (const programme of profile.relatedProgrammes) {
-    const haystack = `${programme.title} ${programme.slug}`.toLowerCase();
+    const haystack = `${en(programme.title)} ${programme.slug}`.toLowerCase();
     for (const token of tokens) {
       if (haystack.includes(token)) return true;
     }
@@ -119,16 +119,22 @@ const SCORE_FIELDS = [
  * Development / publish gate for Legendary Method profiles.
  * Drafts may fail these checks; published profiles must not.
  */
+
+function en(value: { en: string; cs: string } | string | undefined | null): string {
+  if (value == null) return "";
+  return typeof value === "string" ? value : value.en;
+}
+
 export function validateLegendaryMethodForPublish(
   profile: LegendaryMethodProfile,
 ): LegendaryMethodValidationResult {
   const issues: LegendaryMethodValidationIssue[] = [];
 
-  if (!profile.summary.trim()) {
+  if (!en(profile.summary).trim()) {
     issues.push(issue("summary_empty", "Summary is required to publish.", "summary"));
   }
 
-  if (!profile.introductoryDisclaimer.trim()) {
+  if (!en(profile.introductoryDisclaimer).trim()) {
     issues.push(
       issue(
         "disclaimer_missing",
@@ -171,7 +177,7 @@ export function validateLegendaryMethodForPublish(
     }
     const section = profile.sections.find((s) => s.id === required.id);
     if (required.id === "sources") continue;
-    if (!section?.body.trim()) {
+    if (!en(section?.body).trim()) {
       issues.push(
         issue(
           "required_section_empty",
@@ -193,7 +199,7 @@ export function validateLegendaryMethodForPublish(
         ),
       );
     }
-    if (!metric.justification.trim()) {
+    if (!en(metric.justification).trim()) {
       issues.push(
         issue(
           "score_justification_missing",
@@ -205,7 +211,7 @@ export function validateLegendaryMethodForPublish(
   }
 
   if (profile.evidenceQuality === "high") {
-    if (!profile.evidenceQualityNote?.trim()) {
+    if (!en(profile.evidenceQualityNote).trim()) {
       issues.push(
         issue(
           "evidence_high_unjustified",
@@ -267,7 +273,7 @@ export function validateLegendaryMethodForPublish(
     );
   }
 
-  if (!profile.seo.title.trim() || profile.seo.title.trim().length < 12) {
+  if (!en(profile.seo.title).trim() || en(profile.seo.title).trim().length < 12) {
     issues.push(
       issue(
         "seo_title_weak",
@@ -277,8 +283,8 @@ export function validateLegendaryMethodForPublish(
     );
   }
   if (
-    !profile.seo.description.trim() ||
-    profile.seo.description.trim().length < 50
+    !en(profile.seo.description).trim() ||
+    en(profile.seo.description).trim().length < 50
   ) {
     issues.push(
       issue(
@@ -325,8 +331,8 @@ export function assertLegendaryMethodRegistryIntegrity(
   const canonicals = new Map<string, string>();
 
   for (const profile of profiles) {
-    const titleKey = profile.seo.title.trim().toLowerCase();
-    const descKey = profile.seo.description.trim().toLowerCase();
+    const titleKey = en(profile.seo.title).trim().toLowerCase();
+    const descKey = en(profile.seo.description).trim().toLowerCase();
     const canonicalKey = profile.seo.canonicalPath.trim().toLowerCase();
 
     if (titleKey) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { MarketingContainer } from "@/components/marketing/MarketingContainer";
 import { LegendaryMethodProfileTemplate } from "@/components/legendary-methods/LegendaryMethodProfileTemplate";
 import { LegendaryProfileOpenedBeacon } from "@/components/legendary-methods/LegendaryAnalytics";
@@ -12,11 +13,13 @@ import {
   getLegendaryMethodDetail,
   legendaryMethodsSocialMetadata,
 } from "@/domain/legendary-methods";
+import { resolveLegendaryProfile } from "@/domain/legendary-methods/resolve-profile";
+import { resolveLocale } from "@/domain/legendary-methods/localized";
 import { articleJsonLd, breadcrumbJsonLd } from "@/domain/seo";
 import { absoluteUrl } from "@/config/site";
 
 type LegendaryMethodDetailPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 /**
@@ -31,24 +34,26 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: LegendaryMethodDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
   const published = getLegendaryMethodDetail(slug);
   if (published) {
-    const canonical = published.seo.canonicalPath;
+    const resolved = resolveLegendaryProfile(published, locale);
+    const canonical = resolved.seo.canonicalPath;
     const modified =
       published.lastReviewedAt ?? published.updatedAt ?? published.publishedAt;
     const social = legendaryMethodsSocialMetadata({
-      title: published.seo.title,
-      description: published.seo.description,
+      title: resolved.seo.title,
+      description: resolved.seo.description,
       path: canonical,
       type: "article",
       publishedTime: published.publishedAt,
       modifiedTime: modified,
     });
     return {
-      title: published.seo.title,
-      description: published.seo.description,
-      keywords: published.seo.keywords,
+      title: resolved.seo.title,
+      description: resolved.seo.description,
+      keywords: resolved.seo.keywords,
       alternates: { canonical },
       ...social,
       authors: [{ name: "Josef" }, { name: "The Strongest editorial team" }],
@@ -58,13 +63,14 @@ export async function generateMetadata({
 
   const draft = getLegendaryMethodBySlug(slug);
   if (!draft || !canServeLegendaryMethodProfile(draft.status)) {
-    return { title: "Profile not found", robots: { index: false, follow: false } };
+    const t = await getTranslations("LegendaryMethods.notFound");
+    return { title: t("title"), robots: { index: false, follow: false } };
   }
 
-  // Drafts: noindex, no canonical (avoid duplicate URL signals).
+  const resolvedDraft = resolveLegendaryProfile(draft, locale);
   return {
-    title: draft.seo.title,
-    description: draft.seo.description,
+    title: resolvedDraft.seo.title,
+    description: resolvedDraft.seo.description,
     robots: { index: false, follow: false },
   };
 }
@@ -72,7 +78,9 @@ export async function generateMetadata({
 export default async function LegendaryMethodDetailPage({
   params,
 }: LegendaryMethodDetailPageProps) {
-  const { slug } = await params;
+  const { slug, locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
+  const t = await getTranslations("LegendaryMethods");
   const published = getLegendaryMethodDetail(slug);
   const draft = getLegendaryMethodBySlug(slug);
   const profile = published ?? draft;
@@ -81,23 +89,24 @@ export default async function LegendaryMethodDetailPage({
     notFound();
   }
 
+  const resolved = resolveLegendaryProfile(profile, locale);
   const isPublished = profile.status === "published";
   const dateModified =
     profile.lastReviewedAt ?? profile.updatedAt ?? profile.publishedAt;
   const jsonLd = isPublished
     ? [
         articleJsonLd({
-          headline: profile.profileTitle,
-          description: profile.summary || profile.seo.description,
-          path: profile.seo.canonicalPath,
+          headline: resolved.profileTitle,
+          description: resolved.summary || resolved.seo.description,
+          path: resolved.seo.canonicalPath,
           datePublished: profile.publishedAt,
           dateModified,
           image: absoluteUrl(LEGENDARY_METHODS_OG_IMAGE_PATH),
         }),
         breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Legendary Methods", path: "/legendary-methods" },
-          { name: profile.athleteName, path: profile.seo.canonicalPath },
+          { name: t("profile.home"), path: "/" },
+          { name: t("profile.library"), path: "/legendary-methods" },
+          { name: resolved.athleteName, path: resolved.seo.canonicalPath },
         ]),
       ]
     : null;
@@ -106,17 +115,16 @@ export default async function LegendaryMethodDetailPage({
     <div className="bg-[var(--color-background)]">
       {jsonLd ? <JsonLdScript data={jsonLd} /> : null}
       <MarketingContainer className="py-16 sm:py-24">
-        <LegendaryProfileOpenedBeacon slug={profile.slug} />
+        <LegendaryProfileOpenedBeacon slug={resolved.slug} />
         {!isPublished ? (
           <p
             className="mb-8 border border-white/10 bg-[var(--color-surface)] px-4 py-3 text-sm leading-relaxed text-[var(--color-muted)]"
             role="status"
           >
-            Draft preview (ALLOW_LEGENDARY_DRAFT_PREVIEW) — noindex, excluded from
-            sitemap and public library cards.
+            {t("profile.draftPreview")}
           </p>
         ) : null}
-        <LegendaryMethodProfileTemplate profile={profile} />
+        <LegendaryMethodProfileTemplate profile={resolved} />
       </MarketingContainer>
     </div>
   );

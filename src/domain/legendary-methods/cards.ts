@@ -5,6 +5,11 @@ import {
   type LegendaryMethodProfile,
   type ScoreValue,
 } from "@/domain/legendary-methods/types";
+import {
+  pickLocalized,
+  resolveLocale,
+  type LocalizedString,
+} from "@/domain/legendary-methods/localized";
 
 /** Card payload for the /legendary-methods library (published profiles only). */
 export type LegendaryMethodCardModel = {
@@ -26,9 +31,15 @@ export type LegendaryMethodCardModel = {
 
 const WORDS_PER_MINUTE = 220;
 
+function text(value: LocalizedString | string, locale: string): string {
+  return pickLocalized(value, locale);
+}
+
 export function estimateLegendaryMethodReadingTimeMinutes(
   profile: LegendaryMethodProfile,
+  localeInput: string = "en",
 ): number {
+  const locale = resolveLocale(localeInput);
   const text = [
     profile.summary,
     profile.introductoryDisclaimer,
@@ -36,13 +47,15 @@ export function estimateLegendaryMethodReadingTimeMinutes(
     ...profile.bestFor,
     ...profile.notRecommendedFor,
     ...profile.sections.map((section) => section.body),
-    profile.modernAdaptation?.summary ?? "",
-    profile.modernAdaptation?.beginnerAdjustment ?? "",
-    profile.modernAdaptation?.intermediateAdjustment ?? "",
-    profile.modernAdaptation?.advancedAdjustment ?? "",
+    profile.modernAdaptation?.summary,
+    profile.modernAdaptation?.beginnerAdjustment,
+    profile.modernAdaptation?.intermediateAdjustment,
+    profile.modernAdaptation?.advancedAdjustment,
     ...(profile.modernAdaptation?.recoveryControls ?? []),
     ...(profile.modernAdaptation?.progressionRules ?? []),
   ]
+    .filter(Boolean)
+    .map((value) => pickLocalized(value as LocalizedString, locale))
     .join(" ")
     .trim();
 
@@ -53,33 +66,44 @@ export function estimateLegendaryMethodReadingTimeMinutes(
 
 export function toLegendaryMethodCardModel(
   profile: LegendaryMethodProfile,
+  localeInput: string = "en",
 ): LegendaryMethodCardModel {
-  const methodFocus =
-    profile.shortTitle.trim() ||
-    profile.keyCharacteristics[0]?.trim() ||
-    profile.sportLabel;
+  const locale = resolveLocale(localeInput);
+  const shortTitle = text(profile.shortTitle, locale).trim();
+  const firstCharacteristic = profile.keyCharacteristics[0]
+    ? text(profile.keyCharacteristics[0], locale).trim()
+    : "";
+  const sportLabel = text(profile.sportLabel, locale);
+  const methodFocus = shortTitle || firstCharacteristic || sportLabel;
+  const summary = text(profile.summary, locale);
 
   return {
     slug: profile.slug,
     href: `/legendary-methods/${profile.slug}`,
     athleteName: profile.athleteName,
-    profileTitle: profile.profileTitle,
+    profileTitle: text(profile.profileTitle, locale),
     category: profile.category,
     categoryLabel: LEGENDARY_METHOD_CATEGORY_LABELS[profile.category],
-    sportLabel: profile.sportLabel,
-    shortDescription: legendaryMethodOneSentenceInsight(profile.summary.trim()),
+    sportLabel,
+    shortDescription: legendaryMethodOneSentenceInsight(summary.trim()),
     methodFocus,
     recoveryDemand: profile.scores.recoveryDemand.value,
     beginnerSuitability: profile.scores.beginnerSuitability.value,
     evidenceQuality: profile.evidenceQuality,
-    readingTimeMinutes: estimateLegendaryMethodReadingTimeMinutes(profile),
+    readingTimeMinutes: estimateLegendaryMethodReadingTimeMinutes(
+      profile,
+      locale,
+    ),
   };
 }
 
 export function listLegendaryMethodCards(
   profiles: readonly LegendaryMethodProfile[],
+  localeInput: string = "en",
 ): LegendaryMethodCardModel[] {
-  return profiles.map(toLegendaryMethodCardModel);
+  return profiles.map((profile) =>
+    toLegendaryMethodCardModel(profile, localeInput),
+  );
 }
 
 /**
@@ -111,6 +135,7 @@ export function legendaryMethodOneSentenceInsight(summary: string): string {
 export function listFeaturedLegendaryMethodCards(
   published: readonly LegendaryMethodProfile[],
   limit = 6,
+  localeInput: string = "en",
 ): LegendaryMethodCardModel[] {
   const eligible = published.filter((profile) => profile.status === "published");
   if (eligible.length === 0 || limit <= 0) return [];
@@ -125,7 +150,7 @@ export function listFeaturedLegendaryMethodCards(
       bySlug.delete(slug);
     }
     if (selected.length >= limit) {
-      return listLegendaryMethodCards(selected.slice(0, limit));
+      return listLegendaryMethodCards(selected.slice(0, limit), localeInput);
     }
   }
 
@@ -136,7 +161,7 @@ export function listFeaturedLegendaryMethodCards(
     if (selected.length >= limit) break;
   }
 
-  return listLegendaryMethodCards(selected.slice(0, limit));
+  return listLegendaryMethodCards(selected.slice(0, limit), localeInput);
 }
 
 export const LIBRARY_CATEGORY_FILTERS = [

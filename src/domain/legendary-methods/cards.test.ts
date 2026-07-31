@@ -75,7 +75,7 @@ describe("legendary method cards", () => {
         description: "d",
         canonicalPath: "/legendary-methods/john-haack-relative-strength",
       },
-    } as LegendaryMethodProfile;
+    } as unknown as LegendaryMethodProfile;
 
     const card = toLegendaryMethodCardModel(profile);
     expect(card.athleteName).toBe("John Haack");
@@ -107,6 +107,22 @@ describe("legendary method cards", () => {
       "training-system",
     ]);
     expect(listLegendaryMethodCards([])).toEqual([]);
+  });
+
+  it("resolves Czech profileTitle and summary on cs locale for all published cards", () => {
+    const published = LEGENDARY_METHOD_PROFILES.filter(
+      (p) => p.status === "published",
+    );
+    const en = listLegendaryMethodCards(published, "en");
+    const cs = listLegendaryMethodCards(published, "cs");
+    expect(cs).toHaveLength(en.length);
+    for (const card of cs) {
+      const enCard = en.find((c) => c.slug === card.slug)!;
+      expect(card.profileTitle).not.toEqual(enCard.profileTitle);
+      expect(card.shortDescription).not.toEqual(enCard.shortDescription);
+      expect(card.profileTitle.length).toBeGreaterThan(10);
+      expect(card.shortDescription.length).toBeGreaterThan(40);
+    }
   });
 
   it("returns up to 6 homepage featured cards from published registry profiles", () => {

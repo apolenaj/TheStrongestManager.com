@@ -10,6 +10,8 @@ import {
   RONNIE_COLEMAN_HEAVY_HIGH_VOLUME,
   TOM_PLATZ_EXTREME_LEG_TRAINING,
 } from "@/domain/legendary-methods/profiles";
+import { applyCzechOverlay } from "@/domain/legendary-methods/profiles/apply-czech";
+import { CZECH_PROFILE_OVERLAYS } from "@/domain/legendary-methods/profiles/czech-overlays";
 import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
 import { assertLegendaryMethodRegistryIntegrity } from "@/domain/legendary-methods/validation";
 
@@ -17,9 +19,10 @@ import { assertLegendaryMethodRegistryIntegrity } from "@/domain/legendary-metho
  * Typed content registry for Legendary Training Methods.
  * Prompts 5A–5D ship full draft content modules (athletes + Sheiko/Conjugate systems).
  * Related programme titles are generic (never athlete-named products).
+ * Czech narrative copy is merged from CZECH_PROFILE_OVERLAYS (Arnold is bilingual inline).
  */
 
-export const LEGENDARY_METHOD_PROFILES: LegendaryMethodProfile[] = [
+const LEGENDARY_METHOD_PROFILES_RAW: LegendaryMethodProfile[] = [
   ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME,
   TOM_PLATZ_EXTREME_LEG_TRAINING,
   RONNIE_COLEMAN_HEAVY_HIGH_VOLUME,
@@ -31,6 +34,11 @@ export const LEGENDARY_METHOD_PROFILES: LegendaryMethodProfile[] = [
   BORIS_SHEIKO_RUSSIAN_POWERLIFTING,
   LOUIE_SIMMONS_CONJUGATE_METHOD,
 ];
+
+export const LEGENDARY_METHOD_PROFILES: LegendaryMethodProfile[] =
+  LEGENDARY_METHOD_PROFILES_RAW.map((profile) =>
+    applyCzechOverlay(profile, CZECH_PROFILE_OVERLAYS[profile.slug]),
+  );
 
 const registryIntegrity = assertLegendaryMethodRegistryIntegrity(
   LEGENDARY_METHOD_PROFILES,

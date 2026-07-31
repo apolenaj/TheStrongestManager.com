@@ -6,6 +6,7 @@ import {
   isLegendaryMethodCategory,
   listLegendaryMethodCategories,
 } from "@/domain/legendary-methods/categories";
+import { pickLocalized } from "@/domain/legendary-methods/localized";
 import {
   LEGENDARY_METHOD_CATEGORY_LABELS,
   type LegendaryMethodListItem,
@@ -48,12 +49,17 @@ export function searchLegendaryMethods(
       if (category && profile.category !== category) return false;
       if (!q) return true;
       const haystack = [
-        profile.profileTitle,
-        profile.shortTitle,
+        pickLocalized(profile.profileTitle, "en"),
+        pickLocalized(profile.profileTitle, "cs"),
+        pickLocalized(profile.shortTitle, "en"),
+        pickLocalized(profile.shortTitle, "cs"),
         profile.athleteName,
-        profile.sportLabel,
-        profile.era ?? "",
-        profile.summary,
+        pickLocalized(profile.sportLabel, "en"),
+        pickLocalized(profile.sportLabel, "cs"),
+        profile.era ? pickLocalized(profile.era, "en") : "",
+        profile.era ? pickLocalized(profile.era, "cs") : "",
+        pickLocalized(profile.summary, "en"),
+        pickLocalized(profile.summary, "cs"),
         LEGENDARY_METHOD_CATEGORY_LABELS[profile.category],
       ]
         .join(" ")

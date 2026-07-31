@@ -38,10 +38,16 @@ export {
 } from "@/domain/legendary-methods/paid-product-separation";
 export { defaultLegendaryProgrammeConversionPrompt } from "@/domain/legendary-methods/conversion";
 export * from "@/domain/legendary-methods/types";
+export * from "@/domain/legendary-methods/localized";
 export * from "@/domain/legendary-methods/sections";
 export * from "@/domain/legendary-methods/categories";
 export * from "@/domain/legendary-methods/cards";
 export * from "@/domain/legendary-methods/seo";
+export {
+  resolveLegendaryProfile,
+  type ResolvedLegendaryMethodProfile,
+} from "@/domain/legendary-methods/resolve-profile";
+export { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 export {
   validateLegendaryMethodForPublish,
   canPublishLegendaryMethod,

@@ -4,6 +4,7 @@ import { cn } from "@/design-system/utils/cn";
 
 /**
  * Brand lockup — silhouette + "THE STRONGEST" image only.
+ * Sized to dominate the header with a subtle glow on dark surfaces.
  */
 export function BrandLogo({
   className,
@@ -26,10 +27,10 @@ export function BrandLogo({
       <Image
         src="/logo-base.jpg"
         alt="The Strongest"
-        width={150}
-        height={150}
+        width={240}
+        height={240}
         priority
-        className="h-12 w-auto object-contain sm:h-14"
+        className="h-14 w-auto object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.15)] md:h-20"
       />
     </Link>
   );

@@ -251,16 +251,17 @@
   },
   "ProgramsPage": {
     "meta": {
-      "title": "Powerlifting Training Programs",
-      "description": "Browse powerlifting training programs — free 4-week starters and full 12–16 week cycles across Linear, DUP, Block, Conjugate, High-Frequency SBD, and Powerbuilding. No fake scarcity.",
-      "ogTitle": "Powerlifting Training Programs | The Strongest",
-      "ogDescription": "Commercial powerlifting training programs with free 4-week starters and full 12–16 week cycles — Linear, DUP, Block, Conjugate, and more.",
-      "twitterDescription": "Free starters and full powerlifting training programs across six method families."
+      "title": "Systems for Elite Strength",
+      "description": "Original The Strongest training systems — tested management frameworks for maximal strength, powerlifting totals, and elite performance. Free 4-week starters and full 12–16 week cycles. No fake scarcity.",
+      "ogTitle": "Systems for Elite Strength | The Strongest",
+      "ogDescription": "Original training systems for elite strength — Linear, DUP, Block, Conjugate, High-Frequency SBD, and Powerbuilding. Free starters and full cycles.",
+      "twitterDescription": "Tested management systems for elite strength — free starters and full powerlifting cycles."
     },
     "hero": {
-      "eyebrow": "Programs",
-      "title": "Training systems built for a clear purpose.",
-      "lead": "Six method families with free 4-week starters and full 12–16 week cycles. Filter by goal, method, and days — without countdown gimmicks."
+      "eyebrow": "The Strongest Programs",
+      "title": "SYSTEMS FOR ELITE STRENGTH",
+      "subtitle": "Don't copy. Train by the principles that build champions.",
+      "lead": "These are not workout PDFs. They are tested management systems for elite performance — structured volume, intensity, and recovery rules you can execute with authority."
     },
     "loading": "Loading catalog…",
     "finder": {
@@ -290,8 +291,8 @@
       "openQuiz": "Open full finder quiz"
     },
     "catalog": {
-      "title": "Catalog",
-      "lead": "Filter locally — prices stay published; no urgency theater.",
+      "title": "Training systems",
+      "lead": "Filter by goal, method, and schedule. Prices stay published — no urgency theater.",
       "count": "{count, plural, =1 {# system} other {# systems}}",
       "empty": "No programs match these filters. Clear a filter to widen the set — we do not invent listings to fill the grid."
     },
@@ -324,13 +325,25 @@
     },
     "card": {
       "duration": "Duration",
+      "focus": "Focus",
+      "difficulty": "Difficulty",
       "price": "Price",
       "recovery": "Recovery",
       "schedules": "Schedules",
-      "weeks": "{weeks} weeks",
+      "weeks": "{weeks} Weeks",
       "free": "Free",
+      "getStarted": "Get Started",
       "tryFree": "Try 4 weeks free",
       "view": "View program",
+      "difficultyBeginner": "Beginner",
+      "difficultyIntermediate": "Intermediate",
+      "difficultyAdvanced": "Advanced",
+      "focusMaximalStrength": "Maximal Strength",
+      "focusPowerlifting": "Powerlifting Total",
+      "focusHypertrophy": "Strength + Muscle",
+      "focusCompetition": "Meet Prep",
+      "focusGeneral": "General Strength",
+      "focusMulti": "Complete Collection",
       "recoveryLow": "Low recovery demand",
       "recoveryModerate": "Moderate recovery demand",
       "recoveryHigh": "High recovery demand",
@@ -344,6 +357,44 @@
       "methodBlock": "Block periodization",
       "methodConjugate": "Conjugate",
       "methodHighFreq": "High-frequency training"
+    }
+  },
+  "Dashboard": {
+    "meta": {
+      "title": "Dashboard"
+    },
+    "eyebrow": "Athlete HQ",
+    "welcome": "WELCOME BACK. TIME TO WORK.",
+    "welcomeNamed": "WELCOME BACK, {name}. TIME TO WORK.",
+    "signedInAs": "Signed in as {email}",
+    "athleteFallback": "Athlete",
+    "nav": {
+      "aria": "Dashboard sections",
+      "myPrograms": "My Programs",
+      "strengthMetrics": "Strength Metrics",
+      "settings": "Settings"
+    },
+    "activeProgram": {
+      "title": "Active Program",
+      "emptyTitle": "No active program",
+      "emptyBody": "Assign a system and the peak clock starts. No fake progress until training is logged.",
+      "ctaBrowse": "Browse programs",
+      "ctaOpen": "Open program",
+      "weekProgress": "Week {current} of {total}",
+      "placeholderName": "12-Week Peak Cycle",
+      "progressLabel": "Peak progress"
+    },
+    "recentPrs": {
+      "title": "Recent PRs",
+      "empty": "No personal records logged yet. Hit the platform — then we show the numbers.",
+      "ctaLog": "Log strength",
+      "observed": "Observed",
+      "reported": "Reported"
+    },
+    "onboarding": {
+      "title": "Finish setup",
+      "body": "Your athlete profile is not ready. Complete onboarding before scores and programs appear.",
+      "cta": "Start onboarding"
     }
   },
   "LegendaryMethods": {
@@ -448,7 +499,42 @@
       "breadcrumbAria": "Breadcrumb",
       "evidenceBadge": "Evidence · {quality}",
       "reviewedBadge": "Reviewed · {date}",
-      "pendingReview": "Pending review"
+      "pendingReview": "Pending review",
+      "draftPreview": "Draft preview (ALLOW_LEGENDARY_DRAFT_PREVIEW) — noindex, excluded from sitemap and public library cards.",
+      "contents": "Contents",
+      "onThisPage": "On this page",
+      "showToc": "Show",
+      "hideToc": "Hide",
+      "emptySummary": "Educational analysis shell — long-form sourced content is added before publish.",
+      "quickFields": {
+        "primaryGoal": "Primary goal",
+        "typicalFrequency": "Typical frequency",
+        "volumeLevel": "Volume level",
+        "intensityProfile": "Intensity profile",
+        "recoveryDemand": "Recovery demand",
+        "technicalDifficulty": "Technical difficulty",
+        "bestSuitedFor": "Best suited for",
+        "evidenceQuality": "Evidence quality"
+      },
+      "toc": {
+        "quick-method-profile": "Quick Method Profile",
+        "athlete-and-era": "The Athlete and the Era",
+        "documented-training-method": "The Documented Training Method",
+        "training-structure": "Training Structure",
+        "core-training-routine": "Core Training Routine",
+        "documented-nutritional-approach": "Documented Diet",
+        "volume-intensity-frequency": "Volume, Intensity and Frequency",
+        "example-training-week": "Example Training Week",
+        "why-it-worked": "Why It Worked",
+        "what-lifters-get-wrong": "What Most Lifters Get Wrong",
+        "risks-and-recovery": "Risks and Recovery",
+        "scores": "The Strongest Score",
+        "verdict": "Verdict",
+        "system-comparison": "System Comparison",
+        "modernised-application": "Modernised Application",
+        "sources": "Sources",
+        "related-programmes": "Related Programmes"
+      }
     },
     "categories": {
       "bodybuilding": "Bodybuilding",

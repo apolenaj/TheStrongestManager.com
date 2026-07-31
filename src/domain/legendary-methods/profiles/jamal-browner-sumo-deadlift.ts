@@ -3,13 +3,13 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
-import type { LegendaryMethodProfile } from "@/domain/legendary-methods/types";
+import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 
 /**
  * Jamal Browner — sumo deadlift specialisation analysis (Prompt 5C).
  * Competition vs gym lifts are strictly separated; OpenPowerlifting anchors meet claims.
  */
-export const JAMAL_BROWNER_SUMO_DEADLIFT: LegendaryMethodProfile = {
+export const JAMAL_BROWNER_SUMO_DEADLIFT = fromEnglishProfile({
   slug: "jamal-browner-sumo-deadlift",
   status: "published",
   legalReviewStatus: "passed",
@@ -347,4 +347,4 @@ Intermediates should build a meet-dated sumo single under raw rules before chasi
       "raw sumo powerlifting",
     ],
   },
-};
+});

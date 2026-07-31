@@ -55,7 +55,7 @@ report.relatedProgrammeAthleteNameHits = LEGENDARY_METHOD_PROFILES.filter(
   relatedProgrammeUsesAthleteName,
 ).map((p) => p.slug);
 report.allHaveDisclaimer = LEGENDARY_METHOD_PROFILES.every(
-  (p) => p.introductoryDisclaimer.trim().length > 40,
+  (p) => p.introductoryDisclaimer.en.trim().length > 40,
 );
 report.shortDisclaimerPresent = Boolean(LEGENDARY_DISCLAIMER_SHORT);
 report.completeDisclaimerPresent = Boolean(LEGENDARY_DISCLAIMER_COMPLETE);
@@ -73,7 +73,7 @@ report.sourceStats = LEGENDARY_METHOD_PROFILES.map((p) => {
 report.sectionCoverage = LEGENDARY_METHOD_PROFILES.map((p) => {
   const missing = REQUIRED_LEGENDARY_SECTION_DEFINITIONS.filter((req) => {
     const s = p.sections.find((x) => x.id === req.id);
-    return !s || (req.id !== "sources" && !s.body.trim());
+    return !s || (req.id !== "sources" && !s.body.en.trim());
   }).map((r) => r.id);
   const layerMismatch = REQUIRED_LEGENDARY_SECTION_DEFINITIONS.filter((req) => {
     const s = p.sections.find((x) => x.id === req.id);
