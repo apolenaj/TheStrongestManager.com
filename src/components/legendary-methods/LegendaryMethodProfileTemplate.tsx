@@ -1,12 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   EXAMPLE_WEEK_LABEL_COPY,
   LEGENDARY_CONTENT_LAYER_LABELS,
-  LEGENDARY_METHOD_CATEGORY_LABELS,
   LEGENDARY_PROFILE_TOC,
-  PROFILE_INDEPENDENT_BADGE,
   editorialLabelForContentLayer,
   estimateLegendaryMethodReadingTimeMinutes,
   type LegendaryContentLayer,
@@ -224,6 +223,7 @@ export function LegendaryMethodProfileTemplate({
 }: {
   profile: LegendaryMethodProfile;
 }) {
+  const t = useTranslations("LegendaryMethods");
   const readingTime = estimateLegendaryMethodReadingTimeMinutes(profile);
   const reviewed =
     profile.lastReviewedAt ?? profile.updatedAt ?? profile.publishedAt;
@@ -264,17 +264,17 @@ export function LegendaryMethodProfileTemplate({
         href="#legendary-profile-main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-[var(--color-accent)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[var(--color-accent-foreground)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
       >
-        Skip to profile content
+        {t("profile.skipToContent")}
       </a>
 
-      <nav aria-label="Breadcrumb" className="text-sm text-[var(--color-muted)]">
+      <nav aria-label={t("profile.breadcrumbAria")} className="text-sm text-[var(--color-muted)]">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
             <Link
               href="/"
               className="hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Home
+              {t("profile.home")}
             </Link>
           </li>
           <li aria-hidden>/</li>
@@ -283,7 +283,7 @@ export function LegendaryMethodProfileTemplate({
               href="/legendary-methods"
               className="hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Legendary Methods
+              {t("profile.library")}
             </Link>
           </li>
           <li aria-hidden>/</li>
@@ -296,7 +296,7 @@ export function LegendaryMethodProfileTemplate({
       <header className="mt-10 grid gap-8 sm:mt-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-end lg:gap-12">
         <div>
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
-            {LEGENDARY_METHOD_CATEGORY_LABELS[profile.category]}
+            {t(`categories.${profile.category}`)}
           </p>
           <p className="mt-4 text-sm text-[var(--color-muted)]">
             {profile.athleteName}
@@ -312,19 +312,23 @@ export function LegendaryMethodProfileTemplate({
 
           <div className="mt-8 flex flex-wrap gap-2">
             <span className="inline-flex min-h-9 items-center border border-[var(--color-accent)] bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] px-3 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
-              {PROFILE_INDEPENDENT_BADGE}
+              {t("profile.independentBadge")}
             </span>
             <span className="inline-flex min-h-9 items-center border border-white/10 px-3 text-[0.65rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              Evidence · {profile.evidenceQuality}
+              {t("profile.evidenceBadge", { quality: profile.evidenceQuality })}
             </span>
             {evidenceLabelId ? (
               <LegendaryEditorialLabel id={evidenceLabelId} />
             ) : null}
             <span className="inline-flex min-h-9 items-center border border-white/10 px-3 text-[0.65rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              ~{readingTime} min read
+              {t("profile.minRead", { minutes: readingTime })}
             </span>
             <span className="inline-flex min-h-9 items-center border border-white/10 px-3 text-[0.65rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
-              Reviewed · {formatReviewedDate(reviewed)}
+              {t("profile.reviewedBadge", {
+                date: reviewed
+                  ? formatReviewedDate(reviewed)
+                  : t("profile.pendingReview"),
+              })}
             </span>
           </div>
 
@@ -362,7 +366,7 @@ export function LegendaryMethodProfileTemplate({
               id="quick-method-heading"
               className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl"
             >
-              Quick Method Profile
+              {t("profile.quickProfile")}
             </h2>
             <dl className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
               {(
@@ -904,7 +908,7 @@ export function LegendaryMethodProfileTemplate({
             className="scroll-mt-28 border-t border-white/10 pt-12 sm:pt-16"
           >
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-              Sources
+              {t("profile.sources")}
             </h2>
             <div className="mt-6 max-w-prose">
               <LegendaryMethodDisclaimer variant="complete" />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { AuthShell } from "@/components/auth/AuthShell";
 import {
   SignUpForm,
@@ -11,10 +12,13 @@ import {
   AFFILIATE_DISCLOSURE_SHORT,
 } from "@/domain/affiliate-system";
 
-export const metadata: Metadata = {
-  title: "Sign up",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Auth");
+  return {
+    title: t("signup.metaTitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function SignUpPage({
   searchParams,
@@ -25,6 +29,7 @@ export default async function SignUpPage({
     utm_source?: string;
   }>;
 }) {
+  const t = await getTranslations("Auth");
   const params = await searchParams;
   const googleEnabled = Boolean(
     process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET,
@@ -48,10 +53,17 @@ export default async function SignUpPage({
             ? "invite"
             : null;
 
+  const inviteMessage =
+    inviteSource === "referral"
+      ? t("signup.inviteReferral")
+      : inviteSource === "technique"
+        ? t("signup.inviteTechnique")
+        : t("signup.inviteDefault");
+
   return (
     <AuthShell
-      title="Create account"
-      description="Email and password create the account only. Athlete onboarding is required next inside the app before training tools open — it is not skipped."
+      title={t("signup.title")}
+      description={t("signup.description")}
     >
       {affiliateCode ? (
         <div className="mb-4">
@@ -63,17 +75,12 @@ export default async function SignUpPage({
       ) : null}
       {referralCode ? (
         <p className="mb-4 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-muted)]">
-          {inviteSource === "referral"
-            ? "You were invited with a referral code. Completing onboarding may unlock product rewards for you and your inviter — never cash or multi-level payouts."
-            : inviteSource === "technique"
-              ? "You were invited via a technique score card share. After signup, open Technique to analyze your lift."
-              : "You arrived with an invite code. After signup, complete athlete onboarding inside the app."}
+          {inviteMessage}
         </p>
       ) : null}
       {affiliateCode && !referralCode ? (
         <p className="mb-4 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-muted)]">
-          You arrived via a disclosed affiliate link. Signup may be attributed
-          for commission tracking — ledger estimates only, not a payout promise.
+          {t("signup.inviteAffiliate")}
         </p>
       ) : null}
       <AnalyticsBeacon name="signup_started" method="email" />

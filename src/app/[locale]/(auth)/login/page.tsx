@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { AuthShell } from "@/components/auth/AuthShell";
 import {
   LoginForm,
   SocialAuthButtons,
 } from "@/components/auth/AuthForms";
 
-export const metadata: Metadata = {
-  title: "Log in",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Auth");
+  return {
+    title: t("login.metaTitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 type LoginPageProps = {
   searchParams: Promise<{ callbackUrl?: string; reset?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const t = await getTranslations("Auth");
   const params = await searchParams;
   const callbackUrl =
     params.callbackUrl &&
@@ -31,10 +36,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   );
 
   return (
-    <AuthShell
-      title="Log in"
-      description="Sign in to your athlete account. Onboarding starts after authentication if your profile is incomplete."
-    >
+    <AuthShell title={t("login.title")} description={t("login.description")}>
       <LoginForm
         callbackUrl={callbackUrl}
         resetSuccess={params.reset === "1"}

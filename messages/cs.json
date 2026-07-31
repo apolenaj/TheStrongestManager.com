@@ -134,5 +134,368 @@
     "bullet_evidence": "Trénink podložený daty",
     "bullet_progression": "Individuální progrese",
     "bullet_coaching": "Koučink zaměřený na závody"
+  },
+  "AboutPage": {
+    "meta": {
+      "title": "O Joe Apolenarovi — The Strongest",
+      "description": "Joe Apolenar: natural IPF powerlifter (−120 kg), z 155 kg atleta na 115 kg závodníka, manažer retail operací a full-stack tvůrce The Strongest."
+    },
+    "hero": {
+      "eyebrow": "Zakladatel · Joe Apolenar",
+      "title_line1": "Postaveno na bolesti.",
+      "title_line2": "Poháněno výsledky.",
+      "lead": "The Strongest není jen fitness značka. Je to průsečík elitní síly a profesionálních manažerských systémů — postavený natural IPF powerlifterem, který řídil retail operace a staví full-stack platformy.",
+      "tagline": "Disciplína dnes. Síla navždy."
+    },
+    "identity": {
+      "aria": "Atletický status",
+      "natural_ipf": "Natural IPF Powerlifter",
+      "ice_hockey": "Lední hokej",
+      "fighter": "Bojovník",
+      "fitness_coach": "Fitness kouč"
+    },
+    "transformation": {
+      "eyebrow": "Transformace",
+      "title": "155 kg → 115 kg",
+      "subtitle": "342 lbs → 253 lbs · Dva roky",
+      "body1": "Dvouletá drsná tělesná transformace. Žádná výzva. Žádný hype cyklus. Nemilosrdná disciplína a konzistence — trénink za tréninkem, rozhodnutí za rozhodnutím — dokud se nepohnula váha ani závodní prkno.",
+      "body2": "Stejný operační systém stojí za každým programem tady: struktura pod tlakem, měřitelný pokrok a nulová tolerance k náhodnému úsilí."
+    },
+    "numbers": {
+      "eyebrow": "Závody / Tělocvična",
+      "title": "Čísla",
+      "lead": "Natural IPF powerlifter ve třídě −120 kg. Nejlepší výkony níže — závodní a gym standardy, ne marketingová fikce.",
+      "deadlift": "Mrtvý tah",
+      "total": "Total",
+      "ipf_class": "IPF třída",
+      "squat": "Dřep",
+      "bench": "Bench press"
+    },
+    "mindset": {
+      "eyebrow": "Manažerský mindset",
+      "title_line1": "Stejný systém.",
+      "title_line2": "Jiná aréna.",
+      "corporate_title": "Korporátní operace",
+      "corporate_body": "Rozsáhlá praxe jako Store a Area Manager u velkých retail řetězců — Amazon, Tesco, Kaufland, Lidl — plus vzdělání v manažerské psychologii a IT. Vedení lidí, procesů a výsledků pod reálným provozním tlakem.",
+      "fullstack_title": "Full-stack systémy",
+      "fullstack_body": "Full-stack vývojář stavící vlastní platformy na Next.js, Tailwindu a Supabase — stejný stack, na kterém běží The Strongest.",
+      "pullquote": "Řídit masivní retail operace a kódovat full-stack aplikace vyžaduje přesně stejný strukturovaný, systematický přístup jako peaking na 310 kg mrtvý tah. Proto jsou tréninkové programy tady systémy — ne náhodné workouty."
+    },
+    "philosophy": {
+      "eyebrow": "Filozofie",
+      "title_line1": "Disciplína dnes,",
+      "title_line2": "Síla navždy.",
+      "body": "Will of Fire je most: elitní fyzická síla a profesionální manažerské systémy, vtlačené do jednoho operačního standardu. Dostav se. Proveď plán. Měř, co rozhoduje. Opakuj, dokud výsledek nebude nevyhnutelný."
+    },
+    "cta": {
+      "audit": "Získat audit síly zdarma",
+      "coaching": "Přihlásit se ke koučinku"
+    }
+  },
+  "Auth": {
+    "fields": {
+      "email": "E-mail",
+      "password": "Heslo",
+      "newPassword": "Nové heslo"
+    },
+    "social": {
+      "divider": "Nebo pokračuj přes",
+      "google": "Pokračovat s Google",
+      "apple": "Pokračovat s Apple"
+    },
+    "login": {
+      "metaTitle": "Přihlásit se",
+      "title": "Přihlásit se",
+      "description": "Přihlas se do svého atletického účtu. Onboarding začne po autentizaci, pokud profil ještě není kompletní.",
+      "submit": "Přihlásit se",
+      "forgot": "Zapomenuté heslo?",
+      "create": "Vytvořit účet",
+      "errorTitle": "Přihlášení selhalo",
+      "resetSuccessTitle": "Heslo aktualizováno",
+      "resetSuccessBody": "Přihlas se novým heslem."
+    },
+    "signup": {
+      "metaTitle": "Registrace",
+      "title": "Vytvořit účet",
+      "description": "E-mail a heslo jen založí účet. Athlete onboarding uvnitř appky je povinný — bez něj se tréninkové nástroje neotevřou.",
+      "submit": "Vytvořit účet",
+      "passwordHint": "Minimálně 8 znaků. Po přihlášení dokončíš athlete onboarding, než se otevře tréninková appka.",
+      "errorTitle": "Účet se nepodařilo vytvořit",
+      "haveAccount": "Už máš účet?",
+      "logIn": "Přihlásit se",
+      "inviteReferral": "Přišel jsi s referral kódem. Dokončení onboardingu může odemknout produktové odměny tobě i tomu, kdo tě pozval — nikdy hotovost ani multi-level výplaty.",
+      "inviteTechnique": "Přišel jsi přes sdílenou technique score kartu. Po registraci otevři Technique a analyzuj svůj zdvih.",
+      "inviteDefault": "Přišel jsi s invite kódem. Po registraci dokonči athlete onboarding uvnitř appky.",
+      "inviteAffiliate": "Přišel jsi přes disclosed affiliate odkaz. Registrace může být přiřazena pro sledování provize — jen ledger odhad, ne slib výplaty."
+    },
+    "forgot": {
+      "metaTitle": "Zapomenuté heslo",
+      "title": "Reset hesla",
+      "description": "Pošleme e-mail s reset odkazem, pokud účet s touto adresou existuje. Odkazy vyprší po jedné hodině.",
+      "submit": "Poslat reset odkaz",
+      "errorTitle": "Požadavek selhal",
+      "successTitle": "Zkontroluj e-mail",
+      "back": "Zpět na přihlášení"
+    },
+    "reset": {
+      "metaTitle": "Nové heslo",
+      "title": "Zvol nové heslo",
+      "description": "Zadej nové heslo k účtu. Potom se přihlásíš.",
+      "invalidTitle": "Neplatný reset odkaz",
+      "invalidDescription": "Tomuto odkazu chybí token. Vyžádej nový odkaz z přihlašovací stránky.",
+      "requestNew": "Vyžádat nový odkaz",
+      "backToLogin": "Zpět na přihlášení",
+      "submit": "Aktualizovat heslo",
+      "errorTitle": "Reset selhal"
+    }
+  },
+  "ProgramsPage": {
+    "meta": {
+      "title": "Powerlifterské tréninkové programy",
+      "description": "Procházej powerlifterské tréninkové programy — 4týdenní startéry zdarma a plné 12–16týdenní cykly napříč Linear, DUP, Block, Conjugate, High-Frequency SBD a Powerbuilding. Bez falešné scarcity.",
+      "ogTitle": "Powerlifterské tréninkové programy | The Strongest",
+      "ogDescription": "Komerční powerlifterské programy se 4týdenními startéry zdarma a plnými 12–16týdenními cykly — Linear, DUP, Block, Conjugate a další.",
+      "twitterDescription": "Startéry zdarma a plné powerlifterské programy napříč šesti rodinami metod."
+    },
+    "hero": {
+      "eyebrow": "Programy",
+      "title": "Tréninkové systémy postavené na jasném cíli.",
+      "lead": "Šest rodin metod se 4týdenními startéry zdarma a plnými 12–16týdenními cykly. Filtruj podle cíle, metody a dnů — bez countdown triků."
+    },
+    "loading": "Načítám katalog…",
+    "finder": {
+      "eyebrow": "Najdi svůj program",
+      "title": "Slaď systém se svými omezeními",
+      "lead": "Doporučení podle cíle, zkušenosti a dostupných dnů — ne garance a ne countdown nabídka.",
+      "goal": "Cíl",
+      "experience": "Zkušenost",
+      "days": "Dnů týdně",
+      "goals": {
+        "strength": "Obecná síla",
+        "powerlifting": "Powerlifting",
+        "hypertrophy": "Síla + svaly",
+        "competition_prep": "Příprava na závody"
+      },
+      "exp": {
+        "beginner": "Začátečník",
+        "intermediate": "Středně pokročilý",
+        "advanced": "Pokročilý"
+      },
+      "dayOptions": {
+        "3day": "3 dny",
+        "4day": "4 dny",
+        "5day": "5+ dnů"
+      },
+      "recommended": "Doporučeno",
+      "openQuiz": "Otevřít plný finder kvíz"
+    },
+    "catalog": {
+      "title": "Katalog",
+      "lead": "Filtruj lokálně — ceny zůstávají zveřejněné; žádné urgency divadlo.",
+      "count": "{count, plural, =1 {# systém} other {# systémů}}",
+      "empty": "Žádný program neodpovídá filtrům. Uvolni filtr a rozšiř výběr — nevymýšlíme listingy, abychom zaplnili mřížku."
+    },
+    "filters": {
+      "price": "Zdarma / Placené",
+      "goal": "Cíl",
+      "method": "Metoda",
+      "days": "Dnů týdně",
+      "priceAll": "Vše",
+      "priceFree": "Zdarma",
+      "pricePaid": "Placené",
+      "goalAll": "Všechny cíle",
+      "goalStrength": "Síla",
+      "goalPowerlifting": "Powerlifting",
+      "goalHypertrophy": "Hypertrofie",
+      "goalCompetition": "Příprava na závody",
+      "goalGeneral": "Obecná síla",
+      "methodAll": "Všechny metody",
+      "methodLinear": "Linear",
+      "methodDup": "DUP",
+      "methodBlock": "Block",
+      "methodConjugate": "Conjugate",
+      "methodHighFreq": "Vysoká frekvence",
+      "methodBundle": "Balíček",
+      "daysAny": "Libovolné dny",
+      "days3": "3 dny",
+      "days4": "4 dny",
+      "days5": "5 dnů",
+      "days6": "6 dnů"
+    },
+    "card": {
+      "duration": "Délka",
+      "price": "Cena",
+      "recovery": "Regenerace",
+      "schedules": "Rozpisy",
+      "weeks": "{weeks} týdnů",
+      "free": "Zdarma",
+      "tryFree": "Vyzkoušet 4 týdny zdarma",
+      "view": "Zobrazit program",
+      "recoveryLow": "Nízká náročnost regenerace",
+      "recoveryModerate": "Střední náročnost regenerace",
+      "recoveryHigh": "Vysoká náročnost regenerace",
+      "schedule3": "3 dny / týden",
+      "schedule4": "4 dny / týden",
+      "schedule5": "5 dnů / týden",
+      "schedule6": "6 dnů / týden",
+      "methodMulti": "Více metod",
+      "methodLinear": "Lineární periodizace",
+      "methodDup": "DUP",
+      "methodBlock": "Bloková periodizace",
+      "methodConjugate": "Conjugate",
+      "methodHighFreq": "Vysokofrekvenční trénink"
+    }
+  },
+  "LegendaryMethods": {
+    "meta": {
+      "title": "Legendární tréninkové metody",
+      "description": "Prozkoumej tréninkové systémy za legends bodybuildingu, powerliftingu a strongmanu. Zjisti, co dělali, proč to fungovalo, co většina lifterů špatně chápe a jak principy převést do moderního tréninku.",
+      "ogImageAlt": "Legendární tréninkové metody — abstraktní geometrie činky"
+    },
+    "index": {
+      "eyebrow": "Vzdělávací knihovna",
+      "title": "Legendární tréninkové metody"
+    },
+    "disclaimer": {
+      "title": "Nezávislá vzdělávací analýza",
+      "short": "Nezávislá vzdělávací analýza. Bez afilace a bez endorsementu od featured atleta.",
+      "complete": "Tento článek je nezávislá vzdělávací analýza založená na veřejně dostupném a citovaném materiálu. The Strongest není afilován, autorizován, sponzorován ani endorseován featured atlet. Jakékoli modernizované tréninkové příklady jsou originální interpretace — nejsou prezentovány jako přesný program atleta.",
+      "lineVisuals": "Nepoužíváme celebrity fotografie, loga federací, podpisy atletů ani ochranné známky jako brand assety. Vizuály jsou originální abstraktní grafiky a diagramy.",
+      "lineFacts": "Nevymýšlíme rekordy, citace, tréninkové rutiny ani historická fakta. Nedokončené profily zůstávají drafty, dokud nejsou zdroje a legal review hotové.",
+      "lineMedical": "Nic tady není lékařská rada ani garance výsledků. Individuální programování patří kvalifikovanému kouči, když je potřeba.",
+      "related": "Související programy jsou nezávislé produkty The Strongest. Nejsou athlete-endorsed plány a neprodávají se jako tréninkový systém featured atleta.",
+      "aria": "Právní disclaimer"
+    },
+    "library": {
+      "filterLegend": "Filtrovat podle kategorie",
+      "filters": {
+        "all": "Vše",
+        "bodybuilding": "Bodybuilding",
+        "strongman": "Strongman",
+        "powerlifting": "Powerlifting",
+        "training-system": "Tréninkové systémy"
+      },
+      "emptyTitle": "Analýzy vycházejí, až jsou zdroje hotové",
+      "emptyBody": "Uvádíme jen dokončené, ozdrojované vzdělávací profily. Žádné placeholder karty atletů a žádný vymyšlený „coming soon“ roster. Prozkoumej originální programy, zatímco profily jdou z draftu do publikace.",
+      "browsePrograms": "Procházet programy",
+      "findProgram": "Najít svůj program",
+      "emptyFilter": "V této kategorii zatím nejsou publikované analýzy.",
+      "filteredFallback": "Filtrované analýzy",
+      "methodFocus": "Zaměření metody",
+      "evidence": "Evidence",
+      "recoveryDemand": "Nároky na regeneraci",
+      "beginnerSuitability": "Vhodnost pro začátečníky",
+      "scoreSuffix": "/ 10",
+      "minRead": "~{minutes} min čtení",
+      "readAnalysis": "Číst analýzu"
+    },
+    "learn": {
+      "heading": "Co se naučíš",
+      "lead": "Rozdíl mezi kopírováním elitního atleta a učením se z jeho principů — a pak přechodem k originálním programům pro moderní liftery.",
+      "items": {
+        "principles": {
+          "title": "Principy místo cosplaye",
+          "body": "Kopírování týdenní šablony elitního atleta skoro nikdy nepřenese. Naučit se, které principy hnaly adaptaci — specificita, overload, regenerace a selection pressure — ano."
+        },
+        "sport": {
+          "title": "Sportovní kontext rozhoduje",
+          "body": "Objem v bodybuildingu, event practise ve strongmanu a peaking v powerliftingu řeší jiné problémy. Filtry a profily drží ty kontexty odděleně."
+        },
+        "original": {
+          "title": "Směrem k originálnímu programování",
+          "body": "Každá analýza míří k programům The Strongest, které uplatňují příbuzné principy — bez pojmenovávání produktů po atletech."
+        }
+      },
+      "analyseHeading": "Jak analyzujeme každou metodu",
+      "stepLabel": "Krok {step}",
+      "steps": {
+        "1": {
+          "title": "Zdokumentovat veřejně dostupnou metodu",
+          "body": "Zachytit, co jde ověřit z veřejných zdrojů — ne vymyšlené rutiny ani soukromé koučovací poznámky."
+        },
+        "2": {
+          "title": "Oddělit fakta od interpretace",
+          "body": "Historická dokumentace zůstává oddělená od nezávislé analýzy The Strongest."
+        },
+        "3": {
+          "title": "Analyzovat objem, intenzitu, specificitu a regeneraci",
+          "body": "Skórovat a probírat tréninkové nároky upřímně — včetně míst, kde je evidence smíšená nebo omezená."
+        },
+        "4": {
+          "title": "Postavit bezpečnější moderní aplikaci",
+          "body": "Přeložit principy do modernizovaných adaptací, které respektují regeneraci, techniku a individuální omezení."
+        }
+      },
+      "contextHeading": "Důležitý kontext",
+      "contextBody": "Elitní atleti trénovali za jiných podmínek — tělesné váhy, rozvrhy, genetika, regenerační zdroje, farmakologické kontexty tam, kde to historie uvádí, koučovací štáb a závodní prostředí. Metoda, která fungovala profesionálovi v těch omezeních, není předpis pro každého liftera. Použij tyto analýzy k pochopení principů, limitů a bezpečnějších moderních adaptací — a pak zvol originální program, který sedí tvému životu.",
+      "explorePrograms": "Prozkoumat programy",
+      "methodsKb": "Znalostní báze tréninkových metod"
+    },
+    "notFound": {
+      "eyebrow": "Legendární tréninkové metody",
+      "title": "Profil nenalezen",
+      "body": "Tento profil neexistuje, nebo je stále draft a není dostupný pro veřejné prohlížení.",
+      "cta": "Procházet Legendary Methods"
+    },
+    "profile": {
+      "minRead": "~{minutes} min čtení",
+      "quickProfile": "Rychlý profil metody",
+      "sources": "Zdroje",
+      "home": "Domů",
+      "library": "Legendary Methods",
+      "independentBadge": "Nezávislá vzdělávací analýza",
+      "skipToContent": "Přeskočit na obsah profilu",
+      "breadcrumbAria": "Drobečková navigace",
+      "evidenceBadge": "Evidence · {quality}",
+      "reviewedBadge": "Zrevidováno · {date}",
+      "pendingReview": "Čeká na review"
+    },
+    "categories": {
+      "bodybuilding": "Bodybuilding",
+      "strongman": "Strongman",
+      "powerlifting": "Powerlifting",
+      "training-system": "Tréninkový systém"
+    }
+  },
+  "SiteFooter": {
+    "blurb": "Systémy síly pro lidi, kteří vedou pod tlakem — powerlifterské standardy, strukturovaný koučink a nástroje, které tvrdí jen to, co umí změřit.",
+    "disclaimer": "Napojení výživy na Mealnexio je v plánu a ještě není live. Nevymýšlíme makra, počty atletů ani success rate.",
+    "columns": {
+      "coaching": "Koučink",
+      "programs": "Programy",
+      "free_tools": "Nástroje zdarma",
+      "learn": "Vzdělání",
+      "company": "Společnost",
+      "legal": "Právní"
+    },
+    "links": {
+      "one_to_one": "1:1 Koučink",
+      "coach_matching": "Matching koučů",
+      "competition_prep": "Příprava na závody",
+      "strength_audit": "Audit síly",
+      "program_catalog": "Katalog programů",
+      "find_my_program": "Najdi svůj program",
+      "method_collection": "Kolekce metod",
+      "creator_marketplace": "Creator marketplace",
+      "calculators": "Kalkulačky",
+      "program_audit": "Audit programu",
+      "technique_check": "Kontrola techniky",
+      "athlete_assessment": "Atletické hodnocení",
+      "method_compare": "Porovnání metod",
+      "learning_paths": "Vzdělávací cesty",
+      "legendary_methods": "Legendary Methods",
+      "methods": "Metody",
+      "academy": "Akademie",
+      "exercises": "Cviky",
+      "guides": "Průvodce",
+      "about": "O nás",
+      "trust_center": "Trust Center",
+      "pricing": "Ceník",
+      "affiliates": "Affiliate",
+      "demo": "Demo",
+      "privacy": "Soukromí",
+      "terms": "Podmínky",
+      "cookies": "Cookies"
+    }
   }
 }

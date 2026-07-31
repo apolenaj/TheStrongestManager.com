@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { LegendaryMethodDisclaimer } from "@/components/legendary-methods/LegendaryMethodDisclaimer";
 import { LegendaryMethodsLibrary } from "@/components/legendary-methods/LegendaryMethodsLibrary";
@@ -10,46 +11,49 @@ import {
 } from "@/domain/legendary-methods";
 import { absoluteUrl } from "@/config/site";
 
-const PAGE_TITLE = "Legendary Training Methods";
-const PAGE_DESCRIPTION =
-  "Explore the training systems behind bodybuilding, powerlifting and strongman legends. Learn what they did, why it worked, what most lifters misunderstand and how the underlying principles can be adapted to modern training.";
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("LegendaryMethods");
+  const title = t("meta.title");
+  const description = t("meta.description");
 
-export const metadata: Metadata = {
-  title: PAGE_TITLE,
-  description: PAGE_DESCRIPTION,
-  keywords: [
-    "legendary training methods",
-    "bodybuilding training systems",
-    "powerlifting training systems",
-    "strongman training methods",
-    "training method analysis",
-  ],
-  alternates: { canonical: "/legendary-methods" },
-  authors: [{ name: "Josef" }, { name: "The Strongest editorial team" }],
-  openGraph: {
-    title: `${PAGE_TITLE} | The Strongest`,
-    description: PAGE_DESCRIPTION,
-    url: "/legendary-methods",
-    type: "website",
-    images: [
-      {
-        url: absoluteUrl("/legendary-methods/opengraph-image"),
-        width: 1200,
-        height: 630,
-        alt: "Legendary Training Methods — abstract barbell geometry graphic",
-      },
+  return {
+    title,
+    description,
+    keywords: [
+      "legendary training methods",
+      "bodybuilding training systems",
+      "powerlifting training systems",
+      "strongman training methods",
+      "training method analysis",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${PAGE_TITLE} | The Strongest`,
-    description: PAGE_DESCRIPTION,
-    images: [absoluteUrl("/legendary-methods/opengraph-image")],
-  },
-  robots: { index: true, follow: true },
-};
+    alternates: { canonical: "/legendary-methods" },
+    authors: [{ name: "Josef" }, { name: "The Strongest editorial team" }],
+    openGraph: {
+      title: `${title} | The Strongest`,
+      description,
+      url: "/legendary-methods",
+      type: "website",
+      images: [
+        {
+          url: absoluteUrl("/legendary-methods/opengraph-image"),
+          width: 1200,
+          height: 630,
+          alt: t("meta.ogImageAlt"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | The Strongest`,
+      description,
+      images: [absoluteUrl("/legendary-methods/opengraph-image")],
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
-export default function LegendaryMethodsPage() {
+export default async function LegendaryMethodsPage() {
+  const t = await getTranslations("LegendaryMethods");
   const published = getPublishedLegendaryMethods();
   const cards = listLegendaryMethodCards(published);
   const dateModified = published
@@ -58,8 +62,8 @@ export default function LegendaryMethodsPage() {
     .sort()
     .at(-1);
   const jsonLd = legendaryMethodsLibraryJsonLd({
-    name: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
+    name: t("meta.title"),
+    description: t("meta.description"),
     cards,
     dateModified,
   });
@@ -75,13 +79,13 @@ export default function LegendaryMethodsPage() {
         />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
-            Educational library
+            {t("index.eyebrow")}
           </p>
           <h1 className="mt-5 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(2.5rem,6vw,4.25rem)] font-bold uppercase leading-[1.02] tracking-tight text-[var(--color-foreground)]">
-            Legendary Training Methods
+            {t("index.title")}
           </h1>
           <p className="legendary-prose mt-6 text-base sm:text-lg">
-            {PAGE_DESCRIPTION}
+            {t("meta.description")}
           </p>
           <div className="mt-8 max-w-2xl">
             <LegendaryMethodDisclaimer variant="index" />

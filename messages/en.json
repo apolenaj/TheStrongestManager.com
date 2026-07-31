@@ -134,5 +134,368 @@
     "bullet_evidence": "Evidence-led programming",
     "bullet_progression": "Individual progression",
     "bullet_coaching": "Competition-focused coaching"
+  },
+  "AboutPage": {
+    "meta": {
+      "title": "About Joe Apolenar — The Strongest",
+      "description": "Joe Apolenar: natural IPF powerlifter (−120 kg), former 155 kg athlete turned 115 kg competitor, retail operations manager, and full-stack builder of The Strongest."
+    },
+    "hero": {
+      "eyebrow": "Founder · Joe Apolenar",
+      "title_line1": "Built on Pain.",
+      "title_line2": "Driven by Results.",
+      "lead": "The Strongest is not just a fitness brand. It is the intersection of elite strength and professional management systems — built by a natural IPF powerlifter who also ran retail operations and ships full-stack platforms.",
+      "tagline": "Discipline Today, Strength Forever."
+    },
+    "identity": {
+      "aria": "Athletic status",
+      "natural_ipf": "Natural IPF Powerlifter",
+      "ice_hockey": "Ice Hockey",
+      "fighter": "Fighter",
+      "fitness_coach": "Fitness Coach"
+    },
+    "transformation": {
+      "eyebrow": "The Transformation",
+      "title": "155 kg → 115 kg",
+      "subtitle": "342 lbs → 253 lbs · Two years",
+      "body1": "A grueling two-year body transformation. Not a challenge. Not a hype cycle. Relentless discipline and consistency — session after session, decision after decision — until the scale and the platform both moved.",
+      "body2": "That process is the same operating system behind every programme here: structure under pressure, measurable progress, and zero tolerance for random effort."
+    },
+    "numbers": {
+      "eyebrow": "Competition / Gym",
+      "title": "The Numbers",
+      "lead": "Natural IPF powerlifter in the −120 kg class. Best lifts below — competition and gym standards, not marketing fiction.",
+      "deadlift": "Deadlift",
+      "total": "Total",
+      "ipf_class": "IPF class",
+      "squat": "Squat",
+      "bench": "Bench"
+    },
+    "mindset": {
+      "eyebrow": "The Managerial Mindset",
+      "title_line1": "Same System.",
+      "title_line2": "Different Arena.",
+      "corporate_title": "Corporate operations",
+      "corporate_body": "Extensive background as Store and Area Manager for massive retail chains — Amazon, Tesco, Kaufland, Lidl — plus a degree in Managerial Psychology and IT. Leading people, processes, and results under real operational pressure.",
+      "fullstack_title": "Full-stack systems",
+      "fullstack_body": "Full-stack developer building custom platforms with Next.js, Tailwind, and Supabase — the same stack powering The Strongest.",
+      "pullquote": "Managing massive retail operations and coding full-stack apps requires the exact same structured, systematic approach as peaking for a 310 kg deadlift. That is why the training programmes here are systems — not random workouts."
+    },
+    "philosophy": {
+      "eyebrow": "Philosophy",
+      "title_line1": "Discipline Today,",
+      "title_line2": "Strength Forever.",
+      "body": "The Will of Fire is the bridge: elite physical strength and professional management systems, forced into one operating standard. Show up. Execute the plan. Measure what matters. Repeat until the result is inevitable."
+    },
+    "cta": {
+      "audit": "Get your free strength audit",
+      "coaching": "Apply for coaching"
+    }
+  },
+  "Auth": {
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password"
+    },
+    "social": {
+      "divider": "Or continue with",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple"
+    },
+    "login": {
+      "metaTitle": "Log in",
+      "title": "Log in",
+      "description": "Sign in to your athlete account. Onboarding starts after authentication if your profile is incomplete.",
+      "submit": "Log in",
+      "forgot": "Forgot password?",
+      "create": "Create account",
+      "errorTitle": "Sign in failed",
+      "resetSuccessTitle": "Password updated",
+      "resetSuccessBody": "Sign in with your new password."
+    },
+    "signup": {
+      "metaTitle": "Sign up",
+      "title": "Create account",
+      "description": "Email and password create the account only. Athlete onboarding is required next inside the app before training tools open — it is not skipped.",
+      "submit": "Create account",
+      "passwordHint": "At least 8 characters. After sign-in you will complete athlete onboarding before the training app opens.",
+      "errorTitle": "Could not create account",
+      "haveAccount": "Already have an account?",
+      "logIn": "Log in",
+      "inviteReferral": "You were invited with a referral code. Completing onboarding may unlock product rewards for you and your inviter — never cash or multi-level payouts.",
+      "inviteTechnique": "You were invited via a technique score card share. After signup, open Technique to analyze your lift.",
+      "inviteDefault": "You arrived with an invite code. After signup, complete athlete onboarding inside the app.",
+      "inviteAffiliate": "You arrived via a disclosed affiliate link. Signup may be attributed for commission tracking — ledger estimates only, not a payout promise."
+    },
+    "forgot": {
+      "metaTitle": "Forgot password",
+      "title": "Reset password",
+      "description": "We will email a reset link if an account with that address exists. Links expire after one hour.",
+      "submit": "Send reset link",
+      "errorTitle": "Request failed",
+      "successTitle": "Check your email",
+      "back": "Back to login"
+    },
+    "reset": {
+      "metaTitle": "Choose new password",
+      "title": "Choose a new password",
+      "description": "Enter a new password for your account. You will sign in afterward.",
+      "invalidTitle": "Invalid reset link",
+      "invalidDescription": "This password reset link is missing a token. Request a new link from the login page.",
+      "requestNew": "Request new link",
+      "backToLogin": "Back to login",
+      "submit": "Update password",
+      "errorTitle": "Reset failed"
+    }
+  },
+  "ProgramsPage": {
+    "meta": {
+      "title": "Powerlifting Training Programs",
+      "description": "Browse powerlifting training programs — free 4-week starters and full 12–16 week cycles across Linear, DUP, Block, Conjugate, High-Frequency SBD, and Powerbuilding. No fake scarcity.",
+      "ogTitle": "Powerlifting Training Programs | The Strongest",
+      "ogDescription": "Commercial powerlifting training programs with free 4-week starters and full 12–16 week cycles — Linear, DUP, Block, Conjugate, and more.",
+      "twitterDescription": "Free starters and full powerlifting training programs across six method families."
+    },
+    "hero": {
+      "eyebrow": "Programs",
+      "title": "Training systems built for a clear purpose.",
+      "lead": "Six method families with free 4-week starters and full 12–16 week cycles. Filter by goal, method, and days — without countdown gimmicks."
+    },
+    "loading": "Loading catalog…",
+    "finder": {
+      "eyebrow": "Find my program",
+      "title": "Match a system to your constraints",
+      "lead": "A recommendation based on goal, experience, and days available — not a guarantee, and not a countdown offer.",
+      "goal": "Goal",
+      "experience": "Experience",
+      "days": "Days per week",
+      "goals": {
+        "strength": "General strength",
+        "powerlifting": "Powerlifting",
+        "hypertrophy": "Strength + muscle",
+        "competition_prep": "Meet prep"
+      },
+      "exp": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "dayOptions": {
+        "3day": "3 days",
+        "4day": "4 days",
+        "5day": "5+ days"
+      },
+      "recommended": "Recommended",
+      "openQuiz": "Open full finder quiz"
+    },
+    "catalog": {
+      "title": "Catalog",
+      "lead": "Filter locally — prices stay published; no urgency theater.",
+      "count": "{count, plural, =1 {# system} other {# systems}}",
+      "empty": "No programs match these filters. Clear a filter to widen the set — we do not invent listings to fill the grid."
+    },
+    "filters": {
+      "price": "Free / Paid",
+      "goal": "Goal",
+      "method": "Method",
+      "days": "Days per week",
+      "priceAll": "All",
+      "priceFree": "Free",
+      "pricePaid": "Paid",
+      "goalAll": "All goals",
+      "goalStrength": "Strength",
+      "goalPowerlifting": "Powerlifting",
+      "goalHypertrophy": "Hypertrophy",
+      "goalCompetition": "Competition prep",
+      "goalGeneral": "General strength",
+      "methodAll": "All methods",
+      "methodLinear": "Linear",
+      "methodDup": "DUP",
+      "methodBlock": "Block",
+      "methodConjugate": "Conjugate",
+      "methodHighFreq": "High frequency",
+      "methodBundle": "Bundle",
+      "daysAny": "Any days",
+      "days3": "3 days",
+      "days4": "4 days",
+      "days5": "5 days",
+      "days6": "6 days"
+    },
+    "card": {
+      "duration": "Duration",
+      "price": "Price",
+      "recovery": "Recovery",
+      "schedules": "Schedules",
+      "weeks": "{weeks} weeks",
+      "free": "Free",
+      "tryFree": "Try 4 weeks free",
+      "view": "View program",
+      "recoveryLow": "Low recovery demand",
+      "recoveryModerate": "Moderate recovery demand",
+      "recoveryHigh": "High recovery demand",
+      "schedule3": "3 days / week",
+      "schedule4": "4 days / week",
+      "schedule5": "5 days / week",
+      "schedule6": "6 days / week",
+      "methodMulti": "Multi-method",
+      "methodLinear": "Linear periodization",
+      "methodDup": "DUP",
+      "methodBlock": "Block periodization",
+      "methodConjugate": "Conjugate",
+      "methodHighFreq": "High-frequency training"
+    }
+  },
+  "LegendaryMethods": {
+    "meta": {
+      "title": "Legendary Training Methods",
+      "description": "Explore the training systems behind bodybuilding, powerlifting and strongman legends. Learn what they did, why it worked, what most lifters misunderstand and how the underlying principles can be adapted to modern training.",
+      "ogImageAlt": "Legendary Training Methods — abstract barbell geometry graphic"
+    },
+    "index": {
+      "eyebrow": "Educational library",
+      "title": "Legendary Training Methods"
+    },
+    "disclaimer": {
+      "title": "Independent educational analysis",
+      "short": "Independent educational analysis. Not affiliated with or endorsed by the featured athlete.",
+      "complete": "This article is an independent educational analysis based on publicly available and cited material. The Strongest is not affiliated with, authorised by, sponsored by or endorsed by the featured athlete. Any modernised training examples are original interpretations and are not presented as the athlete’s exact programme.",
+      "lineVisuals": "We do not use celebrity photographs, federation logos, athlete signatures, or trademarks as brand assets. Visuals are original abstract graphics and diagrams.",
+      "lineFacts": "We do not invent records, quotes, training routines, or historical facts. Incomplete profiles remain drafts until sourced content and legal review are ready.",
+      "lineMedical": "Nothing here is medical advice or a guarantee of results. Individual programming belongs with a qualified coach when needed.",
+      "related": "Related programmes are independent The Strongest products. They are not athlete-endorsed plans and are not sold as the featured athlete’s training system.",
+      "aria": "Legal disclaimer"
+    },
+    "library": {
+      "filterLegend": "Filter by category",
+      "filters": {
+        "all": "All",
+        "bodybuilding": "Bodybuilding",
+        "strongman": "Strongman",
+        "powerlifting": "Powerlifting",
+        "training-system": "Training Systems"
+      },
+      "emptyTitle": "Analyses publish when sources are ready",
+      "emptyBody": "We only list completed, sourced educational profiles. There are no placeholder athlete cards and no fabricated “coming soon” roster. Explore original programmes while profiles move from draft to published.",
+      "browsePrograms": "Browse programmes",
+      "findProgram": "Find my programme",
+      "emptyFilter": "No published analyses in this category yet.",
+      "filteredFallback": "Filtered analyses",
+      "methodFocus": "Method focus",
+      "evidence": "Evidence",
+      "recoveryDemand": "Recovery demand",
+      "beginnerSuitability": "Beginner suitability",
+      "scoreSuffix": "/ 10",
+      "minRead": "~{minutes} min read",
+      "readAnalysis": "Read Analysis"
+    },
+    "learn": {
+      "heading": "What you will learn",
+      "lead": "The difference between copying an elite athlete and learning from their principles — then continuing into original programmes built for modern lifters.",
+      "items": {
+        "principles": {
+          "title": "Principles over cosplay",
+          "body": "Copying an elite athlete’s weekly template rarely transfers. Learning which principles drove adaptation — specificity, overload, recovery, and selection pressure — does."
+        },
+        "sport": {
+          "title": "Sport context matters",
+          "body": "Bodybuilding volume, strongman event practise, and powerlifting peaking solve different problems. Filters and profiles keep those contexts distinct."
+        },
+        "original": {
+          "title": "Towards original programming",
+          "body": "Each analysis points toward The Strongest programmes that apply related principles without naming products after athletes."
+        }
+      },
+      "analyseHeading": "How we analyse each method",
+      "stepLabel": "Step {step}",
+      "steps": {
+        "1": {
+          "title": "Document the publicly available method",
+          "body": "Capture what can be verified from public sources — not invented routines or private coaching notes."
+        },
+        "2": {
+          "title": "Separate facts from interpretation",
+          "body": "Historical documentation stays distinct from The Strongest’s independent analysis."
+        },
+        "3": {
+          "title": "Analyse volume, intensity, specificity and recovery",
+          "body": "Score and discuss training demands honestly, including where evidence is mixed or limited."
+        },
+        "4": {
+          "title": "Build a safer modern application",
+          "body": "Translate principles into modernised adaptations that respect recovery, technique, and individual constraints."
+        }
+      },
+      "contextHeading": "Important context",
+      "contextBody": "Elite athletes trained under different conditions — bodyweights, schedules, genetics, recovery resources, pharmacology contexts where reported historically, coaching staff, and competitive environments. A method that worked for a professional under those constraints is not a prescription for every lifter. Use these analyses to understand principles, limits, and safer modern adaptations — then choose an original programme that fits your life.",
+      "explorePrograms": "Explore programmes",
+      "methodsKb": "Training methods knowledge base"
+    },
+    "notFound": {
+      "eyebrow": "Legendary Training Methods",
+      "title": "Profile not found",
+      "body": "This profile does not exist, or it is still a draft and not available for public viewing.",
+      "cta": "Browse Legendary Methods"
+    },
+    "profile": {
+      "minRead": "~{minutes} min read",
+      "quickProfile": "Quick Method Profile",
+      "sources": "Sources",
+      "home": "Home",
+      "library": "Legendary Methods",
+      "independentBadge": "Independent educational analysis",
+      "skipToContent": "Skip to profile content",
+      "breadcrumbAria": "Breadcrumb",
+      "evidenceBadge": "Evidence · {quality}",
+      "reviewedBadge": "Reviewed · {date}",
+      "pendingReview": "Pending review"
+    },
+    "categories": {
+      "bodybuilding": "Bodybuilding",
+      "strongman": "Strongman",
+      "powerlifting": "Powerlifting",
+      "training-system": "Training system"
+    }
+  },
+  "SiteFooter": {
+    "blurb": "Strength systems for people who lead under pressure — powerlifting standards, structured coaching, and tools that only claim what they can measure.",
+    "disclaimer": "Nutrition connection with Mealnexio is planned and not live yet. We do not invent macros, athlete counts, or success rates.",
+    "columns": {
+      "coaching": "Coaching",
+      "programs": "Programs",
+      "free_tools": "Free Tools",
+      "learn": "Learn",
+      "company": "Company",
+      "legal": "Legal"
+    },
+    "links": {
+      "one_to_one": "1:1 Coaching",
+      "coach_matching": "Coach matching",
+      "competition_prep": "Competition Prep",
+      "strength_audit": "Strength Audit",
+      "program_catalog": "Program catalog",
+      "find_my_program": "Find my program",
+      "method_collection": "Method collection",
+      "creator_marketplace": "Creator marketplace",
+      "calculators": "Calculators",
+      "program_audit": "Program audit",
+      "technique_check": "Technique check",
+      "athlete_assessment": "Athlete assessment",
+      "method_compare": "Method compare",
+      "learning_paths": "Learning paths",
+      "legendary_methods": "Legendary Methods",
+      "methods": "Methods",
+      "academy": "Academy",
+      "exercises": "Exercises",
+      "guides": "Guides",
+      "about": "About",
+      "trust_center": "Trust Center",
+      "pricing": "Pricing",
+      "affiliates": "Affiliates",
+      "demo": "Demo",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies"
+    }
   }
 }

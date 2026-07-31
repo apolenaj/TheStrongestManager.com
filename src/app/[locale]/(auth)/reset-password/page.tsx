@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { ResetPasswordForm } from "@/components/auth/AuthForms";
 import { ButtonLink } from "@/design-system";
 
-export const metadata: Metadata = {
-  title: "Choose new password",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Auth");
+  return {
+    title: t("reset.metaTitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 type ResetPasswordPageProps = {
   searchParams: Promise<{ token?: string }>;
@@ -16,21 +20,22 @@ type ResetPasswordPageProps = {
 export default async function ResetPasswordPage({
   searchParams,
 }: ResetPasswordPageProps) {
+  const t = await getTranslations("Auth");
   const { token } = await searchParams;
 
   if (!token) {
     return (
       <AuthShell
-        title="Invalid reset link"
-        description="This password reset link is missing a token. Request a new link from the login page."
+        title={t("reset.invalidTitle")}
+        description={t("reset.invalidDescription")}
       >
-        <ButtonLink href="/forgot-password">Request new link</ButtonLink>
+        <ButtonLink href="/forgot-password">{t("reset.requestNew")}</ButtonLink>
         <p className="mt-4 text-sm text-[var(--color-muted)]">
           <Link
             href="/login"
             className="text-[var(--color-accent)] underline-offset-4 hover:underline"
           >
-            Back to login
+            {t("reset.backToLogin")}
           </Link>
         </p>
       </AuthShell>
@@ -38,10 +43,7 @@ export default async function ResetPasswordPage({
   }
 
   return (
-    <AuthShell
-      title="Choose a new password"
-      description="Enter a new password for your account. You will sign in afterward."
-    >
+    <AuthShell title={t("reset.title")} description={t("reset.description")}>
       <ResetPasswordForm token={token} />
     </AuthShell>
   );

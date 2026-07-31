@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useId, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import {
   LIBRARY_CATEGORY_FILTERS,
@@ -19,6 +20,9 @@ function formatScore(value: number | null): string {
 }
 
 function LegendaryMethodCard({ card }: { card: LegendaryMethodCardModel }) {
+  const t = useTranslations("LegendaryMethods.library");
+  const categoryLabel = t(`filters.${card.category}`);
+
   return (
     <article className="legendary-card legendary-surface group flex h-full flex-col overflow-hidden">
       <LegendaryMethodCardArt
@@ -28,7 +32,7 @@ function LegendaryMethodCard({ card }: { card: LegendaryMethodCardModel }) {
       <div className="flex flex-1 flex-col gap-5 p-6">
         <div className="space-y-2">
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            {card.categoryLabel}
+            {categoryLabel}
           </p>
           <h3 className="font-[family-name:var(--font-display)] text-xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-2xl">
             {card.athleteName}
@@ -47,7 +51,7 @@ function LegendaryMethodCard({ card }: { card: LegendaryMethodCardModel }) {
         <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-5 text-xs">
           <div>
             <dt className="uppercase tracking-[0.12em] text-[var(--color-subtle)]">
-              Method focus
+              {t("methodFocus")}
             </dt>
             <dd className="mt-1.5 text-[var(--color-foreground)]">
               {card.methodFocus}
@@ -55,7 +59,7 @@ function LegendaryMethodCard({ card }: { card: LegendaryMethodCardModel }) {
           </div>
           <div>
             <dt className="uppercase tracking-[0.12em] text-[var(--color-subtle)]">
-              Evidence
+              {t("evidence")}
             </dt>
             <dd className="mt-1.5 capitalize text-[var(--color-foreground)]">
               {card.evidenceQuality}
@@ -63,33 +67,39 @@ function LegendaryMethodCard({ card }: { card: LegendaryMethodCardModel }) {
           </div>
           <div>
             <dt className="uppercase tracking-[0.12em] text-[var(--color-subtle)]">
-              Recovery demand
+              {t("recoveryDemand")}
             </dt>
             <dd className="mt-1.5 text-[var(--color-foreground)]">
               {formatScore(card.recoveryDemand)}
-              <span className="text-[var(--color-subtle)]"> / 10</span>
+              <span className="text-[var(--color-subtle)]">
+                {" "}
+                {t("scoreSuffix")}
+              </span>
             </dd>
           </div>
           <div>
             <dt className="uppercase tracking-[0.12em] text-[var(--color-subtle)]">
-              Beginner suitability
+              {t("beginnerSuitability")}
             </dt>
             <dd className="mt-1.5 text-[var(--color-foreground)]">
               {formatScore(card.beginnerSuitability)}
-              <span className="text-[var(--color-subtle)]"> / 10</span>
+              <span className="text-[var(--color-subtle)]">
+                {" "}
+                {t("scoreSuffix")}
+              </span>
             </dd>
           </div>
         </dl>
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-1">
           <p className="text-xs text-[var(--color-subtle)]">
-            ~{card.readingTimeMinutes} min read
+            {t("minRead", { minutes: card.readingTimeMinutes })}
           </p>
           <Link
             href={card.href}
             className="inline-flex min-h-11 items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
-            Read Analysis
+            {t("readAnalysis")}
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
           </Link>
         </div>
@@ -103,6 +113,7 @@ export function LegendaryMethodsLibrary({
 }: {
   cards: LegendaryMethodCardModel[];
 }) {
+  const t = useTranslations("LegendaryMethods.library");
   const labelId = useId();
   const [filter, setFilter] = useState<LibraryCategoryFilterId>("all");
 
@@ -122,7 +133,7 @@ export function LegendaryMethodsLibrary({
           id={labelId}
           className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-subtle)]"
         >
-          Filter by category
+          {t("filterLegend")}
         </p>
         <div
           role="radiogroup"
@@ -196,7 +207,7 @@ export function LegendaryMethodsLibrary({
                     : "border-white/10 bg-[var(--color-surface)] text-[var(--color-muted)] hover:border-white/20 hover:text-[var(--color-foreground)]",
                 )}
               >
-                {item.label}
+                {t(`filters.${item.id}`)}
               </button>
             );
           })}
@@ -206,32 +217,29 @@ export function LegendaryMethodsLibrary({
       {cards.length === 0 ? (
         <div className="legendary-surface px-6 py-10 sm:px-8 sm:py-12">
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)]">
-            Analyses publish when sources are ready
+            {t("emptyTitle")}
           </h2>
           <p className="legendary-prose mt-4 text-sm sm:text-base">
-            We only list completed, sourced educational profiles. There are no
-            placeholder athlete cards and no fabricated “coming soon” roster.
-            Explore original programmes while profiles move from draft to
-            published.
+            {t("emptyBody")}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/programs"
               className="inline-flex min-h-11 items-center rounded-sm bg-[var(--color-accent)] px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Browse programmes
+              {t("browsePrograms")}
             </Link>
             <Link
               href="/programs/find-my-program"
               className="inline-flex min-h-11 items-center border border-white/10 px-4 text-xs font-bold uppercase tracking-[0.08em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Find my programme
+              {t("findProgram")}
             </Link>
           </div>
         </div>
       ) : filtered.length === 0 ? (
         <p className="text-sm leading-relaxed text-[var(--color-muted)]" role="status">
-          No published analyses in this category yet.
+          {t("emptyFilter")}
         </p>
       ) : filter === "all" ? (
         <div className="space-y-16 sm:space-y-20">
@@ -244,7 +252,7 @@ export function LegendaryMethodsLibrary({
                 id={`legendary-group-${group.category}`}
                 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl"
               >
-                {group.label}
+                {t(`filters.${group.category}`)}
               </h2>
               <ul className="mt-8 grid gap-6 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3">
                 {group.cards.map((card) => (
@@ -259,8 +267,7 @@ export function LegendaryMethodsLibrary({
       ) : (
         <div>
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-            {LIBRARY_CATEGORY_FILTERS.find((item) => item.id === filter)?.label ??
-              "Filtered analyses"}
+            {t(`filters.${filter}`)}
           </h2>
           <ul className="mt-8 grid gap-6 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3">
             {filtered.map((card) => (

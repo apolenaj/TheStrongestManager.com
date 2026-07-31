@@ -1,10 +1,5 @@
+import { useTranslations } from "next-intl";
 import { Alert } from "@/design-system";
-import {
-  LEGENDARY_DISCLAIMER_COMPLETE,
-  LEGENDARY_DISCLAIMER_SHORT,
-  LEGENDARY_METHODS_DISCLAIMER,
-  LEGENDARY_RELATED_PROGRAMME_INDEPENDENCE,
-} from "@/domain/legendary-methods";
 
 type DisclaimerVariant = "short" | "complete" | "index";
 
@@ -19,6 +14,8 @@ export function LegendaryMethodDisclaimer({
   variant?: DisclaimerVariant;
   className?: string;
 }) {
+  const t = useTranslations("LegendaryMethods.disclaimer");
+
   if (variant === "short") {
     return (
       <p
@@ -28,18 +25,19 @@ export function LegendaryMethodDisclaimer({
         }
         role="note"
       >
-        {LEGENDARY_DISCLAIMER_SHORT}
+        {t("short")}
       </p>
     );
   }
 
   if (variant === "index") {
     return (
-      <Alert tone="info" title="Independent educational analysis">
+      <Alert tone="info" title={t("title")}>
         <ul className="space-y-2.5 text-sm">
-          {LEGENDARY_METHODS_DISCLAIMER.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
+          <li>{t("complete")}</li>
+          <li>{t("lineVisuals")}</li>
+          <li>{t("lineFacts")}</li>
+          <li>{t("lineMedical")}</li>
         </ul>
       </Alert>
     );
@@ -51,21 +49,20 @@ export function LegendaryMethodDisclaimer({
         className ??
         "legendary-surface p-6 text-sm leading-relaxed text-[var(--color-muted)]"
       }
-      aria-label="Legal disclaimer"
+      aria-label={t("aria")}
     >
-      <p className="font-medium text-[var(--color-foreground)]">
-        Independent educational analysis
-      </p>
-      <p className="mt-2">{LEGENDARY_DISCLAIMER_COMPLETE}</p>
+      <p className="font-medium text-[var(--color-foreground)]">{t("title")}</p>
+      <p className="mt-2">{t("complete")}</p>
     </aside>
   );
 }
 
 export function LegendaryRelatedProgrammeDisclaimer() {
+  const t = useTranslations("LegendaryMethods.disclaimer");
+
   return (
     <p className="mt-3 max-w-prose text-sm text-[var(--color-muted)]">
-      {LEGENDARY_RELATED_PROGRAMME_INDEPENDENCE}{" "}
-      {LEGENDARY_DISCLAIMER_SHORT}
+      {t("related")} {t("short")}
     </p>
   );
 }

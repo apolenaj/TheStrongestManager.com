@@ -3,49 +3,37 @@
 import { useMemo, useState, useEffect, type CSSProperties } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/design-system/utils/cn";
 import type { PublicProgramProduct } from "@/domain/program-catalog";
 import { getProgramFamilyContent } from "@/domain/program-catalog/content";
 import { ProgramCard, type ProgramCardModel } from "@/components/programs/ProgramCard";
 
-const PRICE_FILTERS = [
-  { id: "all", label: "All" },
-  { id: "free", label: "Free" },
-  { id: "paid", label: "Paid" },
+const PRICE_IDS = ["all", "free", "paid"] as const;
+const GOAL_IDS = [
+  "all",
+  "strength",
+  "powerlifting",
+  "hypertrophy",
+  "competition_prep",
+  "general_strength",
 ] as const;
-
-const GOAL_FILTERS = [
-  { id: "all", label: "All goals" },
-  { id: "strength", label: "Strength" },
-  { id: "powerlifting", label: "Powerlifting" },
-  { id: "hypertrophy", label: "Hypertrophy" },
-  { id: "competition_prep", label: "Competition prep" },
-  { id: "general_strength", label: "General strength" },
+const METHOD_IDS = [
+  "all",
+  "linear-periodization",
+  "daily-undulating-periodization",
+  "block-periodization",
+  "conjugate",
+  "high-frequency-training",
+  "bundle",
 ] as const;
+const DAYS_IDS = ["all", "3day", "4day", "5day", "6day"] as const;
 
-const METHOD_FILTERS = [
-  { id: "all", label: "All methods" },
-  { id: "linear-periodization", label: "Linear" },
-  { id: "daily-undulating-periodization", label: "DUP" },
-  { id: "block-periodization", label: "Block" },
-  { id: "conjugate", label: "Conjugate" },
-  { id: "high-frequency-training", label: "High frequency" },
-  { id: "bundle", label: "Bundle" },
-] as const;
-
-const DAYS_FILTERS = [
-  { id: "all", label: "Any days" },
-  { id: "3day", label: "3 days" },
-  { id: "4day", label: "4 days" },
-  { id: "5day", label: "5 days" },
-  { id: "6day", label: "6 days" },
-] as const;
-
-type PriceId = (typeof PRICE_FILTERS)[number]["id"];
-type GoalId = (typeof GOAL_FILTERS)[number]["id"];
-type MethodId = (typeof METHOD_FILTERS)[number]["id"];
-type DaysId = (typeof DAYS_FILTERS)[number]["id"];
+type PriceId = (typeof PRICE_IDS)[number];
+type GoalId = (typeof GOAL_IDS)[number];
+type MethodId = (typeof METHOD_IDS)[number];
+type DaysId = (typeof DAYS_IDS)[number];
 
 function buildFamilyCards(programs: PublicProgramProduct[]): ProgramCardModel[] {
   const byFamily = new Map<string, PublicProgramProduct[]>();
@@ -127,24 +115,14 @@ function FilterChipGroup<T extends string>({
   );
 }
 
-const FINDER_GOALS = [
-  { id: "strength", label: "General strength" },
-  { id: "powerlifting", label: "Powerlifting" },
-  { id: "hypertrophy", label: "Strength + muscle" },
-  { id: "competition_prep", label: "Meet prep" },
+const FINDER_GOAL_IDS = [
+  "strength",
+  "powerlifting",
+  "hypertrophy",
+  "competition_prep",
 ] as const;
-
-const FINDER_EXP = [
-  { id: "beginner", label: "Beginner" },
-  { id: "intermediate", label: "Intermediate" },
-  { id: "advanced", label: "Advanced" },
-] as const;
-
-const FINDER_DAYS = [
-  { id: "3day", label: "3 days" },
-  { id: "4day", label: "4 days" },
-  { id: "5day", label: "5+ days" },
-] as const;
+const FINDER_EXP_IDS = ["beginner", "intermediate", "advanced"] as const;
+const FINDER_DAY_IDS = ["3day", "4day", "5day"] as const;
 
 function recommendFamily(input: {
   goal: string;
@@ -171,10 +149,11 @@ function recommendFamily(input: {
 }
 
 function FindMyProgram({ cards }: { cards: ProgramCardModel[] }) {
-  const [goal, setGoal] = useState<(typeof FINDER_GOALS)[number]["id"]>("strength");
+  const t = useTranslations("ProgramsPage");
+  const [goal, setGoal] = useState<(typeof FINDER_GOAL_IDS)[number]>("strength");
   const [experience, setExperience] =
-    useState<(typeof FINDER_EXP)[number]["id"]>("intermediate");
-  const [days, setDays] = useState<(typeof FINDER_DAYS)[number]["id"]>("4day");
+    useState<(typeof FINDER_EXP_IDS)[number]>("intermediate");
+  const [days, setDays] = useState<(typeof FINDER_DAY_IDS)[number]>("4day");
 
   const recommendation = useMemo(() => {
     const familyId = recommendFamily({ goal, experience, days });
@@ -187,33 +166,41 @@ function FindMyProgram({ cards }: { cards: ProgramCardModel[] }) {
       className="scroll-mt-28 border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8"
     >
       <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
-        Find my program
+        {t("finder.eyebrow")}
       </p>
       <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-        Match a system to your constraints
+        {t("finder.title")}
       </h2>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--color-muted)]">
-        A recommendation based on goal, experience, and days available — not a
-        guarantee, and not a countdown offer.
+        {t("finder.lead")}
       </p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
         <FilterChipGroup
-          legend="Goal"
+          legend={t("finder.goal")}
           value={goal}
-          options={FINDER_GOALS}
+          options={FINDER_GOAL_IDS.map((id) => ({
+            id,
+            label: t(`finder.goals.${id}`),
+          }))}
           onChange={setGoal}
         />
         <FilterChipGroup
-          legend="Experience"
+          legend={t("finder.experience")}
           value={experience}
-          options={FINDER_EXP}
+          options={FINDER_EXP_IDS.map((id) => ({
+            id,
+            label: t(`finder.exp.${id}`),
+          }))}
           onChange={setExperience}
         />
         <FilterChipGroup
-          legend="Days per week"
+          legend={t("finder.days")}
           value={days}
-          options={FINDER_DAYS}
+          options={FINDER_DAY_IDS.map((id) => ({
+            id,
+            label: t(`finder.dayOptions.${id}`),
+          }))}
           onChange={setDays}
         />
       </div>
@@ -222,7 +209,7 @@ function FindMyProgram({ cards }: { cards: ProgramCardModel[] }) {
         <div className="mt-8 flex flex-col gap-4 border-t border-[var(--color-border)] pt-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-muted)]">
-              Recommended
+              {t("finder.recommended")}
             </p>
             <p className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
               {recommendation.name}
@@ -235,7 +222,7 @@ function FindMyProgram({ cards }: { cards: ProgramCardModel[] }) {
             href="/programs/find-my-program"
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
-            Open full finder quiz
+            {t("finder.openQuiz")}
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           </Link>
         </div>
@@ -251,12 +238,13 @@ type ProgramsCatalogExperienceProps = {
 export function ProgramsCatalogExperience({
   programs,
 }: ProgramsCatalogExperienceProps) {
+  const t = useTranslations("ProgramsPage");
   const searchParams = useSearchParams();
   const allCards = useMemo(() => buildFamilyCards(programs), [programs]);
 
   const goalFromUrl = searchParams.get("goal");
   const initialGoalId = (
-    GOAL_FILTERS.some((g) => g.id === goalFromUrl) ? goalFromUrl : "all"
+    GOAL_IDS.includes(goalFromUrl as GoalId) ? goalFromUrl : "all"
   ) as GoalId;
 
   const [price, setPrice] = useState<PriceId>("all");
@@ -297,6 +285,64 @@ export function ProgramsCatalogExperience({
     });
   }, [allCards, price, goal, method, days]);
 
+  const priceOptions = PRICE_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.priceAll")
+        : id === "free"
+          ? t("filters.priceFree")
+          : t("filters.pricePaid"),
+  }));
+
+  const goalOptions = GOAL_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.goalAll")
+        : id === "strength"
+          ? t("filters.goalStrength")
+          : id === "powerlifting"
+            ? t("filters.goalPowerlifting")
+            : id === "hypertrophy"
+              ? t("filters.goalHypertrophy")
+              : id === "competition_prep"
+                ? t("filters.goalCompetition")
+                : t("filters.goalGeneral"),
+  }));
+
+  const methodOptions = METHOD_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.methodAll")
+        : id === "linear-periodization"
+          ? t("filters.methodLinear")
+          : id === "daily-undulating-periodization"
+            ? t("filters.methodDup")
+            : id === "block-periodization"
+              ? t("filters.methodBlock")
+              : id === "conjugate"
+                ? t("filters.methodConjugate")
+                : id === "high-frequency-training"
+                  ? t("filters.methodHighFreq")
+                  : t("filters.methodBundle"),
+  }));
+
+  const daysOptions = DAYS_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.daysAny")
+        : id === "3day"
+          ? t("filters.days3")
+          : id === "4day"
+            ? t("filters.days4")
+            : id === "5day"
+              ? t("filters.days5")
+              : t("filters.days6"),
+  }));
+
   return (
     <div className="space-y-14">
       <FindMyProgram cards={allCards} />
@@ -308,48 +354,47 @@ export function ProgramsCatalogExperience({
               id="catalog-filters-heading"
               className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]"
             >
-              Catalog
+              {t("catalog.title")}
             </h2>
             <p className="mt-2 text-sm text-[var(--color-muted)]">
-              Filter locally — prices stay published; no urgency theater.
+              {t("catalog.lead")}
             </p>
           </div>
           <p className="text-sm text-[var(--color-muted)]" aria-live="polite">
-            {filtered.length} system{filtered.length === 1 ? "" : "s"}
+            {t("catalog.count", { count: filtered.length })}
           </p>
         </div>
 
         <div className="mt-6 grid gap-6 border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5 sm:grid-cols-2 lg:grid-cols-4">
           <FilterChipGroup
-            legend="Free / Paid"
+            legend={t("filters.price")}
             value={price}
-            options={PRICE_FILTERS}
+            options={priceOptions}
             onChange={setPrice}
           />
           <FilterChipGroup
-            legend="Goal"
+            legend={t("filters.goal")}
             value={goal}
-            options={GOAL_FILTERS}
+            options={goalOptions}
             onChange={setGoal}
           />
           <FilterChipGroup
-            legend="Method"
+            legend={t("filters.method")}
             value={method}
-            options={METHOD_FILTERS}
+            options={methodOptions}
             onChange={setMethod}
           />
           <FilterChipGroup
-            legend="Days per week"
+            legend={t("filters.days")}
             value={days}
-            options={DAYS_FILTERS}
+            options={daysOptions}
             onChange={setDays}
           />
         </div>
 
         {filtered.length === 0 ? (
           <p className="mt-10 text-sm text-[var(--color-muted)]">
-            No programs match these filters. Clear a filter to widen the set —
-            we do not invent listings to fill the grid.
+            {t("catalog.empty")}
           </p>
         ) : (
           <div className="mt-10 grid gap-5 md:grid-cols-2">
