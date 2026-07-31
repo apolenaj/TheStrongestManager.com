@@ -322,7 +322,7 @@ function DesktopNavItem({
       <Link
         href={category.href}
         className={cn(
-          "group inline-flex min-h-11 items-center whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+          "group inline-flex min-h-11 items-center whitespace-nowrap py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
           categoryActive
             ? "text-[var(--color-foreground)]"
             : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
@@ -369,7 +369,7 @@ function DesktopNavItem({
       <button
         type="button"
         className={cn(
-          "group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap px-[clamp(0.4rem,0.7vw,0.75rem)] py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+          "group inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap py-2 text-sm transition-colors duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
           categoryActive || open
             ? "text-[var(--color-foreground)]"
             : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
@@ -640,12 +640,16 @@ export function SiteHeader() {
             : "border-b border-transparent bg-transparent",
         )}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:h-[4.25rem] sm:px-6">
-          <BrandLogo />
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 sm:h-[4.25rem] sm:px-6">
+          {/* LEFT — brand */}
+          <div className="relative z-10 flex shrink-0 items-center">
+            <BrandLogo />
+          </div>
 
+          {/* CENTER — primary nav */}
           <nav
             aria-label={t("primaryNavAria")}
-            className="hidden min-w-0 items-center gap-[clamp(0.15rem,0.9vw,0.65rem)] min-[1100px]:flex"
+            className="hidden min-w-0 flex-1 items-center justify-center gap-6 min-[1100px]:flex"
           >
             {SITE_NAV_CATEGORIES.map((category) => (
               <DesktopNavItem
@@ -658,11 +662,12 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <LanguageSwitcher className="mr-0.5 sm:mr-1" />
+          {/* RIGHT — language, auth, mobile menu */}
+          <div className="relative z-10 flex shrink-0 items-center gap-6">
+            <LanguageSwitcher />
             <Link
               href="/login"
-              className="hidden min-h-11 items-center px-3 text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
+              className="hidden min-h-11 items-center text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
             >
               {t("logIn")}
             </Link>

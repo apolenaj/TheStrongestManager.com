@@ -124,5 +124,15 @@
       "pricing": "Plány, funkce a limity",
       "affiliates": "Přehled partnerského programu"
     }
+  },
+  "HomePage": {
+    "brand_subtitle": "THE STRONGEST",
+    "hero_title": "VYBUDUJ SÍLU, KTERÁ OBSTOJÍ NA ZÁVODNÍM PRKNĚ.",
+    "hero_description": "Strukturovaný powerlifterský koučink, technická zpětná vazba a tréninkové nástroje podložené daty pro liftery, kteří odmítají hádat.",
+    "btn_audit": "ZÍSKAT AUDIT SÍLY ZDARMA ->",
+    "btn_library": "PROZKOUMAT TRÉNINKOVOU KNIHOVNU",
+    "bullet_evidence": "Trénink podložený daty",
+    "bullet_progression": "Individuální progrese",
+    "bullet_coaching": "Koučink zaměřený na závody"
   }
 }

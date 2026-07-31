@@ -124,5 +124,15 @@
       "pricing": "Plans, features, and limits",
       "affiliates": "Partner program overview"
     }
+  },
+  "HomePage": {
+    "brand_subtitle": "THE STRONGEST",
+    "hero_title": "BUILD STRENGTH THAT SURVIVES THE PLATFORM.",
+    "hero_description": "Structured powerlifting coaching, technique feedback and evidence-led training tools for serious lifters who refuse to guess.",
+    "btn_audit": "GET YOUR FREE STRENGTH AUDIT ->",
+    "btn_library": "EXPLORE THE FREE TRAINING LIBRARY",
+    "bullet_evidence": "Evidence-led programming",
+    "bullet_progression": "Individual progression",
+    "bullet_coaching": "Competition-focused coaching"
   }
 }
