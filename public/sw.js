@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 /**
- * TheStrongestManager service worker (Prompt 184).
+ * The Strongest service worker (Prompt 184).
  * Offline shell + safe static cache. Never caches auth/API/sensitive routes.
  *
  * Keep in sync with src/domain/pwa-readiness/constants.ts deny patterns.

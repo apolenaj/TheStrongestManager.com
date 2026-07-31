@@ -15,7 +15,7 @@ export const SPORT_GOAL_LANDINGS: readonly SportGoalLanding[] = [
     title: "Improve your deadlift",
     goalLabel: "Improve Deadlift",
     description:
-      "A practical path to a stronger deadlift — technique review, programming context, and accessory hinges inside TheStrongestManager.",
+      "A practical path to a stronger deadlift — technique review, programming context, and accessory hinges inside The Strongest.",
     overview:
       "Improving a deadlift is rarely one cue and a motivational paragraph. You need an honest pull pattern, a place to log sessions, and accessories that match the hinge you actually train. This page points into the product features that support that work — deadlift technique pages, Romanian vs stiff-leg comparisons, today’s session logging, and technique uploads — instead of a keyword essay with no next step.",
     uniqueValueKey: "goal:improve-deadlift-v1",
@@ -148,7 +148,7 @@ export const SPORT_GOAL_LANDINGS: readonly SportGoalLanding[] = [
     title: "Powerlifting program",
     goalLabel: "Powerlifting Program",
     description:
-      "How TheStrongestManager supports powerlifting training — squat, bench, deadlift, programming, and Powerlifting Mode — without a fake downloadable template.",
+      "How The Strongest supports powerlifting training — squat, bench, deadlift, programming, and Powerlifting Mode — without a fake downloadable template.",
     overview:
       "Searching “powerlifting program” often yields PDF spam and affiliate spreadsheets. This landing explains how programming, the big three exercises, method context, and Powerlifting Mode connect inside the product. It does not pretend a single secret template lives behind a button.",
     uniqueValueKey: "goal:powerlifting-program-v1",
@@ -224,7 +224,7 @@ export const SPORT_GOAL_LANDINGS: readonly SportGoalLanding[] = [
     title: "Strongman training",
     goalLabel: "Strongman Training",
     description:
-      "Strongman-oriented training in TheStrongestManager — event-aware product context, hinge/press strength, and honest logging without thin event stub pages.",
+      "Strongman-oriented training in The Strongest — event-aware product context, hinge/press strength, and honest logging without thin event stub pages.",
     overview:
       "Strongman training mixes gym strength with event skill. Mass SEO sites often mint a thin page per implement. We refuse that: this landing connects Strongman Mode, relevant strength exercises, methods, and session logging — while learn/strongman explains why we do not flood the sitemap with event stubs.",
     uniqueValueKey: "goal:strongman-training-v1",

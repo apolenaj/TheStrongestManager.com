@@ -41,7 +41,7 @@ Metric kinds: `observed` · `estimated` · `reported` · `missing`.
 
 ## Branding
 
-Uses platform branding (`TheStrongestManager`) via branding defaults. Clean typography (Helvetica), accent when available — not a flashy marketing deck.
+Uses platform branding (`The Strongest`) via branding defaults. Clean typography (Helvetica), accent when available — not a flashy marketing deck.
 
 ---
 

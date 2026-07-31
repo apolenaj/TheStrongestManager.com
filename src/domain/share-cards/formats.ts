@@ -58,7 +58,7 @@ export function getShareCardFormat(id: ShareCardFormatId): ShareCardFormat {
 }
 
 /** Brand lockup on every card. */
-export const SHARE_CARD_BRAND = "TheStrongestManager";
+export const SHARE_CARD_BRAND = "The Strongest";
 
 /**
  * Metric keys athletes may opt into.

@@ -38,7 +38,7 @@ export default function GlobalError({
         <div style={{ maxWidth: "28rem" }}>
           <p style={{ color: "#d4a017", fontWeight: 600, margin: 0 }}>Error</p>
           <h1 style={{ fontSize: "1.5rem", margin: "0.5rem 0 0" }}>
-            TheStrongestManager could not load
+            The Strongest could not load
           </h1>
           <p style={{ color: "#a1a1aa", lineHeight: 1.5 }}>
             A critical error stopped the page. Try again. If it persists, return

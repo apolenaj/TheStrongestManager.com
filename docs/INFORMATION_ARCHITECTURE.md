@@ -1,4 +1,4 @@
-# TheStrongestManager — Information Architecture
+# The Strongest — Information Architecture
 
 **Date:** 2026-07-20  
 **Prompt:** 2 — Information architecture and route system  

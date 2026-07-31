@@ -20,7 +20,7 @@ export type AppRoute = {
 };
 
 /**
- * Canonical route architecture for TheStrongestManager.
+ * Canonical route architecture for The Strongest.
  * Keep this file as the source of truth for nav + IA docs.
  */
 export const routes: readonly AppRoute[] = [

@@ -714,7 +714,7 @@ export function LegendaryMethodProfileTemplate({
               <LegendaryEditorialLabel id="analysis" />
             </div>
             <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-              The Strongest Manager Score
+              The Strongest Score
             </h2>
             <p className="legendary-prose mt-5 text-sm sm:text-base">
               Independent 1–10 editorial scores with short justifications — not
@@ -744,7 +744,7 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="verdict"
-            title="The Strongest Manager Verdict"
+            title="The Strongest Verdict"
             layer="independent_analysis"
             sourceRefs={getSectionSourceRefs(profile, "verdict")}
           >
@@ -817,7 +817,7 @@ export function LegendaryMethodProfileTemplate({
             layer="modernised_adaptation"
           >
             <p className="inline-flex border border-[var(--color-accent)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
-              Original interpretation by The Strongest Manager
+              Original interpretation by The Strongest
             </p>
             {modern?.summary || modernBody ? (
               <p className="whitespace-pre-line">

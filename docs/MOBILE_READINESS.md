@@ -8,7 +8,7 @@
 
 ## Intent
 
-TheStrongestManager is a Next.js web product today. Business logic should remain reusable for:
+The Strongest is a Next.js web product today. Business logic should remain reusable for:
 
 - **Web** (current App Router client)
 - **iOS** (future native)

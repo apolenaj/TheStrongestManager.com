@@ -44,7 +44,7 @@ export function PwaInstallPrompt() {
     <div className="fixed inset-x-0 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-[var(--z-sticky)] mx-auto max-w-lg px-3 md:bottom-4">
       <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-3 shadow-lg">
         <p className="text-sm font-medium text-[var(--color-foreground)]">
-          Install TheStrongestManager
+          Install The Strongest
         </p>
         <p className="mt-1 text-xs text-[var(--color-muted)]">
           Add to your home screen for faster workouts and an offline shell.

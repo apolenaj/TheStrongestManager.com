@@ -34,7 +34,7 @@ export const EDUCATION_TOPICS: Record<EducationTopicId, EducationTopic> = {
     shortWhy:
       "RPE (Rate of Perceived Exertion) is how hard a set felt on a 1–10 scale you log — not a lab fatigue measurement.",
     inContextExplanation:
-      "In TheStrongestManager, RPE is athlete-reported on sets and sessions. Hard-set tracking treats RPE ≥ 8 (or low RIR) as a heuristic for dense work — useful for load trends, not a medical diagnosis. Missing RPE stays blank; we never invent it from video or heart rate.",
+      "In The Strongest, RPE is athlete-reported on sets and sessions. Hard-set tracking treats RPE ≥ 8 (or low RIR) as a heuristic for dense work — useful for load trends, not a medical diagnosis. Missing RPE stays blank; we never invent it from video or heart rate.",
     relatedLinks: [
       { href: "/app/today", label: "Log RPE in Today", surface: "app" },
       { href: "/app/progress", label: "Progress charts", surface: "app" },

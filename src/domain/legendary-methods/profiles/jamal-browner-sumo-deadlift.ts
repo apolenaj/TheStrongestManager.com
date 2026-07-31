@@ -146,7 +146,7 @@ A further error is treating strongman-rules conventional training as proof that 
 
 Modern controls: raw-rules practice before meets, limited strapped overloads, planned deloads, and stance work that stays within technical ownership. If hips or adductors complain for more than a few easy days, cut pulling intensity before adding another absolute test. This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Browner is a case study in sumo specialisation done at the absolute edge — with mandatory literacy about competition versus gym conditions. Borrow technical standards and overload honesty. Do not copy elite loads or assume universal transfer to conventional pulling. Date every claim; label every ruleset.`,
+      "verdict": `The Strongest verdict: Browner is a case study in sumo specialisation done at the absolute edge — with mandatory literacy about competition versus gym conditions. Borrow technical standards and overload honesty. Do not copy elite loads or assume universal transfer to conventional pulling. Date every claim; label every ruleset.`,
 
       "modernised-application": `Modernise with competition-stance priority, one hard pull day, optional light technique work, and clear labelling of strapped overloads as non-meet practice. Beginners learn hinge patterns first.
 
@@ -213,7 +213,7 @@ Intermediates should build a meet-dated sumo single under raw rules before chasi
     title: "Modernised sumo-specialisation illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example. Not Jamal Browner’s programme. Prefer raw-rules conditions for meet prep. Scale loads to technical quality.",
+      "Original The Strongest example. Not Jamal Browner’s programme. Prefer raw-rules conditions for meet prep. Scale loads to technical quality.",
     days: [
       {
         dayLabel: "Day 1",
@@ -282,7 +282,7 @@ Intermediates should build a meet-dated sumo single under raw rules before chasi
       title: "Deadlift Specialisation Strength",
       href: "/programs/dup-powerlifting-system",
       relationship:
-        "Original The Strongest Manager programme applying related deadlift-specialisation principles without athlete naming",
+        "Original The Strongest programme applying related deadlift-specialisation principles without athlete naming",
     },
   ],
   sources: [

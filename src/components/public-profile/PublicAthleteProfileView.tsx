@@ -18,7 +18,7 @@ export function PublicAthleteProfileView({
     <div className="grid gap-8">
       <header className="grid gap-3">
         <p className="text-xs uppercase tracking-[0.16em] text-[var(--color-accent)]">
-          TheStrongestManager
+          The Strongest
         </p>
         <h1 className="font-[family-name:var(--font-display)] text-4xl tracking-tight text-[var(--color-fg)] sm:text-5xl">
           {title}

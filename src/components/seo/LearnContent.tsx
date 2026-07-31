@@ -20,9 +20,9 @@ export function LearnHub({ clusters }: { clusters: SeoTopicCluster[] }) {
           <>
             {" "}
             Content uses{" "}
-            <a href="/evidence" className="text-[var(--color-accent)] underline-offset-2 hover:underline">
+            <Link href="/evidence" className="text-[var(--color-accent)] underline-offset-2 hover:underline">
               evidence quality labels
-            </a>{" "}
+            </Link>{" "}
             that separate research evidence from expert practice — without faking
             certainty.
           </>

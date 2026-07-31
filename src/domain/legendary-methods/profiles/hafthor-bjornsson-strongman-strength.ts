@@ -25,7 +25,7 @@ export const HAFTHOR_BJORNSSON_STRONGMAN_STRENGTH: LegendaryMethodProfile = {
   summary:
     "An independent, period-dated analysis of Hafþór Björnsson’s publicly documented strength career across strongman dominance, specialised deadlift projects, bodyweight changes, and powerlifting-style interludes — emphasising maximal strength, event athleticism, recovery, and why strongman preparation is not identical to powerlifting peaking. Not a reproduction of any proprietary programme.",
   introductoryDisclaimer:
-    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Hafþór Júlíus Björnsson. Because he remains active and training goals change, time-sensitive claims are tied to specific dates and periods. This page does not reproduce proprietary programmes or copyrighted plans. Modernised examples are original The Strongest Manager interpretations.",
+    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Hafþór Júlíus Björnsson. Because he remains active and training goals change, time-sensitive claims are tied to specific dates and periods. This page does not reproduce proprietary programmes or copyrighted plans. Modernised examples are original The Strongest interpretations.",
   keyCharacteristics: [
     "Multi-event strongman athleticism alongside maximal strength expression",
     "Period-specific deadlift specialisation projects with dated milestones",
@@ -155,7 +155,7 @@ Another failure mode is importing combat-sport or reduced-bodyweight phases into
 
 Modern controls: pick one primary goal per block; reduce non-specific high-fatigue work near a peak; scale loads to technique; deload on schedule. Normal lifters should not copy elite absolute loads or peak contest bodyweights. After a hard deadlift peak or multi-event weekend, expect several easier days before the next maximal exposure. This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Hafþór’s career is a masterclass in period-specific strength identity — strongman athleticism, specialised deadlift peaking, and powerlifting-style interludes are related but not identical preparation problems. Date your claims. Borrow principles. Refuse highlight-load cosplay. Never present a reconstructed week as his exact permanent programme. The educational value is learning how goals, rulesets, and bodyweight change the weekly stress budget — not collecting record numbers for ego.`,
+      "verdict": `The Strongest verdict: Hafþór’s career is a masterclass in period-specific strength identity — strongman athleticism, specialised deadlift peaking, and powerlifting-style interludes are related but not identical preparation problems. Date your claims. Borrow principles. Refuse highlight-load cosplay. Never present a reconstructed week as his exact permanent programme. The educational value is learning how goals, rulesets, and bodyweight change the weekly stress budget — not collecting record numbers for ego.`,
 
       "modernised-application": `Modernise by choosing a block goal (strongman events, deadlift peak, or powerlifting total), then aligning squat/press/hinge support, conditioning, and bodyweight expectations to that goal. Beginners need general strength first. Intermediates can run 8–12 week blocks with clear primary lifts and limited event or peak stress. Advanced athletes may specialise briefly, then return to broader athleticism.
 
@@ -235,7 +235,7 @@ A practical sequence: audit which qualities your next contest or test actually r
     title: "Modernised strength-plus-athleticism illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example for an advanced intermediate. Not Hafþór Björnsson’s programme and not a record-attempt template. Scale all loads to technical quality.",
+      "Original The Strongest example for an advanced intermediate. Not Hafþór Björnsson’s programme and not a record-attempt template. Scale all loads to technical quality.",
     days: [
       {
         dayLabel: "Day 1",
@@ -309,7 +309,7 @@ A practical sequence: audit which qualities your next contest or test actually r
       title: "Strength and Athleticism Hybrid",
       href: "/programs/conjugate-strength-system",
       relationship:
-        "Original The Strongest Manager programme applying related maximal strength and athletic support principles without athlete naming",
+        "Original The Strongest programme applying related maximal strength and athletic support principles without athlete naming",
     },
   ],
   sources: [

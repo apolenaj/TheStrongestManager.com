@@ -41,7 +41,7 @@ export function NutritionDashboard({
           <CardHeader>
             <CardTitle>Nutrition status</CardTitle>
             <CardDescription>
-              TheStrongestManager ↔ {view.provider.label} provider status.
+              The Strongest ↔ {view.provider.label} provider status.
             </CardDescription>
           </CardHeader>
           <div className="space-y-3 px-1 pb-1">

@@ -75,7 +75,7 @@ export type BrandingConfigOverlay = {
 };
 
 export const WHITE_LABEL_HONESTY = [
-  "White-label is architecture-ready only — the product still ships as TheStrongestManager branding.",
+  "White-label is architecture-ready only — the product still ships as The Strongest branding.",
   "Branding configuration is separated from core UI; components should not hard-code customer logos or colors.",
   "Custom domains and email template CMS are not implemented; stored hostname fields are reserved for later.",
 ] as const;

@@ -122,7 +122,7 @@ export const TRUST_SCORING_METHODOLOGY: readonly string[] = [
  */
 export const TRUST_SAFETY_LIMITATIONS: readonly string[] = [
   ...PAIN_SAFE_RESPONSE_HONESTY,
-  "TheStrongestManager is a performance training product — not medical care.",
+  "The Strongest is a performance training product — not medical care.",
   "Pain, injury, and health decisions require a qualified professional who knows your history.",
 ];
 

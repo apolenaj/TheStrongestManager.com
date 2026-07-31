@@ -9,7 +9,7 @@ export const LEGENDARY_DISCLAIMER_SHORT =
 
 /** Full disclaimer for profile footers and sources-adjacent legal blocks. */
 export const LEGENDARY_DISCLAIMER_COMPLETE =
-  "This article is an independent educational analysis based on publicly available and cited material. The Strongest Manager is not affiliated with, authorised by, sponsored by or endorsed by the featured athlete. Any modernised training examples are original interpretations and are not presented as the athlete’s exact programme.";
+  "This article is an independent educational analysis based on publicly available and cited material. The Strongest is not affiliated with, authorised by, sponsored by or endorsed by the featured athlete. Any modernised training examples are original interpretations and are not presented as the athlete’s exact programme.";
 
 /**
  * Extended library / index bullet points (supplemental honesty rules).
@@ -30,4 +30,4 @@ export const LEGENDARY_METHODS_INDEX_INTRO =
 
 /** CTA-adjacent paid-product separation notice. */
 export const LEGENDARY_RELATED_PROGRAMME_INDEPENDENCE =
-  "Related programmes are independent The Strongest Manager products. They are not athlete-endorsed plans and are not sold as the featured athlete’s training system.";
+  "Related programmes are independent The Strongest products. They are not athlete-endorsed plans and are not sold as the featured athlete’s training system.";

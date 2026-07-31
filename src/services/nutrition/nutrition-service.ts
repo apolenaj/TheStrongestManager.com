@@ -59,7 +59,7 @@ export type NutritionDashboardView = {
 };
 
 /**
- * Nutrition dashboard for TheStrongestManager ↔ Mealnexio architecture.
+ * Nutrition dashboard for The Strongest ↔ Mealnexio architecture.
  * Never fabricates synced nutrition. Sync path stays behind feature flag.
  */
 export async function getNutritionDashboard(

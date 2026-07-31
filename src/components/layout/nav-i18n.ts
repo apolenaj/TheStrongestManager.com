@@ -1,0 +1,51 @@
+/**
+ * Maps English nav labels (source of truth in site-nav.ts) to message keys.
+ */
+const LABEL_TO_KEY: Record<string, string> = {
+  "Linear Strength Builder": "linear_strength_builder",
+  "DUP Powerlifting System": "dup_powerlifting_system",
+  "Block Periodisation": "block_periodisation",
+  "Conjugate Strength System": "conjugate_strength_system",
+  "High-Frequency SBD": "high_frequency_sbd",
+  "Powerbuilding Hybrid": "powerbuilding_hybrid",
+  "Build strength": "build_strength",
+  Powerlifting: "powerlifting",
+  Hypertrophy: "hypertrophy",
+  "Competition prep": "competition_prep",
+  "Browse all programs": "browse_all_programs",
+  "Complete Method Collection": "complete_method_collection",
+  "Arnold Schwarzenegger": "arnold_schwarzenegger",
+  "Tom Platz": "tom_platz",
+  "Ronnie Coleman": "ronnie_coleman",
+  "Eddie Hall": "eddie_hall",
+  "John Haack": "john_haack",
+  "Boris Sheiko": "boris_sheiko",
+  "View all analyses": "view_all_analyses",
+  "Calculator suite": "calculator_suite",
+  "Program audit": "program_audit",
+  "Technique check": "technique_check",
+  "Athlete assessment": "athlete_assessment",
+  "Method compare": "method_compare",
+  "1:1 Coaching": "one_to_one_coaching",
+  "Coach matching": "coach_matching",
+  "Competition Prep": "competition_prep_link",
+  "Example dashboard": "example_dashboard",
+  "Capability overview": "capability_overview",
+  "Certificate verification": "certificate_verification",
+  "Evidence base": "evidence_base",
+  "Learning paths": "learning_paths",
+  "Training methods": "training_methods",
+  "Legendary Methods": "legendary_methods",
+  Academy: "academy",
+  "Exercise library": "exercise_library",
+  Guides: "guides",
+  "About Josef": "about_josef",
+  "About preview": "about_preview",
+  "Trust Center": "trust_center",
+  Pricing: "pricing",
+  Affiliates: "affiliates",
+};
+
+export function navLinkMessageKey(label: string): string | null {
+  return LABEL_TO_KEY[label] ?? null;
+}

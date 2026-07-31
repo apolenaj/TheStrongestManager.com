@@ -8,7 +8,7 @@ import { buildMealnexioDeepLink } from "@/domain/mealnexio-deep-linking/deep-lin
 import type { RecoveryNutritionDeepLinkPrompt } from "@/domain/mealnexio-deep-linking/types";
 
 /**
- * TheStrongestManager recovery → Mealnexio CTA.
+ * The Strongest recovery → Mealnexio CTA.
  * Message is a coaching prompt, not a measured intake claim.
  */
 export function buildRecoveryNutritionDeepLinkPrompt(options?: {

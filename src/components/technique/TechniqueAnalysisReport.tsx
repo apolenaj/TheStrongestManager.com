@@ -192,12 +192,12 @@ export function TechniqueAnalysisReport({
           <p className="text-xs text-[var(--color-muted)]">
             Image-plane / heuristic coaching readout — not laboratory biomechanics
             or medical diagnosis.{" "}
-            <a
+            <Link
               href="/trust"
               className="font-medium text-[var(--color-accent)] underline-offset-2 hover:underline"
             >
               Trust Center
-            </a>
+            </Link>
           </p>
           <p className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight sm:text-3xl">
             Overall Technique Score

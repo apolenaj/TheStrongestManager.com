@@ -17,7 +17,7 @@ export type SendEmailInput = {
 export async function sendEmail(input: SendEmailInput): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const from =
-    process.env.EMAIL_FROM ?? "TheStrongestManager <onboarding@resend.dev>";
+    process.env.EMAIL_FROM ?? "The Strongest <onboarding@resend.dev>";
 
   if (!apiKey) {
     if (process.env.NODE_ENV === "production") {

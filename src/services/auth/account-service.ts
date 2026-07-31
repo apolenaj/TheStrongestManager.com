@@ -108,9 +108,9 @@ export async function requestPasswordReset(
   const resetUrl = `${siteUrl()}/reset-password?token=${token}`;
   await sendEmail({
     to: user.email,
-    subject: "Reset your TheStrongestManager password",
+    subject: "Reset your The Strongest password",
     text: [
-      "You requested a password reset for TheStrongestManager.",
+      "You requested a password reset for The Strongest.",
       "",
       `Open this link within one hour to choose a new password:`,
       resetUrl,

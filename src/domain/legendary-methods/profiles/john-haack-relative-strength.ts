@@ -146,7 +146,7 @@ Another mistake is assuming moving up a weight class is free progress. Absolute 
 
 Modern controls: keep most secondary days truly secondary, autoregulate top sets, and choose bodyweight goals deliberately. If secondary-day quality collapses, the heavy days are too expensive — cut load or volume before adding a sixth training day. This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Haack exemplifies elite strength at a lower bodyweight through frequency, balance and technical efficiency. Use bodyweight-aware comparisons. Borrow principles. Do not invent a permanent programme from interviews. Meet-dated, federation-labelled performances are the evidence; social clips are colour commentary.`,
+      "verdict": `The Strongest verdict: Haack exemplifies elite strength at a lower bodyweight through frequency, balance and technical efficiency. Use bodyweight-aware comparisons. Borrow principles. Do not invent a permanent programme from interviews. Meet-dated, federation-labelled performances are the evidence; social clips are colour commentary.`,
 
       "modernised-application": `Modernise with 4–5 days of competition-lift practice, one heavy and one lighter exposure where recovered, and explicit bodyweight targets. Beginners need simpler three-day templates first.
 
@@ -208,7 +208,7 @@ A practical sequence for intermediates: establish a stable bodyweight range for 
     title: "Modernised relative-strength illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example. Not John Haack’s programme. Scale loads to technical quality and recovery.",
+      "Original The Strongest example. Not John Haack’s programme. Scale loads to technical quality and recovery.",
     days: [
       {
         dayLabel: "Day 1",
@@ -282,7 +282,7 @@ A practical sequence for intermediates: establish a stable bodyweight range for 
       title: "Relative Strength Powerlifting",
       href: "/programs/dup-powerlifting-system",
       relationship:
-        "Original The Strongest Manager programme applying related frequency and relative-strength principles without athlete naming",
+        "Original The Strongest programme applying related frequency and relative-strength principles without athlete naming",
     },
   ],
   sources: [

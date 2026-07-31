@@ -142,11 +142,11 @@ They also confuse Sheiko principles with conjugate rotation, or assume high freq
 
 Modern controls: start with fewer weekly exposures, keep top sets clearly submaximal, wave volume, and deload when bar speed or motivation falls. Prefer cutting a session before adding a maximal single “to feel like training.” This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Sheiko-associated Russian systems are among the clearest high-frequency, submaximal total-building frameworks in powerlifting education. Learn the principles. Scale the dose. Do not worship a numbered spreadsheet. Compare thoughtfully with conjugate tools rather than picking a tribe.`,
+      "verdict": `The Strongest verdict: Sheiko-associated Russian systems are among the clearest high-frequency, submaximal total-building frameworks in powerlifting education. Learn the principles. Scale the dose. Do not worship a numbered spreadsheet. Compare thoughtfully with conjugate tools rather than picking a tribe.`,
 
       "modernised-application": `Modernise by prescribing frequent competition-lift practice at RPE-capped loads, waving weekly volume, and peaking with reduced volume. Beginners need simplified three-day versions. Intermediates may run 3–4 days with multiple bench exposures. Advanced lifters may raise weekly tonnage carefully with planned easier weeks.
 
-A practical sequence: audit current weekly hard sets on squat/bench/deadlift; add one extra quality exposure before raising intensity; keep misses near zero; schedule an easier week every three to four hard weeks; taper sessions before a meet. Original modernised examples on this page are The Strongest Manager interpretations — not copyrighted tables. Related generic programmes are safer commercial on-ramps than leaked sheets.`,
+A practical sequence: audit current weekly hard sets on squat/bench/deadlift; add one extra quality exposure before raising intensity; keep misses near zero; schedule an easier week every three to four hard weeks; taper sessions before a meet. Original modernised examples on this page are The Strongest interpretations — not copyrighted tables. Related generic programmes are safer commercial on-ramps than leaked sheets.`,
 
       "example-training-week": `See the labelled original modernised example week. It illustrates frequency and submaximal quality — not a reprint of any Sheiko book table or numbered internet routine.`,
 
@@ -203,7 +203,7 @@ A practical sequence: audit current weekly hard sets on squat/bench/deadlift; ad
     title: "Modernised high-frequency submaximal illustration (not a Sheiko table)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example showing competition-lift frequency at submaximal effort. Not a reprint of Powerlifting: Foundations and Methods tables and not a numbered internet routine.",
+      "Original The Strongest example showing competition-lift frequency at submaximal effort. Not a reprint of Powerlifting: Foundations and Methods tables and not a numbered internet routine.",
     days: [
       {
         dayLabel: "Day 1",
@@ -273,7 +273,7 @@ A practical sequence: audit current weekly hard sets on squat/bench/deadlift; ad
       title: "High-Frequency Total Builder",
       href: "/programs/dup-powerlifting-system",
       relationship:
-        "Original The Strongest Manager programme applying related frequency and submaximal volume principles without coach naming",
+        "Original The Strongest programme applying related frequency and submaximal volume principles without coach naming",
     },
   ],
   sources: [

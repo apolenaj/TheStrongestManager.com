@@ -1,4 +1,4 @@
-# TheStrongestManager — Data Model
+# The Strongest — Data Model
 
 **Date:** 2026-07-20  
 **Prompt:** 7 — Database foundation (extended through Prompt 21)  

@@ -3,7 +3,7 @@
  * Provider-neutral DTOs. Do not invent calories/macros when sync is unavailable.
  */
 
-/** Future shared data kinds between TheStrongestManager and Mealnexio. */
+/** Future shared data kinds between The Strongest and Mealnexio. */
 export const NUTRITION_SHARED_DATA_KINDS = [
   "calories",
   "macros",

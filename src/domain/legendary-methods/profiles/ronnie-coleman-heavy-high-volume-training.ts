@@ -25,7 +25,7 @@ export const RONNIE_COLEMAN_HEAVY_HIGH_VOLUME: LegendaryMethodProfile = {
   summary:
     "An independent analysis of Ronnie Coleman’s publicly documented heavy high-volume bodybuilding: compound-first sessions, body-part split structure, progressive overload on the same basics, strength–hypertrophy overlap, recovery demands at elite absolute loads, and why training footage is not the same thing as a complete periodised programme. Ordinary lifters should study the principles and scale ruthlessly rather than copy filmed session doses.",
   introductoryDisclaimer:
-    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Ronnie Coleman. Documentary footage and magazine features are treated as partial windows into training — not as full copyrighted programmes to reprint. Modernised examples are original The Strongest Manager interpretations.",
+    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Ronnie Coleman. Documentary footage and magazine features are treated as partial windows into training — not as full copyrighted programmes to reprint. Modernised examples are original The Strongest interpretations.",
   keyCharacteristics: [
     "Heavy compound movements performed for relatively high reps",
     "Body-part split with high per-session volume",
@@ -140,7 +140,7 @@ Another common error is confusing highlight consistency with periodisation compl
 
 Practical recovery controls include: keeping most sets technically crisp, alternating stance or implement variations across mesocycles when joints complain, scheduling easier weeks, and refusing to match filmed loads that require a strength base built over years. If sleep, appetite, or session quality are deteriorating, cut sets or load before adding another “heavy day” for social media.`,
 
-      "verdict": `The Strongest Manager verdict: Coleman exemplifies compound-first, heavy high-volume bodybuilding at the absolute edge of human performance. Study the principles — basics, progressive overload, high effort — and refuse the costume drama of copying filmed loads. Documented footage is a window into sessions, not a full annual programme. Scale ruthlessly; keep status of this educational profile honest: principles first, celebrity dose last.`,
+      "verdict": `The Strongest verdict: Coleman exemplifies compound-first, heavy high-volume bodybuilding at the absolute edge of human performance. Study the principles — basics, progressive overload, high effort — and refuse the costume drama of copying filmed loads. Documented footage is a window into sessions, not a full annual programme. Scale ruthlessly; keep status of this educational profile honest: principles first, celebrity dose last.`,
 
       "modernised-application": `Modernise with compound-centred splits, double-digit hard sets at challenging but technical loads, and ruthless recovery standards. See modernAdaptation for dosing.
 
@@ -210,7 +210,7 @@ A practical entry path: choose a body-part or upper/lower split you can recover 
     title: "Modernised compound-first split illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example inspired by publicly described split logic. Not Ronnie Coleman’s exact programme and not a transcript of documentary footage.",
+      "Original The Strongest example inspired by publicly described split logic. Not Ronnie Coleman’s exact programme and not a transcript of documentary footage.",
     days: [
       {
         dayLabel: "Day 1",
@@ -279,7 +279,7 @@ A practical entry path: choose a body-part or upper/lower split you can recover 
       title: "Heavy High-Volume Bodybuilding",
       href: "/programs/powerbuilding-hybrid",
       relationship:
-        "Original The Strongest Manager programme applying related compound-first hypertrophy principles without athlete naming",
+        "Original The Strongest programme applying related compound-first hypertrophy principles without athlete naming",
     },
   ],
   sources: [

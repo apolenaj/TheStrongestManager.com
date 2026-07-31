@@ -7,7 +7,7 @@
 
 ## Intent
 
-Elevate TheStrongestManager to feel like elite performance technology on the hero, professional athlete intelligence software on the dashboard, and a serious analysis console for technique — while keeping mobile clean and motion restrained.
+Elevate The Strongest to feel like elite performance technology on the hero, professional athlete intelligence software on the dashboard, and a serious analysis console for technique — while keeping mobile clean and motion restrained.
 
 ---
 

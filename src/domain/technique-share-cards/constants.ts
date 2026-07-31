@@ -4,7 +4,7 @@
 
 export const TECHNIQUE_SHARE_CTA = "Analyze your lift";
 
-export const TECHNIQUE_SHARE_BRAND = "TheStrongestManager";
+export const TECHNIQUE_SHARE_BRAND = "The Strongest";
 
 /** Opt-in fields — private media never ships unless selected (thumbnail PNG-only). */
 export type TechniqueShareFieldId =

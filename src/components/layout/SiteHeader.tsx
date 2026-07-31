@@ -9,18 +9,21 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/design-system/utils/cn";
 import {
   SITE_NAV_CATEGORIES,
-  STRENGTH_AUDIT_CTA,
   STRENGTH_AUDIT_HREF,
   siteNavCategoryLinks,
   type SiteNavCategory,
+  type SiteNavFeatured,
 } from "@/components/layout/site-nav";
+import { navLinkMessageKey } from "@/components/layout/nav-i18n";
 import { trackLegendaryAnalytics } from "@/components/legendary-methods/LegendaryAnalytics";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { usePathname } from "@/i18n/navigation";
 
 function trackLegendaryNavClick(
   surface: "header" | "learn_menu" | "mobile_nav",
@@ -31,6 +34,64 @@ function trackLegendaryNavClick(
   }
 }
 
+function useNavCopy() {
+  const t = useTranslations("Navigation");
+
+  const categoryLabel = useCallback(
+    (category: SiteNavCategory) => t(`categories.${category.id}`),
+    [t],
+  );
+
+  const columnLabel = useCallback(
+    (columnId: string) => t(`columns.${columnId}`),
+    [t],
+  );
+
+  const linkLabel = useCallback(
+    (label: string) => {
+      const key = navLinkMessageKey(label);
+      return key ? t(`links.${key}`) : label;
+    },
+    [t],
+  );
+
+  const linkDescription = useCallback(
+    (label: string, fallback?: string) => {
+      const key = navLinkMessageKey(label);
+      if (!key) return fallback ?? "";
+      return t(`descriptions.${key}`);
+    },
+    [t],
+  );
+
+  const featuredCopy = useCallback(
+    (categoryId: string, featured: SiteNavFeatured) => {
+      if (categoryId === "programs") {
+        return {
+          eyebrow: t("featured.eyebrow"),
+          title: t("featured.findMyProgram.title"),
+          description: t("featured.findMyProgram.description"),
+          cta: t("featured.findMyProgram.cta"),
+          href: featured.href,
+        };
+      }
+      if (categoryId === "coaching") {
+        return {
+          eyebrow: t("featured.eyebrow"),
+          title: t("featured.strengthAudit.title"),
+          description: t("featured.strengthAudit.description"),
+          cta: t("featured.strengthAudit.cta"),
+          href: featured.href,
+        };
+      }
+      return featured;
+    },
+    [t],
+  );
+
+  return { t, categoryLabel, columnLabel, linkLabel, linkDescription, featuredCopy };
+}
+
 function CompactDropdownPanel({
   category,
   menuId,
@@ -38,17 +99,24 @@ function CompactDropdownPanel({
   category: SiteNavCategory;
   menuId: string;
 }) {
+  const { t, categoryLabel, linkLabel, linkDescription } = useNavCopy();
+  const categoryName = categoryLabel(category);
+
   return (
     <div
       id={menuId}
       role="menu"
-      aria-label={`${category.label} menu`}
+      aria-label={t("menuAria", { label: categoryName })}
       className="absolute left-0 top-full z-50 w-[min(18.5rem,calc(100vw-2rem))] pt-3"
     >
       <div className="overflow-hidden rounded-md border border-white/10 bg-zinc-900 shadow-[0_16px_48px_rgba(0,0,0,0.55)]">
         <ul className="py-2">
           {category.links.map((link) => {
             const isOverview = link.href === "/legendary-methods";
+            const label = linkLabel(link.label);
+            const description = link.description
+              ? linkDescription(link.label, link.description)
+              : undefined;
             return (
               <li key={`${category.id}-${link.href}-${link.label}`} role="none">
                 <Link
@@ -63,11 +131,11 @@ function CompactDropdownPanel({
                   )}
                 >
                   <span className={cn(!isOverview && "font-medium text-inherit")}>
-                    {link.label}
+                    {label}
                   </span>
-                  {link.description && !isOverview ? (
+                  {description && !isOverview ? (
                     <span className="mt-0.5 text-xs text-zinc-500">
-                      {link.description}
+                      {description}
                     </span>
                   ) : null}
                 </Link>
@@ -87,20 +155,32 @@ function MegaMenuPanel({
   category: SiteNavCategory;
   menuId: string;
 }) {
+  const {
+    t,
+    categoryLabel,
+    columnLabel,
+    linkLabel,
+    linkDescription,
+    featuredCopy,
+  } = useNavCopy();
   const hasColumns = Boolean(category.columns?.length);
+  const categoryName = categoryLabel(category);
+  const featured = category.featured
+    ? featuredCopy(category.id, category.featured)
+    : null;
 
   return (
     <div
       id={menuId}
       role="menu"
-      aria-label={`${category.label} menu`}
+      aria-label={t("menuAria", { label: categoryName })}
       className="absolute left-1/2 top-full z-50 w-[min(44rem,calc(100vw-2rem))] -translate-x-1/2 pt-3"
     >
       <div className="overflow-hidden rounded-sm border border-[var(--color-border)] bg-[var(--color-surface-elevated)] shadow-[var(--shadow-overlay)] backdrop-blur-md">
         <div
           className={cn(
             "grid gap-0",
-            category.featured ? "lg:grid-cols-[1.25fr_0.75fr]" : "grid-cols-1",
+            featured ? "lg:grid-cols-[1.25fr_0.75fr]" : "grid-cols-1",
           )}
         >
           {hasColumns ? (
@@ -108,7 +188,7 @@ function MegaMenuPanel({
               {category.columns!.map((column) => (
                 <div key={column.id}>
                   <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    {column.label}
+                    {columnLabel(column.id)}
                   </p>
                   <ul className="grid gap-1">
                     {column.links.map((link) => {
@@ -137,11 +217,11 @@ function MegaMenuPanel({
                             ) : null}
                             <span className="min-w-0">
                               <span className="block text-sm font-medium text-[var(--color-foreground)]">
-                                {link.label}
+                                {linkLabel(link.label)}
                               </span>
                               {link.description ? (
                                 <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
-                                  {link.description}
+                                  {linkDescription(link.label, link.description)}
                                 </span>
                               ) : null}
                             </span>
@@ -174,11 +254,11 @@ function MegaMenuPanel({
                       ) : null}
                       <span className="min-w-0">
                         <span className="block text-sm font-medium text-[var(--color-foreground)]">
-                          {link.label}
+                          {linkLabel(link.label)}
                         </span>
                         {link.description ? (
                           <span className="mt-0.5 block text-xs leading-relaxed text-[var(--color-muted)]">
-                            {link.description}
+                            {linkDescription(link.label, link.description)}
                           </span>
                         ) : null}
                       </span>
@@ -189,23 +269,23 @@ function MegaMenuPanel({
             </ul>
           )}
 
-          {category.featured ? (
+          {featured ? (
             <aside className="border-t border-[var(--color-border)] bg-[var(--color-surface)] p-5 lg:border-l lg:border-t-0">
               <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[var(--color-accent)]">
-                {category.featured.eyebrow}
+                {featured.eyebrow}
               </p>
               <p className="mt-3 font-[family-name:var(--font-display)] text-xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-                {category.featured.title}
+                {featured.title}
               </p>
               <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
-                {category.featured.description}
+                {featured.description}
               </p>
               <Link
-                href={category.featured.href}
+                href={featured.href}
                 role="menuitem"
                 className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 text-sm font-semibold text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
               >
-                {category.featured.cta}
+                {featured.cta}
                 <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
               </Link>
             </aside>
@@ -230,6 +310,8 @@ function DesktopNavItem({
   const menuId = useId();
   const itemRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { t, categoryLabel } = useNavCopy();
+  const label = categoryLabel(category);
   const categoryActive = Boolean(
     category.href &&
       (pathname === category.href || pathname.startsWith(`${category.href}/`)),
@@ -247,7 +329,7 @@ function DesktopNavItem({
         )}
       >
         <span className="relative">
-          {category.label}
+          {label}
           <span
             aria-hidden
             className={cn(
@@ -299,7 +381,7 @@ function DesktopNavItem({
         onKeyDown={onTriggerKeyDown}
       >
         <span className="relative">
-          {category.label}
+          {label}
           <span
             aria-hidden
             className={cn(
@@ -333,7 +415,7 @@ function DesktopNavItem({
       </div>
       {category.href ? (
         <Link href={category.href} className="sr-only">
-          {category.label} overview
+          {t("overviewAria", { label })}
         </Link>
       ) : null}
     </div>
@@ -354,6 +436,16 @@ function MobileAccordion({
   const panelId = useId();
   const buttonId = useId();
   const pathname = usePathname();
+  const {
+    categoryLabel,
+    columnLabel,
+    linkLabel,
+    featuredCopy,
+  } = useNavCopy();
+  const label = categoryLabel(category);
+  const featured = category.featured
+    ? featuredCopy(category.id, category.featured)
+    : null;
 
   if (category.presentation === "link" && category.href) {
     const active =
@@ -377,7 +469,7 @@ function MobileAccordion({
               : "text-[var(--color-foreground)]",
           )}
         >
-          {category.label}
+          {label}
         </Link>
       </div>
     );
@@ -393,7 +485,7 @@ function MobileAccordion({
         onClick={onToggle}
         className="flex min-h-12 w-full items-center justify-between gap-3 py-3 text-left font-[family-name:var(--font-display)] text-lg font-semibold uppercase tracking-[0.04em] text-[var(--color-foreground)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
       >
-        {category.label}
+        {label}
         <ChevronDown
           className={cn(
             "h-5 w-5 shrink-0 text-[var(--color-muted)] transition-transform duration-200",
@@ -419,7 +511,7 @@ function MobileAccordion({
               {category.columns.map((column) => (
                 <div key={`${category.id}-m-col-${column.id}`}>
                   <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    {column.label}
+                    {columnLabel(column.id)}
                   </p>
                   <ul className="space-y-1">
                     {column.links.map((link) => (
@@ -432,7 +524,7 @@ function MobileAccordion({
                           }}
                           className="flex min-h-11 items-center px-1 py-2.5 text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                         >
-                          {link.label}
+                          {linkLabel(link.label)}
                         </Link>
                       </li>
                     ))}
@@ -457,19 +549,19 @@ function MobileAccordion({
                         : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]",
                     )}
                   >
-                    {link.label}
+                    {linkLabel(link.label)}
                   </Link>
                 </li>
               ))}
             </ul>
           )}
-          {category.featured ? (
+          {featured ? (
             <Link
-              href={category.featured.href}
+              href={featured.href}
               onClick={onNavigate}
               className="mt-4 flex min-h-12 items-center justify-between gap-3 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm font-semibold text-[var(--color-accent)] transition-colors duration-200 hover:border-[color-mix(in_srgb,var(--color-accent)_40%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              {category.featured.title}
+              {featured.title}
               <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden />
             </Link>
           ) : null}
@@ -481,6 +573,7 @@ function MobileAccordion({
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { t } = useNavCopy();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(!isHome);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -551,7 +644,7 @@ export function SiteHeader() {
           <BrandLogo />
 
           <nav
-            aria-label="Primary"
+            aria-label={t("primaryNavAria")}
             className="hidden min-w-0 items-center gap-[clamp(0.15rem,0.9vw,0.65rem)] min-[1100px]:flex"
           >
             {SITE_NAV_CATEGORIES.map((category) => (
@@ -566,21 +659,22 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <LanguageSwitcher className="mr-0.5 sm:mr-1" />
             <Link
               href="/login"
               className="hidden min-h-11 items-center px-3 text-sm text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
             >
-              Log In
+              {t("logIn")}
             </Link>
             <Link
               href="/signup"
               className="hidden min-h-11 items-center rounded-sm bg-[var(--color-accent)] px-4 text-sm font-semibold tracking-tight text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] md:inline-flex"
             >
-              Start Free
+              {t("startFree")}
             </Link>
             <button
               type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileOpen ? t("closeMenu") : t("openMenu")}
               aria-expanded={mobileOpen}
               aria-controls="site-mobile-nav"
               className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] transition-colors duration-200 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] min-[1100px]:hidden"
@@ -602,7 +696,7 @@ export function SiteHeader() {
           className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-[#070807] min-[1100px]:hidden"
           role="dialog"
           aria-modal="true"
-          aria-label="Site navigation"
+          aria-label={t("siteNavAria")}
           style={{
             paddingTop: "env(safe-area-inset-top)",
             paddingBottom: "env(safe-area-inset-bottom)",
@@ -612,7 +706,7 @@ export function SiteHeader() {
             <BrandLogo onNavigate={closeMobile} />
             <button
               type="button"
-              aria-label="Close menu"
+              aria-label={t("closeMenu")}
               className="inline-flex h-11 w-11 items-center justify-center border border-[var(--color-border)] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
               onClick={closeMobile}
             >
@@ -621,7 +715,7 @@ export function SiteHeader() {
           </div>
 
           <nav
-            aria-label="Primary mobile"
+            aria-label={t("primaryMobileNavAria")}
             className="flex-1 overflow-y-auto px-4 py-4 sm:px-6"
           >
             {SITE_NAV_CATEGORIES.map((category) => (
@@ -639,19 +733,22 @@ export function SiteHeader() {
             ))}
 
             <div className="mt-6 flex flex-col gap-2 border-t border-[var(--color-border)] pt-6">
+              <div className="flex min-h-11 items-center justify-center">
+                <LanguageSwitcher />
+              </div>
               <Link
                 href="/login"
                 onClick={closeMobile}
                 className="flex min-h-11 items-center justify-center text-base text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
               >
-                Log In
+                {t("logIn")}
               </Link>
               <Link
                 href="/signup"
                 onClick={closeMobile}
                 className="flex min-h-12 items-center justify-center rounded-sm bg-[var(--color-accent)] text-base font-semibold text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
               >
-                Start Free
+                {t("startFree")}
               </Link>
             </div>
           </nav>
@@ -662,7 +759,7 @@ export function SiteHeader() {
               onClick={closeMobile}
               className="flex min-h-12 w-full items-center justify-center gap-2 rounded-sm border border-[var(--color-accent)] bg-[var(--color-accent)] px-4 text-center text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              {STRENGTH_AUDIT_CTA}
+              {t("strengthAuditCta")}
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
             </Link>
           </div>

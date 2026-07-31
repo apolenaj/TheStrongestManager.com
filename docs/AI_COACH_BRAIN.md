@@ -10,7 +10,7 @@
 
 ## Intent
 
-TheStrongestManager AI Coach is **not a generic chatbot**. It reasons from structured athlete data through a fixed pipeline, returns structured recommendations, and **never modifies programs** without explicit athlete confirmation.
+The Strongest AI Coach is **not a generic chatbot**. It reasons from structured athlete data through a fixed pipeline, returns structured recommendations, and **never modifies programs** without explicit athlete confirmation.
 
 ---
 

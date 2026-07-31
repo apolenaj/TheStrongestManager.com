@@ -4,7 +4,7 @@
  */
 
 export const homeCopy = {
-  brand: "The Strongest Manager",
+  brand: "The Strongest",
   /** Canonical hero lines — never swapped by personalization. */
   heroLines: [
     "Build strength that",
@@ -57,7 +57,7 @@ export const homeCopy = {
     paragraphs: [
       "I have led large-scale retail and logistics operations where performance is not excused — throughput, precision, and the ability to decide under pressure are what count. I bring the same mental model to strength training: a clear objective, a controlled process, and hard feedback from reality.",
       "A deep IT background built the habit of designing systems, not moods. Data, periodization, and biomechanics are not decoration — they are the control layer. Management psychology completes the picture: discipline, composure, and accountability when the set is heavy or the decision is uncomfortable.",
-      "Competitive powerlifting is held strictly to IPF standards. Depth, lockout, and platform rules are not details — they are a contract with the result. The Strongest Manager connects these worlds into one operating system for strength and leadership.",
+      "Competitive powerlifting is held strictly to IPF standards. Depth, lockout, and platform rules are not details — they are a contract with the result. The Strongest connects these worlds into one operating system for strength and leadership.",
     ],
     closing:
       "Performance optimization is not motivation. It is management: plan, execute, measure, correct.",
@@ -140,7 +140,7 @@ export const homeCopy = {
   ],
   faq: [
     {
-      question: "Is The Strongest Manager a random workout generator?",
+      question: "Is The Strongest a random workout generator?",
       answer:
         "No. It combines athlete profile, programming, logging, technical feedback, and progress. It does not spit out a random workout from a slogan.",
     },

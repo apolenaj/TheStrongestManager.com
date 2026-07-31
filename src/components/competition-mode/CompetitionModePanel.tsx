@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Badge,
   ButtonLink,
@@ -122,12 +123,12 @@ function Dashboard({
           ))}
         </div>
         <p className="mt-4 text-xs">
-          <a
+          <Link
             href="/app/attempt-selector"
             className="text-[var(--color-accent)] underline-offset-2 hover:underline"
           >
             Open Attempt Selector
-          </a>{" "}
+          </Link>{" "}
           for risk preference and conditional thirds.
         </p>
       </Section>

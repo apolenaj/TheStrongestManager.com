@@ -58,7 +58,7 @@ export const LEGENDARY_CONTENT_LAYER_LABELS: Record<
   string
 > = {
   documented_historical: "Documented historical information",
-  independent_analysis: "The Strongest Manager independent analysis",
+  independent_analysis: "The Strongest independent analysis",
   modernised_adaptation: "Modernised original adaptation",
 };
 
@@ -149,7 +149,7 @@ export const EXAMPLE_WEEK_LABEL_COPY: Record<
   "original-modernised-example": {
     title: "Original modernised example",
     caution:
-      "An original The Strongest Manager interpretation. Not the athlete’s exact programme.",
+      "An original The Strongest interpretation. Not the athlete’s exact programme.",
   },
 };
 
@@ -399,7 +399,7 @@ export const LEGENDARY_PROFILE_TOC = [
   { id: "why-it-worked", label: "Why It Worked" },
   { id: "what-lifters-get-wrong", label: "What Most Lifters Get Wrong" },
   { id: "risks-and-recovery", label: "Risks and Recovery" },
-  { id: "scores", label: "The Strongest Manager Score" },
+  { id: "scores", label: "The Strongest Score" },
   { id: "verdict", label: "Verdict" },
   { id: "system-comparison", label: "System Comparison" },
   { id: "modernised-application", label: "Modernised Application" },
@@ -413,4 +413,4 @@ export const PROFILE_AFFILIATION_STATEMENT =
   "Independent educational analysis. Not affiliated with or endorsed by the featured athlete.";
 
 export const PROFILE_FINAL_DISCLAIMER =
-  "This article is an independent educational analysis based on publicly available and cited material. The Strongest Manager is not affiliated with, authorised by, sponsored by or endorsed by the featured athlete. Any modernised training examples are original interpretations and are not presented as the athlete’s exact programme.";
+  "This article is an independent educational analysis based on publicly available and cited material. The Strongest is not affiliated with, authorised by, sponsored by or endorsed by the featured athlete. Any modernised training examples are original interpretations and are not presented as the athlete’s exact programme.";

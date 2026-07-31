@@ -17,4 +17,4 @@ export const PR_TYPE_LABELS = {
 } as const;
 
 export const PR_SHARE_HONESTY =
-  "Shared from TheStrongestManager — Estimated 1RM is never a verified competition PR.";
+  "Shared from The Strongest — Estimated 1RM is never a verified competition PR.";

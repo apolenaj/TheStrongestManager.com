@@ -1,6 +1,6 @@
 # Legendary Training Methods — Production Audit
 
-**Product:** The Strongest Manager  
+**Product:** The Strongest  
 **Feature:** Legendary Training Methods  
 **Date:** 2026-07-28  
 **Prompt:** 8B — QA Testing, Production Build and Final Audit Report  
@@ -125,7 +125,7 @@ This audit validates **structural** source quality (URL, fields, counts, layers)
 | Drafts: noindex + no canonical | **Pass** |
 | Sitemap includes index only (no draft slugs) | **Pass** — only `…/legendary-methods` |
 | Open Graph / Twitter abstract art | **Pass** (no athlete images) |
-| Author attribution | **Pass** (Josef + The Strongest Manager editorial team) |
+| Author attribution | **Pass** (Josef + The Strongest editorial team) |
 | Published / modified dates in schema + metadata | **Implemented** (requires `publishedAt` / review timestamps at publish) |
 
 ---

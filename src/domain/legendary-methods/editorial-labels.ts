@@ -38,15 +38,15 @@ export const LEGENDARY_EDITORIAL_LABELS: Record<
   },
   analysis: {
     id: "analysis",
-    label: "The Strongest Manager analysis",
+    label: "The Strongest analysis",
     description:
-      "Independent coaching commentary and interpretation by The Strongest Manager.",
+      "Independent coaching commentary and interpretation by The Strongest.",
   },
   "modernised-example": {
     id: "modernised-example",
     label: "Original modernised example",
     description:
-      "An original The Strongest Manager training illustration. Not the athlete’s exact programme.",
+      "An original The Strongest training illustration. Not the athlete’s exact programme.",
   },
   "limited-evidence": {
     id: "limited-evidence",

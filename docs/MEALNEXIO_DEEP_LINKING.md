@@ -12,7 +12,7 @@
 
 ## Principle
 
-Seamless cross-product UX between **TheStrongestManager** and **Mealnexio** via documented deep links and a return landing — **without** faking sync, SSO, or nutrition summaries.
+Seamless cross-product UX between **The Strongest** and **Mealnexio** via documented deep links and a return landing — **without** faking sync, SSO, or nutrition summaries.
 
 ---
 

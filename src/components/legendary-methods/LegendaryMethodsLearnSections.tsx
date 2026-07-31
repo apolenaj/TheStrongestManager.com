@@ -11,7 +11,7 @@ const LEARN_ITEMS = [
   },
   {
     title: "Towards original programming",
-    body: "Each analysis points toward The Strongest Manager programmes that apply related principles without naming products after athletes.",
+    body: "Each analysis points toward The Strongest programmes that apply related principles without naming products after athletes.",
   },
 ] as const;
 
@@ -24,7 +24,7 @@ const ANALYSE_STEPS = [
   {
     step: "02",
     title: "Separate facts from interpretation",
-    body: "Historical documentation stays distinct from The Strongest Manager’s independent analysis.",
+    body: "Historical documentation stays distinct from The Strongest’s independent analysis.",
   },
   {
     step: "03",

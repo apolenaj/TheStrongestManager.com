@@ -1,4 +1,4 @@
-# TheStrongestManager — Current State Audit
+# The Strongest — Current State Audit
 
 **Audit date:** 2026-07-20  
 **Workspace:** `/Users/josefapolenar/Desktop/TheStrongest`  
@@ -22,7 +22,7 @@ The repository is a **greenfield empty workspace**.
 
 There is **no functional code to preserve or delete**. There are **no critical build blockers to fix** because there is no application toolchain yet.
 
-Nearby Desktop projects (`Me`, `Projekt`) are **unrelated** and were not treated as TheStrongestManager source.
+Nearby Desktop projects (`Me`, `Projekt`) are **unrelated** and were not treated as The Strongest source.
 
 ---
 
@@ -289,6 +289,6 @@ Order optimized for constitution compliance and minimal rewrite:
 
 ## Audit conclusion
 
-TheStrongestManager is at **day zero**. The correct move is not to retrofit or “repair” an existing product — it is to **scaffold deliberately** under the Master Project Constitution, with modular services, honest UX, and quality gates from the first commit.
+The Strongest is at **day zero**. The correct move is not to retrofit or “repair” an existing product — it is to **scaffold deliberately** under the Master Project Constitution, with modular services, honest UX, and quality gates from the first commit.
 
 **Do not start feature work until Phase A (foundation) exists and builds cleanly.**

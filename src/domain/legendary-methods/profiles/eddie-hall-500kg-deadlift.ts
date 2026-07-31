@@ -26,7 +26,7 @@ export const EDDIE_HALL_500KG_DEADLIFT: LegendaryMethodProfile = {
   summary:
     "An independent analysis of publicly documented principles around Eddie Hall’s preparation for the first 500 kg strongman deadlift — specificity, speed-emphasised overload, peaking, psychology, bodyweight and recovery cost — clearly separating official competition performance from training footage, interviews, media claims, and coaching interpretation. Not a reproduction of any proprietary programme.",
   introductoryDisclaimer:
-    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Eddie Hall. Official competition results, public interviews, and recognised event footage are cited as partial evidence. This page does not reproduce proprietary programmes, paid plans, or copyrighted training tables. Modernised examples are original The Strongest Manager interpretations. Do not copy elite bodyweight, calorie intake, or peak training stress.",
+    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Eddie Hall. Official competition results, public interviews, and recognised event footage are cited as partial evidence. This page does not reproduce proprietary programmes, paid plans, or copyrighted training tables. Modernised examples are original The Strongest interpretations. Do not copy elite bodyweight, calorie intake, or peak training stress.",
   keyCharacteristics: [
     "Deadlift specificity inside a broader strongman calendar",
     "Alternating heavy and speed-oriented deadlift emphases (as described in post-lift interview)",
@@ -147,7 +147,7 @@ Recovery demands scale with body mass, absolute load, and concurrent event work.
 
 Practical controls: stop a set when speed dies and form collapses; alternate stressful heavy days with lighter speed or technique days; keep event practice volume honest during a deadlift peak; sleep and physio before adding another maximal single.`,
 
-      "verdict": `The Strongest Manager verdict: Hall’s 500 kg competition deadlift is a landmark official performance. The useful training legacy is specificity, first-pull speed practice, heavy/speed alternation, and planned peaking — not celebrity bodyweight, calorie theatre, or proprietary programme cosplay. Study the principles. Quarantine the dose. Never present a reconstructed week as his exact plan.`,
+      "verdict": `The Strongest verdict: Hall’s 500 kg competition deadlift is a landmark official performance. The useful training legacy is specificity, first-pull speed practice, heavy/speed alternation, and planned peaking — not celebrity bodyweight, calorie theatre, or proprietary programme cosplay. Study the principles. Quarantine the dose. Never present a reconstructed week as his exact plan.`,
 
       "modernised-application": `Modernise by keeping deadlift specificity, a weekly heavy-versus-speed contrast, and a peaking indicator several weeks out — while scaling loads to technical quality and recovery. Beginners should not start here. Intermediates may use one heavy hinge day and one speed/technique day with conservative percentages. Advanced lifters may add limited floor-to-knee speed emphasis and carefully timed heavy singles, still far below elite absolute loads.
 
@@ -227,7 +227,7 @@ Do not copy reported ~10,000-calorie intake narratives or ~197 kg contest bodywe
     title: "Modernised deadlift peak illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example for an intermediate-to-advanced puller. Not Eddie Hall’s programme and not a path to 500 kg. Scale all loads to technical quality.",
+      "Original The Strongest example for an intermediate-to-advanced puller. Not Eddie Hall’s programme and not a path to 500 kg. Scale all loads to technical quality.",
     days: [
       {
         dayLabel: "Day 1",
@@ -303,7 +303,7 @@ Do not copy reported ~10,000-calorie intake narratives or ~197 kg contest bodywe
       title: "Linear Strength Builder",
       href: "/programs/linear-strength-builder",
       relationship:
-        "Independent The Strongest Manager programme applying progressive overload and peaking principles — not an athlete-created or endorsed plan",
+        "Independent The Strongest programme applying progressive overload and peaking principles — not an athlete-created or endorsed plan",
       conversionPrompt: "Interested in elite deadlift peaking principles?",
     },
   ],

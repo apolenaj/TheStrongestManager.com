@@ -57,9 +57,7 @@ export function PublicHeader() {
             href="/"
             className="min-w-0 truncate font-[family-name:var(--font-display)] text-sm font-semibold tracking-[-0.02em] text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)] sm:text-base"
           >
-            {siteConfig.name === "TheStrongestManager"
-              ? "The Strongest Manager"
-              : siteConfig.name}
+            {siteConfig.name}
           </Link>
 
           <nav

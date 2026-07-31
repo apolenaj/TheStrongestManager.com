@@ -31,7 +31,7 @@ Also accepts allowlisted `utm_campaign` aliases when `intent` is absent.
 
 ## Always locked (anti-cloaking)
 
-- Brand: `TheStrongestManager`
+- Brand: `The Strongest`
 - Hero headline lines (`Upload a lift…`)
 - Document title, meta description, canonical `/`, Open Graph, JSON-LD
 - No User-Agent / bot-vs-human branching

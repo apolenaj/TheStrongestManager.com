@@ -18,7 +18,7 @@ function baseSignals(
     athleteDisplayName: "Test Athlete",
     period,
     unitsLabel: "kg",
-    branding: { displayName: "TheStrongestManager", accentHex: null },
+    branding: { displayName: "The Strongest", accentHex: null },
     now: new Date("2026-06-29T12:00:00.000Z"),
     overview: {
       primaryDiscipline: "powerlifting",

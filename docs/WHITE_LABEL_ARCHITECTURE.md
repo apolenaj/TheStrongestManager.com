@@ -21,7 +21,7 @@ Some future B2B customers (typically `org_enterprise`) may need co-branded exper
 | **Domain** | Custom hostname (reserved; not routed yet) |
 | **Email templates** | From-name / subject slots (not a CMS) |
 
-TheStrongestManager remains the platform brand. White-label is an **overlay** on platform defaults — never a fork of the app.
+The Strongest remains the platform brand. White-label is an **overlay** on platform defaults — never a fork of the app.
 
 Related: `docs/ORG_GYM_DASHBOARD.md`, `docs/ORG_BILLING.md`, `docs/MOBILE_READINESS.md`, `src/config/site.ts`, `src/app/globals.css`.
 
@@ -167,4 +167,4 @@ Document only — do not gate product features on white-label yet:
 
 `NEXT_PUBLIC_FF_WHITE_LABEL` → `whiteLabel` (**default off**)
 
-Honesty: white-label is architecture-ready; the live product brand remains TheStrongestManager.
+Honesty: white-label is architecture-ready; the live product brand remains The Strongest.

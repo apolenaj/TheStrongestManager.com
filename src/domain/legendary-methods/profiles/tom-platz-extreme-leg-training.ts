@@ -25,7 +25,7 @@ export const TOM_PLATZ_EXTREME_LEG_TRAINING: LegendaryMethodProfile = {
   summary:
     "An independent analysis of Tom Platz’s publicly discussed leg-training philosophy: heavy loads for high repetitions, extreme psychological effort, and the critical difference between legendary one-off performances and repeatable programming.",
   introductoryDisclaimer:
-    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Tom Platz. Viral squat sessions are not treated as a complete periodised programme. Modernised examples are original The Strongest Manager interpretations.",
+    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Tom Platz. Viral squat sessions are not treated as a complete periodised programme. Modernised examples are original The Strongest interpretations.",
   keyCharacteristics: [
     "High-repetition squatting with challenging loads",
     "Blending heavy days with higher-rep hypertrophy work",
@@ -142,7 +142,7 @@ Modern controls: cap effort most weeks, use spotters/safety pins, define depth s
 
 Recovery planning should be explicit. After a hard high-rep squat day, expect reduced jumping, sprinting, or maximal deadlift ambition for several days. Nutrition and sleep are not optional add-ons; they are what make the hard day productive rather than merely damaging. If performance on the next hard session is clearly worse for two consecutive weeks, cut volume or intensity before adding more inspirational brutality.`,
 
-      "verdict": `The Strongest Manager verdict: Platz’s legacy teaches the power of hard, high-rep loading and mental chunking — and simultaneously teaches humility. Spectacular sets are not a syllabus. Programme the principle; quarantine the spectacle. Ordinary lifters should not copy elite highlight volume or effort exactly. Use challenging, repeatable squat work; keep extremes rare; and never confuse a viral session with a complete programme.`,
+      "verdict": `The Strongest verdict: Platz’s legacy teaches the power of hard, high-rep loading and mental chunking — and simultaneously teaches humility. Spectacular sets are not a syllabus. Programme the principle; quarantine the spectacle. Ordinary lifters should not copy elite highlight volume or effort exactly. Use challenging, repeatable squat work; keep extremes rare; and never confuse a viral session with a complete programme.`,
 
       "modernised-application": `Modernise by prescribing challenging-but-repeatable squat volumes, occasional high-rep emphasis blocks, and clear recovery spacing. Never present a reconstructed week as Platz’s exact routine. See modernAdaptation for dose rules.
 
@@ -204,7 +204,7 @@ A practical sequence for intermediates: establish consistent depth and bracing o
     title: "Modernised hard/easy lower-body contrast (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager illustration. Not Tom Platz’s exact programme and not a recreation of any single viral session as weekly law.",
+      "Original The Strongest illustration. Not Tom Platz’s exact programme and not a recreation of any single viral session as weekly law.",
     days: [
       {
         dayLabel: "Day 1",
@@ -273,7 +273,7 @@ A practical sequence for intermediates: establish consistent depth and bracing o
       title: "Extreme Leg Development Block",
       href: "/programs/powerbuilding-hybrid",
       relationship:
-        "Original The Strongest Manager programme applying related lower-body hypertrophy emphasis without athlete naming",
+        "Original The Strongest programme applying related lower-body hypertrophy emphasis without athlete naming",
     },
   ],
   sources: [

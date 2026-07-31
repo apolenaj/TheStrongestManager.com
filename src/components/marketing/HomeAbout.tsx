@@ -65,7 +65,7 @@ export function HomeAbout() {
               iconClassName="h-10 w-10"
             />
             <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[var(--color-muted)]">
-              Founder · The Strongest Manager
+              Founder · The Strongest
             </p>
           </div>
 

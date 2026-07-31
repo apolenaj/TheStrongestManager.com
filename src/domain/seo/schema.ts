@@ -32,7 +32,7 @@ export function articleJsonLd(input: {
   /** Absolute image URL(s). Prefer original abstract artwork — never athlete photos. */
   image?: string | string[];
   /**
-   * Author attribution. Defaults to The Strongest Manager editorial team
+   * Author attribution. Defaults to The Strongest editorial team
    * with Josef as the named editorial lead.
    */
   authorName?: string;
@@ -54,7 +54,7 @@ export function articleJsonLd(input: {
       name: input.authorName ?? "Josef",
       worksFor: {
         "@type": "Organization",
-        name: "The Strongest Manager editorial team",
+        name: "The Strongest editorial team",
         url: absoluteUrl("/"),
       },
     },

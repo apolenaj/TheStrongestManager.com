@@ -16,7 +16,7 @@ DEADLIFT TECHNIQUE
 Strongest: Lockout 94
 Improve: Start Position 72
 [Analyze your lift]
-TheStrongestManager
+The Strongest
 ```
 
 ---

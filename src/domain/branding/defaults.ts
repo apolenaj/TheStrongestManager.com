@@ -25,7 +25,7 @@ const EMPTY_DOMAIN: BrandingDomainConfig = {
 };
 
 /**
- * Canonical platform branding (TheStrongestManager).
+ * Canonical platform branding (The Strongest).
  * Sourced from siteConfig — not duplicated in layout components.
  */
 export function getPlatformBrandingDefaults(): BrandingConfig {

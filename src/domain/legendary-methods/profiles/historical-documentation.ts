@@ -8,7 +8,7 @@
  * coaching literature — not as medical advice, not as an official or licensed
  * reproduction of any athlete's proprietary programme, and not as an
  * instruction for a reader to copy the loads, calories, or bodyweight of an
- * elite competitor. The Strongest Manager holds no affiliation with, and does
+ * elite competitor. The Strongest holds no affiliation with, and does
  * not claim endorsement from, any athlete named below. Where public evidence
  * is thin or inconsistent across sources, the text says so directly rather
  * than inventing specificity.

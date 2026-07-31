@@ -36,7 +36,7 @@ describe("legendary methods SEO and publish integrity", () => {
     expect(json.dateModified).toBe("2026-07-29");
     expect(json.image).toEqual([absoluteUrl(LEGENDARY_METHODS_OG_IMAGE_PATH)]);
     expect(String(JSON.stringify(json))).toContain(
-      "The Strongest Manager editorial team",
+      "The Strongest editorial team",
     );
     expect(String(JSON.stringify(json))).toContain("Josef");
     expect(String(JSON.stringify(json))).not.toMatch(/athlete.*photo/i);

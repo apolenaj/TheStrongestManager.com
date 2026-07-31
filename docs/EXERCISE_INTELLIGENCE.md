@@ -1,6 +1,6 @@
 # Exercise Intelligence
 
-High-quality exercise catalog architecture for TheStrongestManager.com.
+High-quality exercise catalog architecture for thestrongestmanager.com.
 
 **Schema:** `Exercise`, `ExerciseVariation`, `ExerciseRelation`, `ExerciseEvidenceClaim`  
 **Seed:** 10 priority lifts via `npm run db:seed:exercises`  

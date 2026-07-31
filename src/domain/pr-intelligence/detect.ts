@@ -260,7 +260,7 @@ export function toSharePayload(
     related: event.related,
     at: event.at,
     honestyNote:
-      "Shared from TheStrongestManager — Estimated 1RM is never a verified competition PR.",
+      "Shared from The Strongest — Estimated 1RM is never a verified competition PR.",
     shareCard,
   };
 }

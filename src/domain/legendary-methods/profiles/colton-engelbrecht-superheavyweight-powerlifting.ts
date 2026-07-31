@@ -142,7 +142,7 @@ A final common error is calling every heavy training clip “meet prep.” Meet 
 
 Modern controls: submaximal top sets most weeks, planned deloads, equipment-appropriate expectations, and refusal to chase database numbers. If sleep, appetite or warm-up bar speed deteriorate for more than a week, cut intensity before adding another “world-record attempt” in the gym. This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Engelbrecht’s meet-dated totals are among the clearest modern demonstrations of absolute-strength powerlifting. Study the principles — specificity, foundation-to-peak logic, equipment literacy — and quarantine elite doses. Never present social-media sessions or interview fragments as his full proprietary programme. Compare totals only with federation, date, equipment and bodyweight attached.`,
+      "verdict": `The Strongest verdict: Engelbrecht’s meet-dated totals are among the clearest modern demonstrations of absolute-strength powerlifting. Study the principles — specificity, foundation-to-peak logic, equipment literacy — and quarantine elite doses. Never present social-media sessions or interview fragments as his full proprietary programme. Compare totals only with federation, date, equipment and bodyweight attached.`,
 
       "modernised-application": `Modernise with a three-lift emphasis week, higher-rep technique blocks in early mesocycles, and a conservative peak. Beginners should not start here. Intermediates may run 3–4 days with one hard exposure per main lift weekly. Advanced lifters may lengthen peaking cycles and track meet-dated progress only.
 
@@ -209,7 +209,7 @@ Practically: pick one meet date, choose sleeves or wraps deliberately, build 8�
     title: "Modernised absolute-strength illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example for an intermediate-to-advanced powerlifter. Not Colton Engelbrecht’s programme. Scale all loads to technical quality.",
+      "Original The Strongest example for an intermediate-to-advanced powerlifter. Not Colton Engelbrecht’s programme. Scale all loads to technical quality.",
     days: [
       {
         dayLabel: "Day 1",
@@ -278,7 +278,7 @@ Practically: pick one meet date, choose sleeves or wraps deliberately, build 8�
       title: "Absolute Strength Total Builder",
       href: "/programs/block-periodisation",
       relationship:
-        "Original The Strongest Manager programme applying related total-building and peaking principles without athlete naming",
+        "Original The Strongest programme applying related total-building and peaking principles without athlete naming",
     },
   ],
   sources: [

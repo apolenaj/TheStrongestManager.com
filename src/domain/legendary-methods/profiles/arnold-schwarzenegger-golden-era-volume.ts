@@ -26,7 +26,7 @@ export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME: LegendaryMethodProfile = {
   summary:
     "An independent analysis of high-frequency, high-volume Golden Era bodybuilding as documented in Arnold Schwarzenegger’s major published training texts and later instructional writing — focusing on principles, context, and recovery cost rather than treating any single template as a permanent ‘Arnold programme’.",
   introductoryDisclaimer:
-    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Arnold Schwarzenegger. Descriptions synthesise publicly available publications; they do not reproduce copyrighted routines, tables, or book chapters. Modernised examples are original The Strongest Manager interpretations.",
+    "This profile is an independent educational analysis. It is not affiliated with, authorised by, sponsored by or endorsed by Arnold Schwarzenegger. Descriptions synthesise publicly available publications; they do not reproduce copyrighted routines, tables, or book chapters. Modernised examples are original The Strongest interpretations.",
   keyCharacteristics: [
     "High weekly training frequency for major muscle groups",
     "High set volume across multiple exercises per body part",
@@ -150,7 +150,7 @@ Recovery demands scale with set counts and proximity to failure. Lifters without
 
 A practical recovery checklist for anyone inspired by Golden Era density: protect seven-plus hours of sleep when possible, keep protein and total calories sufficient for the workload, schedule at least one easier week every four to six hard weeks, and stop adding exercises when the existing ones are already stalling. If antagonist supersets are used, rest between pairs still matters — density is a tool, not a race to collapse form.`,
 
-      "verdict": `The Strongest Manager verdict: Golden Era volume training is historically important and still instructive for hypertrophy density and antagonist pairing — but it is a poor default for beginners and a dangerous cosplay target when copied at encyclopedia competition doses. Borrow principles; do not worship a single chart. Never treat any reconstructed week as Arnold’s permanent exact programme. The durable takeaways are multi-exposure frequency when recovered, antagonist densification used deliberately, and progression tracked honestly — not maximal set lists from contested secondary reprints.`,
+      "verdict": `The Strongest verdict: Golden Era volume training is historically important and still instructive for hypertrophy density and antagonist pairing — but it is a poor default for beginners and a dangerous cosplay target when copied at encyclopedia competition doses. Borrow principles; do not worship a single chart. Never treat any reconstructed week as Arnold’s permanent exact programme. The durable takeaways are multi-exposure frequency when recovered, antagonist densification used deliberately, and progression tracked honestly — not maximal set lists from contested secondary reprints.`,
 
       "modernised-application": `A modernised application keeps antagonist supersets, multi-exposure frequency where recovered, and progressive overload — while capping weekly hard sets, limiting failure, and protecting sleep. Beginners should not start here. Intermediates may run moderate volumes with one antagonist pairing block. Advanced physique athletes may push density in short mesocycles with planned deloads. See the structured modernAdaptation fields for dose guidance.
 
@@ -231,7 +231,7 @@ Practically, start by auditing current weekly hard sets per muscle, then decide 
     title: "Modernised antagonist-density illustration (not an athlete routine)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example showing how antagonist pairing and multi-exposure frequency can be dosed for an advanced physique lifter. Not Arnold Schwarzenegger’s exact programme and not a reprint of encyclopedia tables.",
+      "Original The Strongest example showing how antagonist pairing and multi-exposure frequency can be dosed for an advanced physique lifter. Not Arnold Schwarzenegger’s exact programme and not a reprint of encyclopedia tables.",
     days: [
       {
         dayLabel: "Day 1",
@@ -305,7 +305,7 @@ Practically, start by auditing current weekly hard sets per muscle, then decide 
       title: "Golden Era High-Volume Hypertrophy",
       href: "/programs/powerbuilding-hybrid",
       relationship:
-        "Original The Strongest Manager programme applying related hypertrophy-density principles without athlete naming",
+        "Original The Strongest programme applying related hypertrophy-density principles without athlete naming",
     },
   ],
   sources: [

@@ -1,6 +1,6 @@
 # WOW 3.0 — Final Product Audit
 
-**Product:** TheStrongestManager  
+**Product:** The Strongest  
 **Date:** 2026-07-22  
 **Prompt:** 200 — Final WOW 3.0 Audit  
 **Scope:** Deepest product audit to date — identity fit, 20-dimension scorecard, P0–P3 backlog, honest moat  
@@ -12,7 +12,7 @@
 
 ## Executive verdict
 
-TheStrongestManager is **no longer an empty greenfield**. It is a large, honesty-forward **Performance OS shell** with a real training loop, curated SEO content, a narrow technique MVP, and extensive coaching/marketplace **architecture**. It is **not** yet a fully monetized, multi-lift AI coaching company with live nutrition sync, wearables, LLM coaching, or a social network.
+The Strongest is **no longer an empty greenfield**. It is a large, honesty-forward **Performance OS shell** with a real training loop, curated SEO content, a narrow technique MVP, and extensive coaching/marketplace **architecture**. It is **not** yet a fully monetized, multi-lift AI coaching company with live nutrition sync, wearables, LLM coaching, or a social network.
 
 | Question | Answer |
 | --- | --- |

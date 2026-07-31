@@ -13,7 +13,7 @@ export const SEO_TOPIC_CLUSTERS: SeoTopicCluster[] = [
     description:
       "How to set up, execute, and brace major strength lifts without inventing medical claims.",
     overview:
-      "Exercise technique content on TheStrongestManager focuses on coaching-practice cues you can apply in the gym: setup, bracing, bar path, and finish positions. We pair written guides with exercise intelligence pages and Academy modules — not thin keyword stubs. Technique scores and reports, when available in the app, are labelled by source and confidence.",
+      "Exercise technique content on The Strongest focuses on coaching-practice cues you can apply in the gym: setup, bracing, bar path, and finish positions. We pair written guides with exercise intelligence pages and Academy modules — not thin keyword stubs. Technique scores and reports, when available in the app, are labelled by source and confidence.",
     sections: [
       {
         heading: "What “good technique” means here",
@@ -369,7 +369,7 @@ export const SEO_TOPIC_CLUSTERS: SeoTopicCluster[] = [
     ],
     faqs: [
       {
-        question: "Is TheStrongestManager a medical device?",
+        question: "Is The Strongest a medical device?",
         answer:
           "No. It is a coaching and education product. It does not diagnose disease or prescribe treatment.",
       },

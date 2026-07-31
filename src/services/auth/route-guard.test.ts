@@ -2,13 +2,29 @@ import { describe, expect, it } from "vitest";
 import {
   isProtectedAppPath,
   resolveAuthRedirect,
+  stripLocalePrefix,
 } from "@/services/auth/route-guard";
 
 describe("route protection", () => {
-  it("treats /app paths as protected", () => {
+  it("strips locale prefixes", () => {
+    expect(stripLocalePrefix("/en/app/dashboard")).toEqual({
+      locale: "en",
+      pathnameWithoutLocale: "/app/dashboard",
+    });
+    expect(stripLocalePrefix("/cs/login")).toEqual({
+      locale: "cs",
+      pathnameWithoutLocale: "/login",
+    });
+    expect(stripLocalePrefix("/about")).toEqual({
+      locale: null,
+      pathnameWithoutLocale: "/about",
+    });
+  });
+
+  it("treats /app paths as protected (with or without locale)", () => {
     expect(isProtectedAppPath("/app")).toBe(true);
-    expect(isProtectedAppPath("/app/dashboard")).toBe(true);
-    expect(isProtectedAppPath("/app/settings")).toBe(true);
+    expect(isProtectedAppPath("/en/app/dashboard")).toBe(true);
+    expect(isProtectedAppPath("/cs/app/settings")).toBe(true);
     expect(isProtectedAppPath("/login")).toBe(false);
     expect(isProtectedAppPath("/")).toBe(false);
   });
@@ -20,6 +36,13 @@ describe("route protection", () => {
         isAuthenticated: false,
       }),
     ).toBe("/login?callbackUrl=%2Fapp%2Fdashboard");
+
+    expect(
+      resolveAuthRedirect({
+        pathname: "/en/app/dashboard",
+        isAuthenticated: false,
+      }),
+    ).toBe("/en/login?callbackUrl=%2Fen%2Fapp%2Fdashboard");
 
     expect(
       resolveAuthRedirect({
@@ -49,16 +72,22 @@ describe("route protection", () => {
 
     expect(
       resolveAuthRedirect({
-        pathname: "/signup",
+        pathname: "/cs/signup",
         isAuthenticated: true,
       }),
-    ).toBe("/app");
+    ).toBe("/cs/app");
   });
 
   it("leaves public marketing routes alone", () => {
     expect(
       resolveAuthRedirect({
         pathname: "/",
+        isAuthenticated: false,
+      }),
+    ).toBeNull();
+    expect(
+      resolveAuthRedirect({
+        pathname: "/en/about",
         isAuthenticated: false,
       }),
     ).toBeNull();

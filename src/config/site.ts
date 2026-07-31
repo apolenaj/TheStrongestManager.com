@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "TheStrongestManager",
+  name: "The Strongest",
   domain: "thestrongestmanager.com",
   description:
     "Online powerlifting coach tools, powerlifting programs, technique feedback, and evidence-led training systems for serious strength athletes.",

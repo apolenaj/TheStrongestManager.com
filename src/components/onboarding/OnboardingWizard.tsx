@@ -661,7 +661,7 @@ export function OnboardingWizard({
         {step.id === "caution" ? (
           <div className="space-y-4">
             <Alert tone="warning" title="Pain and injury caution">
-              TheStrongestManager does not diagnose injuries or disease. If you
+              The Strongest does not diagnose injuries or disease. If you
               have pain or a suspected injury, consider consulting a qualified
               clinician. Optional notes stay brief — never a medical history.
             </Alert>

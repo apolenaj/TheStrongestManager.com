@@ -141,11 +141,11 @@ They also fail by ignoring RE weak-point work, by under-recovering between ME da
 
 Modern controls: rotate ME lifts, keep DE truly fast, cap RE when sore, and increase direct competition practice for raw meet prep. If DE bar speed dies, reduce load before adding band tension. This is training-economy guidance, not medical advice.`,
 
-      "verdict": `The Strongest Manager verdict: Simmons’ conjugate synthesis remains one of the most influential concurrent strength systems in powerlifting education. Use ME/DE/RE with honest rotation. Adapt for raw lifting. Refuse logo cosplay and unofficial template worship. Compare with Sheiko tools instead of joining a culture war. Principles first; branding last.`,
+      "verdict": `The Strongest verdict: Simmons’ conjugate synthesis remains one of the most influential concurrent strength systems in powerlifting education. Use ME/DE/RE with honest rotation. Adapt for raw lifting. Refuse logo cosplay and unofficial template worship. Compare with Sheiko tools instead of joining a culture war. Principles first; branding last.`,
 
       "modernised-application": `Modernise with four-day ME/DE roles, simple ME rotations, optional light accommodating resistance, and substantial RE for weak points. Beginners should not start here. Intermediates may use a simplified conjugate outline. Advanced lifters may expand special-exercise menus carefully.
 
-A practical raw-friendly sequence: pick two lower and two upper ME variations to rotate; run DE without bands until bar speed is consistently fast; add RE for the actual weak point that shows up on meet attempts; increase competition-stance volume in the final weeks before a raw meet. Original examples are The Strongest Manager interpretations — not Westside copyrighted programmes.`,
+A practical raw-friendly sequence: pick two lower and two upper ME variations to rotate; run DE without bands until bar speed is consistently fast; add RE for the actual weak point that shows up on meet attempts; increase competition-stance volume in the final weeks before a raw meet. Original examples are The Strongest interpretations — not Westside copyrighted programmes.`,
 
       "example-training-week": `See the labelled original modernised example. It illustrates ME/DE roles without reprinting proprietary Westside templates. Use it as a coaching sketch for day roles and recovery spacing, then adjust every load to technical quality. Do not treat any day as an official Westside session transcript.`,
 
@@ -210,7 +210,7 @@ A practical raw-friendly sequence: pick two lower and two upper ME variations to
     title: "Modernised ME/DE illustration (not a Westside proprietary programme)",
     label: "original-modernised-example",
     disclaimer:
-      "Original The Strongest Manager example of conjugate day roles. Not a reprint of Westside books/templates and not an official Westside programme. No logos or copyrighted graphics.",
+      "Original The Strongest example of conjugate day roles. Not a reprint of Westside books/templates and not an official Westside programme. No logos or copyrighted graphics.",
     days: [
       {
         dayLabel: "Day 1",
@@ -280,7 +280,7 @@ A practical raw-friendly sequence: pick two lower and two upper ME variations to
       title: "Concurrent Strength System",
       href: "/programs/conjugate-strength-system",
       relationship:
-        "Original The Strongest Manager programme applying related concurrent strength principles without Westside branding",
+        "Original The Strongest programme applying related concurrent strength principles without Westside branding",
     },
   ],
   sources: [

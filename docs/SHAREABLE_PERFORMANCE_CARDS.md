@@ -16,7 +16,7 @@ NEW DEADLIFT PR
 260 KG × 7
 Technique: 82 → 86
 Estimated 1RM: +8 kg
-TheStrongestManager
+The Strongest
 ```
 
 ### Formats

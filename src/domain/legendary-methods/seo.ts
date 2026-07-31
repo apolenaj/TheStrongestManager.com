@@ -26,7 +26,7 @@ export function legendaryMethodsLibraryJsonLd(input: {
     },
     publisher: {
       "@type": "Organization",
-      name: "The Strongest Manager editorial team",
+      name: "The Strongest editorial team",
       url: absoluteUrl("/"),
     },
     about: {

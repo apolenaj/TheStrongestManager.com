@@ -60,7 +60,7 @@ export const REQUIRED_LEGENDARY_SECTION_DEFINITIONS: readonly {
   },
   {
     id: "verdict",
-    title: "The Strongest Manager Verdict",
+    title: "The Strongest Verdict",
     layer: "independent_analysis",
   },
   {

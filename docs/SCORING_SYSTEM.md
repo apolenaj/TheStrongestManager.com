@@ -1,6 +1,6 @@
 # Scoring System
 
-Modular, honest athlete scoring for TheStrongestManager.com.
+Modular, honest athlete scoring for thestrongestmanager.com.
 
 **Location:** `src/domain/scoring/`  
 **Version:** `1.1.0` (`SCORING_FORMULA_VERSION`)
