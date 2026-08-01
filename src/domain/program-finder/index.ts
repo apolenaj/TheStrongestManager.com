@@ -1,5 +1,6 @@
 export {
   scoreProgramFinder,
+  familyHasFreeTrial,
   freeProductSlugForFamily,
   paidProductSlugForFamily,
   programFinderFamilyLabel,

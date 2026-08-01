@@ -10,6 +10,17 @@ export const PROGRAM_FINDER_FAMILIES = [
   "conjugate-strength-system",
   "high-frequency-sbd",
   "powerbuilding-hybrid",
+  "golden-era-hypertrophy",
+  "deadlift-310-peak",
+  "squat-overload-base",
+  "bench-press-blueprint",
+  "loglift-mastery",
+  "strongman-base-builder",
+  "iron-cut-aggressive",
+  "iron-recomp-medium",
+  "sustainable-lean-quality",
+  "explosive-power-speed",
+  "olympic-weightlifting-base",
 ] as const;
 
 export type ProgramFinderFamilyId =
@@ -21,6 +32,10 @@ export const PROGRAM_FINDER_GOALS = [
   "hypertrophy",
   "competition_prep",
   "general_strength",
+  "body_transformation",
+  "bodybuilding",
+  "strongman",
+  "lift_specific",
 ] as const;
 
 export const PROGRAM_FINDER_EXPERIENCE = [
@@ -39,6 +54,16 @@ export const PROGRAM_FINDER_WEAKEST = [
 ] as const;
 
 export const PROGRAM_FINDER_RECOVERY = ["poor", "okay", "good"] as const;
+
+/** Legacy catalog families that still ship a 4-week free product. */
+const FAMILIES_WITH_FREE_TRIAL = new Set<ProgramFinderFamilyId>([
+  "linear-strength-builder",
+  "dup-powerlifting-system",
+  "block-periodisation",
+  "conjugate-strength-system",
+  "high-frequency-sbd",
+  "powerbuilding-hybrid",
+]);
 
 export type ProgramFinderAnswers = {
   goal: (typeof PROGRAM_FINDER_GOALS)[number];
@@ -75,6 +100,17 @@ const FAMILY_LABEL: Record<ProgramFinderFamilyId, string> = {
   "conjugate-strength-system": "Conjugate Strength System",
   "high-frequency-sbd": "High-Frequency SBD",
   "powerbuilding-hybrid": "Powerbuilding Hybrid",
+  "golden-era-hypertrophy": "Golden Era Hypertrophy",
+  "deadlift-310-peak": "The 310kg Deadlift Peak",
+  "squat-overload-base": "Squat Overload Base",
+  "bench-press-blueprint": "Bench Press Blueprint",
+  "loglift-mastery": "Loglift Mastery",
+  "strongman-base-builder": "Strongman Base Builder",
+  "iron-cut-aggressive": "Iron Cut: Aggressive",
+  "iron-recomp-medium": "Iron Recomp: Medium",
+  "sustainable-lean-quality": "Sustainable Lean: Quality",
+  "explosive-power-speed": "Explosive Power & Speed",
+  "olympic-weightlifting-base": "Olympic Weightlifting Base",
 };
 
 export function programFinderFamilyLabel(
@@ -94,6 +130,17 @@ function emptyScores(): Record<
     "conjugate-strength-system": { score: 0, reasons: [] },
     "high-frequency-sbd": { score: 0, reasons: [] },
     "powerbuilding-hybrid": { score: 0, reasons: [] },
+    "golden-era-hypertrophy": { score: 0, reasons: [] },
+    "deadlift-310-peak": { score: 0, reasons: [] },
+    "squat-overload-base": { score: 0, reasons: [] },
+    "bench-press-blueprint": { score: 0, reasons: [] },
+    "loglift-mastery": { score: 0, reasons: [] },
+    "strongman-base-builder": { score: 0, reasons: [] },
+    "iron-cut-aggressive": { score: 0, reasons: [] },
+    "iron-recomp-medium": { score: 0, reasons: [] },
+    "sustainable-lean-quality": { score: 0, reasons: [] },
+    "explosive-power-speed": { score: 0, reasons: [] },
+    "olympic-weightlifting-base": { score: 0, reasons: [] },
   };
 }
 
@@ -137,6 +184,7 @@ export function scoreProgramFinder(
       break;
     case "hypertrophy":
       add(scores, "powerbuilding-hybrid", 5, r("goal.hypertrophy.hybrid"));
+      add(scores, "golden-era-hypertrophy", 4, r("goal.hypertrophy.golden"));
       add(scores, "dup-powerlifting-system", 2, r("goal.hypertrophy.dup"));
       add(scores, "linear-strength-builder", 1, r("goal.hypertrophy.linear"));
       break;
@@ -144,6 +192,41 @@ export function scoreProgramFinder(
       add(scores, "block-periodisation", 5, r("goal.comp.block"));
       add(scores, "dup-powerlifting-system", 3, r("goal.comp.dup"));
       add(scores, "conjugate-strength-system", 2, r("goal.comp.conjugate"));
+      break;
+    case "body_transformation":
+      add(scores, "iron-recomp-medium", 5, r("goal.transform.recomp"));
+      add(scores, "sustainable-lean-quality", 5, r("goal.transform.sustainable"));
+      add(scores, "iron-cut-aggressive", 4, r("goal.transform.aggressive"));
+      add(scores, "powerbuilding-hybrid", 1, r("goal.transform.hybrid"));
+      break;
+    case "bodybuilding":
+      add(scores, "golden-era-hypertrophy", 8, r("goal.bodybuilding.golden"));
+      add(scores, "powerbuilding-hybrid", 4, r("goal.bodybuilding.hybrid"));
+      break;
+    case "strongman":
+      add(scores, "strongman-base-builder", 8, r("goal.strongman.base"));
+      add(scores, "loglift-mastery", 5, r("goal.strongman.loglift"));
+      add(scores, "conjugate-strength-system", 2, r("goal.strongman.conjugate"));
+      break;
+    case "lift_specific":
+      if (answers.weakest === "squat") {
+        add(scores, "squat-overload-base", 9, r("goal.lift.squat"));
+        add(scores, "deadlift-310-peak", 2, r("goal.lift.secondaryDeadlift"));
+        add(scores, "bench-press-blueprint", 2, r("goal.lift.secondaryBench"));
+      } else if (answers.weakest === "bench") {
+        add(scores, "bench-press-blueprint", 9, r("goal.lift.bench"));
+        add(scores, "squat-overload-base", 2, r("goal.lift.secondarySquat"));
+        add(scores, "loglift-mastery", 2, r("goal.lift.secondaryLog"));
+      } else if (answers.weakest === "deadlift") {
+        add(scores, "deadlift-310-peak", 9, r("goal.lift.deadlift"));
+        add(scores, "squat-overload-base", 2, r("goal.lift.secondarySquat"));
+        add(scores, "strongman-base-builder", 1, r("goal.lift.secondaryStrongman"));
+      } else {
+        add(scores, "squat-overload-base", 4, r("goal.lift.generalSquat"));
+        add(scores, "bench-press-blueprint", 4, r("goal.lift.generalBench"));
+        add(scores, "deadlift-310-peak", 4, r("goal.lift.generalDeadlift"));
+        add(scores, "loglift-mastery", 3, r("goal.lift.generalLog"));
+      }
       break;
   }
 
@@ -155,12 +238,18 @@ export function scoreProgramFinder(
       add(scores, "conjugate-strength-system", -4, r("exp.beginner.conjugate"));
       add(scores, "high-frequency-sbd", -3, r("exp.beginner.highFreq"));
       add(scores, "block-periodisation", -2, r("exp.beginner.block"));
+      add(scores, "golden-era-hypertrophy", -2, r("exp.beginner.golden"));
+      add(scores, "iron-cut-aggressive", -3, r("exp.beginner.aggressive"));
+      add(scores, "deadlift-310-peak", -3, r("exp.beginner.deadliftPeak"));
       break;
     case "intermediate":
       add(scores, "dup-powerlifting-system", 4, r("exp.intermediate.dup"));
       add(scores, "powerbuilding-hybrid", 3, r("exp.intermediate.hybrid"));
       add(scores, "block-periodisation", 2, r("exp.intermediate.block"));
       add(scores, "linear-strength-builder", 1, r("exp.intermediate.linear"));
+      add(scores, "golden-era-hypertrophy", 2, r("exp.intermediate.golden"));
+      add(scores, "strongman-base-builder", 2, r("exp.intermediate.strongman"));
+      add(scores, "iron-recomp-medium", 2, r("exp.intermediate.recomp"));
       break;
     case "advanced":
       add(scores, "conjugate-strength-system", 4, r("exp.advanced.conjugate"));
@@ -168,6 +257,9 @@ export function scoreProgramFinder(
       add(scores, "block-periodisation", 3, r("exp.advanced.block"));
       add(scores, "dup-powerlifting-system", 2, r("exp.advanced.dup"));
       add(scores, "linear-strength-builder", -2, r("exp.advanced.linear"));
+      add(scores, "deadlift-310-peak", 2, r("exp.advanced.deadliftPeak"));
+      add(scores, "iron-cut-aggressive", 2, r("exp.advanced.aggressive"));
+      add(scores, "loglift-mastery", 2, r("exp.advanced.loglift"));
       break;
   }
 
@@ -177,31 +269,47 @@ export function scoreProgramFinder(
     add(scores, "dup-powerlifting-system", 3, r("days.3.dup"));
     add(scores, "high-frequency-sbd", -4, r("days.3.highFreq"));
     add(scores, "conjugate-strength-system", -2, r("days.3.conjugate"));
+    add(scores, "golden-era-hypertrophy", -2, r("days.3.golden"));
+    add(scores, "strongman-base-builder", 1, r("days.3.strongman"));
   } else if (days === 4) {
     add(scores, "dup-powerlifting-system", 2, r("days.4.dup"));
     add(scores, "conjugate-strength-system", 3, r("days.4.conjugate"));
     add(scores, "block-periodisation", 2, r("days.4.block"));
     add(scores, "powerbuilding-hybrid", 2, r("days.4.hybrid"));
     add(scores, "high-frequency-sbd", 1, r("days.4.highFreq"));
+    add(scores, "strongman-base-builder", 2, r("days.4.strongman"));
+    add(scores, "iron-recomp-medium", 1, r("days.4.recomp"));
   } else if (days === 5) {
     add(scores, "high-frequency-sbd", 3, r("days.5.highFreq"));
     add(scores, "powerbuilding-hybrid", 3, r("days.5.hybrid"));
     add(scores, "block-periodisation", 2, r("days.5.block"));
     add(scores, "conjugate-strength-system", 1, r("days.5.conjugate"));
+    add(scores, "golden-era-hypertrophy", 3, r("days.5.golden"));
+    add(scores, "strongman-base-builder", 2, r("days.5.strongman"));
   } else {
     add(scores, "high-frequency-sbd", 5, r("days.6.highFreq"));
     add(scores, "powerbuilding-hybrid", 2, r("days.6.hybrid"));
     add(scores, "linear-strength-builder", -2, r("days.6.linear"));
+    add(scores, "golden-era-hypertrophy", 4, r("days.6.golden"));
   }
 
-  // --- Weakest lift ---
-  if (answers.weakest !== "none") {
-    const lift = answers.weakest;
-    add(scores, "conjugate-strength-system", 3, r("weak.conjugate", lift));
-    add(scores, "dup-powerlifting-system", 2, r("weak.dup", lift));
-    add(scores, "high-frequency-sbd", 2, r("weak.highFreq", lift));
-  } else {
-    add(scores, "linear-strength-builder", 1, r("weak.none"));
+  // --- Weakest lift (extra for non-lift_specific goals) ---
+  if (answers.goal !== "lift_specific") {
+    if (answers.weakest !== "none") {
+      const lift = answers.weakest;
+      add(scores, "conjugate-strength-system", 3, r("weak.conjugate", lift));
+      add(scores, "dup-powerlifting-system", 2, r("weak.dup", lift));
+      add(scores, "high-frequency-sbd", 2, r("weak.highFreq", lift));
+      if (lift === "squat") {
+        add(scores, "squat-overload-base", 3, r("weak.squatProgram", lift));
+      } else if (lift === "bench") {
+        add(scores, "bench-press-blueprint", 3, r("weak.benchProgram", lift));
+      } else {
+        add(scores, "deadlift-310-peak", 3, r("weak.deadliftProgram", lift));
+      }
+    } else {
+      add(scores, "linear-strength-builder", 1, r("weak.none"));
+    }
   }
 
   // --- Recovery ---
@@ -213,6 +321,10 @@ export function scoreProgramFinder(
       add(scores, "conjugate-strength-system", -4, r("rec.poor.conjugate"));
       add(scores, "block-periodisation", -3, r("rec.poor.block"));
       add(scores, "powerbuilding-hybrid", -2, r("rec.poor.hybrid"));
+      add(scores, "sustainable-lean-quality", 5, r("rec.poor.sustainable"));
+      add(scores, "iron-recomp-medium", -1, r("rec.poor.recomp"));
+      add(scores, "iron-cut-aggressive", -5, r("rec.poor.aggressive"));
+      add(scores, "golden-era-hypertrophy", -3, r("rec.poor.golden"));
       break;
     case "okay":
       add(scores, "dup-powerlifting-system", 2, r("rec.okay.dup"));
@@ -220,12 +332,17 @@ export function scoreProgramFinder(
       add(scores, "powerbuilding-hybrid", 1, r("rec.okay.hybrid"));
       add(scores, "block-periodisation", 1, r("rec.okay.block"));
       add(scores, "high-frequency-sbd", -1, r("rec.okay.highFreq"));
+      add(scores, "iron-recomp-medium", 3, r("rec.okay.recomp"));
+      add(scores, "sustainable-lean-quality", 2, r("rec.okay.sustainable"));
       break;
     case "good":
       add(scores, "high-frequency-sbd", 3, r("rec.good.highFreq"));
       add(scores, "conjugate-strength-system", 3, r("rec.good.conjugate"));
       add(scores, "block-periodisation", 2, r("rec.good.block"));
       add(scores, "powerbuilding-hybrid", 2, r("rec.good.hybrid"));
+      add(scores, "golden-era-hypertrophy", 2, r("rec.good.golden"));
+      add(scores, "iron-cut-aggressive", 3, r("rec.good.aggressive"));
+      add(scores, "strongman-base-builder", 2, r("rec.good.strongman"));
       break;
   }
 
@@ -245,9 +362,14 @@ export function scoreProgramFinder(
   };
 }
 
+export function familyHasFreeTrial(familyId: ProgramFinderFamilyId): boolean {
+  return FAMILIES_WITH_FREE_TRIAL.has(familyId);
+}
+
 export function freeProductSlugForFamily(
   familyId: ProgramFinderFamilyId,
-): string {
+): string | null {
+  if (!familyHasFreeTrial(familyId)) return null;
   return `${familyId}-free`;
 }
 

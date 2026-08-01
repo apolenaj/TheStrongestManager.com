@@ -78,7 +78,11 @@
       "about_preview": "About preview",
       "trust_center": "Trust Center",
       "pricing": "Pricing",
-      "affiliates": "Affiliates"
+      "affiliates": "Affiliates",
+      "bodybuilding": "Bodybuilding",
+      "body_transformation": "Body transformation",
+      "strongman": "Strongman",
+      "lift_specific": "Lift specific"
     },
     "descriptions": {
       "linear_strength_builder": "Volume-to-intensity progression",
@@ -122,7 +126,11 @@
       "about_preview": "Short founder preview on the homepage",
       "trust_center": "Privacy, safety, and product honesty",
       "pricing": "Plans, features, and limits",
-      "affiliates": "Partner program overview"
+      "affiliates": "Partner program overview",
+      "bodybuilding": "Aesthetics and muscle volume",
+      "body_transformation": "Aggressive fat loss and recomposition",
+      "strongman": "Raw static strength and events",
+      "lift_specific": "Specialize squat, bench, or pull"
     }
   },
   "HomePage": {
@@ -275,7 +283,11 @@
         "strength": "General strength",
         "powerlifting": "Powerlifting",
         "hypertrophy": "Strength + muscle",
-        "competition_prep": "Meet prep"
+        "competition_prep": "Meet prep",
+        "body_transformation": "Body transformation",
+        "bodybuilding": "Bodybuilding",
+        "strongman": "Strongman",
+        "lift_specific": "Lift specific"
       },
       "exp": {
         "beginner": "Beginner",
@@ -437,6 +449,22 @@
         "general_strength": {
           "label": "General fitness strength",
           "hint": "Stay strong without meet pressure"
+        },
+        "body_transformation": {
+          "label": "Body transformation",
+          "hint": "Aggressive fat loss or recomposition"
+        },
+        "bodybuilding": {
+          "label": "Bodybuilding",
+          "hint": "Maximum hypertrophy, Golden Era"
+        },
+        "strongman": {
+          "label": "Strongman",
+          "hint": "Static strength and loaded carries"
+        },
+        "lift_specific": {
+          "label": "Improve a specific lift",
+          "hint": "Deadlift, squat, bench press, loglift"
         }
       },
       "exp": {
@@ -479,7 +507,18 @@
         "block-periodisation": "Block Periodisation",
         "conjugate-strength-system": "Conjugate Strength System",
         "high-frequency-sbd": "High-Frequency SBD",
-        "powerbuilding-hybrid": "Powerbuilding Hybrid"
+        "powerbuilding-hybrid": "Powerbuilding Hybrid",
+        "golden-era-hypertrophy": "Golden Era Hypertrophy",
+        "deadlift-310-peak": "The 310kg Deadlift Peak",
+        "squat-overload-base": "Squat Overload Base",
+        "bench-press-blueprint": "Bench Press Blueprint",
+        "loglift-mastery": "Loglift Mastery",
+        "strongman-base-builder": "Strongman Base Builder",
+        "iron-cut-aggressive": "Iron Cut: Aggressive",
+        "iron-recomp-medium": "Iron Recomp: Medium",
+        "sustainable-lean-quality": "Sustainable Lean: Quality",
+        "explosive-power-speed": "Explosive Power & Speed",
+        "olympic-weightlifting-base": "Olympic Weightlifting Base"
       },
       "reasons": {
         "goal": {
@@ -497,12 +536,42 @@
           "hypertrophy": {
             "hybrid": "Hypertrophy priority maps to the powerbuilding hybrid.",
             "dup": "DUP includes hypertrophy-oriented days in the week.",
-            "linear": "Linear still builds base strength that supports muscle work."
+            "linear": "Linear still builds base strength that supports muscle work.",
+            "golden": "Hypertrophy also maps to Golden Era high-volume aesthetics."
           },
           "comp": {
             "block": "Competition prep favors sequenced accumulation → realization.",
             "dup": "DUP can peak toward a meet with rising specificity.",
             "conjugate": "Conjugate can increase specificity late in a cycle."
+          },
+          "transform": {
+            "recomp": "Body transformation favors steady recomposition that defends strength.",
+            "sustainable": "A quality lean approach protects platform performance during fat loss.",
+            "aggressive": "Aggressive cuts suit lifters who can protect strength under a steep deficit.",
+            "hybrid": "Powerbuilding accessories can support physique work during a cut."
+          },
+          "bodybuilding": {
+            "golden": "Bodybuilding priority maps to Golden Era hypertrophy volume.",
+            "hybrid": "Powerbuilding remains a strength-biased physique alternative."
+          },
+          "strongman": {
+            "base": "Strongman goal maps to a base builder for static strength and events.",
+            "loglift": "Log work is a common strongman specialization block.",
+            "conjugate": "Conjugate variation can support strongman special exercises."
+          },
+          "lift": {
+            "squat": "Weak squat routes to a squat overload specialization block.",
+            "bench": "Weak bench routes to a bench press blueprint.",
+            "deadlift": "Weak deadlift routes to a specific deadlift peaking block.",
+            "secondaryDeadlift": "Deadlift work remains a useful secondary lift focus.",
+            "secondaryBench": "Bench specialization remains available as a secondary option.",
+            "secondaryLog": "Loglift can complement overhead pressing goals.",
+            "secondarySquat": "Squat overload remains a useful secondary specialization.",
+            "secondaryStrongman": "Strongman base work can support heavy pulling capacity.",
+            "generalSquat": "No single weak lift — squat specialization is still a strong option.",
+            "generalBench": "No single weak lift — bench specialization remains available.",
+            "generalDeadlift": "No single weak lift — deadlift peaking remains available.",
+            "generalLog": "Loglift mastery is available when you want overhead event skill."
           }
         },
         "exp": {
@@ -511,20 +580,29 @@
             "hybrid": "Hybrid is usable later; linear is safer first.",
             "conjugate": "Conjugate is penalized for beginners.",
             "highFreq": "High frequency is penalized until technique and recovery are proven.",
-            "block": "True block concentration is usually unnecessary for beginners."
+            "block": "True block concentration is usually unnecessary for beginners.",
+            "golden": "Golden Era volume is penalized until basics and recovery are stable.",
+            "aggressive": "Aggressive cuts are penalized for beginners.",
+            "deadliftPeak": "Specific peaking blocks are too narrow for beginners."
           },
           "intermediate": {
             "dup": "Intermediate lifters often respond well to weekly undulation.",
             "hybrid": "Intermediates can handle strength + hypertrophy dual focus.",
             "block": "Blocks become useful once progress is no longer automatic.",
-            "linear": "Linear remains viable if you prefer simplicity."
+            "linear": "Linear remains viable if you prefer simplicity.",
+            "golden": "Intermediates can handle higher hypertrophy volume with structure.",
+            "strongman": "Intermediates can install a strongman base block.",
+            "recomp": "Intermediates often suit a medium-pace recomposition."
           },
           "advanced": {
             "conjugate": "Advanced lifters can tolerate ME/DE rotation.",
             "highFreq": "Advanced recovery literacy supports higher frequency.",
             "block": "Concentrated blocks suit advanced preparation windows.",
             "dup": "DUP remains a strong advanced powerlifting option.",
-            "linear": "Long exclusive linear phases score lower for advanced lifters."
+            "linear": "Long exclusive linear phases score lower for advanced lifters.",
+            "deadliftPeak": "Advanced lifters can run a brutal, specific peaking block.",
+            "aggressive": "Advanced recovery literacy can support aggressive cuts.",
+            "loglift": "Advanced athletes can specialize log technique hard."
           }
         },
         "days": {
@@ -532,32 +610,42 @@
             "linear": "3 training days fit a focused linear template.",
             "dup": "DUP has a clear 3-day SBD split.",
             "highFreq": "High-frequency SBD needs more than 3 days to make sense.",
-            "conjugate": "Classic conjugate structure expects a 4-day week."
+            "conjugate": "Classic conjugate structure expects a 4-day week.",
+            "golden": "Golden Era volume usually wants more than 3 training days.",
+            "strongman": "A compressed strongman base can still fit 3 days."
           },
           "4": {
             "dup": "4 days is a strong DUP schedule.",
             "conjugate": "4 days matches conjugate ME/DE layout.",
             "block": "4 days supports concentrated block loading.",
             "hybrid": "4 days leaves room for accessories.",
-            "highFreq": "4 days can start a moderated high-frequency plan."
+            "highFreq": "4 days can start a moderated high-frequency plan.",
+            "strongman": "4 days support strength plus event practice.",
+            "recomp": "4 days leave room for conditioning during recomposition."
           },
           "5": {
             "highFreq": "5 days supports frequent SBD exposures.",
             "hybrid": "5 days suits strength + hypertrophy volume.",
             "block": "5-day blocks allow dedicated emphasis sessions.",
-            "conjugate": "Extra day can hold special-exercise work."
+            "conjugate": "Extra day can hold special-exercise work.",
+            "golden": "5 days support classic hypertrophy frequency.",
+            "strongman": "5 days help separate strength and events."
           },
           "6": {
             "highFreq": "6 days is the clearest match for high-frequency SBD.",
             "hybrid": "6 days can work if recovery is managed.",
-            "linear": "6 days usually exceeds what a simple linear plan needs."
+            "linear": "6 days usually exceeds what a simple linear plan needs.",
+            "golden": "6 days match high-frequency Golden Era style volume."
           }
         },
         "weak": {
           "conjugate": "Weak {lift} favors conjugate-style special-exercise variation.",
           "dup": "Weak {lift} can get extra emphasis inside undulating days.",
           "highFreq": "Weak {lift} benefits from more frequent practice exposures.",
-          "none": "No single weak lift — balanced linear work is fine."
+          "none": "No single weak lift — balanced linear work is fine.",
+          "squatProgram": "Weak squat also scores a squat-specific overload program.",
+          "benchProgram": "Weak bench also scores a bench-specific blueprint.",
+          "deadliftProgram": "Weak deadlift also scores a deadlift peaking block."
         },
         "rec": {
           "poor": {
@@ -566,22 +654,39 @@
             "highFreq": "High frequency is heavily penalized when recovery is poor.",
             "conjugate": "Conjugate max-effort stress is a poor match for low recovery.",
             "block": "Accumulation blocks are risky when recovery is already poor.",
-            "hybrid": "Hybrid accessory volume adds fatigue when recovery is limited."
+            "hybrid": "Hybrid accessory volume adds fatigue when recovery is limited.",
+            "sustainable": "Poor recovery favors a slower, quality lean over aggressive cuts.",
+            "aggressive": "Aggressive cuts are heavily penalized when recovery is already poor.",
+            "golden": "High-volume bodybuilding is risky with poor recovery.",
+            "recomp": "Medium recomposition is slightly tempered when recovery is already poor."
           },
           "okay": {
             "dup": "Okay recovery supports moderate undulating stress.",
             "linear": "Okay recovery pairs well with simple progressive overload.",
             "hybrid": "Hybrid is usable with careful accessory dosing.",
             "block": "Blocks are possible if accumulation stays honest.",
-            "highFreq": "High frequency remains a cautious choice on okay recovery."
+            "highFreq": "High frequency remains a cautious choice on okay recovery.",
+            "recomp": "Okay recovery suits a medium-pace iron recomposition.",
+            "sustainable": "A sustainable lean remains compatible with okay recovery."
           },
           "good": {
             "highFreq": "Good recovery unlocks higher training frequency.",
             "conjugate": "Good recovery supports max-effort / dynamic rotation.",
             "block": "Good recovery tolerates concentrated loading.",
-            "hybrid": "Good recovery supports dual strength/hypertrophy stress."
+            "hybrid": "Good recovery supports dual strength/hypertrophy stress.",
+            "golden": "Good recovery supports Golden Era hypertrophy volume.",
+            "aggressive": "Good recovery can support a more aggressive cut protocol.",
+            "strongman": "Good recovery supports strongman base + event stress."
           }
         }
+      },
+      "page": {
+        "eyebrow": "Program finder",
+        "title": "Find my program",
+        "lead": "Five questions. Transparent scoring. Primary and secondary picks from our full catalog — with reasons you can read, not a black-box model.",
+        "browseCatalog": "Prefer to browse the catalog?",
+        "metaTitle": "Find My Training Program",
+        "metaDescription": "Answer five questions and get a transparent weighted recommendation across our strength training programs — powerlifting, bodybuilding, strongman, lift-specific, and transformation. Not AI, not fake scarcity."
       }
     },
     "onboarding": {

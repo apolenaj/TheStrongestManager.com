@@ -43,6 +43,50 @@ describe("program finder scoring", () => {
     expect(result.primary.familyId).toBe("high-frequency-sbd");
     expect(result.secondary.familyId).not.toBe(result.primary.familyId);
   });
+
+  it("routes bodybuilding goals to Golden Era hypertrophy", () => {
+    const result = scoreProgramFinder({
+      goal: "bodybuilding",
+      experience: "intermediate",
+      days: "5",
+      weakest: "none",
+      recovery: "good",
+    });
+    expect(result.primary.familyId).toBe("golden-era-hypertrophy");
+  });
+
+  it("routes lift-specific + deadlift weakness to the deadlift peak", () => {
+    const result = scoreProgramFinder({
+      goal: "lift_specific",
+      experience: "advanced",
+      days: "4",
+      weakest: "deadlift",
+      recovery: "okay",
+    });
+    expect(result.primary.familyId).toBe("deadlift-310-peak");
+  });
+
+  it("routes strongman goals to the strongman base builder", () => {
+    const result = scoreProgramFinder({
+      goal: "strongman",
+      experience: "intermediate",
+      days: "4",
+      weakest: "none",
+      recovery: "good",
+    });
+    expect(result.primary.familyId).toBe("strongman-base-builder");
+  });
+
+  it("routes body transformation with poor recovery toward a sustainable lean", () => {
+    const result = scoreProgramFinder({
+      goal: "body_transformation",
+      experience: "intermediate",
+      days: "4",
+      weakest: "none",
+      recovery: "poor",
+    });
+    expect(result.primary.familyId).toBe("sustainable-lean-quality");
+  });
 });
 
 describe("1RM validation", () => {

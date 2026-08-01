@@ -37,18 +37,18 @@
       }
     },
     "links": {
-      "linear_strength_builder": "Linear Strength Builder",
-      "dup_powerlifting_system": "DUP Powerlifting System",
+      "linear_strength_builder": "Lineární budování síly",
+      "dup_powerlifting_system": "DUP systém silového trojboje",
       "block_periodisation": "Bloková periodizace",
-      "conjugate_strength_system": "Conjugate Strength System",
-      "high_frequency_sbd": "High-Frequency SBD",
-      "powerbuilding_hybrid": "Powerbuilding Hybrid",
+      "conjugate_strength_system": "Konjugovaný silový systém",
+      "high_frequency_sbd": "Vysokofrekvenční SBD",
+      "powerbuilding_hybrid": "Hybrid síly a hypertrofie",
       "build_strength": "Buduj sílu",
       "powerlifting": "Powerlifting",
       "hypertrophy": "Hypertrofie",
       "competition_prep": "Příprava na závody",
       "browse_all_programs": "Prohlédnout všechny programy",
-      "complete_method_collection": "Complete Method Collection",
+      "complete_method_collection": "Kompletní sbírka metod",
       "arnold_schwarzenegger": "Arnold Schwarzenegger",
       "tom_platz": "Tom Platz",
       "ronnie_coleman": "Ronnie Coleman",
@@ -59,7 +59,7 @@
       "calculator_suite": "Kalkulačky",
       "program_audit": "Audit programu",
       "technique_check": "Kontrola techniky",
-      "athlete_assessment": "Athlete assessment",
+      "athlete_assessment": "Hodnocení sportovce",
       "method_compare": "Porovnání metod",
       "one_to_one_coaching": "1:1 Koučink",
       "coach_matching": "Výběr kouče",
@@ -67,7 +67,7 @@
       "example_dashboard": "Ukázkový dashboard",
       "capability_overview": "Přehled funkcí",
       "certificate_verification": "Ověření certifikátu",
-      "evidence_base": "Evidence base",
+      "evidence_base": "Základna důkazů",
       "learning_paths": "Vzdělávací cesty",
       "training_methods": "Tréninkové metody",
       "legendary_methods": "Legendy",
@@ -76,15 +76,19 @@
       "guides": "Průvodci",
       "about_josef": "O Josefovi",
       "about_preview": "Krátký náhled",
-      "trust_center": "Trust Center",
+      "trust_center": "Centrum důvěry",
       "pricing": "Ceník",
-      "affiliates": "Affiliate"
+      "affiliates": "Affiliate",
+      "bodybuilding": "Kulturistika",
+      "body_transformation": "Transformace těla",
+      "strongman": "Strongman",
+      "lift_specific": "Specifické cviky"
     },
     "descriptions": {
       "linear_strength_builder": "Progrese od objemu k intenzitě",
       "dup_powerlifting_system": "Undulující důraz na SBD",
       "block_periodisation": "Koncentrované tréninkové bloky",
-      "conjugate_strength_system": "Max-effort / dynamic rotace",
+      "conjugate_strength_system": "Maximální a dynamické úsilí",
       "high_frequency_sbd": "Častá praxe závodních cviků",
       "powerbuilding_hybrid": "Síla plus hypertrofie",
       "build_strength": "Systémy pro obecnou sílu",
@@ -93,7 +97,7 @@
       "competition_prep": "Příprava na závody",
       "browse_all_programs": "Kompletní veřejný katalog",
       "complete_method_collection": "Všech šest plných placených systémů",
-      "arnold_schwarzenegger": "Golden Era volume",
+      "arnold_schwarzenegger": "Objem zlaté éry",
       "tom_platz": "Extrémní trénink nohou",
       "ronnie_coleman": "Těžký high-volume trénink",
       "eddie_hall": "Metoda 500kg mrtvého tahu",
@@ -122,7 +126,11 @@
       "about_preview": "Krátký náhled zakladatele na homepage",
       "trust_center": "Soukromí, bezpečnost a produktová upřímnost",
       "pricing": "Plány, funkce a limity",
-      "affiliates": "Přehled partnerského programu"
+      "affiliates": "Přehled partnerského programu",
+      "bodybuilding": "Estetika a svalový objem",
+      "body_transformation": "Agresivní hubnutí a rekompozice",
+      "strongman": "Hrubá statická síla a disciplíny",
+      "lift_specific": "Specializace na dřep, bench, tah"
     }
   },
   "HomePage": {
@@ -275,7 +283,11 @@
         "strength": "Obecná síla",
         "powerlifting": "Powerlifting",
         "hypertrophy": "Síla + svaly",
-        "competition_prep": "Příprava na závody"
+        "competition_prep": "Příprava na závody",
+        "body_transformation": "Transformace těla",
+        "bodybuilding": "Kulturistika",
+        "strongman": "Strongman",
+        "lift_specific": "Specifické cviky"
       },
       "exp": {
         "beginner": "Začátečník",
@@ -424,11 +436,11 @@
         },
         "powerlifting": {
           "label": "Powerlifting",
-          "hint": "Dřep, bench, mrtvý tah"
+          "hint": "Dřep, bench press, mrtvý tah"
         },
         "hypertrophy": {
           "label": "Síla + svaly",
-          "hint": "Powerbuilding bias"
+          "hint": "Zaměření na powerbuilding"
         },
         "competition_prep": {
           "label": "Příprava na závody",
@@ -437,6 +449,22 @@
         "general_strength": {
           "label": "Obecná fitness síla",
           "hint": "Zůstaň silný bez tlaku závodu"
+        },
+        "body_transformation": {
+          "label": "Transformace těla",
+          "hint": "Extrémní hubnutí nebo rekompozice"
+        },
+        "bodybuilding": {
+          "label": "Kulturistika",
+          "hint": "Maximální hypertrofie, Zlatá éra"
+        },
+        "strongman": {
+          "label": "Strongman",
+          "hint": "Statická síla a nošení zátěže"
+        },
+        "lift_specific": {
+          "label": "Zlepšit konkrétní cvik",
+          "hint": "Mrtvý tah, dřep, bench press, loglift"
         }
       },
       "exp": {
@@ -455,7 +483,7 @@
       },
       "weak": {
         "squat": "Dřep",
-        "bench": "Bench",
+        "bench": "Bench press",
         "deadlift": "Mrtvý tah",
         "none": "Žádný jasný slabý cvik"
       },
@@ -474,12 +502,23 @@
         }
       },
       "families": {
-        "linear-strength-builder": "Lineární silový systém",
+        "linear-strength-builder": "Lineární budování síly",
         "dup-powerlifting-system": "DUP systém silového trojboje",
         "block-periodisation": "Bloková periodizace",
-        "conjugate-strength-system": "Conjugate silový systém",
+        "conjugate-strength-system": "Konjugovaný silový systém",
         "high-frequency-sbd": "Vysokofrekvenční SBD",
-        "powerbuilding-hybrid": "Powerbuilding hybrid"
+        "powerbuilding-hybrid": "Hybrid síly a hypertrofie",
+        "golden-era-hypertrophy": "Zlatá éra hypertrofie",
+        "deadlift-310-peak": "Vrcholná fáze mrtvého tahu",
+        "squat-overload-base": "Přetížení dřepu",
+        "bench-press-blueprint": "Plán pro Bench Press",
+        "loglift-mastery": "Mistrovství v Logliftu",
+        "strongman-base-builder": "Budování strongman základu",
+        "iron-cut-aggressive": "Železný řez: Agresivní transformace",
+        "iron-recomp-medium": "Železná rekompozice: Střední tempo",
+        "sustainable-lean-quality": "Udržitelná čistá hmota: Kvalita",
+        "explosive-power-speed": "Explozivní síla a rychlost",
+        "olympic-weightlifting-base": "Základ olympijského vzpírání"
       },
       "reasons": {
         "goal": {
@@ -497,12 +536,42 @@
           "hypertrophy": {
             "hybrid": "Priorita hypertrofie mapuje na powerbuilding hybrid.",
             "dup": "DUP zahrnuje hypertroficky orientované dny v týdnu.",
-            "linear": "Lineární stále buduje základ síly, který podporuje svalovou práci."
+            "linear": "Lineární stále buduje základ síly, který podporuje svalovou práci.",
+            "golden": "Hypertrofie také mapuje na vysokoobjemovou estetiku Zlaté éry."
           },
           "comp": {
             "block": "Příprava na závody favorizuje sekvenci akumulace → realizace.",
             "dup": "DUP umí peakovat k závodu s rostoucí specificitou.",
             "conjugate": "Conjugate může později v cyklu zvýšit specificitu."
+          },
+          "transform": {
+            "recomp": "Transformace těla favorizuje stabilní rekompozici, která brání sílu.",
+            "sustainable": "Kvalitní vysekání chrání výkon na závodech během hubnutí.",
+            "aggressive": "Agresivní řez sedí lifterům, kteří udrží sílu při vysokém deficitu.",
+            "hybrid": "Powerbuilding doplňky mohou podpořit estetiku během redukce."
+          },
+          "bodybuilding": {
+            "golden": "Priorita kulturistiky mapuje na hypertrofii Zlaté éry.",
+            "hybrid": "Hybrid síly a hypertrofie zůstává silově vychýlenou alternativou."
+          },
+          "strongman": {
+            "base": "Cíl strongman mapuje na budování základu statické síly a disciplín.",
+            "loglift": "Loglift je častý specializační blok pro strongman.",
+            "conjugate": "Konjugovaná variace může podpořit speciální strongman cviky."
+          },
+          "lift": {
+            "squat": "Slabý dřep směruje na blok přetížení dřepu.",
+            "bench": "Slabý bench směruje na plán pro bench press.",
+            "deadlift": "Slabý mrtvý tah směruje na specifický peaking blok.",
+            "secondaryDeadlift": "Práce na mrtvém tahu zůstává užitečným sekundárním focusem.",
+            "secondaryBench": "Specializace bench pressu zůstává dostupná jako sekundární volba.",
+            "secondaryLog": "Loglift může doplnit cíle tlaku nad hlavou.",
+            "secondarySquat": "Přetížení dřepu zůstává užitečnou sekundární specializací.",
+            "secondaryStrongman": "Strongman základ může podpořit těžký tah.",
+            "generalSquat": "Žádný jasný slabý cvik — specializace dřepu je stále silná volba.",
+            "generalBench": "Žádný jasný slabý cvik — specializace bench pressu zůstává dostupná.",
+            "generalDeadlift": "Žádný jasný slabý cvik — peaking mrtvého tahu zůstává dostupný.",
+            "generalLog": "Mistrovství v logliftu je volba, když chceš skill eventů nad hlavou."
           }
         },
         "exp": {
@@ -511,20 +580,29 @@
             "hybrid": "Hybrid je použitelný později; lineární je bezpečnější jako první.",
             "conjugate": "Conjugate je pro začátečníky penalizovaný.",
             "highFreq": "Vysoká frekvence je penalizovaná, dokud nejsou technika a regenerace ověřené.",
-            "block": "Skutečná bloková koncentrace je pro začátečníky obvykle zbytečná."
+            "block": "Skutečná bloková koncentrace je pro začátečníky obvykle zbytečná.",
+            "golden": "Objem Zlaté éry je penalizovaný, dokud nejsou základy a regenerace stabilní.",
+            "aggressive": "Agresivní řezy jsou pro začátečníky penalizované.",
+            "deadliftPeak": "Specifické peaking bloky jsou pro začátečníky příliš úzké."
           },
           "intermediate": {
             "dup": "Středně pokročilí často dobře reagují na týdenní undulaci.",
             "hybrid": "Středně pokročilí zvládnou dual focus síla + hypertrofie.",
             "block": "Bloky dávají smysl, až když progress už není automatický.",
-            "linear": "Lineární zůstává životaschopný, pokud preferuješ jednoduchost."
+            "linear": "Lineární zůstává životaschopný, pokud preferuješ jednoduchost.",
+            "golden": "Středně pokročilí zvládnou vyšší hypertrofický objem se strukturou.",
+            "strongman": "Středně pokročilí můžou nainstalovat strongman základový blok.",
+            "recomp": "Středně pokročilým často sedí rekompozice středním tempem."
           },
           "advanced": {
             "conjugate": "Pokročilí zvládnou ME/DE rotaci.",
             "highFreq": "Pokročilá gramotnost regenerace podporuje vyšší frekvenci.",
             "block": "Koncentrované bloky sedí pokročilým přípravným oknům.",
             "dup": "DUP zůstává silnou pokročilou powerlifting volbou.",
-            "linear": "Dlouhé exkluzivní lineární fáze skórují níž pro pokročilé."
+            "linear": "Dlouhé exkluzivní lineární fáze skórují níž pro pokročilé.",
+            "deadliftPeak": "Pokročilí zvládnou brutální a specifický peaking blok.",
+            "aggressive": "Pokročilá gramotnost regenerace může podpořit agresivní řez.",
+            "loglift": "Pokročilí sportovci můžou tvrdě specializovat techniku logliftu."
           }
         },
         "days": {
@@ -532,32 +610,42 @@
             "linear": "3 tréninkové dny sedí soustředěné lineární šabloně.",
             "dup": "DUP má jasný 3denní SBD split.",
             "highFreq": "Vysokofrekvenční SBD potřebuje víc než 3 dny, aby dávalo smysl.",
-            "conjugate": "Klasická conjugate struktura očekává 4denní týden."
+            "conjugate": "Klasická conjugate struktura očekává 4denní týden.",
+            "golden": "Objem Zlaté éry obvykle chce víc než 3 tréninkové dny.",
+            "strongman": "Komprimovaný strongman základ se ještě vejde do 3 dnů."
           },
           "4": {
             "dup": "4 dny jsou silný DUP rozpis.",
             "conjugate": "4 dny sedí conjugate ME/DE layoutu.",
             "block": "4 dny podporují koncentrované blokové zatížení.",
             "hybrid": "4 dny nechávají prostor pro doplňky.",
-            "highFreq": "4 dny mohou spustit zmírněný vysokofrekvenční plán."
+            "highFreq": "4 dny mohou spustit zmírněný vysokofrekvenční plán.",
+            "strongman": "4 dny podporují sílu plus praxi disciplín.",
+            "recomp": "4 dny nechávají prostor pro kondici během rekompozice."
           },
           "5": {
             "highFreq": "5 dnů podporuje časté SBD expozice.",
             "hybrid": "5 dnů sedí objemu síla + hypertrofie.",
             "block": "5denní bloky umožňují dedicované emphasis jednotky.",
-            "conjugate": "Extra den může držet práci se speciálními cviky."
+            "conjugate": "Extra den může držet práci se speciálními cviky.",
+            "golden": "5 dnů podporuje klasickou frekvenci hypertrofie.",
+            "strongman": "5 dnů pomáhá oddělit sílu a disciplíny."
           },
           "6": {
             "highFreq": "6 dnů je nejjasnější match pro vysokofrekvenční SBD.",
             "hybrid": "6 dnů může fungovat, pokud řídíš regeneraci.",
-            "linear": "6 dnů obvykle přesahuje, co jednoduchý lineární plán potřebuje."
+            "linear": "6 dnů obvykle přesahuje, co jednoduchý lineární plán potřebuje.",
+            "golden": "6 dnů sedí vysokofrekvenčnímu objemu ve stylu Zlaté éry."
           }
         },
         "weak": {
           "conjugate": "Slabý {lift} favorizuje conjugate variaci speciálních cviků.",
           "dup": "Slabý {lift} může dostat extra důraz uvnitř undulujících dnů.",
           "highFreq": "Slabý {lift} těží z častějších tréninkových expozic.",
-          "none": "Žádný jednotlivý slabý cvik — vyvážená lineární práce je v pořádku."
+          "none": "Žádný jednotlivý slabý cvik — vyvážená lineární práce je v pořádku.",
+          "squatProgram": "Slabý dřep také skóruje program specifického přetížení dřepu.",
+          "benchProgram": "Slabý bench také skóruje specifický plán pro bench press.",
+          "deadliftProgram": "Slabý mrtvý tah také skóruje peaking blok mrtvého tahu."
         },
         "rec": {
           "poor": {
@@ -566,22 +654,39 @@
             "highFreq": "Vysoká frekvence je při špatné regeneraci silně penalizovaná.",
             "conjugate": "Conjugate max-effort stres špatně sedí nízké regeneraci.",
             "block": "Akumulační bloky jsou rizikové, když je regenerace už teď špatná.",
-            "hybrid": "Hybridní doplňkový objem přidává únavu při omezené regeneraci."
+            "hybrid": "Hybridní doplňkový objem přidává únavu při omezené regeneraci.",
+            "sustainable": "Špatná regenerace favorizuje pomalejší kvalitní vysekání před agresivním řezem.",
+            "aggressive": "Agresivní řezy jsou při špatné regeneraci silně penalizované.",
+            "golden": "Vysokoobjemová kulturistika je při špatné regeneraci riziková.",
+            "recomp": "Střední rekompozice je při už špatné regeneraci mírně tlumená."
           },
           "okay": {
             "dup": "Ucházející regenerace podporuje umírněný undulující stres.",
             "linear": "Ucházející regenerace sedí jednoduchému progressive overload.",
             "hybrid": "Hybrid je použitelný s pečlivým dávkováním doplňků.",
             "block": "Bloky jsou možné, pokud akumulace zůstane upřímná.",
-            "highFreq": "Vysoká frekvence zůstává opatrnou volbou při ucházející regeneraci."
+            "highFreq": "Vysoká frekvence zůstává opatrnou volbou při ucházející regeneraci.",
+            "recomp": "Ucházející regenerace sedí železné rekompozici středním tempem.",
+            "sustainable": "Udržitelné vysekání zůstává kompatibilní s ucházející regenerací."
           },
           "good": {
             "highFreq": "Dobrá regenerace odemyká vyšší tréninkovou frekvenci.",
             "conjugate": "Dobrá regenerace podporuje max-effort / dynamic rotaci.",
             "block": "Dobrá regenerace snese koncentrované zatížení.",
-            "hybrid": "Dobrá regenerace podporuje dual stress síla/hypertrofie."
+            "hybrid": "Dobrá regenerace podporuje dual stress síla/hypertrofie.",
+            "golden": "Dobrá regenerace podporuje hypertrofický objem Zlaté éry.",
+            "aggressive": "Dobrá regenerace může podpořit agresivnější protokol řezu.",
+            "strongman": "Dobrá regenerace podporuje strongman základ + stress disciplín."
           }
         }
+      },
+      "page": {
+        "eyebrow": "Programový průvodce",
+        "title": "Najdi svůj program",
+        "lead": "Pět otázek. Transparentní skórování. Primární a sekundární volba z celého katalogu — s důvody, které si přečteš, ne černá skříňka.",
+        "browseCatalog": "Raději procházet katalog?",
+        "metaTitle": "Najdi svůj tréninkový program",
+        "metaDescription": "Odpověz na pět otázek a získej transparentní vážené doporučení napříč našimi silovými programy — powerlifting, kulturistika, strongman, specifické cviky a transformace. Ne AI, ne falešný nedostatek."
       }
     },
     "onboarding": {

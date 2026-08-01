@@ -7,6 +7,7 @@ import {
   Dumbbell,
   FileSearch,
   Flag,
+  Flame,
   GraduationCap,
   LayoutGrid,
   Library,
@@ -135,10 +136,34 @@ export const SITE_NAV_CATEGORIES: readonly SiteNavCategory[] = [
             icon: Flag,
           },
           {
+            href: "/programs?category=bodybuilding",
+            label: "Bodybuilding",
+            description: "Aesthetics and muscle volume",
+            icon: Target,
+          },
+          {
+            href: "/programs?category=transformation",
+            label: "Body transformation",
+            description: "Aggressive fat loss and recomposition",
+            icon: Flame,
+          },
+          {
+            href: "/programs?category=strongman",
+            label: "Strongman",
+            description: "Raw static strength and events",
+            icon: Award,
+          },
+          {
+            href: "/programs?category=lift_specific",
+            label: "Lift specific",
+            description: "Specialize squat, bench, or pull",
+            icon: Wrench,
+          },
+          {
             href: "/programs?goal=hypertrophy",
             label: "Hypertrophy",
             description: "Muscle-oriented hybrids",
-            icon: Target,
+            icon: LayoutGrid,
           },
           {
             href: "/programs?goal=competition_prep",

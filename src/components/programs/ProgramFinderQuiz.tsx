@@ -6,6 +6,7 @@ import { ArrowRight, ArrowLeft } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/design-system/utils/cn";
 import {
+  familyHasFreeTrial,
   freeProductSlugForFamily,
   paidProductSlugForFamily,
   scoreProgramFinder,
@@ -311,20 +312,31 @@ export function ProgramFinderQuiz() {
           </section>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href={`/programs/start/${freeProductSlugForFamily(result.primary.familyId)}${
-                weakest && weakest !== "none" ? `?weakest=${weakest}` : ""
-              }`}
-              className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
-            >
-              {t("startFree")}
-              <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-            </Link>
+            {familyHasFreeTrial(result.primary.familyId) &&
+            freeProductSlugForFamily(result.primary.familyId) ? (
+              <Link
+                href={`/programs/start/${freeProductSlugForFamily(result.primary.familyId)}${
+                  weakest && weakest !== "none" ? `?weakest=${weakest}` : ""
+                }`}
+                className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              >
+                {t("startFree")}
+                <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+              </Link>
+            ) : null}
             <Link
               href={`/programs/${paidProductSlugForFamily(result.primary.familyId)}`}
-              className="inline-flex min-h-12 flex-1 items-center justify-center border border-[var(--color-border-strong)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-foreground)] transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
+              className={cn(
+                "inline-flex min-h-12 flex-1 items-center justify-center gap-2 px-5 text-sm font-bold uppercase tracking-[0.08em] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+                familyHasFreeTrial(result.primary.familyId)
+                  ? "border border-[var(--color-border-strong)] text-[var(--color-foreground)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  : "rounded-sm bg-[var(--color-accent)] text-[var(--color-accent-foreground)] hover:bg-[var(--color-accent-hover)]",
+              )}
             >
               {t("viewFull")}
+              {!familyHasFreeTrial(result.primary.familyId) ? (
+                <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+              ) : null}
             </Link>
           </div>
 
