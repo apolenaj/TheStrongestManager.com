@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { CalculatorTool } from "@/components/calculator-suite/CalculatorTool";
 import { Estimated1rmExperience } from "@/components/calculator-suite/Estimated1rmExperience";
+import { RelativeStrengthExperience } from "@/components/calculator-suite/RelativeStrengthExperience";
 import { MarketingContainer } from "@/components/marketing/MarketingContainer";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { PageIntro } from "@/components/ui/PageIntro";
@@ -54,6 +55,20 @@ export async function generateMetadata({
       },
     };
   }
+  if (slug === "dots") {
+    const t = await getTranslations("Tool_RelativeStrength");
+    return {
+      title: t("title"),
+      description: t("subtitle"),
+      alternates: { canonical: "/tools/dots" },
+      openGraph: {
+        title: t("title"),
+        description: t("subtitle"),
+        url: "/tools/dots",
+        type: "article",
+      },
+    };
+  }
   const calc = resolveIndexableCalculator(slug);
   if (!calc) {
     return {
@@ -98,6 +113,29 @@ export default async function CalculatorPage({ params }: PageProps) {
       <>
         <JsonLdScript data={jsonLd} />
         <Estimated1rmExperience />
+      </>
+    );
+  }
+
+  if (slug === "dots") {
+    const t = await getTranslations("Tool_RelativeStrength");
+    const path = "/tools/dots";
+    const jsonLd = [
+      articleJsonLd({
+        headline: t("title"),
+        description: t("subtitle"),
+        path,
+      }),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Tools", path: "/tools" },
+        { name: t("title"), path },
+      ]),
+    ];
+    return (
+      <>
+        <JsonLdScript data={jsonLd} />
+        <RelativeStrengthExperience />
       </>
     );
   }

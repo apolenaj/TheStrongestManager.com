@@ -5,6 +5,7 @@
  */
 
 import type { ProgramFamilyContent } from "./content";
+import { PROGRAM_FAMILY_CONTENT_EXPANDED_CS } from "@/domain/program-catalog/content-expanded";
 
 export const PROGRAM_FAMILY_CONTENT_CS: Record<
   string,
@@ -182,9 +183,9 @@ export const PROGRAM_FAMILY_CONTENT_CS: Record<
   },
   "conjugate-strength-system": {
     familyId: "conjugate-strength-system",
-    displayName: "Conjugate silový systém",
+    displayName: "Konjugovaný silový systém",
     tagline:
-      "Rotace max-effort a dynamic-effort metod se speciálními cviky pro pokročilé silové sportovce.",
+      "Maximální úsilí, dynamické úsilí a variabilní odpor pro prolomení stagnace.",
     whoFor: [
       "Pokročilé lifery, kteří zvládnou vysokou neurologickou zátěž",
       "Silové trojbojaře, kteří potřebují variabilitu, aby soutěžní cviky zůstaly zdravé",
@@ -409,5 +410,9 @@ export function getProgramFamilyContentCs(
   familyId: string | null | undefined,
 ): (Omit<ProgramFamilyContent, "familyId"> & { familyId: string }) | null {
   if (!familyId) return null;
-  return PROGRAM_FAMILY_CONTENT_CS[familyId] ?? null;
+  return (
+    PROGRAM_FAMILY_CONTENT_EXPANDED_CS[familyId] ??
+    PROGRAM_FAMILY_CONTENT_CS[familyId] ??
+    null
+  );
 }

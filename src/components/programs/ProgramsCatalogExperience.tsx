@@ -10,6 +10,16 @@ import type { PublicProgramProduct } from "@/domain/program-catalog";
 import { getProgramFamilyContent } from "@/domain/program-catalog/content";
 import { ProgramCard, type ProgramCardModel } from "@/components/programs/ProgramCard";
 
+const CATEGORY_IDS = [
+  "all",
+  "powerlifting",
+  "bodybuilding",
+  "strongman",
+  "lift_specific",
+  "transformation",
+  "athletic",
+  "weightlifting",
+] as const;
 const PRICE_IDS = ["all", "free", "paid"] as const;
 const GOAL_IDS = [
   "all",
@@ -30,6 +40,7 @@ const METHOD_IDS = [
 ] as const;
 const DAYS_IDS = ["all", "3day", "4day", "5day", "6day"] as const;
 
+type CategoryId = (typeof CATEGORY_IDS)[number];
 type PriceId = (typeof PRICE_IDS)[number];
 type GoalId = (typeof GOAL_IDS)[number];
 type MethodId = (typeof METHOD_IDS)[number];
@@ -65,6 +76,7 @@ function buildFamilyCards(
       difficulty: primary.difficulty,
       recoveryDemand: primary.recoveryDemand,
       availableSchedules: primary.availableSchedules,
+      category: primary.category,
       paid,
       free: free && free.slug !== paid?.slug ? free : null,
     });
@@ -254,6 +266,14 @@ export function ProgramsCatalogExperience({
     GOAL_IDS.includes(goalFromUrl as GoalId) ? goalFromUrl : "all"
   ) as GoalId;
 
+  const categoryFromUrl = searchParams.get("category");
+  const initialCategoryId = (
+    CATEGORY_IDS.includes(categoryFromUrl as CategoryId)
+      ? categoryFromUrl
+      : "all"
+  ) as CategoryId;
+
+  const [category, setCategory] = useState<CategoryId>(initialCategoryId);
   const [price, setPrice] = useState<PriceId>("all");
   const [goal, setGoal] = useState<GoalId>(initialGoalId);
   const [method, setMethod] = useState<MethodId>("all");
@@ -263,8 +283,14 @@ export function ProgramsCatalogExperience({
     setGoal(initialGoalId);
   }, [initialGoalId]);
 
+  useEffect(() => {
+    setCategory(initialCategoryId);
+  }, [initialCategoryId]);
+
   const filtered = useMemo(() => {
     return allCards.filter((card) => {
+      if (category !== "all" && card.category !== category) return false;
+
       if (price === "free" && !card.free) return false;
       if (price === "paid" && !card.paid) return false;
 
@@ -290,7 +316,27 @@ export function ProgramsCatalogExperience({
 
       return true;
     });
-  }, [allCards, price, goal, method, days]);
+  }, [allCards, category, price, goal, method, days]);
+
+  const categoryOptions = CATEGORY_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.cat_all")
+        : id === "powerlifting"
+          ? t("filters.cat_powerlifting")
+          : id === "bodybuilding"
+            ? t("filters.cat_bodybuilding")
+            : id === "strongman"
+              ? t("filters.cat_strongman")
+              : id === "lift_specific"
+                ? t("filters.cat_lift_specific")
+                : id === "transformation"
+                  ? t("filters.cat_transformation")
+                  : id === "athletic"
+                    ? t("filters.cat_athletic")
+                    : t("filters.cat_weightlifting"),
+  }));
 
   const priceOptions = PRICE_IDS.map((id) => ({
     id,
@@ -372,31 +418,39 @@ export function ProgramsCatalogExperience({
           </p>
         </div>
 
-        <div className="mt-6 grid gap-6 border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 space-y-6 border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5">
           <FilterChipGroup
-            legend={t("filters.price")}
-            value={price}
-            options={priceOptions}
-            onChange={setPrice}
+            legend={t("filters.category")}
+            value={category}
+            options={categoryOptions}
+            onChange={setCategory}
           />
-          <FilterChipGroup
-            legend={t("filters.goal")}
-            value={goal}
-            options={goalOptions}
-            onChange={setGoal}
-          />
-          <FilterChipGroup
-            legend={t("filters.method")}
-            value={method}
-            options={methodOptions}
-            onChange={setMethod}
-          />
-          <FilterChipGroup
-            legend={t("filters.days")}
-            value={days}
-            options={daysOptions}
-            onChange={setDays}
-          />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <FilterChipGroup
+              legend={t("filters.price")}
+              value={price}
+              options={priceOptions}
+              onChange={setPrice}
+            />
+            <FilterChipGroup
+              legend={t("filters.goal")}
+              value={goal}
+              options={goalOptions}
+              onChange={setGoal}
+            />
+            <FilterChipGroup
+              legend={t("filters.method")}
+              value={method}
+              options={methodOptions}
+              onChange={setMethod}
+            />
+            <FilterChipGroup
+              legend={t("filters.days")}
+              value={days}
+              options={daysOptions}
+              onChange={setDays}
+            />
+          </div>
         </div>
 
         {filtered.length === 0 ? (

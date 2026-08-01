@@ -15,16 +15,17 @@ import {
   ESTIMATED_1RM_FORMULAS,
   attemptPlannerRefusalReason,
   computeAttemptPlan,
-  computeDots,
   computeEstimated1rm,
   computePlateLoading,
+  computeRelativeStrength,
   computeTrainingMax,
   computeVolume,
-  dotsRefusalReason,
   plateCalculatorRefusalReason,
+  relativeStrengthRefusalReason,
   trainingMaxRefusalReason,
   type CalculatorId,
   type Estimated1rmFormula,
+  type RelativeStrengthFormula,
 } from "@/domain/calculator-suite";
 import type { AttemptLift, AttemptRiskPreference } from "@/domain/attempt-selector";
 import type { DotsSex } from "@/domain/calculator-suite";
@@ -205,76 +206,99 @@ function PlateForm() {
   );
 }
 
+const rsFieldClass =
+  "mt-1 w-full border border-[var(--color-border)] bg-zinc-900 px-3 py-2.5 text-[var(--color-foreground)] outline-none transition-colors focus:border-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]";
+
 function DotsForm() {
+  const t = useTranslations("Tool_RelativeStrength");
+  const [formula, setFormula] = useState<RelativeStrengthFormula>("ipf_gl");
   const [sex, setSex] = useState<DotsSex>("male");
   const [bw, setBw] = useState("83");
   const [total, setTotal] = useState("550");
   const input = {
+    formula,
     sex,
     bodyweightKg: num(bw),
     totalKg: num(total),
   };
-  const refusal = dotsRefusalReason(input);
-  const result = refusal ? null : computeDots(input);
+  const refusalKey = relativeStrengthRefusalReason(input);
+  const result = refusalKey ? null : computeRelativeStrength(input);
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Label htmlFor="dots-sex">Coefficients</Label>
+          <Label htmlFor="rs-formula">{t("label_formula")}</Label>
           <Select
-            id="dots-sex"
-            value={sex}
-            onChange={(e) => setSex(e.target.value as DotsSex)}
-            className="mt-1"
+            id="rs-formula"
+            value={formula}
+            onChange={(e) =>
+              setFormula(e.target.value as RelativeStrengthFormula)
+            }
+            className={rsFieldClass}
           >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="ipf_gl">{t("formula_ipf_gl")}</option>
+            <option value="dots">{t("formula_dots")}</option>
           </Select>
         </div>
         <div>
-          <Label htmlFor="dots-bw">Bodyweight (kg)</Label>
+          <Label htmlFor="rs-sex">{t("label_gender")}</Label>
+          <Select
+            id="rs-sex"
+            value={sex}
+            onChange={(e) => setSex(e.target.value as DotsSex)}
+            className={rsFieldClass}
+          >
+            <option value="male">{t("gender_male")}</option>
+            <option value="female">{t("gender_female")}</option>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="rs-bw">{t("label_bw")}</Label>
           <Input
-            id="dots-bw"
+            id="rs-bw"
             type="number"
             min={1}
             step={0.1}
             value={bw}
             onChange={(e) => setBw(e.target.value)}
-            className="mt-1"
+            className={rsFieldClass}
           />
         </div>
         <div>
-          <Label htmlFor="dots-total">Total (kg)</Label>
+          <Label htmlFor="rs-total">{t("label_total")}</Label>
           <Input
-            id="dots-total"
+            id="rs-total"
             type="number"
             min={1}
             step={0.5}
             value={total}
             onChange={(e) => setTotal(e.target.value)}
-            className="mt-1"
+            className={rsFieldClass}
           />
         </div>
       </div>
-      {refusal ? (
-        <Alert tone="warning" title="Cannot compute">
-          {refusal}
+      {refusalKey ? (
+        <Alert tone="warning" title={t("refuse_title")}>
+          {t(refusalKey)}
         </Alert>
       ) : result ? (
-        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-2">
-          <p className="font-[family-name:var(--font-display)] text-3xl">
-            {result.displayDots}{" "}
-            <span className="text-base text-[var(--color-muted)]">DOTS</span>
+        <div className="space-y-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-zinc-900/80 p-4">
+          <p className="font-[family-name:var(--font-heading)] text-3xl font-black tracking-normal">
+            {result.displayScore}{" "}
+            <span className="text-base font-normal text-[var(--color-muted)]">
+              {t(result.unitKey)}
+            </span>
           </p>
           {result.bodyweightClamped ? (
             <p className="text-sm text-[var(--color-muted)]">
-              Bodyweight clamped to {result.bodyweightUsedKg} kg for the published
-              curve.
+              {t("clamped", { kg: result.bodyweightUsedKg })}
             </p>
           ) : null}
-          <p className="text-xs text-[var(--color-muted)]">{result.citation}</p>
-          <p className="text-xs text-[var(--color-muted)]">{result.precisionNote}</p>
+          <p className="text-xs text-[var(--color-muted)]">
+            {t(formula === "ipf_gl" ? "cite_ipf_gl" : "cite_dots")}
+          </p>
+          <p className="text-xs text-[var(--color-muted)]">{t("disclaimer")}</p>
         </div>
       ) : null}
     </div>

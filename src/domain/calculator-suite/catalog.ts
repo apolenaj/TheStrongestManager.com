@@ -107,16 +107,16 @@ export const CALCULATOR_DEFINITIONS: readonly CalculatorDefinition[] = [
   },
   {
     slug: "dots",
-    title: "DOTS calculator",
-    shortLabel: "DOTS",
+    title: "Relative Strength Calculator",
+    shortLabel: "DOTS / IPF GL",
     description:
-      "Compute a DOTS score from total and bodyweight with cited OpenPowerlifting coefficients.",
+      "Compute your relative strength score using DOTS or official IPF GL Points.",
     overview:
-      "Relative strength scores only belong in the product when the formula is cited and correct. This calculator implements DOTS with OpenPowerlifting coefficients and bodyweight clamps — not invented numbers. Wilks and IPF GL Points stay deferred. Use DOTS to compare totals across bodyweights, then track SBD and meet prep in Powerlifting Mode.",
+      "Relative strength scores only belong in the product when the formula is cited and correct. This calculator implements DOTS with OpenPowerlifting coefficients and IPF GL Points for Classic/Raw lifting. Use these to compare totals across bodyweights.",
     precisionNote:
-      "DOTS is a published relative-strength curve, not a placing and not IPF GL Points. Federations may use other formulas.",
+      "DOTS compares totals across bodyweights using the OpenPowerlifting curve. IPF GL is the official formula used by the International Powerlifting Federation. Federations may use different rules.",
     formulaCitation:
-      "DOTS (OpenPowerlifting / Tim Rohr, 2020): total × 500 / (A + B·bw + C·bw² + D·bw³ + E·bw⁴).",
+      "DOTS: total × 500 / polynomial(bw). IPF GL Classic: total × (100 / (A − B × e^(−C × bw))).",
     uniqueValueKey: "calc:dots-v1",
     primaryCta: { href: "/app/powerlifting", label: "Open Powerlifting Mode" },
     productLinks: [
@@ -143,12 +143,12 @@ export const CALCULATOR_DEFINITIONS: readonly CalculatorDefinition[] = [
       {
         question: "Is this the same as IPF GL Points?",
         answer:
-          "No. IPF competitions use IPF GL Points. DOTS is a separate OpenPowerlifting formula used widely for rankings.",
+          "Yes — choose IPF GL (Classic) for the official IPF formula. DOTS remains available as the OpenPowerlifting curve.",
       },
       {
         question: "Do you compute Wilks?",
         answer:
-          "Not in this suite. We only ship formulas we can cite correctly — DOTS first.",
+          "Not in this suite. We ship DOTS and IPF GL Classic — formulas we can cite correctly.",
       },
     ],
   },

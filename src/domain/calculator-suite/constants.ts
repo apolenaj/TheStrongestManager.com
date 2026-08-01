@@ -8,7 +8,7 @@ export const CALCULATOR_SUITE_ENGINE_VERSION = "calculator_suite.v1" as const;
 export const CALCULATOR_SUITE_HONESTY = [
   "Calculator outputs are planning aids, not guarantees, medical advice, or federation placings.",
   "Estimated 1RM, training max, and attempt sketches use published or coaching conventions — expect error, especially far from singles.",
-  "DOTS uses cited OpenPowerlifting coefficients; Wilks and IPF GL Points are not computed here.",
+  "DOTS uses cited OpenPowerlifting coefficients; IPF GL Classic uses official IPF coefficients. Wilks is not computed here.",
   "Plate math assumes ideal paired plates and stated bar weight — gym inventory and collars can differ.",
   "Every calculator links into real product features so numbers become logged training, not orphan tools.",
 ] as const;

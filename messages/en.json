@@ -292,7 +292,7 @@
     },
     "catalog": {
       "title": "Training systems",
-      "lead": "Filter by goal, method, and schedule. Prices stay published — no urgency theater.",
+      "lead": "Filter by category, goal, method, and schedule. Prices stay published — no urgency theater.",
       "count": "{count, plural, =1 {# system} other {# systems}}",
       "empty": "No programs match these filters. Clear a filter to widen the set — we do not invent listings to fill the grid."
     },
@@ -321,7 +321,16 @@
       "days3": "3 days",
       "days4": "4 days",
       "days5": "5 days",
-      "days6": "6 days"
+      "days6": "6 days",
+      "category": "Category",
+      "cat_all": "All",
+      "cat_powerlifting": "Powerlifting",
+      "cat_bodybuilding": "Bodybuilding",
+      "cat_strongman": "Strongman",
+      "cat_lift_specific": "Lift Specific",
+      "cat_transformation": "Body Transformation",
+      "cat_athletic": "Athletic & Dynamic",
+      "cat_weightlifting": "Weightlifting"
     },
     "card": {
       "duration": "Duration",
@@ -932,9 +941,9 @@
     "calc_plate_title": "Plate calculator",
     "calc_plate_desc": "Load a bar to a target weight with paired metric plates — then run the session in Today.",
     "calc_plate_disc": "Assumes paired plates and the stated bar. Inventory and collar weight are not modeled.",
-    "calc_dots_title": "DOTS calculator",
-    "calc_dots_desc": "Compute a DOTS score from total and bodyweight with cited OpenPowerlifting coefficients.",
-    "calc_dots_disc": "DOTS is a published relative-strength curve, not a placing and not IPF GL Points. Federations may use other formulas.",
+    "calc_dots_title": "Relative Strength",
+    "calc_dots_desc": "Compute your relative strength score using DOTS or official IPF GL Points.",
+    "calc_dots_disc": "DOTS and IPF GL Classic — cited formulas for comparing totals across bodyweights.",
     "calc_vol_title": "Volume calculator",
     "calc_vol_desc": "Sum tonnage from load × reps × sets — then compare to the week you actually log.",
     "calc_vol_disc": "Tonnage ≠ stimulus quality. Proximity to failure, exercise choice, and recovery are not in the formula.",
@@ -970,5 +979,31 @@
     "formula_cite_brzycki": "Brzycki: w × (36 / (37 − r))",
     "formula_cite_lombardi": "Lombardi: w × r^0.10",
     "formula_cite_oconner": "O'Conner: w × (1 + 0.025 × r)"
+  },
+  "Tool_RelativeStrength": {
+    "title": "Relative Strength Calculator",
+    "subtitle": "Compute your relative strength score using DOTS or official IPF GL Points.",
+    "btn_mode": "Open Powerlifting Mode",
+    "btn_all": "All calculators",
+    "body_text": "Relative strength scores only belong in the product when the formula is cited and correct. This calculator implements DOTS with OpenPowerlifting coefficients and IPF GL Points for Classic/Raw lifting. Use these to compare totals across bodyweights.",
+    "calc_title": "Calculator",
+    "label_formula": "Formula",
+    "formula_dots": "DOTS",
+    "formula_ipf_gl": "IPF GL (Classic)",
+    "label_gender": "Gender",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "label_bw": "Bodyweight (kg)",
+    "label_total": "Total (kg)",
+    "disclaimer": "DOTS compares totals across bodyweights using the OpenPowerlifting curve. IPF GL is the official formula used by the International Powerlifting Federation. Federations may use different rules.",
+    "refuse_title": "Cannot compute",
+    "refuse_sex": "Select male or female — coefficients are sex-specific.",
+    "refuse_bw": "Enter a positive bodyweight in kilograms.",
+    "refuse_total": "Enter a positive total (squat + bench + deadlift) in kilograms.",
+    "unit_dots": "DOTS",
+    "unit_ipf_gl": "IPF GL",
+    "clamped": "Bodyweight clamped to {kg} kg for the published DOTS curve.",
+    "cite_dots": "DOTS (OpenPowerlifting / Tim Rohr, 2020): total × 500 / (A + B·bw + C·bw² + D·bw³ + E·bw⁴).",
+    "cite_ipf_gl": "IPF GL (Classic/Raw): total × (100 / (A − B × e^(−C × bw)))."
   }
 }

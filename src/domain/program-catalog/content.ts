@@ -4,6 +4,10 @@
  */
 
 import { PROGRAM_FAMILY_CONTENT_CS } from "@/domain/program-catalog/content-cs";
+import {
+  PROGRAM_FAMILY_CONTENT_EXPANDED,
+  PROGRAM_FAMILY_CONTENT_EXPANDED_CS,
+} from "@/domain/program-catalog/content-expanded";
 
 export type ProgramStructurePhase = {
   label: string;
@@ -22,7 +26,7 @@ export type ProgramFamilyContent = {
   faq: { question: string; answer: string }[];
 };
 
-export const PROGRAM_FAMILY_CONTENT: Record<string, ProgramFamilyContent> = {
+const PROGRAM_FAMILY_CONTENT_CORE: Record<string, ProgramFamilyContent> = {
   "linear-strength-builder": {
     familyId: "linear-strength-builder",
     displayName: "Linear Strength Builder",
@@ -193,7 +197,7 @@ export const PROGRAM_FAMILY_CONTENT: Record<string, ProgramFamilyContent> = {
     familyId: "conjugate-strength-system",
     displayName: "Conjugate Strength System",
     tagline:
-      "Max-effort and dynamic-effort rotation with special-exercise variation for advanced strength athletes.",
+      "Max effort, dynamic effort, and accommodating resistance to break plateaus.",
     whoFor: [
       "Advanced lifters who tolerate high neurological demand",
       "Powerlifters who need variation to keep competition lifts healthy",
@@ -414,6 +418,11 @@ export const PROGRAM_FAMILY_CONTENT: Record<string, ProgramFamilyContent> = {
   },
 };
 
+export const PROGRAM_FAMILY_CONTENT: Record<string, ProgramFamilyContent> = {
+  ...PROGRAM_FAMILY_CONTENT_CORE,
+  ...PROGRAM_FAMILY_CONTENT_EXPANDED,
+};
+
 export function getProgramFamilyContent(
   familyId: string | null | undefined,
   locale: string = "en",
@@ -421,6 +430,7 @@ export function getProgramFamilyContent(
   if (!familyId) return null;
   if (locale === "cs") {
     return (
+      PROGRAM_FAMILY_CONTENT_EXPANDED_CS[familyId] ??
       PROGRAM_FAMILY_CONTENT_CS[familyId] ??
       PROGRAM_FAMILY_CONTENT[familyId] ??
       null

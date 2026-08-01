@@ -4,7 +4,9 @@ import {
   computeAttemptPlan,
   computeDots,
   computeEstimated1rm,
+  computeIpfGlClassic,
   computePlateLoading,
+  computeRelativeStrength,
   computeTrainingMax,
   computeVolume,
   evaluateCalculatorQuality,
@@ -74,17 +76,35 @@ describe("calculator suite", () => {
     expect(odd?.remainderKg).toBeGreaterThan(0);
   });
 
-  it("computes cited DOTS without inventing Wilks", () => {
-    const result = computeDots({
+  it("computes cited DOTS and IPF GL Classic", () => {
+    const dots = computeDots({
       sex: "male",
       bodyweightKg: 100,
       totalKg: 700,
     });
-    expect(result).not.toBeNull();
-    expect(result!.displayDots).toBeGreaterThan(400);
-    expect(result!.displayDots).toBeLessThan(460);
-    expect(result!.citation).toMatch(/OpenPowerlifting/i);
-    expect(result!.precisionNote).toMatch(/not IPF GL/i);
+    expect(dots).not.toBeNull();
+    expect(dots!.displayDots).toBeGreaterThan(400);
+    expect(dots!.displayDots).toBeLessThan(460);
+    expect(dots!.citation).toMatch(/OpenPowerlifting/i);
+
+    const gl = computeIpfGlClassic({
+      sex: "male",
+      bodyweightKg: 83,
+      totalKg: 700,
+    });
+    expect(gl).not.toBeNull();
+    expect(gl!.formula).toBe("ipf_gl");
+    expect(gl!.displayScore).toBeGreaterThan(80);
+    expect(gl!.citation).toMatch(/IPF GL/i);
+
+    const viaUnified = computeRelativeStrength({
+      formula: "ipf_gl",
+      sex: "female",
+      bodyweightKg: 63,
+      totalKg: 400,
+    });
+    expect(viaUnified?.unitKey).toBe("unit_ipf_gl");
+    expect(viaUnified!.displayScore).toBeGreaterThan(50);
   });
 
   it("sums volume tonnage and sketches attempts + training max", () => {

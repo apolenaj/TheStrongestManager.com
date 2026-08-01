@@ -3,7 +3,7 @@
  * Source: OpenPowerlifting / Tim Rohr DOTS (2020) polynomial form.
  * Bodyweight is clamped to the published usable ranges.
  *
- * Wilks and IPF GL Points are intentionally not implemented here.
+ * IPF GL Classic lives in relative-strength.ts. Wilks is not implemented here.
  */
 
 export type DotsSex = "male" | "female";

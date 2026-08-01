@@ -18,8 +18,18 @@ export {
 } from "@/domain/program-catalog/catalog";
 
 export {
+  PROGRAM_CATALOG_CATEGORIES,
+  PROGRAM_FAMILY_DEFAULT_CATEGORY,
+  categoryForFamily,
+  isProgramCatalogCategory,
+  type ProgramCatalogCategory,
+} from "@/domain/program-catalog/categories";
+
+export {
   toPublicProgramProduct,
   toEntitledProgramProduct,
+  mergeCatalogWithSeed,
+  seedToPublicProgramProduct,
   type PublicProgramProduct,
   type PublicProgramDetail,
   type PublicProgramVersionSummary,

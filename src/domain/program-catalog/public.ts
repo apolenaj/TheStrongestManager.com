@@ -3,7 +3,15 @@
  * Never expose stripePriceId or unpublished drafts on public surfaces.
  */
 
-import { seedDefinitionBySlug } from "@/domain/program-catalog/catalog";
+import {
+  PROGRAM_CATALOG_SEED,
+  seedDefinitionBySlug,
+  type ProgramCatalogSeedDefinition,
+} from "@/domain/program-catalog/catalog";
+import {
+  categoryForFamily,
+  type ProgramCatalogCategory,
+} from "@/domain/program-catalog/categories";
 
 export type PublicProgramProduct = {
   id: string;
@@ -22,6 +30,8 @@ export type PublicProgramProduct = {
   familyId: string | null;
   variant: "free" | "paid" | "bundle" | null;
   goals: string[];
+  /** High-level marketing category for catalog filters. */
+  category: ProgramCatalogCategory;
   /** Related product ids when this is a bundle (never Stripe ids). */
   bundleProductIds: string[];
 };
@@ -62,8 +72,67 @@ type ProductRow = {
   bundleIds: string[];
 };
 
+function categoryFromSeed(
+  seed: ProgramCatalogSeedDefinition | undefined,
+  familyId: string | null,
+): ProgramCatalogCategory {
+  return categoryForFamily(familyId ?? seed?.familyId ?? "", null);
+}
+
+export function seedToPublicProgramProduct(
+  seed: ProgramCatalogSeedDefinition,
+): PublicProgramProduct {
+  return {
+    id: `seed:${seed.slug}`,
+    slug: seed.slug,
+    name: seed.name,
+    description: seed.description,
+    methodId: seed.methodId,
+    durationWeeks: seed.durationWeeks,
+    availableSchedules: [...seed.availableSchedules],
+    difficulty: seed.difficulty,
+    recoveryDemand: seed.recoveryDemand,
+    isFree: seed.isFree,
+    defaultCurrency: "gbp",
+    displayPrice: seed.displayPricePence,
+    familyId: seed.familyId,
+    variant: seed.variant,
+    goals: [...seed.goals],
+    category: categoryForFamily(seed.familyId, null),
+    bundleProductIds: [],
+  };
+}
+
+/**
+ * Overlay seed taxonomy onto DB rows and append seed-only products so the
+ * expanded catalog appears before / without a full DB re-seed.
+ */
+export function mergeCatalogWithSeed(
+  programs: PublicProgramProduct[],
+): PublicProgramProduct[] {
+  const bySlug = new Map(programs.map((p) => [p.slug, p]));
+  const merged = programs.map((p) => {
+    const seed = seedDefinitionBySlug(p.slug);
+    if (!seed) return p;
+    return {
+      ...p,
+      familyId: seed.familyId,
+      variant: seed.variant,
+      goals: [...seed.goals],
+      category: categoryForFamily(seed.familyId, null),
+    };
+  });
+  for (const seed of PROGRAM_CATALOG_SEED) {
+    if (!bySlug.has(seed.slug)) {
+      merged.push(seedToPublicProgramProduct(seed));
+    }
+  }
+  return merged;
+}
+
 function mapProductRow(row: ProductRow): PublicProgramProduct {
   const seed = seedDefinitionBySlug(row.slug);
+  const familyId = seed?.familyId ?? null;
   return {
     id: row.id,
     slug: row.slug,
@@ -77,9 +146,10 @@ function mapProductRow(row: ProductRow): PublicProgramProduct {
     isFree: row.isFree,
     defaultCurrency: row.defaultCurrency,
     displayPrice: row.displayPrice,
-    familyId: seed?.familyId ?? null,
+    familyId,
     variant: seed?.variant ?? null,
     goals: seed ? [...seed.goals] : [],
+    category: categoryFromSeed(seed, familyId),
     bundleProductIds: row.bundleIds,
   };
 }

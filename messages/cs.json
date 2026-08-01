@@ -292,7 +292,7 @@
     },
     "catalog": {
       "title": "Tréninkové systémy",
-      "lead": "Filtruj podle cíle, metody a rozpisu. Ceny zůstávají zveřejněné — žádné urgency divadlo.",
+      "lead": "Filtruj podle kategorie, cíle, metody a rozpisu. Ceny zůstávají zveřejněné — žádné urgency divadlo.",
       "count": "{count, plural, =1 {# systém} other {# systémů}}",
       "empty": "Žádný program neodpovídá filtrům. Uvolni filtr a rozšiř výběr — nevymýšlíme listingy, abychom zaplnili mřížku."
     },
@@ -321,7 +321,16 @@
       "days3": "3 dny",
       "days4": "4 dny",
       "days5": "5 dnů",
-      "days6": "6 dnů"
+      "days6": "6 dnů",
+      "category": "Kategorie",
+      "cat_all": "Vše",
+      "cat_powerlifting": "Powerlifting",
+      "cat_bodybuilding": "Kulturistika",
+      "cat_strongman": "Strongman",
+      "cat_lift_specific": "Specifické cviky",
+      "cat_transformation": "Transformace těla",
+      "cat_athletic": "Atletika a dynamika",
+      "cat_weightlifting": "Vzpírání"
     },
     "card": {
       "duration": "Délka",
@@ -932,9 +941,9 @@
     "calc_plate_title": "Kalkulačka kotoučů",
     "calc_plate_desc": "Nalož osu na cílovou váhu pomocí spárovaných metrických kotoučů — a pak odjeď trénink v sekci Dnes.",
     "calc_plate_disc": "Počítá se spárovanými kotouči a zvolenou osou. Inventář a váha uzávěrů nejsou zahrnuty.",
-    "calc_dots_title": "DOTS kalkulačka",
-    "calc_dots_desc": "Vypočítej si skóre DOTS z totalu a tělesné váhy pomocí ověřených koeficientů z OpenPowerlifting.",
-    "calc_dots_disc": "DOTS je veřejná křivka relativní síly, nejedná se o umístění ani IPF GL body. Federace mohou používat jiné vzorce.",
+    "calc_dots_title": "Relativní síla",
+    "calc_dots_desc": "Vypočítej si skóre relativní síly pomocí DOTS nebo oficiálních IPF GL bodů.",
+    "calc_dots_disc": "DOTS a IPF GL Classic — ověřené vzorce pro porovnání totálů napříč váhovými kategoriemi.",
     "calc_vol_title": "Kalkulačka objemu",
     "calc_vol_desc": "Sečti si tonáž ze vzorce zátěž × opakování × série — a pak ji porovnej s týdnem, který reálně odjedeš.",
     "calc_vol_disc": "Tonáž ≠ kvalita stimulu. Blízkost k selhání, výběr cviků a regenerace nejsou ve vzorci zahrnuty.",
@@ -970,5 +979,31 @@
     "formula_cite_brzycki": "Brzycki: w × (36 / (37 − r))",
     "formula_cite_lombardi": "Lombardi: w × r^0.10",
     "formula_cite_oconner": "O'Conner: w × (1 + 0.025 × r)"
+  },
+  "Tool_RelativeStrength": {
+    "title": "Kalkulačka relativní síly",
+    "subtitle": "Vypočítej si skóre relativní síly pomocí DOTS nebo oficiálních IPF GL bodů.",
+    "btn_mode": "Otevřít Powerlifting Režim",
+    "btn_all": "Všechny kalkulačky",
+    "body_text": "Skóre relativní síly má smysl jen tehdy, když používá přesné vzorce. Tato kalkulačka využívá DOTS koeficienty z OpenPowerlifting a oficiální IPF GL body pro Classic/Raw trojboj. Použij je pro porovnání výkonů napříč váhovými kategoriemi.",
+    "calc_title": "Kalkulačka",
+    "label_formula": "Vzorec",
+    "formula_dots": "DOTS",
+    "formula_ipf_gl": "IPF GL (Classic)",
+    "label_gender": "Pohlaví",
+    "gender_male": "Muž",
+    "gender_female": "Žena",
+    "label_bw": "Tělesná váha (kg)",
+    "label_total": "Total (kg)",
+    "disclaimer": "Výpočet používá oficiální koeficienty. IPF GL body jsou standardem pro IPF a přidružené federace, DOTS se používá primárně na OpenPowerlifting.",
+    "refuse_title": "Nelze spočítat",
+    "refuse_sex": "Vyber muž nebo žena — koeficienty jsou specifické podle pohlaví.",
+    "refuse_bw": "Zadej kladnou tělesnou váhu v kilogramech.",
+    "refuse_total": "Zadej kladný total (dřep + bench + mrtvý tah) v kilogramech.",
+    "unit_dots": "DOTS",
+    "unit_ipf_gl": "IPF GL",
+    "clamped": "Tělesná váha oříznuta na {kg} kg pro publikovanou DOTS křivku.",
+    "cite_dots": "DOTS (OpenPowerlifting / Tim Rohr, 2020): total × 500 / (A + B·bw + C·bw² + D·bw³ + E·bw⁴).",
+    "cite_ipf_gl": "IPF GL (Classic/Raw): total × (100 / (A − B × e^(−C × bw)))."
   }
 }

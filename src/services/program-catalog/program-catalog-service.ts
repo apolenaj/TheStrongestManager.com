@@ -9,12 +9,15 @@ import {
   type ProgramCatalogSchedule,
 } from "@/domain/program-catalog/catalog";
 import {
+  mergeCatalogWithSeed,
+  seedToPublicProgramProduct,
   toEntitledProgramProduct,
   toPublicProgramProduct,
   type PublicEntitlement,
   type PublicProgramDetail,
   type PublicProgramProduct,
 } from "@/domain/program-catalog/public";
+import { seedDefinitionBySlug } from "@/domain/program-catalog/catalog";
 
 export type ProgramCatalogListFilters = {
   goal?: ProgramCatalogGoal;
@@ -132,9 +135,11 @@ export async function listPublicProgramCatalog(raw: {
     },
   });
 
-  const programs = rows
-    .map(toPublicProgramProduct)
-    .filter((p): p is PublicProgramProduct => p !== null);
+  const programs = mergeCatalogWithSeed(
+    rows
+      .map(toPublicProgramProduct)
+      .filter((p): p is PublicProgramProduct => p !== null),
+  );
 
   return { ok: true, programs };
 }
@@ -188,7 +193,17 @@ export async function getPublicProgramBySlug(
   });
 
   if (!row) {
-    return { ok: false, error: "not_found", message: "Program not found." };
+    const seed = seedDefinitionBySlug(slug);
+    if (!seed) {
+      return { ok: false, error: "not_found", message: "Program not found." };
+    }
+    return {
+      ok: true,
+      program: {
+        ...seedToPublicProgramProduct(seed),
+        versions: [],
+      },
+    };
   }
 
   const product = toPublicProgramProduct(row);

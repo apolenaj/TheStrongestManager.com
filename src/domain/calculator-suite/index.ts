@@ -57,6 +57,19 @@ export {
 } from "@/domain/calculator-suite/formulas/dots";
 export type { DotsSex } from "@/domain/calculator-suite/formulas/dots";
 export {
+  RELATIVE_STRENGTH_FORMULAS,
+  IPF_GL_CLASSIC_COEFFICIENTS,
+  IPF_GL_CITATION,
+  computeIpfGlClassic,
+  computeRelativeStrength,
+  relativeStrengthRefusalReason,
+} from "@/domain/calculator-suite/formulas/relative-strength";
+export type {
+  RelativeStrengthFormula,
+  RelativeStrengthInput,
+  RelativeStrengthResult,
+} from "@/domain/calculator-suite/formulas/relative-strength";
+export {
   computeVolume,
   computeSetTonnageKg,
 } from "@/domain/calculator-suite/formulas/volume";

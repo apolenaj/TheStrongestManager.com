@@ -16,6 +16,7 @@ export type ProgramCardModel = {
   difficulty: string;
   recoveryDemand: string;
   availableSchedules: string[];
+  category: string;
   paid: PublicProgramProduct | null;
   free: PublicProgramProduct | null;
 };
