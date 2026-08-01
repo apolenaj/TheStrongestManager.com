@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { Alert, Badge, EmptyState } from "@/design-system";
+import { formatLocalizedMoney } from "@/domain/money";
 import {
   PROGRAM_MARKETPLACE_DIFFICULTIES,
   PROGRAM_MARKETPLACE_DIFFICULTY_LABELS,
@@ -11,11 +13,12 @@ import {
 import type { ProgramMarketplaceBrowseView } from "@/services/program-marketplace";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 
-export function ProgramMarketplaceBrowse({
+export async function ProgramMarketplaceBrowse({
   view,
 }: {
   view: ProgramMarketplaceBrowseView;
 }) {
+  const locale = await getLocale();
   if (view.showComingSoon) {
     return (
       <div className="grid gap-6">
@@ -133,7 +136,11 @@ export function ProgramMarketplaceBrowse({
                     : " · No verified ratings yet"}
                 </p>
                 <p className="mt-2 text-sm font-medium">
-                  ${(listing.priceCents / 100).toFixed(2)} {listing.currency}
+                  {formatLocalizedMoney(
+                    listing.priceCents,
+                    listing.currency,
+                    locale,
+                  )}
                 </p>
               </Link>
             </li>

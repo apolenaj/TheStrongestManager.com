@@ -26,7 +26,10 @@ describe("program finder scoring", () => {
     expect(a.primary.familyId).toBe(b.primary.familyId);
     expect(a.primary.score).toBe(b.primary.score);
     expect(a.primary.reasons.length).toBeGreaterThan(0);
-    expect(a.honesty.toLowerCase()).toContain("not ai");
+    expect(a.honesty).toBe("transparent_weighted_score");
+    expect(a.primary.reasons.every((r) => typeof r.key === "string")).toBe(
+      true,
+    );
   });
 
   it("prefers high-frequency for advanced powerlifters with many days and good recovery", () => {

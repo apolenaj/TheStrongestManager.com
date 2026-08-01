@@ -278,10 +278,12 @@ export function orgPriceForInterval(
 export function formatOrgPriceLabel(
   plan: OrgPlanDefinition,
   interval: BillingInterval,
+  locale: string = "en",
 ): string {
   const price = orgPriceForInterval(plan, interval);
   if (!price) return "Price not published";
-  return `${formatMoneyCents(price.amountCents)} / ${interval === "annual" ? "year" : "month"}`;
+  const period = interval === "annual" ? "year" : "month";
+  return `${formatMoneyCents(price.amountCents, price.currency ?? "usd", locale)} / ${period}`;
 }
 
 /** Plans strictly above current tier — for upgrade UI. */

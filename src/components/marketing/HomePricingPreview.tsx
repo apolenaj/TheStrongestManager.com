@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { ButtonLink } from "@/design-system";
 import { HomeSection } from "@/components/marketing/HomeSection";
 import {
@@ -5,8 +6,10 @@ import {
   listPublicPlans,
 } from "@/domain/billing";
 
-export function HomePricingPreview() {
+export async function HomePricingPreview() {
+  const locale = await getLocale();
   const tiers = listPublicPlans().filter((p) => p.id !== "elite_coaching");
+  const moSuffix = locale === "cs" ? "/měs." : "/mo";
 
   return (
     <HomeSection
@@ -27,8 +30,8 @@ export function HomePricingPreview() {
             </h3>
             <p className="mt-2 font-[family-name:var(--font-display)] text-lg tabular-nums text-[var(--color-foreground)]">
               {tier.monthly
-                ? `${formatMoneyCents(tier.monthly.amountCents)}/mo`
-                : "$0"}
+                ? `${formatMoneyCents(tier.monthly.amountCents, "usd", locale)}${moSuffix}`
+                : formatMoneyCents(0, "usd", locale)}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
               {tier.tagline}

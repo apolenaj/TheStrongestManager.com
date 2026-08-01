@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect, type CSSProperties } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/design-system/utils/cn";
 import type { PublicProgramProduct } from "@/domain/program-catalog";
@@ -35,7 +35,10 @@ type GoalId = (typeof GOAL_IDS)[number];
 type MethodId = (typeof METHOD_IDS)[number];
 type DaysId = (typeof DAYS_IDS)[number];
 
-function buildFamilyCards(programs: PublicProgramProduct[]): ProgramCardModel[] {
+function buildFamilyCards(
+  programs: PublicProgramProduct[],
+  locale: string,
+): ProgramCardModel[] {
   const byFamily = new Map<string, PublicProgramProduct[]>();
   for (const program of programs) {
     const familyId = program.familyId ?? program.slug;
@@ -53,7 +56,7 @@ function buildFamilyCards(programs: PublicProgramProduct[]): ProgramCardModel[] 
     const free = items.find((p) => p.isFree || p.variant === "free") ?? null;
     const primary = paid ?? free;
     if (!primary) continue;
-    const content = getProgramFamilyContent(familyId);
+    const content = getProgramFamilyContent(familyId, locale);
     cards.push({
       familyId,
       name: content?.displayName ?? primary.name.replace(/ \(Free 4-Week\)$/i, ""),
@@ -239,8 +242,12 @@ export function ProgramsCatalogExperience({
   programs,
 }: ProgramsCatalogExperienceProps) {
   const t = useTranslations("ProgramsPage");
+  const locale = useLocale();
   const searchParams = useSearchParams();
-  const allCards = useMemo(() => buildFamilyCards(programs), [programs]);
+  const allCards = useMemo(
+    () => buildFamilyCards(programs, locale),
+    [programs, locale],
+  );
 
   const goalFromUrl = searchParams.get("goal");
   const initialGoalId = (

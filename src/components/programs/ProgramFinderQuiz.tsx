@@ -3,13 +3,15 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/design-system/utils/cn";
 import {
   freeProductSlugForFamily,
   paidProductSlugForFamily,
-  programFinderFamilyLabel,
   scoreProgramFinder,
   type ProgramFinderAnswers,
+  type ProgramFinderFamilyId,
+  type ProgramFinderReason,
   PROGRAM_FINDER_DAYS,
   PROGRAM_FINDER_EXPERIENCE,
   PROGRAM_FINDER_GOALS,
@@ -29,38 +31,6 @@ const STEPS = [
 
 type Step = (typeof STEPS)[number];
 
-const GOAL_OPTIONS = [
-  { id: "strength", label: "Build strength", hint: "General strength progress" },
-  { id: "powerlifting", label: "Powerlifting", hint: "Squat, bench, deadlift focus" },
-  { id: "hypertrophy", label: "Strength + muscle", hint: "Powerbuilding bias" },
-  { id: "competition_prep", label: "Competition prep", hint: "Meet or test date ahead" },
-  { id: "general_strength", label: "General fitness strength", hint: "Stay strong without meet pressure" },
-] as const;
-
-const EXP_OPTIONS = [
-  { id: "beginner", label: "Beginner", hint: "Still building consistent basics" },
-  { id: "intermediate", label: "Intermediate", hint: "Progress needs structure" },
-  { id: "advanced", label: "Advanced", hint: "High training literacy" },
-] as const;
-
-const DAYS_OPTIONS = PROGRAM_FINDER_DAYS.map((d) => ({
-  id: d,
-  label: `${d} days / week`,
-}));
-
-const WEAK_OPTIONS = [
-  { id: "squat", label: "Squat" },
-  { id: "bench", label: "Bench" },
-  { id: "deadlift", label: "Deadlift" },
-  { id: "none", label: "No clear weak lift" },
-] as const;
-
-const RECOVERY_OPTIONS = [
-  { id: "poor", label: "Poor", hint: "Sleep/stress currently limited" },
-  { id: "okay", label: "Okay", hint: "Manageable most weeks" },
-  { id: "good", label: "Good", hint: "You recover reliably" },
-] as const;
-
 function ChoiceGrid<T extends string>({
   legend,
   value,
@@ -79,21 +49,20 @@ function ChoiceGrid<T extends string>({
       </legend>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
-          const active = value === option.id;
+          const selected = value === option.id;
           return (
             <button
               key={option.id}
               type="button"
-              aria-pressed={active}
               onClick={() => onChange(option.id)}
               className={cn(
-                "min-h-14 border px-4 py-4 text-left transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
-                active
-                  ? "border-[var(--color-accent)] bg-[var(--color-accent-muted)]"
-                  : "border-[var(--color-border)] bg-[var(--color-surface-elevated)] hover:border-[var(--color-border-strong)]",
+                "min-h-14 border px-4 py-3 text-left transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]",
+                selected
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-foreground)]"
+                  : "border-[var(--color-border)] bg-[var(--color-surface-elevated)] text-[var(--color-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-foreground)]",
               )}
             >
-              <span className="block text-sm font-semibold text-[var(--color-foreground)]">
+              <span className="block text-sm font-semibold uppercase tracking-[0.06em]">
                 {option.label}
               </span>
               {option.hint ? (
@@ -110,6 +79,8 @@ function ChoiceGrid<T extends string>({
 }
 
 export function ProgramFinderQuiz() {
+  const locale = useLocale();
+  const t = useTranslations("ProgramsPage.finderQuiz");
   const [stepIndex, setStepIndex] = useState(0);
   const [goal, setGoal] = useState<ProgramFinderAnswers["goal"] | null>(null);
   const [experience, setExperience] = useState<
@@ -130,6 +101,45 @@ export function ProgramFinderQuiz() {
     if (!goal || !experience || !days || !weakest || !recovery) return null;
     return scoreProgramFinder({ goal, experience, days, weakest, recovery });
   }, [goal, experience, days, weakest, recovery]);
+
+  const goalOptions = PROGRAM_FINDER_GOALS.map((id) => ({
+    id,
+    label: t(`goals.${id}.label`),
+    hint: t(`goals.${id}.hint`),
+  }));
+
+  const expOptions = PROGRAM_FINDER_EXPERIENCE.map((id) => ({
+    id,
+    label: t(`exp.${id}.label`),
+    hint: t(`exp.${id}.hint`),
+  }));
+
+  const daysOptions = PROGRAM_FINDER_DAYS.map((d) => ({
+    id: d,
+    label: t("daysPerWeek", { days: d }),
+  }));
+
+  const weakOptions = PROGRAM_FINDER_WEAKEST.map((id) => ({
+    id,
+    label: t(`weak.${id}`),
+  }));
+
+  const recoveryOptions = PROGRAM_FINDER_RECOVERY.map((id) => ({
+    id,
+    label: t(`recovery.${id}.label`),
+    hint: t(`recovery.${id}.hint`),
+  }));
+
+  function familyLabel(familyId: ProgramFinderFamilyId): string {
+    return t(`families.${familyId}`);
+  }
+
+  function formatReason(reason: ProgramFinderReason): string {
+    const liftLabel = reason.lift ? t(`weak.${reason.lift}`) : undefined;
+    return t(`reasons.${reason.key}` as Parameters<typeof t>[0], {
+      lift: liftLabel ?? "",
+    });
+  }
 
   function canAdvance(): boolean {
     if (step === "goal") return goal != null;
@@ -158,7 +168,7 @@ export function ProgramFinderQuiz() {
       {step !== "result" ? (
         <div className="mb-8">
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
-            Question {progress} of 5
+            {t("questionProgress", { current: progress, total: 5 })}
           </p>
           <div
             className="mt-3 h-1 overflow-hidden bg-[var(--color-surface-elevated)]"
@@ -177,9 +187,9 @@ export function ProgramFinderQuiz() {
 
       {step === "goal" ? (
         <ChoiceGrid
-          legend="What is your primary goal?"
+          legend={t("goalLegend")}
           value={goal}
-          options={GOAL_OPTIONS}
+          options={goalOptions}
           onChange={(id) => {
             if ((PROGRAM_FINDER_GOALS as readonly string[]).includes(id)) {
               setGoal(id);
@@ -189,9 +199,9 @@ export function ProgramFinderQuiz() {
       ) : null}
       {step === "experience" ? (
         <ChoiceGrid
-          legend="What is your experience level?"
+          legend={t("experienceLegend")}
           value={experience}
-          options={EXP_OPTIONS}
+          options={expOptions}
           onChange={(id) => {
             if ((PROGRAM_FINDER_EXPERIENCE as readonly string[]).includes(id)) {
               setExperience(id);
@@ -201,17 +211,17 @@ export function ProgramFinderQuiz() {
       ) : null}
       {step === "days" ? (
         <ChoiceGrid
-          legend="How many days can you train?"
+          legend={t("daysLegend")}
           value={days}
-          options={DAYS_OPTIONS}
+          options={daysOptions}
           onChange={setDays}
         />
       ) : null}
       {step === "weakest" ? (
         <ChoiceGrid
-          legend="What is your weakest lift?"
+          legend={t("weakestLegend")}
           value={weakest}
-          options={WEAK_OPTIONS}
+          options={weakOptions}
           onChange={(id) => {
             if ((PROGRAM_FINDER_WEAKEST as readonly string[]).includes(id)) {
               setWeakest(id);
@@ -221,9 +231,9 @@ export function ProgramFinderQuiz() {
       ) : null}
       {step === "recovery" ? (
         <ChoiceGrid
-          legend="How is your recovery right now?"
+          legend={t("recoveryLegend")}
           value={recovery}
-          options={RECOVERY_OPTIONS}
+          options={recoveryOptions}
           onChange={(id) => {
             if ((PROGRAM_FINDER_RECOVERY as readonly string[]).includes(id)) {
               setRecovery(id);
@@ -236,35 +246,40 @@ export function ProgramFinderQuiz() {
         <div className="space-y-10 animate-[fade-up_0.45s_var(--easing-standard)_both]">
           <div>
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
-              Recommendation
+              {t("recommendation")}
             </p>
             <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)] sm:text-4xl">
-              {programFinderFamilyLabel(result.primary.familyId)}
+              {familyLabel(result.primary.familyId)}
             </h2>
             <p className="mt-3 text-sm text-[var(--color-muted)]">
-              Score {result.primary.score} · Secondary:{" "}
-              {programFinderFamilyLabel(result.secondary.familyId)} (score{" "}
-              {result.secondary.score})
+              {t("scoreLine", {
+                score: result.primary.score,
+                secondary: familyLabel(result.secondary.familyId),
+                secondaryScore: result.secondary.score,
+              })}
             </p>
             <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-              {getProgramFamilyContent(result.primary.familyId)?.tagline}
+              {
+                getProgramFamilyContent(result.primary.familyId, locale)
+                  ?.tagline
+              }
             </p>
             <p className="mt-4 border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-xs leading-relaxed text-[var(--color-subtle)]">
-              {result.honesty}
+              {t("honesty")}
             </p>
           </div>
 
           <section>
             <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-              Why this was recommended
+              {t("whyTitle")}
             </h3>
             <ul className="mt-4 space-y-3">
               {result.primary.reasons.map((reason) => (
                 <li
-                  key={reason}
+                  key={`${reason.key}-${reason.lift ?? ""}`}
                   className="border-l-2 border-[var(--color-accent)] pl-4 text-sm leading-relaxed text-[var(--color-muted)]"
                 >
-                  {reason}
+                  {formatReason(reason)}
                 </li>
               ))}
             </ul>
@@ -272,15 +287,18 @@ export function ProgramFinderQuiz() {
 
           <section className="border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-5">
             <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-foreground)]">
-              Secondary option
+              {t("secondaryTitle")}
             </h3>
             <p className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-              {programFinderFamilyLabel(result.secondary.familyId)}
+              {familyLabel(result.secondary.familyId)}
             </p>
             <ul className="mt-3 space-y-2">
               {result.secondary.reasons.slice(0, 4).map((reason) => (
-                <li key={reason} className="text-sm text-[var(--color-muted)]">
-                  · {reason}
+                <li
+                  key={`${reason.key}-${reason.lift ?? ""}-sec`}
+                  className="text-sm text-[var(--color-muted)]"
+                >
+                  · {formatReason(reason)}
                 </li>
               ))}
             </ul>
@@ -288,7 +306,7 @@ export function ProgramFinderQuiz() {
               href={`/programs/${paidProductSlugForFamily(result.secondary.familyId)}`}
               className="mt-4 inline-flex text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
             >
-              View secondary program
+              {t("viewSecondary")}
             </Link>
           </section>
 
@@ -299,14 +317,14 @@ export function ProgramFinderQuiz() {
               }`}
               className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Start 4 weeks free
+              {t("startFree")}
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
             </Link>
             <Link
               href={`/programs/${paidProductSlugForFamily(result.primary.familyId)}`}
               className="inline-flex min-h-12 flex-1 items-center justify-center border border-[var(--color-border-strong)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-foreground)] transition-colors duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              View full program
+              {t("viewFull")}
             </Link>
           </div>
 
@@ -322,7 +340,7 @@ export function ProgramFinderQuiz() {
             }}
             className="text-sm text-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-foreground)] hover:underline"
           >
-            Retake quiz
+            {t("retake")}
           </button>
         </div>
       ) : null}
@@ -336,7 +354,7 @@ export function ProgramFinderQuiz() {
             className="inline-flex min-h-11 items-center gap-2 px-3 text-sm text-[var(--color-muted)] transition-colors disabled:opacity-40 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-            Back
+            {t("back")}
           </button>
           <button
             type="button"
@@ -344,7 +362,7 @@ export function ProgramFinderQuiz() {
             disabled={!canAdvance()}
             className="inline-flex min-h-12 items-center gap-2 rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors duration-200 hover:bg-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
           >
-            {step === "recovery" ? "See recommendation" : "Continue"}
+            {step === "recovery" ? t("seeRecommendation") : t("continue")}
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} aria-hidden />
           </button>
         </div>

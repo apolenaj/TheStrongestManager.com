@@ -2,7 +2,9 @@
 
 import { useActionState, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { Alert, Badge, Button, Label } from "@/design-system";
+import { formatLocalizedMoney } from "@/domain/money";
 import type { ProgramListingCard } from "@/services/program-marketplace";
 import {
   purchaseProgramListingAction,
@@ -29,6 +31,7 @@ export function ProgramListingPreviewPanel({
   copyrightProtection: readonly string[];
   isSignedIn: boolean;
 }) {
+  const locale = useLocale();
   const router = useRouter();
   const [purchasePending, startPurchase] = useTransition();
   const [purchaseMessage, setPurchaseMessage] = useState<string | null>(null);
@@ -56,7 +59,11 @@ export function ProgramListingPreviewPanel({
             : " · No verified ratings yet"}
         </p>
         <p className="text-lg font-medium">
-          ${(listing.priceCents / 100).toFixed(2)} {listing.currency}
+          {formatLocalizedMoney(
+            listing.priceCents,
+            listing.currency,
+            locale,
+          )}
         </p>
       </header>
 

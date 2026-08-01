@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useLocale } from "next-intl";
 import {
   Alert,
   Badge,
@@ -10,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/design-system";
+import { formatLocalizedMoney } from "@/domain/money";
 import type { PublicCoachDetail } from "@/services/marketplace";
 import {
   requestConsultationAction,
@@ -25,6 +27,7 @@ export function CoachProfileDetail({
 }: {
   coach: PublicCoachDetail;
 }) {
+  const locale = useLocale();
   const [state, action, pending] = useActionState(
     requestConsultationAction,
     initial,
@@ -77,7 +80,11 @@ export function CoachProfileDetail({
         <p className="text-sm">
           {coach.pricing.label ||
             (coach.pricing.amountCents != null
-              ? `${(coach.pricing.amountCents / 100).toFixed(0)} ${coach.pricing.currency ?? ""} / ${coach.pricing.billingPeriod ?? "session"}`
+              ? `${formatLocalizedMoney(
+                  coach.pricing.amountCents,
+                  coach.pricing.currency ?? "usd",
+                  locale,
+                )} / ${coach.pricing.billingPeriod ?? "session"}`
               : "Pricing on request")}
         </p>
         {coach.availability.notes ? (

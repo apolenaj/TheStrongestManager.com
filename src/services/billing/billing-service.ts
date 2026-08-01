@@ -82,8 +82,9 @@ function buildCta(
 
 /**
  * Public pricing page model — catalog-driven, no dark patterns.
+ * Pass `locale` so list prices render in CZK on the Czech site.
  */
-export function getPricingPageView(): PricingTierView {
+export function getPricingPageView(locale: string = "en"): PricingTierView {
   const provider = getActiveBillingProvider();
   const stripeEnv = readStripeEnvConfig();
   const checkoutEnabled =
@@ -97,20 +98,25 @@ export function getPricingPageView(): PricingTierView {
       ? `${provider.label} checkout is configured.`
       : `${provider.label} adapter status: ${provider.status}. List prices are from the central catalog; checkout does not invent charges.`;
 
+  const moSuffix = locale === "cs" ? "/měs." : "/mo";
+  const yrSuffix = locale === "cs" ? "/rok" : "/yr";
+
   const tiers = listPublicPlans().map((plan) => {
     const savings = annualSavingsCents(plan);
     return {
       plan,
       monthlyLabel: plan.monthly
-        ? `${formatMoneyCents(plan.monthly.amountCents)}/mo`
+        ? `${formatMoneyCents(plan.monthly.amountCents, "usd", locale)}${moSuffix}`
         : plan.id === "free"
-          ? "$0"
+          ? formatMoneyCents(0, "usd", locale)
           : null,
       annualLabel: plan.annual
-        ? `${formatMoneyCents(plan.annual.amountCents)}/yr`
+        ? `${formatMoneyCents(plan.annual.amountCents, "usd", locale)}${yrSuffix}`
         : null,
       annualSavingsLabel: savings
-        ? `Save ${formatMoneyCents(savings)} vs 12× monthly`
+        ? locale === "cs"
+          ? `Ušetři ${formatMoneyCents(savings, "usd", locale)} oproti 12× měsíčně`
+          : `Save ${formatMoneyCents(savings, "usd", locale)} vs 12× monthly`
         : null,
       limitsSummary: [
         `Technique analyses / month: ${formatLimit(plan.limits.techniqueAnalysesPerMonth)}`,

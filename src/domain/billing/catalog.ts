@@ -4,6 +4,8 @@
  * Do not hard-code prices in marketing components.
  */
 
+import { formatLocalizedMoney } from "@/domain/money/format-localized";
+
 export const BILLING_INTERVALS = ["monthly", "annual"] as const;
 export type BillingInterval = (typeof BILLING_INTERVALS)[number];
 
@@ -285,13 +287,10 @@ export function normalizePlanId(raw: string | null | undefined): PlanId {
 
 export function formatMoneyCents(
   amountCents: number,
-  currency: "usd" = "usd",
+  currency: string = "usd",
+  locale: string = "en",
 ): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: amountCents % 100 === 0 ? 0 : 2,
-  }).format(amountCents / 100);
+  return formatLocalizedMoney(amountCents, currency, locale);
 }
 
 /** Honest annual savings vs 12× monthly — null if not applicable. */

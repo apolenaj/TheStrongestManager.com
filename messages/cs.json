@@ -357,6 +357,243 @@
       "methodBlock": "Bloková periodizace",
       "methodConjugate": "Conjugate",
       "methodHighFreq": "Vysokofrekvenční trénink"
+    },
+    "detail": {
+      "startFree": "Spustit 4 týdny zdarma",
+      "tryFree": "Vyzkoušet 4 týdny zdarma",
+      "findProgram": "Najdi svůj program",
+      "buyFull": "Koupit plný program · {price}",
+      "viewFull": "Zobrazit plný program",
+      "bundle": "Balíček",
+      "freeStarter": "Startér zdarma",
+      "duration": "Délka",
+      "price": "Cena",
+      "recovery": "Regenerace",
+      "level": "Úroveň",
+      "weeks": "{weeks} týdnů",
+      "schedules": "Rozpisy",
+      "publishedPricing": "Zveřejněná launch cena — žádná countdown scarcity.",
+      "whoFor": "Pro koho to je",
+      "whoNot": "Kdo by to neměl používat",
+      "structure": "Struktura programu",
+      "structureLead": "Náhled záměru fází — váhy uprav podle regenerace.",
+      "compare": "Srovnání zdarma vs plný",
+      "feature": "Funkce",
+      "freeCol": "4 týdny zdarma",
+      "fullCol": "Plný program",
+      "faq": "FAQ",
+      "ctaTitle": "Připraven trénovat s účelem",
+      "ctaBody": "Začni free blokem, pokud je k dispozici, nebo otevři plný cyklus, až budeš připravený se zavázat.",
+      "backCatalog": "Zpět do katalogu",
+      "legendaryPromo": "Studuj legendární metody za těmito systémy",
+      "legendaryPromoBody": "Vzdělávací analýzy historických tréninkových přístupů — principy, ne celebrity cosplay."
+    },
+    "finderQuiz": {
+      "questionProgress": "Otázka {current} z {total}",
+      "goalLegend": "Jaký je tvůj primární cíl?",
+      "experienceLegend": "Jaká je tvoje úroveň zkušeností?",
+      "daysLegend": "Kolik dní týdně můžeš trénovat?",
+      "weakestLegend": "Jaký je tvůj nejslabší cvik?",
+      "recoveryLegend": "Jaká je teď tvoje regenerace?",
+      "recommendation": "Doporučení",
+      "scoreLine": "Skóre {score} · Sekundární: {secondary} (skóre {secondaryScore})",
+      "whyTitle": "Proč toto doporučení",
+      "secondaryTitle": "Sekundární volba",
+      "viewSecondary": "Zobrazit sekundární program",
+      "startFree": "Spustit 4 týdny zdarma",
+      "viewFull": "Zobrazit plný program",
+      "retake": "Zopakovat kvíz",
+      "back": "Zpět",
+      "continue": "Pokračovat",
+      "seeRecommendation": "Zobrazit doporučení",
+      "daysPerWeek": "{days} dny / týden",
+      "honesty": "Toto doporučení je transparentní vážené skóre z tvých odpovědí — ne AI, ne garance a ne personalizovaný koučink.",
+      "goals": {
+        "strength": {
+          "label": "Budovat sílu",
+          "hint": "Obecný silový pokrok"
+        },
+        "powerlifting": {
+          "label": "Powerlifting",
+          "hint": "Dřep, bench, mrtvý tah"
+        },
+        "hypertrophy": {
+          "label": "Síla + svaly",
+          "hint": "Powerbuilding bias"
+        },
+        "competition_prep": {
+          "label": "Příprava na závody",
+          "hint": "Blížící se závod nebo test"
+        },
+        "general_strength": {
+          "label": "Obecná fitness síla",
+          "hint": "Zůstaň silný bez tlaku závodu"
+        }
+      },
+      "exp": {
+        "beginner": {
+          "label": "Začátečník",
+          "hint": "Stále buduješ konzistentní základy"
+        },
+        "intermediate": {
+          "label": "Středně pokročilý",
+          "hint": "Progres potřebuje strukturu"
+        },
+        "advanced": {
+          "label": "Pokročilý",
+          "hint": "Vysoká tréninková gramotnost"
+        }
+      },
+      "weak": {
+        "squat": "Dřep",
+        "bench": "Bench",
+        "deadlift": "Mrtvý tah",
+        "none": "Žádný jasný slabý cvik"
+      },
+      "recovery": {
+        "poor": {
+          "label": "Špatná",
+          "hint": "Spánek/stres teď limitují"
+        },
+        "okay": {
+          "label": "Ucházející",
+          "hint": "Většinu týdnů zvládnutelné"
+        },
+        "good": {
+          "label": "Dobrá",
+          "hint": "Regeneruješ spolehlivě"
+        }
+      },
+      "families": {
+        "linear-strength-builder": "Lineární silový systém",
+        "dup-powerlifting-system": "DUP systém silového trojboje",
+        "block-periodisation": "Bloková periodizace",
+        "conjugate-strength-system": "Conjugate silový systém",
+        "high-frequency-sbd": "Vysokofrekvenční SBD",
+        "powerbuilding-hybrid": "Powerbuilding hybrid"
+      },
+      "reasons": {
+        "goal": {
+          "strength": {
+            "linear": "Primární cíl je obecná síla — lineární progrese sedí jasně.",
+            "dup": "DUP stále podporuje sílu s týdenní variací.",
+            "hybrid": "Powerbuilding drží sílu primárně s doplňkovým objemem."
+          },
+          "powerlifting": {
+            "dup": "Cíl silového trojboje favorizuje undulující důraz na SBD.",
+            "highFreq": "Vysokofrekvenční SBD zvyšuje praxi závodních cviků.",
+            "conjugate": "Conjugate je pokročilá volba orientovaná na powerlifting.",
+            "block": "Blokové řazení sedí strukturované přípravě na trojboj."
+          },
+          "hypertrophy": {
+            "hybrid": "Priorita hypertrofie mapuje na powerbuilding hybrid.",
+            "dup": "DUP zahrnuje hypertroficky orientované dny v týdnu.",
+            "linear": "Lineární stále buduje základ síly, který podporuje svalovou práci."
+          },
+          "comp": {
+            "block": "Příprava na závody favorizuje sekvenci akumulace → realizace.",
+            "dup": "DUP umí peakovat k závodu s rostoucí specificitou.",
+            "conjugate": "Conjugate může později v cyklu zvýšit specificitu."
+          }
+        },
+        "exp": {
+          "beginner": {
+            "linear": "Začátečnická zkušenost skóruje nejvýš na jednoduché lineární struktuře.",
+            "hybrid": "Hybrid je použitelný později; lineární je bezpečnější jako první.",
+            "conjugate": "Conjugate je pro začátečníky penalizovaný.",
+            "highFreq": "Vysoká frekvence je penalizovaná, dokud nejsou technika a regenerace ověřené.",
+            "block": "Skutečná bloková koncentrace je pro začátečníky obvykle zbytečná."
+          },
+          "intermediate": {
+            "dup": "Středně pokročilí často dobře reagují na týdenní undulaci.",
+            "hybrid": "Středně pokročilí zvládnou dual focus síla + hypertrofie.",
+            "block": "Bloky dávají smysl, až když progress už není automatický.",
+            "linear": "Lineární zůstává životaschopný, pokud preferuješ jednoduchost."
+          },
+          "advanced": {
+            "conjugate": "Pokročilí zvládnou ME/DE rotaci.",
+            "highFreq": "Pokročilá gramotnost regenerace podporuje vyšší frekvenci.",
+            "block": "Koncentrované bloky sedí pokročilým přípravným oknům.",
+            "dup": "DUP zůstává silnou pokročilou powerlifting volbou.",
+            "linear": "Dlouhé exkluzivní lineární fáze skórují níž pro pokročilé."
+          }
+        },
+        "days": {
+          "3": {
+            "linear": "3 tréninkové dny sedí soustředěné lineární šabloně.",
+            "dup": "DUP má jasný 3denní SBD split.",
+            "highFreq": "Vysokofrekvenční SBD potřebuje víc než 3 dny, aby dávalo smysl.",
+            "conjugate": "Klasická conjugate struktura očekává 4denní týden."
+          },
+          "4": {
+            "dup": "4 dny jsou silný DUP rozpis.",
+            "conjugate": "4 dny sedí conjugate ME/DE layoutu.",
+            "block": "4 dny podporují koncentrované blokové zatížení.",
+            "hybrid": "4 dny nechávají prostor pro doplňky.",
+            "highFreq": "4 dny mohou spustit zmírněný vysokofrekvenční plán."
+          },
+          "5": {
+            "highFreq": "5 dnů podporuje časté SBD expozice.",
+            "hybrid": "5 dnů sedí objemu síla + hypertrofie.",
+            "block": "5denní bloky umožňují dedicované emphasis jednotky.",
+            "conjugate": "Extra den může držet práci se speciálními cviky."
+          },
+          "6": {
+            "highFreq": "6 dnů je nejjasnější match pro vysokofrekvenční SBD.",
+            "hybrid": "6 dnů může fungovat, pokud řídíš regeneraci.",
+            "linear": "6 dnů obvykle přesahuje, co jednoduchý lineární plán potřebuje."
+          }
+        },
+        "weak": {
+          "conjugate": "Slabý {lift} favorizuje conjugate variaci speciálních cviků.",
+          "dup": "Slabý {lift} může dostat extra důraz uvnitř undulujících dnů.",
+          "highFreq": "Slabý {lift} těží z častějších tréninkových expozic.",
+          "none": "Žádný jednotlivý slabý cvik — vyvážená lineární práce je v pořádku."
+        },
+        "rec": {
+          "poor": {
+            "linear": "Špatná regenerace favorizuje nižší komplexitu a jasnější kontrolu únavy.",
+            "dup": "DUP může zůstat umírněný, pokud je RPE zastropované.",
+            "highFreq": "Vysoká frekvence je při špatné regeneraci silně penalizovaná.",
+            "conjugate": "Conjugate max-effort stres špatně sedí nízké regeneraci.",
+            "block": "Akumulační bloky jsou rizikové, když je regenerace už teď špatná.",
+            "hybrid": "Hybridní doplňkový objem přidává únavu při omezené regeneraci."
+          },
+          "okay": {
+            "dup": "Ucházející regenerace podporuje umírněný undulující stres.",
+            "linear": "Ucházející regenerace sedí jednoduchému progressive overload.",
+            "hybrid": "Hybrid je použitelný s pečlivým dávkováním doplňků.",
+            "block": "Bloky jsou možné, pokud akumulace zůstane upřímná.",
+            "highFreq": "Vysoká frekvence zůstává opatrnou volbou při ucházející regeneraci."
+          },
+          "good": {
+            "highFreq": "Dobrá regenerace odemyká vyšší tréninkovou frekvenci.",
+            "conjugate": "Dobrá regenerace podporuje max-effort / dynamic rotaci.",
+            "block": "Dobrá regenerace snese koncentrované zatížení.",
+            "hybrid": "Dobrá regenerace podporuje dual stress síla/hypertrofie."
+          }
+        }
+      }
+    },
+    "onboarding": {
+      "signInTitle": "Přihlas se a spusť zdarma",
+      "signInBody": "Vytvoř nebo se přihlas do účtu, abychom uložili preferovaný rozpis, tréninková maxima a první týden pro {product}.",
+      "logIn": "Přihlásit se a pokračovat",
+      "setupTitle": "Nastavení programu zdarma",
+      "setupBody": "Týden 1 vygenerujeme z rozpisu a volitelných 1RM. Nereálná maxima odmítneme — žádné vymyšlené váhy.",
+      "schedule": "Preferovaný rozpis",
+      "scheduleDays": "{days} dny / týden",
+      "units": "Jednotky",
+      "kg": "Kilogramy",
+      "lb": "Libry",
+      "oneRmTitle": "Aktuální 1RM (volitelné)",
+      "oneRmHelp": "Nech prázdné, pokud neznáš. Hodnoty musí být realistické pro zvolenou jednotku. Tréninková maxima nastavíme na ~90 % zadaných 1RM.",
+      "squat": "Dřep",
+      "bench": "Bench",
+      "deadlift": "Mrtvý tah",
+      "competitionDate": "Datum závodu / testu (volitelné)",
+      "submit": "Vygenerovat týden 1 a spustit",
+      "submitting": "Generuji týden 1…"
     }
   },
   "Dashboard": {
@@ -538,15 +775,103 @@
       "contentLayers": {
         "documented_historical": "Dokumentované historické informace",
         "independent_analysis": "Nezávislá analýza The Strongest",
-        "modernised_adaptation": "Modernizovaná originální adaptace"
+        "modernised_adaptation": "Originální modernizovaná adaptace"
       },
       "editorialLabels": {
         "documented": "Dokumentované informace",
         "reconstructed": "Rekonstruováno z veřejných zdrojů",
         "analysis": "Analýza The Strongest",
-        "modernised-example": "Originální modernizovaný příklad",
+        "modernised-example": "Originální modernizovaná adaptace",
         "limited-evidence": "Omezená evidence",
         "conflicting-information": "Konfliktní veřejné informace"
+      },
+      "notScored": "Nehodnoceno",
+      "justificationPending": "Odůvodnění čeká — skóre se publikují se sourced analýzou.",
+      "distributionEmpty": "Distribuční vizualizace se objeví, až budou sourced data o podílech.",
+      "shareAria": "Podíl {label}",
+      "citedSources": "Citované zdroje:",
+      "trainingDays": "Tréninkové dny",
+      "exerciseFrequency": "Frekvence cviků",
+      "progression": "Progrese",
+      "recovery": "Regenerace",
+      "primaryMovements": "Primární pohyby",
+      "accessoryWork": "Doplňková práce",
+      "volumeDistribution": "Distribuce objemu",
+      "intensityDistribution": "Distribuce intenzity",
+      "tableDay": "Den",
+      "tableFocus": "Zaměření",
+      "tableNotes": "Poznámky",
+      "tableDimension": "Dimenze",
+      "tableThisSystem": "Tento systém",
+      "comparedWith": "Srovnání s",
+      "comparisonNote": "Originální vzdělávací srovnání — ne reprint žádné copyrightované programové tabulky.",
+      "originalInterpretation": "Originální interpretace The Strongest",
+      "beginnerAdjustment": "Úprava pro začátečníky",
+      "intermediateAdjustment": "Úprava pro středně pokročilé",
+      "advancedAdjustment": "Úprava pro pokročilé",
+      "recommendedFrequency": "Doporučená frekvence",
+      "whenToReduceVolume": "Kdy snížit objem",
+      "recoveryControls": "Kontroly regenerace",
+      "progressionRules": "Pravidla progrese",
+      "whoShouldAvoid": "Kdo by se měl vyhnout",
+      "scoresHeading": "The Strongest Score",
+      "scoresIntro": "Nezávislá editorial skóre 1–10 s krátkým odůvodněním — ne laboratorní měření ani endorsement atleta.",
+      "scoreStrength": "Potenciál síly",
+      "scoreHypertrophy": "Potenciál hypertrofie",
+      "scoreRecovery": "Nároky na regeneraci",
+      "scoreTechnical": "Technická náročnost",
+      "scoreBeginner": "Vhodnost pro začátečníky",
+      "scoreAdvanced": "Vhodnost pro pokročilé",
+      "relatedProgrammes": "Související originální programy",
+      "accessed": "Přístup {date}.",
+      "externalSource": "Externí zdroj",
+      "opensNewTab": "(otevírá se v novém panelu)",
+      "noSources": "Číslované citace se objeví po ověření. Nevymýšlíme zdroje.",
+      "whyFactors": {
+        "specificity": "Specifičnost",
+        "volume": "Objem",
+        "intensity": "Intenzita",
+        "technicalPractice": "Technická praxe",
+        "athleteExperience": "Zkušenost atleta",
+        "bodyweight": "Tělesná hmotnost",
+        "recovery": "Regenerace",
+        "sportDemands": "Nároky sportu",
+        "longTermAdaptation": "Dlouhodobá adaptace"
+      },
+      "exampleWeekLabels": {
+        "documented-example": {
+          "title": "Dokumentovaný příklad",
+          "caution": "Čerpáno z veřejně dokumentovaného rozpisu. Stále ne garance každé jednotky, kterou atlet kdy odjel."
+        },
+        "reconstructed-from-public-sources": {
+          "title": "Rekonstruováno z více veřejných zdrojů",
+          "caution": "Rekonstruováno pro vzdělávací srozumitelnost. Neprezentováno jako přesná rutina atleta."
+        },
+        "original-modernised-example": {
+          "title": "Originální modernizovaná adaptace",
+          "caution": "Originální interpretace The Strongest. Ne přesný program atleta."
+        }
+      },
+      "editorialDescriptions": {
+        "documented": "Čerpáno z citovaných veřejných zdrojů — knihy, interview, databáze závodů nebo oficiální reporty organizátorů.",
+        "reconstructed": "Syntetizováno z více veřejných zdrojů pro srozumitelnost. Neprezentováno jako přesná permanentní rutina.",
+        "analysis": "Nezávislý koučovský komentář a interpretace The Strongest.",
+        "modernised-example": "Originální tréninková ilustrace The Strongest. Ne přesný program atleta.",
+        "limited-evidence": "Dostupná veřejná evidence je tenká, neúplná nebo s nižší důvěrou.",
+        "conflicting-information": "Důvěryhodné veřejné zdroje se rozcházejí. Tvrzení zůstávají konzervativní, dokud se nevyjasní."
+      },
+      "pending": {
+        "athleteEra": "Kontext kariéry a sportu se zde objeví ze sourced materiálu — ne obecná biografie.",
+        "documentedMethod": "Publikují se jen detaily metody podložené zdroji. Žádné vymyšlené rutiny ani citáty.",
+        "claimsCite": "Významná faktická tvrzení by měla citovat seznam Zdrojů níže. Nejisté nebo konfliktní reporty jsou ve sourced textu označené.",
+        "coreRoutine": "Veřejně dokumentované historické tréninkové šablony se zde objeví po sourcování. Označeno jako historická dokumentace — ne předpis kopírovat elitní váhy.",
+        "nutrition": "Veřejně reportované historické stravovací vzorce se zde objeví po sourcování. Jen vzdělávací historie — ne lékařská rada.",
+        "volume": "Nezávislá analýza objemu, intenzity a frekvence se zde objeví, až budou sourced tvrzení připravená.",
+        "exampleWeek": "Ukázkové týdny podporují tři štítky: Dokumentovaný příklad, Rekonstruováno z více veřejných zdrojů, nebo Originální modernizovaný příklad. Rekonstruované a originální týdny se nikdy neprezentují jako přesná rutina atleta.",
+        "wrong": "Praktická varování se zde objeví — bez přehnaných injury claims a medicínské diagnózy.",
+        "risks": "Nároky na regeneraci a praktické poznámky k rizikům se zde objeví — bez medicínské diagnózy a přehnaných injury claims.",
+        "verdict": "Nezávislý editorial verdikt se zde objeví, až bude sourced analýza hotová.",
+        "modern": "Modernizované aplikace jsou originální interpretace — nikdy se neprodávají jako přesný program atleta."
       }
     },
     "categories": {

@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { Alert } from "@/design-system";
 import { PricingExperience } from "@/components/marketing/PricingExperience";
 import { formatProgramPriceGbp } from "@/domain/program-catalog/format";
@@ -77,6 +78,7 @@ export function PricingHub({
   programHonesty: readonly string[];
   programsCheckoutEnabled: boolean;
 }) {
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const router = useRouter();
   const tabParam = searchParams.get("tab");
@@ -169,6 +171,7 @@ export function PricingHub({
                   {formatProgramPriceGbp(
                     program.displayPrice,
                     program.defaultCurrency,
+                    locale,
                   )}
                 </p>
                 <p className="mt-1 text-xs text-[var(--color-subtle)]">

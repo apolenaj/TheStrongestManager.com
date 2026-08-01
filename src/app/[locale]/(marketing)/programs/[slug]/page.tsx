@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
 import { AnalyticsBeacon } from "@/components/analytics/AnalyticsBeacon";
 import { ProgramDetailExperience } from "@/components/programs/ProgramDetailExperience";
 import { PROGRAM_CATALOG_SEED } from "@/domain/program-catalog/catalog";
@@ -23,29 +24,43 @@ export async function generateMetadata({
   params,
 }: ProgramDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const locale = await getLocale();
+  const t = await getTranslations("ProgramsPage");
   const result = await getPublicProgramBySlug(slug);
   if (!result.ok) {
-    return { title: "Program not found" };
+    return { title: t("meta.title") };
   }
-  const content = getProgramFamilyContent(result.program.familyId);
+  const content = getProgramFamilyContent(result.program.familyId, locale);
   const displayName = content?.displayName ?? result.program.name;
   const isFree = result.program.isFree;
   const title = isFree
-    ? `${displayName} — Free Powerlifting Training Program`
-    : `${displayName} — Powerlifting Training Program`;
+    ? locale === "cs"
+      ? `${displayName} — Powerlifting program zdarma`
+      : `${displayName} — Free Powerlifting Training Program`
+    : locale === "cs"
+      ? `${displayName} — Powerlifting tréninkový program`
+      : `${displayName} — Powerlifting Training Program`;
   const description =
     content?.tagline ??
     result.program.description ??
-    `${displayName}: a structured powerlifting training program with clear progression.`;
+    (locale === "cs"
+      ? `${displayName}: strukturovaný program silového trojboje s jasnou progresí.`
+      : `${displayName}: a structured powerlifting training program with clear progression.`);
   const canonical = `/programs/${result.program.slug}`;
   return {
     title,
     description,
     keywords: [
-      "powerlifting training programs",
+      locale === "cs" ? "programy silového trojboje" : "powerlifting training programs",
       displayName.toLowerCase(),
-      isFree ? "free powerlifting program" : "paid powerlifting program",
-      "strength training program",
+      isFree
+        ? locale === "cs"
+          ? "powerlifting program zdarma"
+          : "free powerlifting program"
+        : locale === "cs"
+          ? "placený powerlifting program"
+          : "paid powerlifting program",
+      locale === "cs" ? "silový tréninkový program" : "strength training program",
     ],
     alternates: { canonical },
     openGraph: {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/design-system/utils/cn";
 import type { PublicProgramProduct } from "@/domain/program-catalog";
@@ -97,6 +97,7 @@ function useProgramCardLabels() {
 }
 
 export function ProgramCard({ model, className, style }: ProgramCardProps) {
+  const locale = useLocale();
   const {
     t,
     methodLabel,
@@ -113,7 +114,11 @@ export function ProgramCard({ model, className, style }: ProgramCardProps) {
     weeks: model.paid ? model.paid.durationWeeks : model.free!.durationWeeks,
   });
   const priceLabel = model.paid
-    ? formatProgramPriceGbp(model.paid.displayPrice, model.paid.defaultCurrency)
+    ? formatProgramPriceGbp(
+        model.paid.displayPrice,
+        model.paid.defaultCurrency,
+        locale,
+      )
     : t("free");
 
   return (

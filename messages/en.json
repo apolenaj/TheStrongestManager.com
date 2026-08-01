@@ -357,6 +357,243 @@
       "methodBlock": "Block periodization",
       "methodConjugate": "Conjugate",
       "methodHighFreq": "High-frequency training"
+    },
+    "detail": {
+      "startFree": "Start 4 weeks free",
+      "tryFree": "Try 4 weeks free",
+      "findProgram": "Find my program",
+      "buyFull": "Buy full program · {price}",
+      "viewFull": "View full program",
+      "bundle": "Bundle",
+      "freeStarter": "Free starter",
+      "duration": "Duration",
+      "price": "Price",
+      "recovery": "Recovery",
+      "level": "Level",
+      "weeks": "{weeks} weeks",
+      "schedules": "Schedules",
+      "publishedPricing": "Published launch pricing — no countdown scarcity.",
+      "whoFor": "Who this is for",
+      "whoNot": "Who should not use it",
+      "structure": "Program structure",
+      "structureLead": "Preview of phase intent — adjust loads to your recovery.",
+      "compare": "Free versus full comparison",
+      "feature": "Feature",
+      "freeCol": "Free 4-week",
+      "fullCol": "Full program",
+      "faq": "FAQ",
+      "ctaTitle": "Ready to train with purpose",
+      "ctaBody": "Start with the free block if available, or open the full cycle when you are ready to commit.",
+      "backCatalog": "Back to catalog",
+      "legendaryPromo": "Study the legendary methods behind these systems",
+      "legendaryPromoBody": "Educational analyses of historic training approaches — principles, not celebrity cosplay."
+    },
+    "finderQuiz": {
+      "questionProgress": "Question {current} of {total}",
+      "goalLegend": "What is your primary goal?",
+      "experienceLegend": "What is your experience level?",
+      "daysLegend": "How many days can you train?",
+      "weakestLegend": "What is your weakest lift?",
+      "recoveryLegend": "How is your recovery right now?",
+      "recommendation": "Recommendation",
+      "scoreLine": "Score {score} · Secondary: {secondary} (score {secondaryScore})",
+      "whyTitle": "Why this was recommended",
+      "secondaryTitle": "Secondary option",
+      "viewSecondary": "View secondary program",
+      "startFree": "Start 4 weeks free",
+      "viewFull": "View full program",
+      "retake": "Retake quiz",
+      "back": "Back",
+      "continue": "Continue",
+      "seeRecommendation": "See recommendation",
+      "daysPerWeek": "{days} days / week",
+      "honesty": "This recommendation is a transparent weighted score from your answers — not AI, not a guarantee, and not personalized coaching.",
+      "goals": {
+        "strength": {
+          "label": "Build strength",
+          "hint": "General strength progress"
+        },
+        "powerlifting": {
+          "label": "Powerlifting",
+          "hint": "Squat, bench, deadlift focus"
+        },
+        "hypertrophy": {
+          "label": "Strength + muscle",
+          "hint": "Powerbuilding bias"
+        },
+        "competition_prep": {
+          "label": "Competition prep",
+          "hint": "Meet or test date ahead"
+        },
+        "general_strength": {
+          "label": "General fitness strength",
+          "hint": "Stay strong without meet pressure"
+        }
+      },
+      "exp": {
+        "beginner": {
+          "label": "Beginner",
+          "hint": "Still building consistent basics"
+        },
+        "intermediate": {
+          "label": "Intermediate",
+          "hint": "Progress needs structure"
+        },
+        "advanced": {
+          "label": "Advanced",
+          "hint": "High training literacy"
+        }
+      },
+      "weak": {
+        "squat": "Squat",
+        "bench": "Bench",
+        "deadlift": "Deadlift",
+        "none": "No clear weak lift"
+      },
+      "recovery": {
+        "poor": {
+          "label": "Poor",
+          "hint": "Sleep/stress currently limited"
+        },
+        "okay": {
+          "label": "Okay",
+          "hint": "Manageable most weeks"
+        },
+        "good": {
+          "label": "Good",
+          "hint": "You recover reliably"
+        }
+      },
+      "families": {
+        "linear-strength-builder": "Linear Strength Builder",
+        "dup-powerlifting-system": "DUP Powerlifting System",
+        "block-periodisation": "Block Periodisation",
+        "conjugate-strength-system": "Conjugate Strength System",
+        "high-frequency-sbd": "High-Frequency SBD",
+        "powerbuilding-hybrid": "Powerbuilding Hybrid"
+      },
+      "reasons": {
+        "goal": {
+          "strength": {
+            "linear": "Primary goal is general strength — linear progression is a clear fit.",
+            "dup": "DUP still supports strength with weekly variation.",
+            "hybrid": "Powerbuilding keeps strength primary with accessory volume."
+          },
+          "powerlifting": {
+            "dup": "Powerlifting goal favors undulating SBD emphasis.",
+            "highFreq": "High-frequency SBD increases competition-lift practice.",
+            "conjugate": "Conjugate is a powerlifting-oriented advanced option.",
+            "block": "Block sequencing suits structured powerlifting prep."
+          },
+          "hypertrophy": {
+            "hybrid": "Hypertrophy priority maps to the powerbuilding hybrid.",
+            "dup": "DUP includes hypertrophy-oriented days in the week.",
+            "linear": "Linear still builds base strength that supports muscle work."
+          },
+          "comp": {
+            "block": "Competition prep favors sequenced accumulation → realization.",
+            "dup": "DUP can peak toward a meet with rising specificity.",
+            "conjugate": "Conjugate can increase specificity late in a cycle."
+          }
+        },
+        "exp": {
+          "beginner": {
+            "linear": "Beginner experience scores highest on simple linear structure.",
+            "hybrid": "Hybrid is usable later; linear is safer first.",
+            "conjugate": "Conjugate is penalized for beginners.",
+            "highFreq": "High frequency is penalized until technique and recovery are proven.",
+            "block": "True block concentration is usually unnecessary for beginners."
+          },
+          "intermediate": {
+            "dup": "Intermediate lifters often respond well to weekly undulation.",
+            "hybrid": "Intermediates can handle strength + hypertrophy dual focus.",
+            "block": "Blocks become useful once progress is no longer automatic.",
+            "linear": "Linear remains viable if you prefer simplicity."
+          },
+          "advanced": {
+            "conjugate": "Advanced lifters can tolerate ME/DE rotation.",
+            "highFreq": "Advanced recovery literacy supports higher frequency.",
+            "block": "Concentrated blocks suit advanced preparation windows.",
+            "dup": "DUP remains a strong advanced powerlifting option.",
+            "linear": "Long exclusive linear phases score lower for advanced lifters."
+          }
+        },
+        "days": {
+          "3": {
+            "linear": "3 training days fit a focused linear template.",
+            "dup": "DUP has a clear 3-day SBD split.",
+            "highFreq": "High-frequency SBD needs more than 3 days to make sense.",
+            "conjugate": "Classic conjugate structure expects a 4-day week."
+          },
+          "4": {
+            "dup": "4 days is a strong DUP schedule.",
+            "conjugate": "4 days matches conjugate ME/DE layout.",
+            "block": "4 days supports concentrated block loading.",
+            "hybrid": "4 days leaves room for accessories.",
+            "highFreq": "4 days can start a moderated high-frequency plan."
+          },
+          "5": {
+            "highFreq": "5 days supports frequent SBD exposures.",
+            "hybrid": "5 days suits strength + hypertrophy volume.",
+            "block": "5-day blocks allow dedicated emphasis sessions.",
+            "conjugate": "Extra day can hold special-exercise work."
+          },
+          "6": {
+            "highFreq": "6 days is the clearest match for high-frequency SBD.",
+            "hybrid": "6 days can work if recovery is managed.",
+            "linear": "6 days usually exceeds what a simple linear plan needs."
+          }
+        },
+        "weak": {
+          "conjugate": "Weak {lift} favors conjugate-style special-exercise variation.",
+          "dup": "Weak {lift} can get extra emphasis inside undulating days.",
+          "highFreq": "Weak {lift} benefits from more frequent practice exposures.",
+          "none": "No single weak lift — balanced linear work is fine."
+        },
+        "rec": {
+          "poor": {
+            "linear": "Poor recovery favors lower complexity and clearer fatigue control.",
+            "dup": "DUP can stay moderate if RPE is capped.",
+            "highFreq": "High frequency is heavily penalized when recovery is poor.",
+            "conjugate": "Conjugate max-effort stress is a poor match for low recovery.",
+            "block": "Accumulation blocks are risky when recovery is already poor.",
+            "hybrid": "Hybrid accessory volume adds fatigue when recovery is limited."
+          },
+          "okay": {
+            "dup": "Okay recovery supports moderate undulating stress.",
+            "linear": "Okay recovery pairs well with simple progressive overload.",
+            "hybrid": "Hybrid is usable with careful accessory dosing.",
+            "block": "Blocks are possible if accumulation stays honest.",
+            "highFreq": "High frequency remains a cautious choice on okay recovery."
+          },
+          "good": {
+            "highFreq": "Good recovery unlocks higher training frequency.",
+            "conjugate": "Good recovery supports max-effort / dynamic rotation.",
+            "block": "Good recovery tolerates concentrated loading.",
+            "hybrid": "Good recovery supports dual strength/hypertrophy stress."
+          }
+        }
+      }
+    },
+    "onboarding": {
+      "signInTitle": "Sign in to start free",
+      "signInBody": "Create or log into your account to save schedule preferences, training maxes, and your first week for {product}.",
+      "logIn": "Log in to continue",
+      "setupTitle": "Free program setup",
+      "setupBody": "We will generate week 1 from your schedule and optional 1RMs. Unrealistic maxes are rejected — no invented loads.",
+      "schedule": "Schedule preference",
+      "scheduleDays": "{days} days / week",
+      "units": "Units",
+      "kg": "Kilograms",
+      "lb": "Pounds",
+      "oneRmTitle": "Current 1RMs (optional)",
+      "oneRmHelp": "Leave blank if unknown. Values must be realistic for the selected unit. Training maxes are set to ~90% of entered 1RMs.",
+      "squat": "Squat",
+      "bench": "Bench",
+      "deadlift": "Deadlift",
+      "competitionDate": "Competition / test date (optional)",
+      "submit": "Generate week 1 & start",
+      "submitting": "Generating week 1…"
     }
   },
   "Dashboard": {
@@ -547,6 +784,94 @@
         "modernised-example": "Original modernised example",
         "limited-evidence": "Limited evidence",
         "conflicting-information": "Conflicting public information"
+      },
+      "notScored": "Not scored",
+      "justificationPending": "Justification pending — scores publish with sourced analysis.",
+      "distributionEmpty": "Distribution visuals appear when sourced share data is ready.",
+      "shareAria": "{label} share",
+      "citedSources": "Cited sources:",
+      "trainingDays": "Training days",
+      "exerciseFrequency": "Exercise frequency",
+      "progression": "Progression",
+      "recovery": "Recovery",
+      "primaryMovements": "Primary movements",
+      "accessoryWork": "Accessory work",
+      "volumeDistribution": "Volume distribution",
+      "intensityDistribution": "Intensity distribution",
+      "tableDay": "Day",
+      "tableFocus": "Focus",
+      "tableNotes": "Notes",
+      "tableDimension": "Dimension",
+      "tableThisSystem": "This system",
+      "comparedWith": "Compared with",
+      "comparisonNote": "Original educational comparison — not a reprint of any copyrighted programme table.",
+      "originalInterpretation": "Original interpretation by The Strongest",
+      "beginnerAdjustment": "Beginner adjustment",
+      "intermediateAdjustment": "Intermediate adjustment",
+      "advancedAdjustment": "Advanced adjustment",
+      "recommendedFrequency": "Recommended frequency",
+      "whenToReduceVolume": "When to reduce volume",
+      "recoveryControls": "Recovery controls",
+      "progressionRules": "Progression rules",
+      "whoShouldAvoid": "Who should avoid",
+      "scoresHeading": "The Strongest Score",
+      "scoresIntro": "Independent 1–10 editorial scores with short justifications — not laboratory measurements or athlete endorsements.",
+      "scoreStrength": "Strength Potential",
+      "scoreHypertrophy": "Hypertrophy Potential",
+      "scoreRecovery": "Recovery Demand",
+      "scoreTechnical": "Technical Difficulty",
+      "scoreBeginner": "Beginner Suitability",
+      "scoreAdvanced": "Advanced Suitability",
+      "relatedProgrammes": "Related original programmes",
+      "accessed": "Accessed {date}.",
+      "externalSource": "External source",
+      "opensNewTab": "(opens in a new tab)",
+      "noSources": "Numbered citations appear when verified. We do not fabricate sources.",
+      "whyFactors": {
+        "specificity": "Specificity",
+        "volume": "Volume",
+        "intensity": "Intensity",
+        "technicalPractice": "Technical practice",
+        "athleteExperience": "Athlete experience",
+        "bodyweight": "Bodyweight",
+        "recovery": "Recovery",
+        "sportDemands": "Sport demands",
+        "longTermAdaptation": "Long-term adaptation"
+      },
+      "exampleWeekLabels": {
+        "documented-example": {
+          "title": "Documented example",
+          "caution": "Drawn from a publicly documented schedule. Still not a guarantee of every session the athlete ever ran."
+        },
+        "reconstructed-from-public-sources": {
+          "title": "Reconstructed from multiple public sources",
+          "caution": "Reconstructed for educational clarity. Not presented as the athlete’s exact routine."
+        },
+        "original-modernised-example": {
+          "title": "Original modernised example",
+          "caution": "An original The Strongest interpretation. Not the athlete’s exact programme."
+        }
+      },
+      "editorialDescriptions": {
+        "documented": "Drawn from cited public sources such as books, interviews, meet databases, or official organiser reports.",
+        "reconstructed": "Synthesised from multiple public sources for clarity. Not presented as an exact permanent routine.",
+        "analysis": "Independent coaching commentary and interpretation by The Strongest.",
+        "modernised-example": "An original The Strongest training illustration. Not the athlete’s exact programme.",
+        "limited-evidence": "Available public evidence is thin, incomplete, or lower confidence for this claim.",
+        "conflicting-information": "Credible public sources disagree. Claims stay conservative until resolved."
+      },
+      "pending": {
+        "athleteEra": "Career-stage and sport context will appear here from sourced material — not a general biography.",
+        "documentedMethod": "Only source-supported method details are published here. No fabricated routines or quotes.",
+        "claimsCite": "Significant factual claims should cite the Sources list below. Uncertain or conflicting reports are labelled in the sourced copy when present.",
+        "coreRoutine": "Publicly documented historical training templates appear here when sourced. Labelled as historical documentation — not a prescription to copy elite loads.",
+        "nutrition": "Publicly reported historical dietary patterns appear here when sourced. Educational history only — not medical advice.",
+        "volume": "Independent analysis of volume, intensity, and frequency appears here once sourced claims are ready.",
+        "exampleWeek": "Example weeks support three labels: Documented example, Reconstructed from multiple public sources, or Original modernised example. Reconstructed and original weeks are never presented as the athlete’s exact routine.",
+        "wrong": "Practical warnings appear here — without exaggerated injury claims or medical diagnosis.",
+        "risks": "Recovery demands and practical risk notes appear here — without medical diagnosis or exaggerated injury claims.",
+        "verdict": "An independent editorial verdict appears here when the sourced analysis is complete.",
+        "modern": "Modernised applications are original interpretations — never sold as the athlete’s exact programme."
       }
     },
     "categories": {

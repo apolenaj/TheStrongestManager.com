@@ -1,10 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import {
-  LEGENDARY_EDITORIAL_LABELS,
-  type LegendaryEditorialLabelId,
-} from "@/domain/legendary-methods/editorial-labels";
+import type { LegendaryEditorialLabelId } from "@/domain/legendary-methods/editorial-labels";
 import { cn } from "@/design-system/utils/cn";
 
 /**
@@ -17,17 +14,16 @@ export function LegendaryEditorialLabel({
   id: LegendaryEditorialLabelId;
   className?: string;
 }) {
-  const t = useTranslations("LegendaryMethods.profile.editorialLabels");
-  const meta = LEGENDARY_EDITORIAL_LABELS[id];
+  const t = useTranslations("LegendaryMethods.profile");
   return (
     <span
       className={cn(
         "inline-flex max-w-full items-center border border-[var(--color-border)] bg-[var(--color-surface-elevated)] px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-[var(--color-subtle)]",
         className,
       )}
-      title={meta.description}
+      title={t(`editorialDescriptions.${id}`)}
     >
-      {t(id)}
+      {t(`editorialLabels.${id}`)}
     </span>
   );
 }

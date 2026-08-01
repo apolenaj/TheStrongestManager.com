@@ -44,6 +44,10 @@ export const LEGENDARY_EDITORIAL_LABELS: Record<
   },
   "modernised-example": {
     id: "modernised-example",
+    /**
+     * English registry fallback only — UI uses
+     * LegendaryMethods.profile.editorialLabels via useTranslations().
+     */
     label: "Original modernised example",
     description:
       "An original The Strongest training illustration. Not the athlete’s exact programme.",

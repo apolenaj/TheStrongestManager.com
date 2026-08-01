@@ -127,38 +127,52 @@ export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME = fromEnglishProfile({
   scores: {
     strengthPotential: {
       value: 6,
-      justification:
+      justification: L(
         "Builds substantial strength via compounds, but the primary target is hypertrophy and appearance rather than peaking maximal strength.",
+        "Buduje značnou sílu díky základním cvikům, ale primárním cílem je hypertrofie a vzhled, ne vrchol maximální síly.",
+      ),
     },
     hypertrophyPotential: {
       value: 9,
-      justification:
+      justification: L(
         "Very high weekly set volumes and multi-exercise body-part coverage align with classical hypertrophy stimulus when recovery allows.",
+        "Velmi vysoký týdenní objem sérií a pokrytí partie více cviky odpovídá klasickému hypertrofnímu stimulu, pokud to regenerace dovolí.",
+      ),
     },
     recoveryDemand: {
       value: 9,
-      justification:
+      justification: L(
         "High frequency plus high set counts create large systemic and local fatigue; poorly recovered lifters stall or regress quickly.",
+        "Vysoká frekvence spolu s vysokým počtem sérií vytváří velkou systémovou i lokální únavu; špatně zregenerovaní lifteři rychle stagnují nebo regredují.",
+      ),
     },
     technicalDifficulty: {
       value: 5,
-      justification:
+      justification: L(
         "Movements are mostly standard bodybuilding patterns; difficulty is managing volume, effort, and exercise sequencing—not exotic skill lifts.",
+        "Cviky jsou převážně standardní bodybuildingové vzorce; náročnost spočívá ve zvládání objemu, úsilí a pořadí cviků — ne v exotických technických cvicích.",
+      ),
     },
     beginnerSuitability: {
       value: 2,
-      justification:
+      justification: L(
         "Beginners need pattern mastery and lower absolute volume; copying competition-era set counts is a common failure mode.",
+        "Začátečníci potřebují zvládnout základní pohybové vzorce a nižší absolutní objem; kopírování počtu sérií ze závodní éry je běžná chyba.",
+      ),
     },
     advancedSuitability: {
       value: 8,
-      justification:
+      justification: L(
         "Advanced physique athletes can selectively borrow density tools (antagonist supersets) and frequency ideas with dose control.",
+        "Pokročilí physique atleti mohou selektivně přebírat nástroje hustoty (antagonistické supersety) a myšlenky frekvence pod kontrolou dávky.",
+      ),
     },
   },
   evidenceQuality: "moderate",
-  evidenceQualityNote:
+  evidenceQualityNote: L(
     "Primary evidence is athlete-authored or co-authored published books plus later instructional columns on official/reputable channels. Exact session logs vary by period; conflicting popular summaries exist, so claims about any single permanent routine are treated cautiously.",
+    "Primárním důkazem jsou knihy napsané nebo spoluautorsky vytvořené atletem, plus pozdější instruktážní sloupky na oficiálních a důvěryhodných kanálech. Přesné tréninkové zápisy se liší podle období; existují protichůdná populární shrnutí, proto jsou tvrzení o jakékoli jediné trvalé rutině posuzována opatrně.",
+  ),
   lastReviewedAt: CONTENT_ACCESS_DATE,
   sections: sectionsWithBodiesForSlug(
     "arnold-schwarzenegger-golden-era-volume",
@@ -171,144 +185,280 @@ export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME = fromEnglishProfile({
     },
   ),
   trainingStructure: {
-    trainingDays:
+    trainingDays: L(
       "Competition-oriented templates associated with published teaching often imply near-daily training with rotating body-part emphasis",
-    exerciseFrequency:
+      "Závodně orientované šablony spojené s publikovanou výukou často implikují téměř denní trénink s rotujícím důrazem na partie",
+    ),
+    exerciseFrequency: L(
       "Major muscle groups commonly appear ~2–3 times per week in documented high-frequency examples; exact splits vary by source/period",
+      "Hlavní svalové skupiny se v dokumentovaných vysokofrekvenčních příkladech běžně objevují ~2–3× týdně; přesné rozvržení splitu se liší podle zdroje a období",
+    ),
     volumeDistribution: [
-      { label: "Chest / back compounds & accessories", share: 28 },
-      { label: "Legs (squat/press + isolation)", share: 24 },
-      { label: "Shoulders & arms", share: 22 },
-      { label: "Calves / midsection / other", share: 26 },
+      {
+        label: L(
+          "Chest / back compounds & accessories",
+          "Hrudník / záda — základní a doplňkové cviky",
+        ),
+        share: 28,
+      },
+      {
+        label: L("Legs (squat/press + isolation)", "Nohy (dřep/leg press + izolace)"),
+        share: 24,
+      },
+      { label: L("Shoulders & arms", "Ramena a paže"), share: 22 },
+      {
+        label: L("Calves / midsection / other", "Lýtka / střed těla / ostatní"),
+        share: 26,
+      },
     ],
     intensityDistribution: [
-      { label: "Primary compounds (heavier)", share: 35 },
-      { label: "Secondary compounds", share: 30 },
-      { label: "Isolation / density techniques", share: 35 },
+      {
+        label: L("Primary compounds (heavier)", "Primární základní cviky (těžší)"),
+        share: 35,
+      },
+      { label: L("Secondary compounds", "Sekundární základní cviky"), share: 30 },
+      {
+        label: L("Isolation / density techniques", "Izolační / density techniky"),
+        share: 35,
+      },
     ],
     primaryMovements: [
-      "Barbell and dumbbell presses",
-      "Rows and pulldown/pull-up variations",
-      "Squats and leg presses",
-      "Overhead presses",
+      L("Barbell and dumbbell presses", "Tlaky s velkou i s jednoručními činkami"),
+      L(
+        "Rows and pulldown/pull-up variations",
+        "Přítahy a varianty shybů/stahování kladky",
+      ),
+      L("Squats and leg presses", "Dřepy a leg press"),
+      L("Overhead presses", "Tlaky nad hlavu"),
     ],
     accessoryWork: [
-      "Flye / crossover patterns",
-      "Leg extensions and curls",
-      "Curl and extension variations",
-      "Calf raises and midsection work",
+      L("Flye / crossover patterns", "Flye / crossover vzorce"),
+      L("Leg extensions and curls", "Leg extension a leg curl"),
+      L(
+        "Curl and extension variations",
+        "Varianty bicepsových a tricepsových tahů (curl a extension)",
+      ),
+      L("Calf raises and midsection work", "Výpony na lýtka a práce na středu těla"),
     ],
-    progressionApproach:
+    progressionApproach: L(
       "Published teaching emphasises continual improvement in load or completed work; not a single fixed percentage wave",
-    recoveryStructure:
+      "Publikovaná výuka zdůrazňuje trvalé zlepšování zátěže nebo odvedené práce; nejde o jedinou pevnou procentuální vlnu",
+    ),
+    recoveryStructure: L(
       "Sleep, nutrition, and rest are framed as enabling high volume — not optional add-ons",
+      "Spánek, výživa a odpočinek jsou chápány jako podmínka pro vysoký objem — ne jako volitelné doplňky",
+    ),
   },
   whyItWorked: {
-    specificity:
+    specificity: L(
       "Training targeted muscular size and shape for physique competition judging, not a powerlifting total.",
-    volume:
+      "Trénink cílil na svalový objem a tvar pro posuzování na physique soutěžích, ne na powerliftingový total.",
+    ),
+    volume: L(
       "High weekly sets and multi-exercise coverage created large cumulative tension and metabolic stress when recovered.",
-    intensity:
+      "Vysoký týdenní počet sérií a pokrytí partie více cviky vytvářely při dostatečné regeneraci velké kumulativní napětí a metabolický stres.",
+    ),
+    intensity: L(
       "Loads were often substantial for bodybuilding, with cultural acceptance of very hard sets and density techniques.",
-    technicalPractice:
+      "Zátěže byly na bodybuildingové poměry často značné, s kulturním přijetím velmi tvrdých sérií a density technik.",
+    ),
+    technicalPractice: L(
       "Years of repeated practice on the same movement families refined execution under fatigue.",
-    athleteExperience:
+      "Roky opakované praxe na stejných skupinách cviků zdokonalily provedení pod únavou.",
+    ),
+    athleteExperience: L(
       "Long runway of progressive exposure before the highest reported workloads.",
-    bodyweight:
+      "Dlouhá dráha postupné expozice předcházela nejvyšším uváděným tréninkovým zátěžím.",
+    ),
+    bodyweight: L(
       "Competitive bodyweights and stage conditioning goals differed from strength-sport weight-class strategies.",
-    recovery:
+      "Závodní tělesná hmotnost a cíle stage kondice se lišily od strategií váhových kategorií v silových sportech.",
+    ),
+    recovery: L(
       "Lifestyle support around training was typically far above recreational norms.",
-    sportDemands:
+      "Podpora životního stylu kolem tréninku byla typicky daleko nad rekreačním standardem.",
+    ),
+    sportDemands: L(
       "Winning required looking a certain way on contest day; programmes chased that outcome.",
-    longTermAdaptation:
+      "Vítězství vyžadovalo vypadat určitým způsobem v den soutěže; programy se podřizovaly tomuto výsledku.",
+    ),
+    longTermAdaptation: L(
       "Visible success reflected decades of adaptation and selection, not a two-week copy of a famous chart.",
+      "Viditelný úspěch odrážel desetiletí adaptace a selekce, ne dvoutýdenní kopii slavné tabulky.",
+    ),
   },
   whatLiftersGetWrong: [
-    "Treating one popular PDF as the permanent exact Arnold programme",
-    "Copying peak competition set counts without peak recovery capacity",
-    "Adding supersets and failure work before technique is stable",
-    "Ignoring that documented templates differ across periods and publications",
-    "Confusing high fatigue with productive hypertrophy stimulus",
+    L(
+      "Treating one popular PDF as the permanent exact Arnold programme",
+      "Považovat jedno populární PDF za trvalý přesný Arnoldův program",
+    ),
+    L(
+      "Copying peak competition set counts without peak recovery capacity",
+      "Kopírovat počty sérií z vrcholné závodní formy bez odpovídající regenerační kapacity",
+    ),
+    L(
+      "Adding supersets and failure work before technique is stable",
+      "Zařazovat supersety a práci do failure dřív, než je technika stabilní",
+    ),
+    L(
+      "Ignoring that documented templates differ across periods and publications",
+      "Ignorovat, že dokumentované šablony se liší podle období a publikací",
+    ),
+    L(
+      "Confusing high fatigue with productive hypertrophy stimulus",
+      "Zaměňovat vysokou únavu za produktivní hypertrofní stimul",
+    ),
   ],
   exampleWeek: {
-    title: "Modernised antagonist-density illustration (not an athlete routine)",
+    title: L(
+      "Modernised antagonist-density illustration (not an athlete routine)",
+      "Modernizovaná ukázka antagonistické density (nikoli atletova rutina)",
+    ),
     label: "original-modernised-example",
-    disclaimer:
+    disclaimer: L(
       "Original The Strongest example showing how antagonist pairing and multi-exposure frequency can be dosed for an advanced physique lifter. Not Arnold Schwarzenegger’s exact programme and not a reprint of encyclopedia tables.",
+      "Originální příklad The Strongest ukazující, jak lze antagonistické párování a vícenásobnou frekvenci dávkovat pro pokročilého physique liftera. Nejde o přesný program Arnolda Schwarzeneggera ani o reprint tabulek z encyklopedie.",
+    ),
     days: [
       {
-        dayLabel: "Day 1",
-        focus: "Chest / back antagonist density",
-        notes: "Pair a press with a row pattern; keep 1–2 reps in reserve on most sets",
+        dayLabel: L("Day 1", "Den 1"),
+        focus: L("Chest / back antagonist density", "Hrudník / záda — antagonistická density"),
+        notes: L(
+          "Pair a press with a row pattern; keep 1–2 reps in reserve on most sets",
+          "Spárujte tlak s přítahem; na většině sérií si nechte 1–2 opakování v rezervě",
+        ),
       },
       {
-        dayLabel: "Day 2",
-        focus: "Squat pattern + posterior chain accessories",
-        notes: "Moderate hard sets; avoid turning every set into a failure contest",
+        dayLabel: L("Day 2", "Den 2"),
+        focus: L(
+          "Squat pattern + posterior chain accessories",
+          "Dřepový vzorec + doplňkové cviky na zadní řetězec",
+        ),
+        notes: L(
+          "Moderate hard sets; avoid turning every set into a failure contest",
+          "Střední počet tvrdých sérií; nedělejte z každé série soutěž o failure",
+        ),
       },
       {
-        dayLabel: "Day 3",
-        focus: "Shoulders / arms",
-        notes: "Optional antagonist curl–extension supersets late in session",
+        dayLabel: L("Day 3", "Den 3"),
+        focus: L("Shoulders / arms", "Ramena / paže"),
+        notes: L(
+          "Optional antagonist curl–extension supersets late in session",
+          "Volitelné antagonistické supersety curl–extension ke konci tréninku",
+        ),
       },
       {
-        dayLabel: "Day 4",
-        focus: "Rest or easy mobility",
-        notes: "Protect sleep and food intake",
+        dayLabel: L("Day 4", "Den 4"),
+        focus: L("Rest or easy mobility", "Odpočinek nebo lehká mobilita"),
+        notes: L("Protect sleep and food intake", "Chraňte spánek a příjem stravy"),
       },
       {
-        dayLabel: "Day 5",
-        focus: "Second upper exposure (lighter density)",
-        notes: "Fewer hard sets than Day 1; emphasise quality",
+        dayLabel: L("Day 5", "Den 5"),
+        focus: L(
+          "Second upper exposure (lighter density)",
+          "Druhá expozice horní části těla (lehčí density)",
+        ),
+        notes: L(
+          "Fewer hard sets than Day 1; emphasise quality",
+          "Méně tvrdých sérií než Den 1; důraz na kvalitu",
+        ),
       },
       {
-        dayLabel: "Day 6",
-        focus: "Second lower exposure",
-        notes: "Hinge emphasis or reduced squat volume versus Day 2",
+        dayLabel: L("Day 6", "Den 6"),
+        focus: L("Second lower exposure", "Druhá expozice dolní části těla"),
+        notes: L(
+          "Hinge emphasis or reduced squat volume versus Day 2",
+          "Důraz na hinge nebo snížený objem dřepů oproti Dni 2",
+        ),
       },
       {
-        dayLabel: "Day 7",
-        focus: "Rest",
-        notes: "Deload week every 4–6 weeks if performance stalls",
+        dayLabel: L("Day 7", "Den 7"),
+        focus: L("Rest", "Odpočinek"),
+        notes: L(
+          "Deload week every 4–6 weeks if performance stalls",
+          "Deload týden každé 4–6 týdnů, pokud výkon stagnuje",
+        ),
       },
     ],
   },
   modernAdaptation: {
-    summary:
+    summary: L(
       "Keep the useful Golden Era ideas — multi-exposure frequency when recovered, antagonist supersets for density, progressive overload — while discarding the assumption that encyclopedia competition volumes are a universal prescription.",
-    beginnerAdjustment:
+      "Zachovejte užitečné myšlenky Zlaté éry — vícenásobnou frekvenci při dostatečné regeneraci, antagonistické supersety pro density, progresivní přetížení — a zároveň odmítněte předpoklad, že závodní objemy z encyklopedie jsou univerzálním předpisem.",
+    ),
+    beginnerAdjustment: L(
       "Full-body or upper/lower 3–4 days/week; 6–10 hard sets per major muscle weekly; no failure-first culture; learn compounds before density tricks.",
-    intermediateAdjustment:
+      "Full-body nebo horní/dolní část těla 3–4 dny týdně; 6–10 tvrdých sérií na hlavní sval týdně; žádná kultura failure za každou cenu; nejprve zvládněte základní cviky, pak density triky.",
+    ),
+    intermediateAdjustment: L(
       "Push-pull-legs or upper/lower with ~10–16 hard sets per muscle weekly; introduce antagonist supersets on isolation pairings only.",
-    advancedAdjustment:
+      "Push-pull-legs nebo horní/dolní část těla s ~10–16 tvrdými sériemi na sval týdně; antagonistické supersety zaváděj jen u izolovaných párování.",
+    ),
+    advancedAdjustment: L(
       "Short mesocycles with higher density and occasional near-failure finishers; track performance; planned deloads; never chase celebrity set counts for ego.",
-    recommendedFrequency: "3–6 training days depending on recovery; major muscles 2×/week as a default modern target",
+      "Krátké mezocykly s vyšší density a příležitostnými finišery blízko failure; sledujte výkon; plánované deloady; nikdy nehoňte počty sérií celebrit pro ego.",
+    ),
+    recommendedFrequency: L(
+      "3–6 training days depending on recovery; major muscles 2×/week as a default modern target",
+      "3–6 tréninkových dnů podle regenerace; hlavní svaly 2×/týden jako výchozí moderní cíl",
+    ),
     recoveryControls: [
-      "Cap weekly hard sets before adding more exercises",
-      "Limit true failure sets to late isolation work",
-      "Deload when bar speed or motivation falls for 7–10 days",
-      "Prioritise sleep and protein before ‘more volume’",
+      L(
+        "Cap weekly hard sets before adding more exercises",
+        "Omezte týdenní počet tvrdých sérií, než přidáte další cviky",
+      ),
+      L(
+        "Limit true failure sets to late isolation work",
+        "Omezte skutečné failure série jen na pozdní izolační cviky",
+      ),
+      L(
+        "Deload when bar speed or motivation falls for 7–10 days",
+        "Deload, když rychlost činky nebo motivace klesá po dobu 7–10 dní",
+      ),
+      L(
+        "Prioritise sleep and protein before ‘more volume’",
+        "Dejte prioritu spánku a bílkovinám před „více objemu“",
+      ),
     ],
     progressionRules: [
-      "Add load when all target reps are hit with solid technique",
-      "Add a set only after loads stall for 2–3 weeks",
-      "Rotate pressing/rowing variations every 6–8 weeks if joints complain",
+      L(
+        "Add load when all target reps are hit with solid technique",
+        "Přidejte zátěž, když jsou splněna všechna cílová opakování se solidní technikou",
+      ),
+      L(
+        "Add a set only after loads stall for 2–3 weeks",
+        "Přidejte sérii až po 2–3 týdnech stagnace zátěže",
+      ),
+      L(
+        "Rotate pressing/rowing variations every 6–8 weeks if joints complain",
+        "Rotujte varianty tlaků/přítahů každých 6–8 týdnů, pokud si stěžují klouby",
+      ),
     ],
-    whenToReduceVolume:
+    whenToReduceVolume: L(
       "Persistent strength drop, rising resting fatigue, or joint irritation that does not settle with technique fixes",
+      "Trvalý pokles síly, narůstající klidová únava nebo dráždění kloubů, které se neuklidní opravou techniky",
+    ),
     whoShouldAvoid: [
-      "Beginners",
-      "Lifters in a calorie deficit with poor sleep",
-      "Athletes peaking maximal strength sports who need lower fatigue",
+      L("Beginners", "Začátečníci"),
+      L(
+        "Lifters in a calorie deficit with poor sleep",
+        "Lifteři v kalorickém deficitu se špatným spánkem",
+      ),
+      L(
+        "Athletes peaking maximal strength sports who need lower fatigue",
+        "Atleti vrcholící v maximálně silových sportech, kteří potřebují nižší únavu",
+      ),
     ],
   },
   relatedProgrammes: [
     {
       slug: "powerbuilding-hybrid",
-      title: "Golden Era High-Volume Hypertrophy",
+      title: L("Golden Era High-Volume Hypertrophy", "Vysokoobjemová hypertrofie Zlaté éry"),
       href: "/programs/powerbuilding-hybrid",
-      relationship:
+      relationship: L(
         "Original The Strongest programme applying related hypertrophy-density principles without athlete naming",
+        "Originální program The Strongest, který aplikuje související principy hypertrofie a density bez jmenování atleta",
+      ),
     },
   ],
   sources: [

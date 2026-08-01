@@ -3,6 +3,8 @@
  * Educational framing — no fake scarcity, countdowns, or invented outcomes.
  */
 
+import { PROGRAM_FAMILY_CONTENT_CS } from "@/domain/program-catalog/content-cs";
+
 export type ProgramStructurePhase = {
   label: string;
   weeks: string;
@@ -414,7 +416,15 @@ export const PROGRAM_FAMILY_CONTENT: Record<string, ProgramFamilyContent> = {
 
 export function getProgramFamilyContent(
   familyId: string | null | undefined,
+  locale: string = "en",
 ): ProgramFamilyContent | null {
   if (!familyId) return null;
+  if (locale === "cs") {
+    return (
+      PROGRAM_FAMILY_CONTENT_CS[familyId] ??
+      PROGRAM_FAMILY_CONTENT[familyId] ??
+      null
+    );
+  }
   return PROGRAM_FAMILY_CONTENT[familyId] ?? null;
 }

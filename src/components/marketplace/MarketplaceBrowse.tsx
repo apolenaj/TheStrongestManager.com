@@ -1,18 +1,21 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import {
   Alert,
   Badge,
   EmptyState,
 } from "@/design-system";
 import { MARKETPLACE_SPORT_FILTERS } from "@/domain/marketplace";
+import { formatLocalizedMoney } from "@/domain/money";
 import type { MarketplacePublicState } from "@/services/marketplace";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 
-export function MarketplaceBrowse({
+export async function MarketplaceBrowse({
   state,
 }: {
   state: MarketplacePublicState;
 }) {
+  const locale = await getLocale();
   if (state.showComingSoon) {
     return (
       <div className="space-y-6">
@@ -126,7 +129,11 @@ export function MarketplaceBrowse({
                   <p className="mt-2 text-sm text-[var(--color-foreground)]">
                     {coach.pricing.label ??
                       (coach.pricing.amountCents != null
-                        ? `${(coach.pricing.amountCents / 100).toFixed(0)} ${coach.pricing.currency ?? ""}`.trim()
+                        ? formatLocalizedMoney(
+                            coach.pricing.amountCents,
+                            coach.pricing.currency ?? "usd",
+                            locale,
+                          )
                         : null)}
                   </p>
                 ) : (

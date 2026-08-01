@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   startFreeProgramAction,
   type StartFreeProgramActionState,
@@ -27,27 +28,39 @@ export function FreeProgramOnboardingForm({
   loginHref,
   weakestLift = "none",
 }: FreeProgramOnboardingFormProps) {
+  const t = useTranslations("ProgramsPage.onboarding");
+  const tCard = useTranslations("ProgramsPage.card");
   const [state, formAction, pending] = useActionState(
     startFreeProgramAction,
     initialState,
   );
 
+  function scheduleLabel(schedule: string): string {
+    const map: Record<string, string> = {
+      "3day": tCard("schedule3"),
+      "4day": tCard("schedule4"),
+      "5day": tCard("schedule5"),
+      "6day": tCard("schedule6"),
+    };
+    if (map[schedule]) return map[schedule];
+    const days = schedule.replace("day", "");
+    return t("scheduleDays", { days });
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-6 sm:p-8">
         <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-          Sign in to start free
+          {t("signInTitle")}
         </h2>
         <p className="mt-3 text-sm text-[var(--color-muted)]">
-          Create or log into your account to save schedule preferences, training
-          maxes, and your first week for{" "}
-          <span className="text-[var(--color-foreground)]">{productName}</span>.
+          {t("signInBody", { product: productName })}
         </p>
         <Link
           href={loginHref}
           className="mt-6 inline-flex min-h-12 items-center justify-center rounded-sm bg-[var(--color-accent)] px-5 text-sm font-bold uppercase tracking-[0.08em] text-[var(--color-accent-foreground)] transition-colors hover:bg-[var(--color-accent-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
         >
-          Log in to continue
+          {t("logIn")}
         </Link>
       </div>
     );
@@ -63,17 +76,14 @@ export function FreeProgramOnboardingForm({
 
       <div>
         <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-          Free program setup
+          {t("setupTitle")}
         </h2>
-        <p className="mt-3 text-sm text-[var(--color-muted)]">
-          We will generate week 1 from your schedule and optional 1RMs. Unrealistic
-          maxes are rejected — no invented loads.
-        </p>
+        <p className="mt-3 text-sm text-[var(--color-muted)]">{t("setupBody")}</p>
       </div>
 
       <fieldset>
         <legend className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-          Schedule preference
+          {t("schedule")}
         </legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {availableSchedules.map((schedule, index) => (
@@ -90,7 +100,7 @@ export function FreeProgramOnboardingForm({
                 className="accent-[var(--color-accent)]"
               />
               <span className="text-sm text-[var(--color-foreground)]">
-                {schedule.replace("day", " days / week")}
+                {scheduleLabel(schedule)}
               </span>
             </label>
           ))}
@@ -99,13 +109,13 @@ export function FreeProgramOnboardingForm({
 
       <fieldset>
         <legend className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-          Units
+          {t("units")}
         </legend>
         <div className="mt-3 flex gap-2">
           {(
             [
-              { id: "kg", label: "Kilograms" },
-              { id: "lb", label: "Pounds" },
+              { id: "kg", label: t("kg") },
+              { id: "lb", label: t("lb") },
             ] as const
           ).map((unit, index) => (
             <label
@@ -130,18 +140,15 @@ export function FreeProgramOnboardingForm({
 
       <fieldset>
         <legend className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-          Current 1RMs (optional)
+          {t("oneRmTitle")}
         </legend>
-        <p className="mt-2 text-xs text-[var(--color-subtle)]">
-          Leave blank if unknown. Values must be realistic for the selected unit.
-          Training maxes are set to ~90% of entered 1RMs.
-        </p>
+        <p className="mt-2 text-xs text-[var(--color-subtle)]">{t("oneRmHelp")}</p>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           {(
             [
-              { name: "squat1rm", label: "Squat" },
-              { name: "bench1rm", label: "Bench" },
-              { name: "deadlift1rm", label: "Deadlift" },
+              { name: "squat1rm", label: t("squat") },
+              { name: "bench1rm", label: t("bench") },
+              { name: "deadlift1rm", label: t("deadlift") },
             ] as const
           ).map((field) => (
             <label key={field.name} className="block text-sm">
@@ -161,7 +168,7 @@ export function FreeProgramOnboardingForm({
 
       <label className="block text-sm">
         <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-          Competition / test date (optional)
+          {t("competitionDate")}
         </span>
         <input
           type="date"
@@ -187,7 +194,7 @@ export function FreeProgramOnboardingForm({
           pending && "opacity-60",
         )}
       >
-        {pending ? "Generating week 1…" : "Generate week 1 & start"}
+        {pending ? t("submitting") : t("submit")}
       </button>
     </form>
   );

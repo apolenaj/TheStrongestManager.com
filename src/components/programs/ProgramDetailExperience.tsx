@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { PublicProgramDetail, PublicProgramProduct } from "@/domain/program-catalog";
 import { getProgramFamilyContent } from "@/domain/program-catalog/content";
-import {
-  formatMethodLabel,
-  formatProgramPriceGbp,
-  formatRecoveryDemand,
-  formatScheduleLabel,
-} from "@/domain/program-catalog/format";
+import { formatProgramPriceGbp } from "@/domain/program-catalog/format";
 
 type ProgramDetailExperienceProps = {
   program: PublicProgramDetail;
@@ -15,63 +11,141 @@ type ProgramDetailExperienceProps = {
   siblingPaid: PublicProgramProduct | null;
 };
 
-export function ProgramDetailExperience({
+function methodLabel(
+  methodId: string | null,
+  tCard: Awaited<ReturnType<typeof getTranslations>>,
+): string {
+  if (!methodId) return tCard("methodMulti");
+  const map: Record<string, string> = {
+    "linear-periodization": tCard("methodLinear"),
+    "daily-undulating-periodization": tCard("methodDup"),
+    "block-periodization": tCard("methodBlock"),
+    conjugate: tCard("methodConjugate"),
+    "high-frequency-training": tCard("methodHighFreq"),
+  };
+  return map[methodId] ?? methodId;
+}
+
+function recoveryLabel(
+  value: string,
+  tCard: Awaited<ReturnType<typeof getTranslations>>,
+): string {
+  const map: Record<string, string> = {
+    low: tCard("recoveryLow"),
+    moderate: tCard("recoveryModerate"),
+    high: tCard("recoveryHigh"),
+  };
+  return map[value] ?? value;
+}
+
+function scheduleLabel(
+  value: string,
+  tCard: Awaited<ReturnType<typeof getTranslations>>,
+): string {
+  const map: Record<string, string> = {
+    "3day": tCard("schedule3"),
+    "4day": tCard("schedule4"),
+    "5day": tCard("schedule5"),
+    "6day": tCard("schedule6"),
+  };
+  return map[value] ?? value;
+}
+
+function difficultyLabel(
+  value: string,
+  tCard: Awaited<ReturnType<typeof getTranslations>>,
+): string {
+  const map: Record<string, string> = {
+    beginner: tCard("difficultyBeginner"),
+    intermediate: tCard("difficultyIntermediate"),
+    advanced: tCard("difficultyAdvanced"),
+  };
+  return map[value] ?? value;
+}
+
+export async function ProgramDetailExperience({
   program,
   siblingFree,
   siblingPaid,
 }: ProgramDetailExperienceProps) {
-  const content = getProgramFamilyContent(program.familyId);
+  const locale = await getLocale();
+  const t = await getTranslations("ProgramsPage.detail");
+  const tCard = await getTranslations("ProgramsPage.card");
+  const content = getProgramFamilyContent(program.familyId, locale);
   const isFree = program.isFree;
   const compareFree = siblingFree ?? (isFree ? program : null);
   const comparePaid = siblingPaid ?? (!isFree ? program : null);
+  const pricedLabel = formatProgramPriceGbp(
+    program.displayPrice,
+    program.defaultCurrency,
+    locale,
+  );
+
   const ctaPrimary = isFree
-    ? { href: `/programs/start/${program.slug}`, label: "Start 4 weeks free" }
+    ? { href: `/programs/start/${program.slug}`, label: t("startFree") }
     : compareFree
-      ? { href: `/programs/start/${compareFree.slug}`, label: "Try 4 weeks free" }
-      : { href: `/programs/find-my-program`, label: "Find my program" };
+      ? { href: `/programs/start/${compareFree.slug}`, label: t("tryFree") }
+      : { href: `/programs/find-my-program`, label: t("findProgram") };
 
   const ctaSecondary =
     !isFree
       ? {
           href: `/pricing?tab=programs`,
-          label: `Buy full program · ${formatProgramPriceGbp(program.displayPrice, program.defaultCurrency)}`,
+          label: t("buyFull", { price: pricedLabel }),
         }
       : comparePaid
         ? {
             href: `/programs/${comparePaid.slug}`,
-            label: "View full program",
+            label: t("viewFull"),
           }
         : null;
 
   const phases = content?.structure ?? [];
-  const comparison =
+  const localizedPriceRow = {
+    feature: t("price"),
+    free: formatProgramPriceGbp(0, "gbp", locale),
+    full: comparePaid
+      ? formatProgramPriceGbp(
+          comparePaid.displayPrice,
+          comparePaid.defaultCurrency,
+          locale,
+        )
+      : "—",
+  };
+  const comparison = (
     content?.comparisonRows ??
     ([
       {
-        feature: "Duration",
-        free: compareFree ? `${compareFree.durationWeeks} weeks` : "—",
-        full: comparePaid ? `${comparePaid.durationWeeks} weeks` : "—",
-      },
-      {
-        feature: "Price",
-        free: "£0",
+        feature: t("duration"),
+        free: compareFree
+          ? t("weeks", { weeks: compareFree.durationWeeks })
+          : "—",
         full: comparePaid
-          ? formatProgramPriceGbp(
-              comparePaid.displayPrice,
-              comparePaid.defaultCurrency,
-            )
+          ? t("weeks", { weeks: comparePaid.durationWeeks })
           : "—",
       },
-    ] as const);
+      localizedPriceRow,
+    ] as const)
+  ).map((row) =>
+    row.feature === "Price" ||
+    row.feature === "Cena" ||
+    row.feature === t("price")
+      ? localizedPriceRow
+      : row,
+  );
+
+  const eyebrowParts = [
+    methodLabel(program.methodId, tCard),
+    program.variant === "bundle" ? t("bundle") : null,
+    isFree ? t("freeStarter") : null,
+  ].filter(Boolean);
 
   return (
     <div className="space-y-16 pb-16">
       <section className="relative overflow-hidden border-b border-[var(--color-border)] bg-[radial-gradient(ellipse_at_top_left,rgba(183,255,42,0.08),transparent_55%),linear-gradient(180deg,var(--color-surface)_0%,var(--color-background)_100%)]">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <p className="animate-[fade-up_0.45s_var(--easing-standard)_both] text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">
-            {formatMethodLabel(program.methodId)}
-            {program.variant === "bundle" ? " · Bundle" : null}
-            {isFree ? " · Free starter" : null}
+            {eyebrowParts.join(" · ")}
           </p>
           <h1 className="mt-4 max-w-4xl animate-[fade-up_0.5s_var(--easing-standard)_both] font-[family-name:var(--font-display)] text-4xl font-semibold uppercase leading-[1.05] tracking-[0.03em] text-[var(--color-foreground)] sm:text-5xl md:text-6xl">
             {content?.displayName ?? program.name}
@@ -82,21 +156,21 @@ export function ProgramDetailExperience({
 
           <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
             {[
-              { label: "Duration", value: `${program.durationWeeks} weeks` },
               {
-                label: "Price",
-                value: formatProgramPriceGbp(
-                  program.displayPrice,
-                  program.defaultCurrency,
-                ),
+                label: t("duration"),
+                value: t("weeks", { weeks: program.durationWeeks }),
               },
               {
-                label: "Recovery",
-                value: formatRecoveryDemand(program.recoveryDemand),
+                label: t("price"),
+                value: pricedLabel,
               },
               {
-                label: "Level",
-                value: program.difficulty,
+                label: t("recovery"),
+                value: recoveryLabel(program.recoveryDemand, tCard),
+              },
+              {
+                label: t("level"),
+                value: difficultyLabel(program.difficulty, tCard),
               },
             ].map((item) => (
               <div
@@ -106,7 +180,7 @@ export function ProgramDetailExperience({
                 <dt className="text-[0.65rem] uppercase tracking-[0.14em] text-[var(--color-subtle)]">
                   {item.label}
                 </dt>
-                <dd className="mt-2 text-sm font-medium capitalize text-[var(--color-foreground)]">
+                <dd className="mt-2 text-sm font-medium text-[var(--color-foreground)]">
                   {item.value}
                 </dd>
               </div>
@@ -114,8 +188,10 @@ export function ProgramDetailExperience({
           </dl>
 
           <p className="mt-4 text-sm text-[var(--color-muted)]">
-            Schedules:{" "}
-            {program.availableSchedules.map(formatScheduleLabel).join(" · ")}
+            {t("schedules")}:{" "}
+            {program.availableSchedules
+              .map((s) => scheduleLabel(s, tCard))
+              .join(" · ")}
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -136,7 +212,7 @@ export function ProgramDetailExperience({
             ) : null}
           </div>
           <p className="mt-4 text-xs text-[var(--color-subtle)]">
-            Published launch pricing. No countdown timers or fake scarcity.
+            {t("publishedPricing")}
           </p>
         </div>
       </section>
@@ -146,7 +222,7 @@ export function ProgramDetailExperience({
           <section className="grid gap-10 md:grid-cols-2">
             <div>
               <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-                Who this is for
+                {t("whoFor")}
               </h2>
               <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[var(--color-muted)]">
                 {content.whoFor.map((item) => (
@@ -161,7 +237,7 @@ export function ProgramDetailExperience({
             </div>
             <div>
               <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-                Who should not use it
+                {t("whoNot")}
               </h2>
               <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[var(--color-muted)]">
                 {content.whoNot.map((item) => (
@@ -180,10 +256,10 @@ export function ProgramDetailExperience({
         {phases.length > 0 ? (
           <section>
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-              Program structure
+              {t("structure")}
             </h2>
             <p className="mt-3 max-w-2xl text-sm text-[var(--color-muted)]">
-              Preview of phase intent — not a full session dump.
+              {t("structureLead")}
             </p>
             <ol className="mt-8 grid gap-4 md:grid-cols-3">
               {phases.map((phase) => (
@@ -208,20 +284,20 @@ export function ProgramDetailExperience({
 
         <section>
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-            Free versus full comparison
+            {t("compare")}
           </h2>
           <div className="mt-6 overflow-x-auto border border-[var(--color-border)]">
             <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
               <thead className="bg-[var(--color-surface)]">
                 <tr>
                   <th className="border-b border-[var(--color-border)] px-4 py-3 font-semibold text-[var(--color-foreground)]">
-                    Feature
+                    {t("feature")}
                   </th>
                   <th className="border-b border-[var(--color-border)] px-4 py-3 font-semibold text-[var(--color-foreground)]">
-                    Free 4-week
+                    {t("freeCol")}
                   </th>
                   <th className="border-b border-[var(--color-border)] px-4 py-3 font-semibold text-[var(--color-foreground)]">
-                    Full program
+                    {t("fullCol")}
                   </th>
                 </tr>
               </thead>
@@ -250,7 +326,7 @@ export function ProgramDetailExperience({
         {content?.faq?.length ? (
           <section>
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-              FAQ
+              {t("faq")}
             </h2>
             <div className="mt-6 divide-y divide-[var(--color-border)] border border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
               {content.faq.map((item) => (
@@ -274,11 +350,10 @@ export function ProgramDetailExperience({
 
         <section className="border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold uppercase tracking-[0.03em] text-[var(--color-foreground)]">
-            Ready to train with purpose
+            {t("ctaTitle")}
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-[var(--color-muted)]">
-            Start with the free block when available, or take the full cycle when
-            you already know the system fits.
+            {t("ctaBody")}
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -292,19 +367,17 @@ export function ProgramDetailExperience({
               href="/programs"
               className="inline-flex min-h-12 items-center justify-center border border-[var(--color-border)] px-6 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-muted)] transition-colors duration-200 hover:text-[var(--color-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Back to catalog
+              {t("backCatalog")}
             </Link>
           </div>
           <p className="mt-5 text-sm text-[var(--color-muted)]">
-            Want the educational context behind related training systems?{" "}
+            {t("legendaryPromoBody")}{" "}
             <Link
               href="/legendary-methods"
               className="font-medium text-[var(--color-foreground)] underline-offset-4 hover:text-[var(--color-accent)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
             >
-              Read Legendary Methods analyses
+              {t("legendaryPromo")}
             </Link>
-            {" — "}
-            independent products, not athlete-endorsed plans.
           </p>
         </section>
       </div>

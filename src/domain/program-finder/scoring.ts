@@ -1,6 +1,6 @@
 /**
  * Transparent program-finder scoring (not AI).
- * Each answer adds explicit weighted points; reasons are collected for the UI.
+ * Each answer adds explicit weighted points; reasons are stable i18n keys for the UI.
  */
 
 export const PROGRAM_FINDER_FAMILIES = [
@@ -48,17 +48,24 @@ export type ProgramFinderAnswers = {
   recovery: (typeof PROGRAM_FINDER_RECOVERY)[number];
 };
 
+/** Stable reason key resolved via ProgramsPage.finderQuiz.reasons.* */
+export type ProgramFinderReason = {
+  key: string;
+  lift?: "squat" | "bench" | "deadlift";
+};
+
 export type ProgramFinderScoreBreakdown = {
   familyId: ProgramFinderFamilyId;
   score: number;
-  reasons: string[];
+  reasons: ProgramFinderReason[];
 };
 
 export type ProgramFinderResult = {
   primary: ProgramFinderScoreBreakdown;
   secondary: ProgramFinderScoreBreakdown;
   rankings: ProgramFinderScoreBreakdown[];
-  honesty: string;
+  /** Stable honesty notice key — translate in UI via finderQuiz.honesty */
+  honesty: "transparent_weighted_score";
 };
 
 const FAMILY_LABEL: Record<ProgramFinderFamilyId, string> = {
@@ -78,7 +85,7 @@ export function programFinderFamilyLabel(
 
 function emptyScores(): Record<
   ProgramFinderFamilyId,
-  { score: number; reasons: string[] }
+  { score: number; reasons: ProgramFinderReason[] }
 > {
   return {
     "linear-strength-builder": { score: 0, reasons: [] },
@@ -94,11 +101,15 @@ function add(
   scores: ReturnType<typeof emptyScores>,
   familyId: ProgramFinderFamilyId,
   points: number,
-  reason: string,
+  reason: ProgramFinderReason,
 ) {
   if (points === 0) return;
   scores[familyId].score += points;
   scores[familyId].reasons.push(reason);
+}
+
+function r(key: string, lift?: ProgramFinderReason["lift"]): ProgramFinderReason {
+  return lift ? { key, lift } : { key };
 }
 
 /**
@@ -114,122 +125,107 @@ export function scoreProgramFinder(
   switch (answers.goal) {
     case "strength":
     case "general_strength":
-      add(scores, "linear-strength-builder", 4, "Primary goal is general strength — linear progression is a clear fit.");
-      add(scores, "dup-powerlifting-system", 2, "DUP still supports strength with weekly variation.");
-      add(scores, "powerbuilding-hybrid", 2, "Powerbuilding keeps strength primary with accessory volume.");
+      add(scores, "linear-strength-builder", 4, r("goal.strength.linear"));
+      add(scores, "dup-powerlifting-system", 2, r("goal.strength.dup"));
+      add(scores, "powerbuilding-hybrid", 2, r("goal.strength.hybrid"));
       break;
     case "powerlifting":
-      add(scores, "dup-powerlifting-system", 4, "Powerlifting goal favors undulating SBD emphasis.");
-      add(scores, "high-frequency-sbd", 3, "High-frequency SBD increases competition-lift practice.");
-      add(scores, "conjugate-strength-system", 2, "Conjugate is a powerlifting-oriented advanced option.");
-      add(scores, "block-periodisation", 2, "Block sequencing suits structured powerlifting prep.");
+      add(scores, "dup-powerlifting-system", 4, r("goal.powerlifting.dup"));
+      add(scores, "high-frequency-sbd", 3, r("goal.powerlifting.highFreq"));
+      add(scores, "conjugate-strength-system", 2, r("goal.powerlifting.conjugate"));
+      add(scores, "block-periodisation", 2, r("goal.powerlifting.block"));
       break;
     case "hypertrophy":
-      add(scores, "powerbuilding-hybrid", 5, "Hypertrophy priority maps to the powerbuilding hybrid.");
-      add(scores, "dup-powerlifting-system", 2, "DUP includes hypertrophy-oriented days in the week.");
-      add(scores, "linear-strength-builder", 1, "Linear still builds base strength that supports muscle work.");
+      add(scores, "powerbuilding-hybrid", 5, r("goal.hypertrophy.hybrid"));
+      add(scores, "dup-powerlifting-system", 2, r("goal.hypertrophy.dup"));
+      add(scores, "linear-strength-builder", 1, r("goal.hypertrophy.linear"));
       break;
     case "competition_prep":
-      add(scores, "block-periodisation", 5, "Competition prep favors sequenced accumulation → realization.");
-      add(scores, "dup-powerlifting-system", 3, "DUP can peak toward a meet with rising specificity.");
-      add(scores, "conjugate-strength-system", 2, "Conjugate can increase specificity late in a cycle.");
+      add(scores, "block-periodisation", 5, r("goal.comp.block"));
+      add(scores, "dup-powerlifting-system", 3, r("goal.comp.dup"));
+      add(scores, "conjugate-strength-system", 2, r("goal.comp.conjugate"));
       break;
   }
 
   // --- Experience ---
   switch (answers.experience) {
     case "beginner":
-      add(scores, "linear-strength-builder", 5, "Beginner experience scores highest on simple linear structure.");
-      add(scores, "powerbuilding-hybrid", 1, "Hybrid is usable later; linear is safer first.");
-      add(scores, "conjugate-strength-system", -4, "Conjugate is penalized for beginners.");
-      add(scores, "high-frequency-sbd", -3, "High frequency is penalized until technique and recovery are proven.");
-      add(scores, "block-periodisation", -2, "True block concentration is usually unnecessary for beginners.");
+      add(scores, "linear-strength-builder", 5, r("exp.beginner.linear"));
+      add(scores, "powerbuilding-hybrid", 1, r("exp.beginner.hybrid"));
+      add(scores, "conjugate-strength-system", -4, r("exp.beginner.conjugate"));
+      add(scores, "high-frequency-sbd", -3, r("exp.beginner.highFreq"));
+      add(scores, "block-periodisation", -2, r("exp.beginner.block"));
       break;
     case "intermediate":
-      add(scores, "dup-powerlifting-system", 4, "Intermediate lifters often respond well to weekly undulation.");
-      add(scores, "powerbuilding-hybrid", 3, "Intermediates can handle strength + hypertrophy dual focus.");
-      add(scores, "block-periodisation", 2, "Blocks become useful once progress is no longer automatic.");
-      add(scores, "linear-strength-builder", 1, "Linear remains viable if you prefer simplicity.");
+      add(scores, "dup-powerlifting-system", 4, r("exp.intermediate.dup"));
+      add(scores, "powerbuilding-hybrid", 3, r("exp.intermediate.hybrid"));
+      add(scores, "block-periodisation", 2, r("exp.intermediate.block"));
+      add(scores, "linear-strength-builder", 1, r("exp.intermediate.linear"));
       break;
     case "advanced":
-      add(scores, "conjugate-strength-system", 4, "Advanced lifters can tolerate ME/DE rotation.");
-      add(scores, "high-frequency-sbd", 3, "Advanced recovery literacy supports higher frequency.");
-      add(scores, "block-periodisation", 3, "Concentrated blocks suit advanced preparation windows.");
-      add(scores, "dup-powerlifting-system", 2, "DUP remains a strong advanced powerlifting option.");
-      add(scores, "linear-strength-builder", -2, "Long exclusive linear phases score lower for advanced lifters.");
+      add(scores, "conjugate-strength-system", 4, r("exp.advanced.conjugate"));
+      add(scores, "high-frequency-sbd", 3, r("exp.advanced.highFreq"));
+      add(scores, "block-periodisation", 3, r("exp.advanced.block"));
+      add(scores, "dup-powerlifting-system", 2, r("exp.advanced.dup"));
+      add(scores, "linear-strength-builder", -2, r("exp.advanced.linear"));
       break;
   }
 
   // --- Days available ---
   if (days <= 3) {
-    add(scores, "linear-strength-builder", 3, "3 training days fit a focused linear template.");
-    add(scores, "dup-powerlifting-system", 3, "DUP has a clear 3-day SBD split.");
-    add(scores, "high-frequency-sbd", -4, "High-frequency SBD needs more than 3 days to make sense.");
-    add(scores, "conjugate-strength-system", -2, "Classic conjugate structure expects a 4-day week.");
+    add(scores, "linear-strength-builder", 3, r("days.3.linear"));
+    add(scores, "dup-powerlifting-system", 3, r("days.3.dup"));
+    add(scores, "high-frequency-sbd", -4, r("days.3.highFreq"));
+    add(scores, "conjugate-strength-system", -2, r("days.3.conjugate"));
   } else if (days === 4) {
-    add(scores, "dup-powerlifting-system", 2, "4 days is a strong DUP schedule.");
-    add(scores, "conjugate-strength-system", 3, "4 days matches conjugate ME/DE layout.");
-    add(scores, "block-periodisation", 2, "4 days supports concentrated block loading.");
-    add(scores, "powerbuilding-hybrid", 2, "4 days leaves room for accessories.");
-    add(scores, "high-frequency-sbd", 1, "4 days can start a moderated high-frequency plan.");
+    add(scores, "dup-powerlifting-system", 2, r("days.4.dup"));
+    add(scores, "conjugate-strength-system", 3, r("days.4.conjugate"));
+    add(scores, "block-periodisation", 2, r("days.4.block"));
+    add(scores, "powerbuilding-hybrid", 2, r("days.4.hybrid"));
+    add(scores, "high-frequency-sbd", 1, r("days.4.highFreq"));
   } else if (days === 5) {
-    add(scores, "high-frequency-sbd", 3, "5 days supports frequent SBD exposures.");
-    add(scores, "powerbuilding-hybrid", 3, "5 days suits strength + hypertrophy volume.");
-    add(scores, "block-periodisation", 2, "5-day blocks allow dedicated emphasis sessions.");
-    add(scores, "conjugate-strength-system", 1, "Extra day can hold special-exercise work.");
+    add(scores, "high-frequency-sbd", 3, r("days.5.highFreq"));
+    add(scores, "powerbuilding-hybrid", 3, r("days.5.hybrid"));
+    add(scores, "block-periodisation", 2, r("days.5.block"));
+    add(scores, "conjugate-strength-system", 1, r("days.5.conjugate"));
   } else {
-    add(scores, "high-frequency-sbd", 5, "6 days is the clearest match for high-frequency SBD.");
-    add(scores, "powerbuilding-hybrid", 2, "6 days can work if recovery is managed.");
-    add(scores, "linear-strength-builder", -2, "6 days usually exceeds what a simple linear plan needs.");
+    add(scores, "high-frequency-sbd", 5, r("days.6.highFreq"));
+    add(scores, "powerbuilding-hybrid", 2, r("days.6.hybrid"));
+    add(scores, "linear-strength-builder", -2, r("days.6.linear"));
   }
 
   // --- Weakest lift ---
   if (answers.weakest !== "none") {
     const lift = answers.weakest;
-    add(
-      scores,
-      "conjugate-strength-system",
-      3,
-      `Weak ${lift} favors conjugate-style special-exercise variation.`,
-    );
-    add(
-      scores,
-      "dup-powerlifting-system",
-      2,
-      `Weak ${lift} can get extra emphasis inside undulating days.`,
-    );
-    add(
-      scores,
-      "high-frequency-sbd",
-      2,
-      `Weak ${lift} benefits from more frequent practice exposures.`,
-    );
+    add(scores, "conjugate-strength-system", 3, r("weak.conjugate", lift));
+    add(scores, "dup-powerlifting-system", 2, r("weak.dup", lift));
+    add(scores, "high-frequency-sbd", 2, r("weak.highFreq", lift));
   } else {
-    add(scores, "linear-strength-builder", 1, "No single weak lift — balanced linear work is fine.");
+    add(scores, "linear-strength-builder", 1, r("weak.none"));
   }
 
   // --- Recovery ---
   switch (answers.recovery) {
     case "poor":
-      add(scores, "linear-strength-builder", 4, "Poor recovery favors lower complexity and clearer fatigue control.");
-      add(scores, "dup-powerlifting-system", 1, "DUP can stay moderate if RPE is capped.");
-      add(scores, "high-frequency-sbd", -5, "High frequency is heavily penalized when recovery is poor.");
-      add(scores, "conjugate-strength-system", -4, "Conjugate max-effort stress is a poor match for low recovery.");
-      add(scores, "block-periodisation", -3, "Accumulation blocks are risky when recovery is already poor.");
-      add(scores, "powerbuilding-hybrid", -2, "Hybrid accessory volume adds fatigue when recovery is limited.");
+      add(scores, "linear-strength-builder", 4, r("rec.poor.linear"));
+      add(scores, "dup-powerlifting-system", 1, r("rec.poor.dup"));
+      add(scores, "high-frequency-sbd", -5, r("rec.poor.highFreq"));
+      add(scores, "conjugate-strength-system", -4, r("rec.poor.conjugate"));
+      add(scores, "block-periodisation", -3, r("rec.poor.block"));
+      add(scores, "powerbuilding-hybrid", -2, r("rec.poor.hybrid"));
       break;
     case "okay":
-      add(scores, "dup-powerlifting-system", 2, "Okay recovery supports moderate undulating stress.");
-      add(scores, "linear-strength-builder", 2, "Okay recovery pairs well with simple progressive overload.");
-      add(scores, "powerbuilding-hybrid", 1, "Hybrid is usable with careful accessory dosing.");
-      add(scores, "block-periodisation", 1, "Blocks are possible if accumulation stays honest.");
-      add(scores, "high-frequency-sbd", -1, "High frequency remains a cautious choice on okay recovery.");
+      add(scores, "dup-powerlifting-system", 2, r("rec.okay.dup"));
+      add(scores, "linear-strength-builder", 2, r("rec.okay.linear"));
+      add(scores, "powerbuilding-hybrid", 1, r("rec.okay.hybrid"));
+      add(scores, "block-periodisation", 1, r("rec.okay.block"));
+      add(scores, "high-frequency-sbd", -1, r("rec.okay.highFreq"));
       break;
     case "good":
-      add(scores, "high-frequency-sbd", 3, "Good recovery unlocks higher training frequency.");
-      add(scores, "conjugate-strength-system", 3, "Good recovery supports max-effort / dynamic rotation.");
-      add(scores, "block-periodisation", 2, "Good recovery tolerates concentrated loading.");
-      add(scores, "powerbuilding-hybrid", 2, "Good recovery supports dual strength/hypertrophy stress.");
+      add(scores, "high-frequency-sbd", 3, r("rec.good.highFreq"));
+      add(scores, "conjugate-strength-system", 3, r("rec.good.conjugate"));
+      add(scores, "block-periodisation", 2, r("rec.good.block"));
+      add(scores, "powerbuilding-hybrid", 2, r("rec.good.hybrid"));
       break;
   }
 
@@ -245,8 +241,7 @@ export function scoreProgramFinder(
     primary: rankings[0]!,
     secondary: rankings[1]!,
     rankings,
-    honesty:
-      "This recommendation is a transparent weighted score from your answers — not AI, not a guarantee, and not personalized coaching.",
+    honesty: "transparent_weighted_score",
   };
 }
 

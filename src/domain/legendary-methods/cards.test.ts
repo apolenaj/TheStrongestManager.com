@@ -136,6 +136,32 @@ describe("legendary method cards", () => {
     );
   });
 
+  it("resolves nested Czech trainingStructure / exampleWeek / scores for Arnold and Platz", async () => {
+    const { resolveLegendaryProfile } = await import(
+      "@/domain/legendary-methods/resolve-profile"
+    );
+    for (const slug of [
+      "arnold-schwarzenegger-golden-era-volume",
+      "tom-platz-extreme-leg-training",
+    ] as const) {
+      const profile = LEGENDARY_METHOD_PROFILES.find((p) => p.slug === slug)!;
+      const en = resolveLegendaryProfile(profile, "en");
+      const cs = resolveLegendaryProfile(profile, "cs");
+      expect(cs.trainingStructure?.volumeDistribution[0]?.label).not.toEqual(
+        en.trainingStructure?.volumeDistribution[0]?.label,
+      );
+      expect(cs.trainingStructure?.primaryMovements[0]).not.toEqual(
+        en.trainingStructure?.primaryMovements[0],
+      );
+      expect(cs.exampleWeek?.days[0]?.focus).not.toEqual(
+        en.exampleWeek?.days[0]?.focus,
+      );
+      expect(cs.scores.strengthPotential.justification).not.toEqual(
+        en.scores.strengthPotential.justification,
+      );
+    }
+  });
+
   it("resolves Czech profileTitle and summary on cs locale for all published cards", () => {
     const published = LEGENDARY_METHOD_PROFILES.filter(
       (p) => p.status === "published",

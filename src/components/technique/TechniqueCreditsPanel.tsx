@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { Alert, Badge } from "@/design-system";
 import {
   formatMoneyCents,
@@ -5,11 +6,12 @@ import {
 } from "@/domain/billing";
 import type { CreditWalletView } from "@/services/billing/credit-service";
 
-export function TechniqueCreditsPanel({
+export async function TechniqueCreditsPanel({
   wallet,
 }: {
   wallet: CreditWalletView;
 }) {
+  const locale = await getLocale();
   return (
     <section className="space-y-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -34,7 +36,7 @@ export function TechniqueCreditsPanel({
       </Alert>
 
       {!wallet.unlimitedAnalyses ? (
-        <CreditPacksList packs={wallet.packs} />
+        <CreditPacksList packs={wallet.packs} locale={locale} />
       ) : null}
 
       {wallet.recentTransactions.length > 0 ? (
@@ -63,7 +65,13 @@ export function TechniqueCreditsPanel({
   );
 }
 
-function CreditPacksList({ packs }: { packs: CreditPackDefinition[] }) {
+function CreditPacksList({
+  packs,
+  locale,
+}: {
+  packs: CreditPackDefinition[];
+  locale: string;
+}) {
   return (
     <div>
       <h3 className="text-sm font-medium text-[var(--color-foreground)]">
@@ -73,7 +81,7 @@ function CreditPacksList({ packs }: { packs: CreditPackDefinition[] }) {
         {packs.map((pack) => (
           <li key={pack.id}>
             <Badge variant="neutral">
-              {pack.name} · {formatMoneyCents(pack.amountCents)}
+              {pack.name} · {formatMoneyCents(pack.amountCents, "usd", locale)}
             </Badge>
           </li>
         ))}

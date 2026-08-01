@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { getLocale } from "next-intl/server";
 import { AnalyticsBeacon } from "@/components/analytics/AnalyticsBeacon";
 import { MarketingContainer } from "@/components/marketing/MarketingContainer";
 import { PricingHub } from "@/components/marketing/PricingHub";
@@ -16,8 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default async function PricingPage() {
+  const locale = await getLocale();
   const [platformView, freeCtaLabel, programPricing] = await Promise.all([
-    Promise.resolve(getPricingPageView()),
+    Promise.resolve(getPricingPageView(locale)),
     resolvePricingFreeCtaLabel(),
     listPaidProgramsForPricing(),
   ]);

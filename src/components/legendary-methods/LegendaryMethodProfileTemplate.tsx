@@ -1,9 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
-  EXAMPLE_WEEK_LABEL_COPY,
   LEGENDARY_PROFILE_TOC,
   editorialLabelForContentLayer,
   type LegendaryContentLayer,
@@ -31,18 +30,28 @@ function displayOrDash(value: string | null | undefined): string {
   return trimmed ? trimmed : "—";
 }
 
-function formatReviewedDate(value?: string): string {
-  if (!value) return "Pending review";
+function formatReviewedDate(value: string | undefined, locale: string, pending: string): string {
+  if (!value) return pending;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString("en-GB", {
+  return date.toLocaleDateString(locale === "cs" ? "cs-CZ" : "en-GB", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
 }
 
-function ScoreBar({ metric, label }: { metric: ResolvedScore; label: string }) {
+function ScoreBar({
+  metric,
+  label,
+  notScored,
+  pending,
+}: {
+  metric: ResolvedScore;
+  label: string;
+  notScored: string;
+  pending: string;
+}) {
   const value = metric.value;
   const width = value == null ? 0 : value * 10;
   return (
@@ -63,7 +72,7 @@ function ScoreBar({ metric, label }: { metric: ResolvedScore; label: string }) {
         aria-valuemin={0}
         aria-valuemax={10}
         aria-valuenow={value ?? 0}
-        {...(value == null ? { "aria-valuetext": "Not scored" } : {})}
+        {...(value == null ? { "aria-valuetext": notScored } : {})}
       >
         <div
           className="h-full bg-[var(--color-accent)] transition-[width] duration-300 motion-reduce:transition-none"
@@ -71,9 +80,7 @@ function ScoreBar({ metric, label }: { metric: ResolvedScore; label: string }) {
         />
       </div>
       <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
-        {metric.justification.trim()
-          ? metric.justification
-          : "Justification pending — scores publish with a short written rationale."}
+        {metric.justification.trim() ? metric.justification : pending}
       </p>
     </div>
   );
@@ -81,9 +88,11 @@ function ScoreBar({ metric, label }: { metric: ResolvedScore; label: string }) {
 
 function DistributionChart({
   title,
+  emptyLabel,
   slices,
 }: {
   title: string;
+  emptyLabel: string;
   slices: Array<{ label: string; share: number }>;
 }) {
   if (slices.length === 0) {
@@ -92,9 +101,7 @@ function DistributionChart({
         <h3 className="text-sm font-semibold text-[var(--color-foreground)]">
           {title}
         </h3>
-        <p className="mt-2 text-sm text-[var(--color-subtle)]">
-          Distribution visuals appear when sourced structure data is added.
-        </p>
+        <p className="mt-2 text-sm text-[var(--color-subtle)]">{emptyLabel}</p>
       </div>
     );
   }
@@ -114,7 +121,7 @@ function DistributionChart({
             <div
               className="mt-1 h-2 overflow-hidden bg-[var(--color-background)]"
               role="meter"
-              aria-label={`${slice.label} share`}
+              aria-label={slice.label}
               aria-valuemin={0}
               aria-valuemax={100}
               aria-valuenow={Math.min(100, Math.max(0, slice.share))}
@@ -138,10 +145,11 @@ function SourceCitations({
 }: {
   refs?: number[];
 }) {
+  const t = useTranslations("LegendaryMethods");
   if (!refs?.length) return null;
   return (
     <p className="text-xs text-[var(--color-subtle)]">
-      <span className="sr-only">Cited sources: </span>
+      <span className="sr-only">{t("profile.citedSources")} </span>
       {refs.map((ref, index) => (
         <span key={ref}>
           {index > 0 ? " " : null}
@@ -247,6 +255,7 @@ export function LegendaryMethodProfileTemplate({
         .filter(Boolean).length / 220,
     ),
   );
+  const locale = useLocale();
   const reviewed =
     profile.lastReviewedAt ?? profile.updatedAt ?? profile.publishedAt;
   const athleteEraBody = getSectionBody(profile, "athlete-and-era");
@@ -348,7 +357,7 @@ export function LegendaryMethodProfileTemplate({
             <span className="inline-flex min-h-9 items-center border border-white/10 px-3 text-[0.65rem] uppercase tracking-[0.12em] text-[var(--color-muted)]">
               {t("profile.reviewedBadge", {
                 date: reviewed
-                  ? formatReviewedDate(reviewed)
+                  ? formatReviewedDate(reviewed, locale, t("profile.pendingReview"))
                   : t("profile.pendingReview"),
               })}
             </span>
@@ -444,10 +453,7 @@ export function LegendaryMethodProfileTemplate({
             {athleteEraBody ? (
               <p className="whitespace-pre-line">{athleteEraBody}</p>
             ) : (
-              <PendingCopy>
-                Career-stage and sport context will appear here from sourced
-                material — not a general biography.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.athleteEra")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -459,17 +465,10 @@ export function LegendaryMethodProfileTemplate({
             {documentedBody ? (
               <>
                 <p className="whitespace-pre-line">{documentedBody}</p>
-                <p className="text-sm text-[var(--color-subtle)]">
-                  Significant factual claims should cite the Sources list below.
-                  Uncertain or conflicting reports are labelled in the sourced
-                  copy when present.
-                </p>
+<p className="text-sm text-[var(--color-subtle)]">{t("profile.pending.claimsCite")}</p>
               </>
             ) : (
-              <PendingCopy>
-                Only source-supported method details are published here. No
-                fabricated routines or quotes.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.documentedMethod")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -484,27 +483,27 @@ export function LegendaryMethodProfileTemplate({
             <div className="grid gap-6 not-prose sm:grid-cols-2">
               <div className="space-y-3 text-sm">
                 <p>
-                  <span className="text-[var(--color-subtle)]">Training days:</span>{" "}
+                  <span className="text-[var(--color-subtle)]">{t("profile.trainingDays")}:</span>{" "}
                   {displayOrDash(structure?.trainingDays)}
                 </p>
                 <p>
                   <span className="text-[var(--color-subtle)]">
-                    Exercise frequency:
+                    {t("profile.exerciseFrequency")}:
                   </span>{" "}
                   {displayOrDash(structure?.exerciseFrequency)}
                 </p>
                 <p>
                   <span className="text-[var(--color-subtle)]">
-                    Progression:
+                    {t("profile.progression")}:
                   </span>{" "}
                   {displayOrDash(structure?.progressionApproach)}
                 </p>
                 <p>
-                  <span className="text-[var(--color-subtle)]">Recovery:</span>{" "}
+                  <span className="text-[var(--color-subtle)]">{t("profile.recovery")}:</span>{" "}
                   {displayOrDash(structure?.recoveryStructure)}
                 </p>
                 <div>
-                  <p className="text-[var(--color-subtle)]">Primary movements</p>
+                  <p className="text-[var(--color-subtle)]">{t("profile.primaryMovements")}</p>
                   <ul className="mt-1 list-disc space-y-1 pl-5 text-[var(--color-foreground)]">
                     {(structure?.primaryMovements?.length
                       ? structure.primaryMovements
@@ -515,7 +514,7 @@ export function LegendaryMethodProfileTemplate({
                   </ul>
                 </div>
                 <div>
-                  <p className="text-[var(--color-subtle)]">Accessory work</p>
+                  <p className="text-[var(--color-subtle)]">{t("profile.accessoryWork")}</p>
                   <ul className="mt-1 list-disc space-y-1 pl-5 text-[var(--color-foreground)]">
                     {(structure?.accessoryWork?.length
                       ? structure.accessoryWork
@@ -528,11 +527,13 @@ export function LegendaryMethodProfileTemplate({
               </div>
               <div className="space-y-6">
                 <DistributionChart
-                  title="Volume distribution"
+                  title={t("profile.volumeDistribution")}
+                  emptyLabel={t("profile.distributionEmpty")}
                   slices={structure?.volumeDistribution ?? []}
                 />
                 <DistributionChart
-                  title="Intensity distribution"
+                  title={t("profile.intensityDistribution")}
+                  emptyLabel={t("profile.distributionEmpty")}
                   slices={structure?.intensityDistribution ?? []}
                 />
               </div>
@@ -547,11 +548,7 @@ export function LegendaryMethodProfileTemplate({
             {routineBody ? (
               <p className="whitespace-pre-line">{routineBody}</p>
             ) : (
-              <PendingCopy>
-                Publicly documented historical training templates appear here
-                when sourced. Labelled as historical documentation — not a
-                prescription to copy elite loads.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.coreRoutine")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -566,10 +563,7 @@ export function LegendaryMethodProfileTemplate({
             {nutritionBody ? (
               <p className="whitespace-pre-line">{nutritionBody}</p>
             ) : (
-              <PendingCopy>
-                Publicly reported historical dietary patterns appear here when
-                sourced. Educational history only — not medical advice.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.nutrition")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -584,10 +578,7 @@ export function LegendaryMethodProfileTemplate({
             {volumeBody ? (
               <p className="whitespace-pre-line">{volumeBody}</p>
             ) : (
-              <PendingCopy>
-                Independent analysis of volume, intensity, and frequency appears
-                here once sourced claims are ready.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.volume")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -609,10 +600,10 @@ export function LegendaryMethodProfileTemplate({
             {week ? (
               <>
                 <p className="inline-flex border border-[var(--color-border)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
-                  {EXAMPLE_WEEK_LABEL_COPY[week.label].title}
+                  {t(`profile.exampleWeekLabels.${week.label}.title`)}
                 </p>
                 <p className="text-sm text-[var(--color-subtle)]">
-                  {EXAMPLE_WEEK_LABEL_COPY[week.label].caution}
+                  {t(`profile.exampleWeekLabels.${week.label}.caution`)}
                 </p>
                 <p>{week.disclaimer}</p>
                 <div className="not-prose overflow-x-auto">
@@ -620,9 +611,9 @@ export function LegendaryMethodProfileTemplate({
                     <caption className="sr-only">{week.title}</caption>
                     <thead>
                       <tr className="border-b border-white/10 text-[var(--color-subtle)]">
-                        <th scope="col" className="py-2 pr-3 font-medium">Day</th>
-                        <th scope="col" className="py-2 pr-3 font-medium">Focus</th>
-                        <th scope="col" className="py-2 font-medium">Notes</th>
+                        <th scope="col" className="py-2 pr-3 font-medium">{t("profile.tableDay")}</th>
+                        <th scope="col" className="py-2 pr-3 font-medium">{t("profile.tableFocus")}</th>
+                        <th scope="col" className="py-2 font-medium">{t("profile.tableNotes")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -647,12 +638,7 @@ export function LegendaryMethodProfileTemplate({
                 </div>
               </>
             ) : (
-              <PendingCopy>
-                Example weeks support three labels: Documented example,
-                Reconstructed from multiple public sources, or Original
-                modernised example. Reconstructed and original weeks are never
-                presented as the athlete’s exact routine.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.exampleWeek")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -664,15 +650,15 @@ export function LegendaryMethodProfileTemplate({
             <dl className="not-prose grid gap-3 sm:grid-cols-2">
               {(
                 [
-                  ["Specificity", why?.specificity],
-                  ["Volume", why?.volume],
-                  ["Intensity", why?.intensity],
-                  ["Technical practice", why?.technicalPractice],
-                  ["Athlete experience", why?.athleteExperience],
-                  ["Bodyweight", why?.bodyweight],
-                  ["Recovery", why?.recovery],
-                  ["Sport demands", why?.sportDemands],
-                  ["Long-term adaptation", why?.longTermAdaptation],
+                  [t("profile.whyFactors.specificity"), why?.specificity],
+                  [t("profile.whyFactors.volume"), why?.volume],
+                  [t("profile.whyFactors.intensity"), why?.intensity],
+                  [t("profile.whyFactors.technicalPractice"), why?.technicalPractice],
+                  [t("profile.whyFactors.athleteExperience"), why?.athleteExperience],
+                  [t("profile.whyFactors.bodyweight"), why?.bodyweight],
+                  [t("profile.whyFactors.recovery"), why?.recovery],
+                  [t("profile.whyFactors.sportDemands"), why?.sportDemands],
+                  [t("profile.whyFactors.longTermAdaptation"), why?.longTermAdaptation],
                 ] as const
               ).map(([label, value]) => (
                 <div
@@ -702,10 +688,7 @@ export function LegendaryMethodProfileTemplate({
                 ))}
               </ul>
             ) : (
-              <PendingCopy>
-                Practical warnings appear here — without exaggerated injury
-                claims or medical diagnosis.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.wrong")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -717,25 +700,7 @@ export function LegendaryMethodProfileTemplate({
             {risksBody ? (
               <p className="whitespace-pre-line">{risksBody}</p>
             ) : (
-              <PendingCopy>
-                Recovery demands and practical risk notes appear here — without
-                medical diagnosis or exaggerated injury claims.
-              </PendingCopy>
-            )}
-          </SectionShell>
-
-          <SectionShell
-            id="risks-and-recovery"
-            layer="independent_analysis"
-            sourceRefs={getSectionSourceRefs(profile, "risks-and-recovery")}
-          >
-            {risksBody ? (
-              <p className="whitespace-pre-line">{risksBody}</p>
-            ) : (
-              <PendingCopy>
-                Recovery demands and practical risk notes appear here — without
-                medical diagnosis or exaggerated injury claims.
-              </PendingCopy>
+              <PendingCopy>{t("profile.pending.risks")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -747,31 +712,18 @@ export function LegendaryMethodProfileTemplate({
               <LegendaryEditorialLabel id="analysis" />
             </div>
             <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-              The Strongest Score
+              {t("profile.scoresHeading")}
             </h2>
             <p className="legendary-prose mt-5 text-sm sm:text-base">
-              Independent 1–10 editorial scores with short justifications — not
-              laboratory measurements or athlete endorsements.
+              {t("profile.scoresIntro")}
             </p>
             <div className="mt-8 grid gap-6 md:grid-cols-2 md:gap-8">
-              <ScoreBar metric={scores.strengthPotential} label="Strength Potential" />
-              <ScoreBar
-                metric={scores.hypertrophyPotential}
-                label="Hypertrophy Potential"
-              />
-              <ScoreBar metric={scores.recoveryDemand} label="Recovery Demand" />
-              <ScoreBar
-                metric={scores.technicalDifficulty}
-                label="Technical Difficulty"
-              />
-              <ScoreBar
-                metric={scores.beginnerSuitability}
-                label="Beginner Suitability"
-              />
-              <ScoreBar
-                metric={scores.advancedSuitability}
-                label="Advanced Suitability"
-              />
+              <ScoreBar metric={scores.strengthPotential} label={t("profile.scoreStrength")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
+              <ScoreBar metric={scores.hypertrophyPotential} label={t("profile.scoreHypertrophy")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
+              <ScoreBar metric={scores.recoveryDemand} label={t("profile.scoreRecovery")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
+              <ScoreBar metric={scores.technicalDifficulty} label={t("profile.scoreTechnical")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
+              <ScoreBar metric={scores.beginnerSuitability} label={t("profile.scoreBeginner")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
+              <ScoreBar metric={scores.advancedSuitability} label={t("profile.scoreAdvanced")} notScored={t("profile.notScored")} pending={t("profile.justificationPending")} />
             </div>
           </section>
 
@@ -783,10 +735,7 @@ export function LegendaryMethodProfileTemplate({
             {verdictBody ? (
               <p className="whitespace-pre-line">{verdictBody}</p>
             ) : (
-              <PendingCopy>
-                An independent editorial verdict appears here when the sourced
-                analysis is complete.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.verdict")}</PendingCopy>
             )}
           </SectionShell>
 
@@ -798,23 +747,22 @@ export function LegendaryMethodProfileTemplate({
             >
               <p className="whitespace-pre-line">{comparison.summary}</p>
               <p className="text-sm text-[var(--color-subtle)]">
-                Compared with{" "}
+                {t("profile.comparedWith")}{" "}
                 <Link
                   href={`/legendary-methods/${comparison.counterpartSlug}`}
                   className="text-[var(--color-accent)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                 >
                   {comparison.counterpartName}
                 </Link>
-                . Original educational comparison — not a reprint of any copyrighted
-                programme table.
+                . {t("profile.comparisonNote")}
               </p>
               <div className="not-prose overflow-x-auto">
                 <table className="mt-2 w-full min-w-[36rem] border-collapse text-left text-sm">
                   <caption className="sr-only">{comparison.title}</caption>
                   <thead>
                     <tr className="border-b border-white/10 text-[var(--color-subtle)]">
-                      <th scope="col" className="py-2 pr-3 font-medium">Dimension</th>
-                      <th scope="col" className="py-2 pr-3 font-medium">This system</th>
+                      <th scope="col" className="py-2 pr-3 font-medium">{t("profile.tableDimension")}</th>
+                      <th scope="col" className="py-2 pr-3 font-medium">{t("profile.tableThisSystem")}</th>
                       <th scope="col" className="py-2 font-medium">
                         {comparison.counterpartName}
                       </th>
@@ -848,24 +796,21 @@ export function LegendaryMethodProfileTemplate({
             layer="modernised_adaptation"
           >
             <p className="inline-flex border border-[var(--color-accent)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
-              Original interpretation by The Strongest
+              {t("profile.originalInterpretation")}
             </p>
             {modern?.summary || modernBody ? (
               <p className="whitespace-pre-line">
                 {modern?.summary || modernBody}
               </p>
             ) : (
-              <PendingCopy>
-                Modernised applications are original interpretations — never
-                sold as the athlete’s exact programme.
-              </PendingCopy>
+<PendingCopy>{t("profile.pending.modern")}</PendingCopy>
             )}
             <div className="not-prose grid gap-4 sm:grid-cols-3">
               {(
                 [
-                  ["Beginner adjustment", modern?.beginnerAdjustment],
-                  ["Intermediate adjustment", modern?.intermediateAdjustment],
-                  ["Advanced adjustment", modern?.advancedAdjustment],
+                  [t("profile.beginnerAdjustment"), modern?.beginnerAdjustment],
+                  [t("profile.intermediateAdjustment"), modern?.intermediateAdjustment],
+                  [t("profile.advancedAdjustment"), modern?.advancedAdjustment],
                 ] as const
               ).map(([label, value]) => (
                 <div
@@ -883,18 +828,18 @@ export function LegendaryMethodProfileTemplate({
             </div>
             <p>
               <span className="text-[var(--color-subtle)]">
-                Recommended frequency:
+                {t("profile.recommendedFrequency")}:
               </span>{" "}
               {displayOrDash(modern?.recommendedFrequency)}
             </p>
             <p>
               <span className="text-[var(--color-subtle)]">
-                When to reduce volume:
+                {t("profile.whenToReduceVolume")}:
               </span>{" "}
               {displayOrDash(modern?.whenToReduceVolume)}
             </p>
             <div>
-              <p className="text-[var(--color-subtle)]">Recovery controls</p>
+              <p className="text-[var(--color-subtle)]">{t("profile.recoveryControls")}</p>
               <ul className="mt-1 list-disc space-y-1 pl-5">
                 {(modern?.recoveryControls?.length
                   ? modern.recoveryControls
@@ -905,7 +850,7 @@ export function LegendaryMethodProfileTemplate({
               </ul>
             </div>
             <div>
-              <p className="text-[var(--color-subtle)]">Progression rules</p>
+              <p className="text-[var(--color-subtle)]">{t("profile.progressionRules")}</p>
               <ul className="mt-1 list-disc space-y-1 pl-5">
                 {(modern?.progressionRules?.length
                   ? modern.progressionRules
@@ -916,7 +861,7 @@ export function LegendaryMethodProfileTemplate({
               </ul>
             </div>
             <div>
-              <p className="text-[var(--color-subtle)]">Who should avoid</p>
+              <p className="text-[var(--color-subtle)]">{t("profile.whoShouldAvoid")}</p>
               <ul className="mt-1 list-disc space-y-1 pl-5">
                 {(modern?.whoShouldAvoid?.length
                   ? modern.whoShouldAvoid
@@ -942,8 +887,7 @@ export function LegendaryMethodProfileTemplate({
             </div>
             {profile.sources.length === 0 ? (
               <p className="mt-6 max-w-prose text-sm leading-relaxed text-[var(--color-subtle)]">
-                Numbered citations appear when verified. We do not fabricate
-                sources.
+                {t("profile.noSources")}
               </p>
             ) : (
               <ol className="mt-8 max-w-prose list-decimal space-y-5 pl-5 text-sm leading-relaxed text-[var(--color-muted)]">
@@ -958,20 +902,20 @@ export function LegendaryMethodProfileTemplate({
                       {source.publicationDate
                         ? ` (${source.publicationDate})`
                         : null}
-                      . Accessed {source.accessDate}.
+                      {" "}{t("profile.accessed", { date: source.accessDate })}
                     </p>
                     <LegendarySourceAnalyticsLink
                       href={source.url}
                       slug={profile.slug}
                       className="mt-1 inline-flex items-center gap-1 text-[var(--color-accent)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]"
                     >
-                      External source
+                      {t("profile.externalSource")}
                       <ExternalLink
                         className="h-3.5 w-3.5"
                         strokeWidth={2}
                         aria-hidden
                       />
-                      <span className="sr-only"> (opens in a new tab)</span>
+                      <span className="sr-only"> {t("profile.opensNewTab")}</span>
                     </LegendarySourceAnalyticsLink>
                   </li>
                 ))}
@@ -984,7 +928,7 @@ export function LegendaryMethodProfileTemplate({
             className="scroll-mt-28 border-t border-white/10 pt-12 sm:pt-16"
           >
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-              Related original programmes
+              {t("profile.relatedProgrammes")}
             </h2>
             <LegendaryRelatedProgrammeDisclaimer />
             <div className="mt-6">

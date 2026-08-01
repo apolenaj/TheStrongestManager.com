@@ -9,17 +9,17 @@ import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { t } from "@/domain/i18n";
 import { routing } from "@/i18n/routing";
 
-/** Athletic condensed display for headings / brand marks. */
+/** Athletic condensed display for headings / brand marks (Czech via latin-ext). */
 const display = Oswald({
   variable: "--font-display",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["500", "600", "700"],
 });
 
-/** Clean readable sans for body UI. */
+/** Clean readable sans for body UI (Czech via latin-ext). */
 const body = DM_Sans({
   variable: "--font-body",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
