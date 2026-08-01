@@ -31,13 +31,13 @@ export function HomeHero() {
       />
 
       <div className="mx-auto flex min-h-[min(92svh,52rem)] w-full max-w-6xl flex-col justify-center px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
-        <p className="font-[family-name:var(--font-display)] text-sm font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
+        <p className="font-[family-name:var(--font-heading)] text-sm font-black uppercase tracking-[0.18em] text-[var(--color-accent)]">
           {t("brand_subtitle")}
         </p>
 
         <h1
           id="home-hero-heading"
-          className="mt-6 max-w-5xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,7vw,5.25rem)] font-bold uppercase leading-[0.98] tracking-[0.01em] text-[var(--color-foreground)] [text-shadow:0_2px_48px_rgba(0,0,0,0.55)]"
+          className="mt-6 max-w-5xl font-[family-name:var(--font-heading)] text-[clamp(2.4rem,7vw,5.25rem)] font-black uppercase leading-[1.1] tracking-normal text-[var(--color-foreground)] [text-shadow:0_2px_48px_rgba(0,0,0,0.55)]"
         >
           {t("hero_title")}
         </h1>

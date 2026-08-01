@@ -28,9 +28,31 @@ describe("calculator suite", () => {
     expect(listIndexableCalculatorPaths()).toHaveLength(6);
   });
 
-  it("estimates 1RM with Epley and refuses out-of-range reps", () => {
-    const ok = computeEstimated1rm({ weightKg: 100, reps: 5 });
-    expect(ok?.displayKg).toBe(116.5); // 100 * (1 + 5/30) = 116.666 → 116.5
+  it("estimates 1RM with multiple formulas and refuses out-of-range reps", () => {
+    const epley = computeEstimated1rm({ weightKg: 100, reps: 5, formula: "epley" });
+    expect(epley?.displayKg).toBe(116.5); // 100 * (1 + 5/30) = 116.666 → 116.5
+
+    const brzycki = computeEstimated1rm({
+      weightKg: 100,
+      reps: 5,
+      formula: "brzycki",
+    });
+    expect(brzycki?.displayKg).toBe(112.5); // 100 * 36/32 = 112.5
+
+    const lombardi = computeEstimated1rm({
+      weightKg: 100,
+      reps: 5,
+      formula: "lombardi",
+    });
+    expect(lombardi?.estimated1rmKg).toBeCloseTo(100 * 5 ** 0.1, 5);
+
+    const oconner = computeEstimated1rm({
+      weightKg: 100,
+      reps: 5,
+      formula: "oconner",
+    });
+    expect(oconner?.displayKg).toBe(112.5); // 100 * (1 + 0.025*5) = 112.5
+
     expect(computeEstimated1rm({ weightKg: 100, reps: 1 })).toBeNull();
     expect(computeEstimated1rm({ weightKg: 100, reps: 20 })).toBeNull();
   });

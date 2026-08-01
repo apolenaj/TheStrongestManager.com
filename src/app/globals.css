@@ -110,7 +110,7 @@ html {
 }
 
 body {
-  /* Bridge: existing components use --font-display; Anton is loaded as --font-heading */
+  /* Bridge: existing components use --font-display; Barlow Condensed loads as --font-heading */
   --font-display: var(--font-heading);
   background: var(--color-background);
   color: var(--color-foreground);
@@ -143,8 +143,10 @@ h4,
 .font-display,
 .font-heading {
   font-family: var(--font-heading), var(--font-display), ui-sans-serif, sans-serif;
-  /* Anton is already condensed — avoid crushing Czech diacritics with negative tracking */
+  font-weight: 900;
+  /* Barlow Condensed 900 + Czech háčky/čárky need vertical + horizontal room */
   letter-spacing: 0.02em;
+  line-height: 1.15;
 }
 
 .legendary-prose {

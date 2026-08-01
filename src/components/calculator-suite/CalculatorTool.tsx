@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Alert,
   ButtonLink,
@@ -11,6 +12,7 @@ import {
 import {
   DEFAULT_BAR_KG,
   DEFAULT_TRAINING_MAX_FRACTION,
+  ESTIMATED_1RM_FORMULAS,
   attemptPlannerRefusalReason,
   computeAttemptPlan,
   computeDots,
@@ -19,10 +21,10 @@ import {
   computeTrainingMax,
   computeVolume,
   dotsRefusalReason,
-  estimated1rmRefusalReason,
   plateCalculatorRefusalReason,
   trainingMaxRefusalReason,
   type CalculatorId,
+  type Estimated1rmFormula,
 } from "@/domain/calculator-suite";
 import type { AttemptLift, AttemptRiskPreference } from "@/domain/attempt-selector";
 import type { DotsSex } from "@/domain/calculator-suite";
@@ -32,19 +34,47 @@ function num(value: string): number {
   return Number.isFinite(n) ? n : NaN;
 }
 
+const E1RM_FORMULA_LABEL_KEYS: Record<Estimated1rmFormula, string> = {
+  epley: "formula_epley",
+  brzycki: "formula_brzycki",
+  lombardi: "formula_lombardi",
+  oconner: "formula_oconner",
+};
+
+const E1RM_FORMULA_CITE_KEYS: Record<Estimated1rmFormula, string> = {
+  epley: "formula_cite_epley",
+  brzycki: "formula_cite_brzycki",
+  lombardi: "formula_cite_lombardi",
+  oconner: "formula_cite_oconner",
+};
+
+const e1rmFieldClass =
+  "mt-1 w-full border border-[var(--color-border)] bg-zinc-900 px-3 py-2.5 text-[var(--color-foreground)] outline-none transition-colors focus:border-[var(--color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-focus)]";
+
 function Estimated1rmForm() {
+  const t = useTranslations("Tool_1RM");
   const [weight, setWeight] = useState("100");
   const [reps, setReps] = useState("5");
+  const [formula, setFormula] = useState<Estimated1rmFormula>("epley");
   const weightKg = num(weight);
   const repsN = Math.trunc(num(reps));
-  const refusal = estimated1rmRefusalReason({ weightKg, reps: repsN });
-  const result = refusal ? null : computeEstimated1rm({ weightKg, reps: repsN });
+
+  const refusalKey = useMemo(() => {
+    if (!(weightKg > 0) || !Number.isFinite(weightKg)) return "refuse_load" as const;
+    if (!Number.isInteger(repsN) || repsN < 2) return "refuse_reps_low" as const;
+    if (repsN > 12) return "refuse_reps_high" as const;
+    return null;
+  }, [weightKg, repsN]);
+
+  const result = refusalKey
+    ? null
+    : computeEstimated1rm({ weightKg, reps: repsN, formula });
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-3">
         <div>
-          <Label htmlFor="e1rm-weight">Load (kg)</Label>
+          <Label htmlFor="e1rm-weight">{t("label_load")}</Label>
           <Input
             id="e1rm-weight"
             type="number"
@@ -52,11 +82,11 @@ function Estimated1rmForm() {
             step={0.5}
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
-            className="mt-1"
+            className={e1rmFieldClass}
           />
         </div>
         <div>
-          <Label htmlFor="e1rm-reps">Reps (2–12)</Label>
+          <Label htmlFor="e1rm-reps">{t("label_reps")}</Label>
           <Input
             id="e1rm-reps"
             type="number"
@@ -65,25 +95,42 @@ function Estimated1rmForm() {
             step={1}
             value={reps}
             onChange={(e) => setReps(e.target.value)}
-            className="mt-1"
+            className={e1rmFieldClass}
           />
         </div>
+        <div>
+          <Label htmlFor="e1rm-formula">{t("label_formula")}</Label>
+          <Select
+            id="e1rm-formula"
+            value={formula}
+            onChange={(e) => setFormula(e.target.value as Estimated1rmFormula)}
+            className={e1rmFieldClass}
+          >
+            {ESTIMATED_1RM_FORMULAS.map((id) => (
+              <option key={id} value={id}>
+                {t(E1RM_FORMULA_LABEL_KEYS[id])}
+              </option>
+            ))}
+          </Select>
+        </div>
       </div>
-      {refusal ? (
-        <Alert tone="warning" title="Cannot compute">
-          {refusal}
+      {refusalKey ? (
+        <Alert tone="warning" title={t("refuse_title")}>
+          {t(refusalKey)}
         </Alert>
       ) : result ? (
-        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-          <p className="font-[family-name:var(--font-display)] text-3xl">
+        <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-zinc-900/80 p-4">
+          <p className="font-[family-name:var(--font-heading)] text-3xl font-black tracking-normal">
             {result.displayKg}{" "}
-            <span className="text-base text-[var(--color-muted)]">kg e1RM</span>
+            <span className="text-base font-normal text-[var(--color-muted)]">
+              {t("result_unit")}
+            </span>
           </p>
           <p className="mt-2 text-sm text-[var(--color-muted)]">
-            {result.formulaLabel}
+            {t(E1RM_FORMULA_CITE_KEYS[formula])}
           </p>
           <p className="mt-2 text-xs text-[var(--color-muted)]">
-            {result.precisionNote}
+            {t("disclaimer")}
           </p>
         </div>
       ) : null}

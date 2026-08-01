@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { CalculatorTool } from "@/components/calculator-suite/CalculatorTool";
+import { Estimated1rmExperience } from "@/components/calculator-suite/Estimated1rmExperience";
 import { MarketingContainer } from "@/components/marketing/MarketingContainer";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { PageIntro } from "@/components/ui/PageIntro";
@@ -38,6 +40,20 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+  if (slug === "estimated-1rm") {
+    const t = await getTranslations("Tool_1RM");
+    return {
+      title: t("title"),
+      description: t("subtitle"),
+      alternates: { canonical: "/tools/estimated-1rm" },
+      openGraph: {
+        title: t("title"),
+        description: t("subtitle"),
+        url: "/tools/estimated-1rm",
+        type: "article",
+      },
+    };
+  }
   const calc = resolveIndexableCalculator(slug);
   if (!calc) {
     return {
@@ -62,6 +78,29 @@ export default async function CalculatorPage({ params }: PageProps) {
   const { slug } = await params;
   const calc = resolveIndexableCalculator(slug);
   if (!calc) notFound();
+
+  if (slug === "estimated-1rm") {
+    const t = await getTranslations("Tool_1RM");
+    const path = "/tools/estimated-1rm";
+    const jsonLd = [
+      articleJsonLd({
+        headline: t("title"),
+        description: t("subtitle"),
+        path,
+      }),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Tools", path: "/tools" },
+        { name: t("title"), path },
+      ]),
+    ];
+    return (
+      <>
+        <JsonLdScript data={jsonLd} />
+        <Estimated1rmExperience />
+      </>
+    );
+  }
 
   const path = `/tools/${calc.slug}`;
   const faq = faqPageJsonLd(calc.faqs);

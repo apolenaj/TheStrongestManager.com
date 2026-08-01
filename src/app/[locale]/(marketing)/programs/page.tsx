@@ -50,7 +50,7 @@ export default async function ProgramsCatalogPage() {
           <p className="animate-[fade-up_0.4s_var(--easing-standard)_both] text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
             {t("hero.eyebrow")}
           </p>
-          <h1 className="mt-5 max-w-5xl animate-[fade-up_0.5s_var(--easing-standard)_both] font-[family-name:var(--font-display)] text-[clamp(2.75rem,7vw,4.75rem)] font-bold uppercase leading-[0.98] tracking-tight text-[var(--color-foreground)]">
+          <h1 className="mt-5 max-w-5xl animate-[fade-up_0.5s_var(--easing-standard)_both] font-[family-name:var(--font-heading)] text-[clamp(2.75rem,7vw,4.75rem)] font-black uppercase leading-[1.1] tracking-normal text-[var(--color-foreground)]">
             {t("hero.title")}
           </h1>
           <p className="mt-6 max-w-2xl animate-[fade-up_0.55s_var(--easing-standard)_both] font-[family-name:var(--font-display)] text-xl font-semibold uppercase leading-snug tracking-[0.04em] text-[var(--color-accent)] sm:text-2xl">

@@ -10,12 +10,13 @@ export const CALCULATOR_DEFINITIONS: readonly CalculatorDefinition[] = [
     title: "Estimated 1RM",
     shortLabel: "1RM",
     description:
-      "Estimate a one-rep max from a multi-rep set using Epley — then log real singles in the app.",
+      "Estimate a one-rep max from a multi-rep set — then log real singles in the app.",
     overview:
-      "Multi-rep sets can sketch a one-rep max when you need a planning number. This tool uses the published Epley formula and refuses reps outside a sensible range so you are not handed a fake precision figure. Use the estimate to set training maxes or attempt ceilings, then confirm with logged sessions and PR prediction in the product.",
+      "Multi-rep sets can sketch a one-rep max when you need a planning number. This tool uses proven formulas (Epley, Brzycki, Lombardi, O'Conner) and limits reps to a sensible range so you aren't handed a fake precision figure. Use the estimate to set training maxes, then confirm with logged sessions.",
     precisionNote:
       "Estimate only. Error grows as reps move away from a single. Never treat an e1RM as a verified PR.",
-    formulaCitation: "Epley (1985): estimated 1RM ≈ w × (1 + r/30), capped at 2–12 reps.",
+    formulaCitation:
+      "Epley: w×(1+r/30); Brzycki: w×(36/(37−r)); Lombardi: w×r^0.10; O'Conner: w×(1+0.025×r). Reps capped 2–12.",
     uniqueValueKey: "calc:estimated-1rm-v1",
     primaryCta: { href: "/signup", label: "Log lifts in the app" },
     productLinks: [

@@ -33,7 +33,7 @@ export function HomeConversionCta() {
         </p>
         <h2
           id="home-conversion-cta-heading"
-          className="mt-5 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,7vw,5rem)] font-bold uppercase leading-[0.98] tracking-[0.01em] text-[var(--color-foreground)]"
+          className="mt-5 max-w-4xl font-[family-name:var(--font-heading)] text-[clamp(2.4rem,7vw,5rem)] font-black uppercase leading-[1.1] tracking-normal text-[var(--color-foreground)]"
         >
           {finalCtaCopy.title}
         </h2>

@@ -32,8 +32,15 @@ export {
 } from "@/domain/calculator-suite/snapshot";
 
 export {
+  ESTIMATED_1RM_FORMULAS,
   computeEstimated1rm,
+  estimate1rmKgWithFormula,
   estimated1rmRefusalReason,
+} from "@/domain/calculator-suite/formulas/estimated-1rm";
+export type {
+  Estimated1rmFormula,
+  Estimated1rmInput,
+  Estimated1rmResult,
 } from "@/domain/calculator-suite/formulas/estimated-1rm";
 export {
   computePlateLoading,

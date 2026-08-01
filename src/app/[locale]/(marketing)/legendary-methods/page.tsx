@@ -82,7 +82,7 @@ export default async function LegendaryMethodsPage() {
           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[var(--color-accent)]">
             {t("index.eyebrow")}
           </p>
-          <h1 className="mt-5 max-w-4xl font-[family-name:var(--font-display)] text-[clamp(2.5rem,6vw,4.25rem)] font-bold uppercase leading-[1.02] tracking-tight text-[var(--color-foreground)]">
+          <h1 className="mt-5 max-w-4xl font-[family-name:var(--font-heading)] text-[clamp(2.5rem,6vw,4.25rem)] font-black uppercase leading-[1.1] tracking-normal text-[var(--color-foreground)]">
             {t("index.title")}
           </h1>
           <p className="legendary-prose mt-6 text-base sm:text-lg">

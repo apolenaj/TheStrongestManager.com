@@ -1,6 +1,6 @@
 /**
  * Typography tokens.
- * Heading/display: Anton (latin + latin-ext) · Body: DM Sans.
+ * Heading/display: Barlow Condensed 900 (latin + latin-ext) · Body: DM Sans.
  */
 export const typography = {
   fontFamily: {

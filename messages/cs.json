@@ -945,5 +945,30 @@
     "calc_tm_desc": "Nastav si tréninkové maximum pro programování (často ~90 % 1RM nebo e1RM), aniž by sis lhal, že jde o testované maximum.",
     "calc_tm_disc": "TM je konstrukt pro programování. Není to změřené maximum a mělo by se upravit, jakmile narazí na realitu.",
     "precision_title": "Precizní upřímnost"
+  },
+  "Tool_1RM": {
+    "title": "Odhad 1RM",
+    "subtitle": "Odhadni své maximum na jedno opakování z víceopakovací série — a pak si do aplikace zapiš reálné jedničky.",
+    "btn_log": "Zapsat trénink do appky",
+    "btn_all": "Všechny kalkulačky",
+    "body_text": "Víceopakovací série dokážou nastínit 1RM, když potřebuješ čísla pro plánování. Tento nástroj využívá ověřené vzorce (Epley, Brzycki, Lombardi, O'Conner) a omezuje opakování na rozumnou hranici, abys nedostal nesmyslná čísla. Výsledek použij pro nastavení tréninkových maxim, pak ho ověř na prkně.",
+    "calc_title": "Kalkulačka",
+    "label_load": "Zátěž (kg)",
+    "label_reps": "Opakování (2–12)",
+    "label_formula": "Vzorec",
+    "formula_epley": "Epley",
+    "formula_brzycki": "Brzycki",
+    "formula_lombardi": "Lombardi",
+    "formula_oconner": "O'Conner et al.",
+    "disclaimer": "Pouze odhad — platí pro 2–12 opakování. Čím dál jsi od jedničky, tím větší je odchylka. Nikdy to neber jako ověřené PR.",
+    "result_unit": "kg e1RM",
+    "refuse_title": "Nelze spočítat",
+    "refuse_load": "Zadej kladnou zátěž v kilogramech.",
+    "refuse_reps_low": "Použij 2 a více opakování. Skutečná jednička už je 1RM — odhad není potřeba.",
+    "refuse_reps_high": "Nad 12 opakování odhad odmítáme — vzorce jsou tak daleko od jedničky nespolehlivé.",
+    "formula_cite_epley": "Epley: w × (1 + r/30)",
+    "formula_cite_brzycki": "Brzycki: w × (36 / (37 − r))",
+    "formula_cite_lombardi": "Lombardi: w × r^0.10",
+    "formula_cite_oconner": "O'Conner: w × (1 + 0.025 × r)"
   }
 }

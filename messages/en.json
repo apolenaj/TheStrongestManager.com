@@ -945,5 +945,30 @@
     "calc_tm_desc": "Set a programming training max (often ~90% of 1RM or e1RM) without pretending it is a tested max.",
     "calc_tm_disc": "TM is a programming construct. It is not a measured max and should be revised when reality disagrees.",
     "precision_title": "Precision honesty"
+  },
+  "Tool_1RM": {
+    "title": "Estimated 1RM",
+    "subtitle": "Estimate a one-rep max from a multi-rep set — then log real singles in the app.",
+    "btn_log": "Log lifts in the app",
+    "btn_all": "All calculators",
+    "body_text": "Multi-rep sets can sketch a one-rep max when you need a planning number. This tool uses proven formulas (Epley, Brzycki, Lombardi, O'Conner) and limits reps to a sensible range so you aren't handed a fake precision figure. Use the estimate to set training maxes, then confirm with logged sessions.",
+    "calc_title": "Calculator",
+    "label_load": "Load (kg)",
+    "label_reps": "Reps (2–12)",
+    "label_formula": "Formula",
+    "formula_epley": "Epley",
+    "formula_brzycki": "Brzycki",
+    "formula_lombardi": "Lombardi",
+    "formula_oconner": "O'Conner et al.",
+    "disclaimer": "Estimate only — valid for 2–12 reps. Far from a single, error grows. Never treat as a verified PR.",
+    "result_unit": "kg e1RM",
+    "refuse_title": "Cannot compute",
+    "refuse_load": "Enter a positive load in kilograms.",
+    "refuse_reps_low": "Use 2 or more reps. A true single is already a 1RM — no estimate needed.",
+    "refuse_reps_high": "Refuse beyond 12 reps — estimates are unreliable that far from a single.",
+    "formula_cite_epley": "Epley: w × (1 + r/30)",
+    "formula_cite_brzycki": "Brzycki: w × (36 / (37 − r))",
+    "formula_cite_lombardi": "Lombardi: w × r^0.10",
+    "formula_cite_oconner": "O'Conner: w × (1 + 0.025 × r)"
   }
 }

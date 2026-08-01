@@ -1,7 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Anton, DM_Sans } from "next/font/google";
+import { Barlow_Condensed, DM_Sans } from "next/font/google";
 import { CookieConsentBanner } from "@/components/gdpr/CookieConsentBanner";
 import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
 import { PwaInstallPrompt } from "@/components/pwa/PwaInstallPrompt";
@@ -10,13 +10,13 @@ import { t } from "@/domain/i18n";
 import { routing } from "@/i18n/routing";
 
 /**
- * Brutalist condensed display for headings / hero type.
- * Anton ships verified Central European coverage via latin-ext (Í, Á, Ě, Ř, …).
+ * Heavy condensed display for headings / hero type.
+ * Barlow Condensed 900 includes verified latin-ext (Í, Á, Ě, Ř, …) — no glyph fallback.
  */
-const heading = Anton({
+const headingFont = Barlow_Condensed({
   variable: "--font-heading",
   subsets: ["latin", "latin-ext"],
-  weight: "400",
+  weight: "900",
 });
 
 /** Clean readable sans for body UI (Czech via latin-ext). */
@@ -50,7 +50,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${heading.variable} ${body.variable} antialiased`}>
+      <body className={`${headingFont.variable} ${body.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <a
             href="#main-content"
