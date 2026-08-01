@@ -109,6 +109,33 @@ describe("legendary method cards", () => {
     expect(listLegendaryMethodCards([])).toEqual([]);
   });
 
+  it("resolves Czech Arnold section bodies that differ from English", async () => {
+    const { resolveLegendaryProfile } = await import(
+      "@/domain/legendary-methods/resolve-profile"
+    );
+    const arnold = LEGENDARY_METHOD_PROFILES.find(
+      (p) => p.slug === "arnold-schwarzenegger-golden-era-volume",
+    )!;
+    const en = resolveLegendaryProfile(arnold, "en");
+    const cs = resolveLegendaryProfile(arnold, "cs");
+    const sectionIds = [
+      "athlete-and-era",
+      "documented-training-method",
+      "core-training-routine",
+      "documented-nutritional-approach",
+      "verdict",
+    ] as const;
+    for (const id of sectionIds) {
+      const enBody = en.sections.find((s) => s.id === id)!.body;
+      const csBody = cs.sections.find((s) => s.id === id)!.body;
+      expect(csBody.length).toBeGreaterThan(80);
+      expect(csBody).not.toEqual(enBody);
+    }
+    expect(cs.sections.find((s) => s.id === "athlete-and-era")!.title).toBe(
+      "Atlet a éra",
+    );
+  });
+
   it("resolves Czech profileTitle and summary on cs locale for all published cards", () => {
     const published = LEGENDARY_METHOD_PROFILES.filter(
       (p) => p.status === "published",

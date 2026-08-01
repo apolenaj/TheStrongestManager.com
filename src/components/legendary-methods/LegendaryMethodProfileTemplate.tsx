@@ -4,7 +4,6 @@ import { ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   EXAMPLE_WEEK_LABEL_COPY,
-  LEGENDARY_CONTENT_LAYER_LABELS,
   LEGENDARY_PROFILE_TOC,
   editorialLabelForContentLayer,
   type LegendaryContentLayer,
@@ -167,13 +166,18 @@ function SectionShell({
   children,
 }: {
   id: string;
-  title: string;
+  /** Optional override — defaults to LegendaryMethods.profile.toc[id]. */
+  title?: string;
   layer?: LegendaryContentLayer;
   extraLabelIds?: LegendaryEditorialLabelId[];
   sourceRefs?: number[];
   children: ReactNode;
 }) {
+  const t = useTranslations("LegendaryMethods");
   const primary = layer ? editorialLabelForContentLayer(layer) : null;
+  const heading =
+    title ??
+    t(`profile.toc.${id}` as Parameters<typeof t>[0]);
   return (
     <section
       id={id}
@@ -187,11 +191,11 @@ function SectionShell({
       </div>
       {layer ? (
         <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[var(--color-subtle)]">
-          {LEGENDARY_CONTENT_LAYER_LABELS[layer]}
+          {t(`profile.contentLayers.${layer}`)}
         </p>
       ) : null}
       <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold uppercase tracking-tight text-[var(--color-foreground)] sm:text-3xl">
-        {title}
+        {heading}
       </h2>
       <div className="legendary-prose mt-6 space-y-5 text-base">
         {children}
@@ -434,7 +438,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="athlete-and-era"
-            title="The Athlete and the Era"
             layer="documented_historical"
             sourceRefs={getSectionSourceRefs(profile, "athlete-and-era")}
           >
@@ -450,7 +453,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="documented-training-method"
-            title="The Documented Training Method"
             layer="documented_historical"
             sourceRefs={getSectionSourceRefs(profile, "documented-training-method")}
           >
@@ -473,7 +475,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="training-structure"
-            title="Training Structure"
             layer="documented_historical"
             sourceRefs={getSectionSourceRefs(profile, "training-structure")}
           >
@@ -540,7 +541,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="core-training-routine"
-            title="Core Training Routine (Historical Documentation)"
             layer="documented_historical"
             sourceRefs={getSectionSourceRefs(profile, "core-training-routine")}
           >
@@ -557,7 +557,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="documented-nutritional-approach"
-            title="Documented Nutritional Approach & Exact Diet (Historical)"
             layer="documented_historical"
             sourceRefs={getSectionSourceRefs(
               profile,
@@ -576,7 +575,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="volume-intensity-frequency"
-            title="Volume, Intensity and Frequency Analysis"
             layer="independent_analysis"
             sourceRefs={getSectionSourceRefs(
               profile,
@@ -595,7 +593,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="example-training-week"
-            title="Example Training Week"
             layer={
               !week || week.label === "original-modernised-example"
                 ? "modernised_adaptation"
@@ -661,7 +658,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="why-it-worked"
-            title="Why It Worked"
             layer="independent_analysis"
           >
             {whyBody ? <p className="whitespace-pre-line">{whyBody}</p> : null}
@@ -696,7 +692,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="what-lifters-get-wrong"
-            title="What Most Lifters Get Wrong"
             layer="independent_analysis"
           >
             {wrongBody ? <p className="whitespace-pre-line">{wrongBody}</p> : null}
@@ -716,7 +711,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="risks-and-recovery"
-            title="Risks and Recovery Demands"
             layer="independent_analysis"
             sourceRefs={getSectionSourceRefs(profile, "risks-and-recovery")}
           >
@@ -732,7 +726,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="risks-and-recovery"
-            title="Risks and Recovery Demands"
             layer="independent_analysis"
             sourceRefs={getSectionSourceRefs(profile, "risks-and-recovery")}
           >
@@ -784,7 +777,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="verdict"
-            title="The Strongest Verdict"
             layer="independent_analysis"
             sourceRefs={getSectionSourceRefs(profile, "verdict")}
           >
@@ -853,7 +845,6 @@ export function LegendaryMethodProfileTemplate({
 
           <SectionShell
             id="modernised-application"
-            title="Modernised Application"
             layer="modernised_adaptation"
           >
             <p className="inline-flex border border-[var(--color-accent)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">

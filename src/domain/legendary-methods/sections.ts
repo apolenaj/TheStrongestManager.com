@@ -11,72 +11,86 @@ import type {
  */
 export const REQUIRED_LEGENDARY_SECTION_DEFINITIONS: readonly {
   id: LegendaryMethodSectionId;
-  title: string;
+  titleEn: string;
+  titleCs: string;
   layer: LegendaryContentLayer;
 }[] = [
   {
     id: "athlete-and-era",
-    title: "The Athlete and the Era",
+    titleEn: "The Athlete and the Era",
+    titleCs: "Atlet a éra",
     layer: "documented_historical",
   },
   {
     id: "documented-training-method",
-    title: "The Documented Training Method",
+    titleEn: "The Documented Training Method",
+    titleCs: "Dokumentovaná tréninková metoda",
     layer: "documented_historical",
   },
   {
     id: "training-structure",
-    title: "Training Structure",
+    titleEn: "Training Structure",
+    titleCs: "Struktura tréninku",
     layer: "documented_historical",
   },
   {
     id: "core-training-routine",
-    title: "Core Training Routine (Historical Documentation)",
+    titleEn: "Core Training Routine (Historical Documentation)",
+    titleCs: "Jádrová tréninková rutina (historická dokumentace)",
     layer: "documented_historical",
   },
   {
     id: "documented-nutritional-approach",
-    title: "Documented Nutritional Approach & Exact Diet (Historical)",
+    titleEn: "Documented Nutritional Approach & Exact Diet (Historical)",
+    titleCs: "Dokumentovaná výživa a dieta (historická)",
     layer: "documented_historical",
   },
   {
     id: "volume-intensity-frequency",
-    title: "Volume, Intensity and Frequency Analysis",
+    titleEn: "Volume, Intensity and Frequency Analysis",
+    titleCs: "Analýza objemu, intenzity a frekvence",
     layer: "independent_analysis",
   },
   {
     id: "why-it-worked",
-    title: "Why It Worked",
+    titleEn: "Why It Worked",
+    titleCs: "Proč to fungovalo",
     layer: "independent_analysis",
   },
   {
     id: "what-lifters-get-wrong",
-    title: "What Most Lifters Get Wrong",
+    titleEn: "What Most Lifters Get Wrong",
+    titleCs: "Co většina lifterů kazí",
     layer: "independent_analysis",
   },
   {
     id: "risks-and-recovery",
-    title: "Risks and Recovery Demands",
+    titleEn: "Risks and Recovery Demands",
+    titleCs: "Rizika a nároky na regeneraci",
     layer: "independent_analysis",
   },
   {
     id: "verdict",
-    title: "The Strongest Verdict",
+    titleEn: "The Strongest Verdict",
+    titleCs: "Verdikt The Strongest",
     layer: "independent_analysis",
   },
   {
     id: "modernised-application",
-    title: "Modernised Application",
+    titleEn: "Modernised Application",
+    titleCs: "Modernizovaná aplikace",
     layer: "modernised_adaptation",
   },
   {
     id: "example-training-week",
-    title: "Example Training Week",
+    titleEn: "Example Training Week",
+    titleCs: "Ukázkový tréninkový týden",
     layer: "modernised_adaptation",
   },
   {
     id: "sources",
-    title: "Sources and Further Reading",
+    titleEn: "Sources and Further Reading",
+    titleCs: "Zdroje a další čtení",
     layer: "documented_historical",
   },
 ] as const;
@@ -85,7 +99,7 @@ export const REQUIRED_LEGENDARY_SECTION_DEFINITIONS: readonly {
 export function createEmptyRequiredSections(): LegendaryMethodSection[] {
   return REQUIRED_LEGENDARY_SECTION_DEFINITIONS.map((def) => ({
     id: def.id,
-    title: L(def.title),
+    title: L(def.titleEn, def.titleCs),
     layer: def.layer,
     body: L(""),
   }));
@@ -94,6 +108,6 @@ export function createEmptyRequiredSections(): LegendaryMethodSection[] {
 export const LEGENDARY_METHOD_DETAIL_SECTIONS =
   REQUIRED_LEGENDARY_SECTION_DEFINITIONS.map((def) => ({
     id: def.id,
-    label: def.title,
+    label: def.titleEn,
     layer: def.layer,
   }));

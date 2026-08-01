@@ -169,7 +169,7 @@ export function validateLegendaryMethodForPublish(
       issues.push(
         issue(
           "required_section_missing",
-          `Required section “${required.title}” is missing.`,
+          `Required section “${required.titleEn}” is missing.`,
           `sections.${required.id}`,
         ),
       );
@@ -181,7 +181,7 @@ export function validateLegendaryMethodForPublish(
       issues.push(
         issue(
           "required_section_empty",
-          `Required section “${required.title}” has empty body.`,
+          `Required section “${required.titleEn}” has empty body.`,
           `sections.${required.id}.body`,
         ),
       );
@@ -302,7 +302,7 @@ export function validateLegendaryMethodForPublish(
       issues.push(
         issue(
           "section_layer_mismatch",
-          `Section “${required.title}” layer must be “${required.layer}” (facts vs analysis separation).`,
+          `Section “${required.titleEn}” layer must be “${required.layer}” (facts vs analysis separation).`,
           `sections.${required.id}.layer`,
         ),
       );

@@ -521,19 +521,32 @@
         "athlete-and-era": "Atlet a éra",
         "documented-training-method": "Dokumentovaná tréninková metoda",
         "training-structure": "Struktura tréninku",
-        "core-training-routine": "Jádrová tréninková rutina",
-        "documented-nutritional-approach": "Dokumentovaná dieta",
-        "volume-intensity-frequency": "Objem, intenzita a frekvence",
+        "core-training-routine": "Jádrová tréninková rutina (historická dokumentace)",
+        "documented-nutritional-approach": "Dokumentovaná výživa a dieta (historická)",
+        "volume-intensity-frequency": "Analýza objemu, intenzity a frekvence",
         "example-training-week": "Ukázkový tréninkový týden",
         "why-it-worked": "Proč to fungovalo",
         "what-lifters-get-wrong": "Co většina lifterů kazí",
-        "risks-and-recovery": "Rizika a regenerace",
+        "risks-and-recovery": "Rizika a nároky na regeneraci",
         "scores": "The Strongest Score",
-        "verdict": "Verdikt",
+        "verdict": "Verdikt The Strongest",
         "system-comparison": "Porovnání systémů",
         "modernised-application": "Modernizovaná aplikace",
-        "sources": "Zdroje",
+        "sources": "Zdroje a další čtení",
         "related-programmes": "Související programy"
+      },
+      "contentLayers": {
+        "documented_historical": "Dokumentované historické informace",
+        "independent_analysis": "Nezávislá analýza The Strongest",
+        "modernised_adaptation": "Modernizovaná originální adaptace"
+      },
+      "editorialLabels": {
+        "documented": "Dokumentované informace",
+        "reconstructed": "Rekonstruováno z veřejných zdrojů",
+        "analysis": "Analýza The Strongest",
+        "modernised-example": "Originální modernizovaný příklad",
+        "limited-evidence": "Omezená evidence",
+        "conflicting-information": "Konfliktní veřejné informace"
       }
     },
     "categories": {

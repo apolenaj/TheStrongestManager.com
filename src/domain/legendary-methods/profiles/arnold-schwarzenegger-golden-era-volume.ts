@@ -3,6 +3,7 @@ import {
   LEGENDARY_PUBLISH_DATE,
   sectionsWithBodiesForSlug,
 } from "@/domain/legendary-methods/profiles/helpers";
+import { ARNOLD_SECTION_BODIES } from "@/domain/legendary-methods/profiles/arnold-localized-bodies";
 import { fromEnglishProfile } from "@/domain/legendary-methods/from-english";
 import { L } from "@/domain/legendary-methods/localized";
 
@@ -161,73 +162,7 @@ export const ARNOLD_SCHWARZENEGGER_GOLDEN_ERA_VOLUME = fromEnglishProfile({
   lastReviewedAt: CONTENT_ACCESS_DATE,
   sections: sectionsWithBodiesForSlug(
     "arnold-schwarzenegger-golden-era-volume",
-    {
-      "athlete-and-era": `Arnold Schwarzenegger’s competitive bodybuilding rise sits inside what later writers call the Golden Era: a culture of high training density, physique aesthetics as the scoring criterion, and gyms that normalised long sessions. The relevant stage for this analysis is not celebrity biography — it is the period when his training ideas were formalised for a mass audience through major books, especially The New Encyclopedia of Modern Bodybuilding (with Bill Dobbins) and earlier autobiographical training narrative in Arnold: The Education of a Bodybuilder.
-
-In that context, “volume” is not a single number. It is a package: how often a muscle is trained each week, how many exercises and sets appear in a session, how little rest is left between paired movements, and how close sets are taken to failure. Golden Era culture rewarded visible muscularity under stage lighting. That incentive structure pulled programmes toward frequent stimulation and high local fatigue, not toward the sparse templates popular in some modern strength sports.
-
-It also mattered who was recovering. Competitive bodybuilders of that era often organised life around training, food, and sleep in ways recreational lifters cannot. Any honest analysis has to separate the published training ideas from the support systems around them.
-
-Double-split claims belong in this era discussion as a contextual tactic, not as a timeless commandment. Training twice in one day appears in popular and published discussions of high-ambition phases when schedule and recovery support allowed denser weekly stimulus. That is different from asserting that every year of Arnold’s career ran the same double-day calendar. Ordinary lifters reading secondary charts often miss that distinction and treat a competition-phase density tool as a permanent identity.`,
-
-      "documented-training-method": `Documented discussions of Arnold’s approach repeatedly emphasise high set volume for body parts, training major groups multiple times per week in competition-oriented templates, and heavy use of intensity techniques — especially supersets.
-
-In later instructional writing attributed to Arnold (including FLEX/Muscle & Fitness columns and material hosted on schwarzenegger.com), supersets are defined as performing two exercises successively with little or no rest. A preferred pairing pattern is antagonist work: chest with back, biceps with triceps, quadriceps with hamstrings. The stated rationale is practical densification (more work per unit time) and a claimed neuromuscular priming effect when a pull is followed by a push (or vice versa). Same-muscle compound sets (two exercises for one body part back-to-back) are also described as a way to raise metabolic stress and time under tension.
-
-Exercise selection in the published teaching tradition favours a blend of free-weight compounds and classical isolation finishers rather than novelty for its own sake. Progression is culturally framed as continual improvement — more load, more quality reps, or denser work — rather than as a modern percentage-based peaking wave. Differences between documented routines from different periods are expected: career phase, contest proximity, and publication edition all change the chart a reader finds.
-
-Important uncertainty: popular internet “Arnold routines” often present one split as permanent. Published sources and secondary summaries describe more than one competition-era structure (including variations where major groups appear roughly twice weekly versus higher-frequency examples). Because those templates differ, this profile treats high frequency and high volume as the durable theme — not one immortal weekly timetable.
-
-What is not claimed here: a verbatim reproduction of encyclopedia tables, set-by-set prescriptions, or any assertion that a blog PDF is “Arnold’s exact permanent programme.” Where secondary sites reprint detailed charts, they are treated as contested popularisations unless tied back to the books themselves.`,
-
-      "training-structure": `Structurally, Golden Era volume training (as associated with Arnold’s published teaching) tends to organise the week around body-part coverage rather than a single full-body strength practice. Sessions often stack multiple exercises per muscle, then rotate through the body across consecutive training days.
-
-Frequency is a first-class variable. Documented competition-oriented examples associated with the encyclopedia tradition describe major muscle groups appearing more than once per week. That raises both stimulus and recovery cost compared with once-weekly “bro split” stereotypes.
-
-Volume distribution typically favours the showpiece upper-body musculature and legs with large absolute set counts, while calves, arms, and midsection receive dedicated high-repetition work in many popular accounts. Intensity distribution mixes heavier compound presses/rows/squats with higher-rep isolation finishers. Progression is framed culturally as continual improvement in load or work completed — not as a fixed percentage wave like modern powerlifting peaking models.
-
-Recovery structure, in the books’ own framing, is not optional fluff: sleep, nutrition, and rest are presented as part of making extreme workloads productive. That is a critical teaching point for modern readers who copy the set counts and skip the recovery infrastructure.`,
-
-      "volume-intensity-frequency": `From an independent coaching lens, the method’s signature is the product of three dials turned high at once: frequency × sets × effort.
-
-Frequency multiplies practice opportunities and residual fatigue. High set volume multiplies local damage and metabolic stress. High effort (including failure-oriented culture in many accounts) multiplies the recovery bill further. Any one dial can be productive; all three together is an advanced strategy.
-
-Ordinary lifters often misunderstand volume as “more exercises = more growth” without tracking weekly hard sets or performance. Golden Era templates can look like random exercise lists when stripped of progression rules. A better reading is: choose a manageable weekly set budget per muscle, distribute it across 2+ exposures if recovery allows, and use antagonist supersets to raise density without automatically adding rest-period fluff.
-
-Conflicting information note: secondary websites disagree on exact weekly splits and set totals. Until a claim is pinned to a specific published edition and page context, treat numeric “Arnold did X sets of Y every Monday forever” statements as low confidence.`,
-
-      "why-it-worked": `Why such workloads could produce outstanding physiques for a tiny population of athletes is multi-factorial. Specificity favoured posing-relevant hypertrophy and muscular detail. Volume and frequency provided repeated high-tension practice. Technical practice on the same families of presses, rows, squats, and isolation movements was enormous across years. Athlete experience and selection effects matter: people who thrived under the culture stayed visible. Bodyweight and stage goals differed from powerlifting totals. Recovery resources (time, food, pharmacology contexts discussed historically in the sport, coaching environments) were often far above recreational norms. Sport demands rewarded looking a certain way on a certain day — not preserving joints for a decade of maximal singles.
-
-Long-term adaptation for Arnold personally is inseparable from decades of progressive exposure. Copying the end-stage workload without the ramp is the classic error.
-
-A useful way to read the success story without myth-making is to treat Golden Era volume as a high-dose hypertrophy laboratory that happened to be culturally fashionable. Antagonist supersets raised work density. High frequency kept skills sharp. Isolation finishers chased shape after compounds had already done the heavy structural work. None of those tools is magic in isolation; the combination, sustained for years by athletes who could recover, is what magazines later romanticised.
-
-For coaches, the transferable lesson is not “do more forever.” It is that density tools, multi-exposure scheduling, and deliberate exercise variety can expand the hypertrophy toolbox — provided weekly hard-set budgets remain honest and recovery constraints are treated as hard limits rather than optional lifestyle advice.`,
-
-      "what-lifters-get-wrong": `Most lifters get Golden Era volume wrong by treating the highest reported templates as a personality test. They add supersets on day one, train close to failure on every set, sleep poorly, and call the method ineffective when they stall.
-
-Other common mistakes: assuming one viral chart is the only authentic programme; ignoring that documented structures changed across career phases; using isolation volume before compounds are stable; and confusing “Arnold trained a lot” with “any high-rep pump work equals the method.”
-
-Lifters also misread double-split claims. Training twice in a day can be a competition-phase density tactic for athletes with time, food, and recovery support — not a moral obligation for office workers. Another failure mode is copying exercise lists while ignoring progression: without tracking load, reps, or weekly hard sets, high volume becomes random fatigue.
-
-This profile deliberately avoids medical diagnosis language. The practical warning is recovery economics: if performance, mood, and joint comfort are degrading week to week, volume is too high for your current constraints — regardless of whose name is on the PDF. Ordinary lifters should not copy the highest reported competition-era set counts exactly. Scale the principle; quarantine the celebrity dose.`,
-
-      "risks-and-recovery": `Risk concentrates in tendons, lumbar tolerance under fatigue, and systemic under-recovery. High-frequency pressing and curling volumes can irritate elbows and shoulders when technique decays. Squatting and hinging under accumulated fatigue raise technical risk if ego loading replaces controlled reps.
-
-Recovery demands scale with set counts and proximity to failure. Lifters without the ability to eat and sleep like a competitive bodybuilder should cut weekly hard sets first, not “try harder.” Deloads, exercise rotation, and capping failure sets are modern controls that preserve the useful ideas without importing the full historical dose.
-
-A practical recovery checklist for anyone inspired by Golden Era density: protect seven-plus hours of sleep when possible, keep protein and total calories sufficient for the workload, schedule at least one easier week every four to six hard weeks, and stop adding exercises when the existing ones are already stalling. If antagonist supersets are used, rest between pairs still matters — density is a tool, not a race to collapse form.`,
-
-      "verdict": `The Strongest verdict: Golden Era volume training is historically important and still instructive for hypertrophy density and antagonist pairing — but it is a poor default for beginners and a dangerous cosplay target when copied at encyclopedia competition doses. Borrow principles; do not worship a single chart. Never treat any reconstructed week as Arnold’s permanent exact programme. The durable takeaways are multi-exposure frequency when recovered, antagonist densification used deliberately, and progression tracked honestly — not maximal set lists from contested secondary reprints.`,
-
-      "modernised-application": `A modernised application keeps antagonist supersets, multi-exposure frequency where recovered, and progressive overload — while capping weekly hard sets, limiting failure, and protecting sleep. Beginners should not start here. Intermediates may run moderate volumes with one antagonist pairing block. Advanced physique athletes may push density in short mesocycles with planned deloads. See the structured modernAdaptation fields for dose guidance.
-
-Practically, start by auditing current weekly hard sets per muscle, then decide whether frequency or density is the constraint you want to improve. Add one antagonist pairing (for example chest/back or biceps/triceps) for four weeks before expanding further. Keep most sets one to three reps in reserve. Treat any double-session day as an advanced, temporary experiment with reduced per-session volume — not as a lifestyle default. Related generic programmes on this site are the safer entry points when the goal is progressive overload without elite cosplay.`,
-
-      "example-training-week": `See the labelled example week object. It is an original modernised illustration of frequency and antagonist density ideas — not a reprint of encyclopedia tables and not an athlete’s exact routine. Use it as a coaching sketch for intermediate densification, then adjust set counts to performance and recovery rather than to celebrity folklore.`,
-
-      sources: `Primary references are listed in the numbered Sources section: athlete-authored/co-authored books and instructional pieces on reputable channels. Secondary workout aggregators are not treated as primary evidence for exact permanent programmes. Where popular charts conflict with published teaching, this profile prefers the books and official instructional columns and marks numeric permanence claims as uncertain.`,
-    },
+    ARNOLD_SECTION_BODIES,
     {
       "athlete-and-era": [1, 2],
       "documented-training-method": [1, 3, 4, 5],

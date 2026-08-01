@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import {
   LEGENDARY_EDITORIAL_LABELS,
   type LegendaryEditorialLabelId,
@@ -14,6 +17,7 @@ export function LegendaryEditorialLabel({
   id: LegendaryEditorialLabelId;
   className?: string;
 }) {
+  const t = useTranslations("LegendaryMethods.profile.editorialLabels");
   const meta = LEGENDARY_EDITORIAL_LABELS[id];
   return (
     <span
@@ -23,7 +27,7 @@ export function LegendaryEditorialLabel({
       )}
       title={meta.description}
     >
-      {meta.label}
+      {t(id)}
     </span>
   );
 }

@@ -521,19 +521,32 @@
         "athlete-and-era": "The Athlete and the Era",
         "documented-training-method": "The Documented Training Method",
         "training-structure": "Training Structure",
-        "core-training-routine": "Core Training Routine",
-        "documented-nutritional-approach": "Documented Diet",
-        "volume-intensity-frequency": "Volume, Intensity and Frequency",
+        "core-training-routine": "Core Training Routine (Historical Documentation)",
+        "documented-nutritional-approach": "Documented Nutritional Approach & Exact Diet (Historical)",
+        "volume-intensity-frequency": "Volume, Intensity and Frequency Analysis",
         "example-training-week": "Example Training Week",
         "why-it-worked": "Why It Worked",
         "what-lifters-get-wrong": "What Most Lifters Get Wrong",
-        "risks-and-recovery": "Risks and Recovery",
+        "risks-and-recovery": "Risks and Recovery Demands",
         "scores": "The Strongest Score",
-        "verdict": "Verdict",
+        "verdict": "The Strongest Verdict",
         "system-comparison": "System Comparison",
         "modernised-application": "Modernised Application",
-        "sources": "Sources",
+        "sources": "Sources and Further Reading",
         "related-programmes": "Related Programmes"
+      },
+      "contentLayers": {
+        "documented_historical": "Documented historical information",
+        "independent_analysis": "The Strongest independent analysis",
+        "modernised_adaptation": "Modernised original adaptation"
+      },
+      "editorialLabels": {
+        "documented": "Documented information",
+        "reconstructed": "Reconstructed from public sources",
+        "analysis": "The Strongest analysis",
+        "modernised-example": "Original modernised example",
+        "limited-evidence": "Limited evidence",
+        "conflicting-information": "Conflicting public information"
       }
     },
     "categories": {

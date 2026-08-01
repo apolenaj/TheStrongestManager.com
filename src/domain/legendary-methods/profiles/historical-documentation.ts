@@ -14,37 +14,19 @@
  * than inventing specificity.
  */
 
+import type { LocalizedString } from "@/domain/legendary-methods/localized";
+import { ARNOLD_HISTORICAL_DOCS } from "@/domain/legendary-methods/profiles/arnold-localized-bodies";
+
 export type HistoricalDocumentationBodies = {
-  coreTrainingRoutine: string;
-  documentedNutritionalApproach: string;
+  coreTrainingRoutine: string | LocalizedString;
+  documentedNutritionalApproach: string | LocalizedString;
 };
 
 export const HISTORICAL_DOCUMENTATION_BY_SLUG: Record<
   string,
   HistoricalDocumentationBodies
 > = {
-  "arnold-schwarzenegger-golden-era-volume": {
-    coreTrainingRoutine: `Historical documentation note: the following reconstructs publicly reported training templates from Arnold Schwarzenegger's Gold's Gym / Muscle Beach years. It is educational history, not a prescription.
-
-The most consistently reported structure from Schwarzenegger's competitive peak (roughly the late 1960s through the mid-1970s, training alongside Franco Columbu, Frank Zane, Dave Draper, and Ed Corney) was a six-day double-split week: training twice daily, six days a week, with each bodypart hit twice across the week rather than once. A common pairing widely referenced in Golden Era retrospectives and Schwarzenegger's own later writing was chest and back on one axis, shoulders and arms on another, and legs trained on their own days — each muscle group receiving a morning session and a separate afternoon session.
-
-Volume, by contemporary standards, was extreme. Retrospective accounts describe 20 to 30-plus total working sets per major muscle group across the week, built from five or six exercises per bodypart rather than two or three. A typical chest session, as described in period interviews and Pumping Iron-era footage, might move through barbell bench press, incline dumbbell press, dips, and multiple angles of flye or cable work, with rep ranges commonly cited in the 6-to-10 zone on compound lifts and higher on isolation and pump-focused finishers. Supersets and giant sets (three or more exercises performed back-to-back with minimal rest) were a defining feature, along with training-partner-assisted forced reps and negatives once a set reached failure.
-
-Arms and calves reportedly received disproportionate attention. Schwarzenegger has spoken publicly about calves being a stubborn point that required near-daily direct work, and arm training was folded into multiple sessions across the week rather than isolated to a single day. The broader philosophy, repeated across interviews from this period, was described as "instinctive training" — adjusting exercise selection and volume week to week based on how a muscle group was responding, rather than following a single rigid template for an entire competitive season. Rest periods between sets were kept short by modern powerlifting standards, generally cited around 45 to 60 seconds, consistent with the era's emphasis on maintaining a pump and training density over pure strength expression. This was, by every public account, a hypertrophy-first system built around volume, frequency, and constant variation rather than percentage-based intensity programming.
-
-Back training, as documented in Pumping Iron footage and later interviews, reportedly paired heavy compound pulling — deadlifts on occasion, barbell rows, and wide-grip pull-ups or pulldowns — with cable and machine finishing work, again organized into supersets with chest on the same training day. Training partners were a documented structural feature rather than an incidental detail: Franco Columbu in particular is repeatedly cited across interviews as pushing Schwarzenegger through forced reps once a set reached failure, and the competitive, needling dynamic between training partners is described in multiple retrospectives as a deliberate psychological tool for extending sets beyond what either athlete would have reached alone. Shoulder and arm days reportedly combined barbell and dumbbell pressing for the deltoids with multiple curl and pushdown variations for biceps and triceps, again performed as supersets to keep density high across a short session.
-
-Cardiovascular work was reportedly minimal to absent during this off-season mass-building phase, consistent with the sport's priorities of that era, with conditioning treated as a contest-prep concern rather than a year-round habit. It is worth noting that a later commercial product built around Schwarzenegger's name repackaged some of these general principles into a structured programme decades after his competitive career ended; that later commercial material is a separate, distinctly branded product and is not treated here as primary historical evidence of what Schwarzenegger actually did in the gym during his own competitive years.`,
-    documentedNutritionalApproach: `Historical documentation note: the following reconstructs publicly reported dietary patterns from Arnold Schwarzenegger's competitive bodybuilding years. It is educational history, not a prescription.
-
-Public accounts of Schwarzenegger's Golden Era eating are less granular than modern macro-tracked bodybuilding diets, but several patterns recur across interviews and retrospectives. A large, protein-dense breakfast is the most frequently repeated detail — steak and eggs is the combination most consistently cited in period profiles and later career interviews describing his early training years. Beyond that anchor meal, the broader pattern described was five to six meals across the day, built around whatever high-protein whole foods were practically available to a bodybuilder training and living in that era: meat, eggs, dairy, and simple carbohydrate sources like potatoes and rice.
-
-Supplementation existed but looked nothing like the modern whey-isolate market. Protein was supplemented in some periods through milk-and-egg-powder blends rather than the refined, fast-digesting powders available today, and the broader supplement culture of Golden Era Southern California gyms was informal compared to contemporary sports-nutrition science. Carbohydrate and water manipulation ahead of competition — a highly dialed science in modern contest prep — was, by most public accounts, considerably less precise in this era; competitors relied more on subjective mirror checks and experience than on structured peak-week protocols.
-
-It is worth being explicit about the limits of this record: exact daily calorie or gram targets are not consistently documented across sources, and figures repeated in bodybuilding folklore vary depending on which interview or era is being quoted. What is consistently reported is the eating frequency (multiple meals daily), the protein emphasis (large portions of meat and eggs at nearly every meal), and the general absence of the calorie-counting precision that later became standard in the sport. Readers should treat any specific gram or calorie figure attributed to this period as an approximation drawn from athlete recollection decades after the fact, not a verified nutritional record, and should not treat an elite competitive bodybuilder's reported intake from this era as a template for their own eating.
-
-Schwarzenegger's own later writing also draws a contrast between the more restrained, agriculturally simple eating of his Austrian upbringing and the comparatively food-abundant Southern California bodybuilding culture he entered as a young athlete, framing the adjustment to large-volume American eating as itself part of his early training story. Pre-contest carbohydrate and water adjustments in this era are described in general terms — reducing starchy carbohydrates and manipulating water intake in the days before a show — but without the precise, staged water-and-sodium protocols that later became standard in professional bodybuilding contest prep. Processed sugar is generally described as being minimized rather than eliminated, consistent with an era that had far less packaged "diet food" infrastructure than exists today. Multiple later interviews reinforce the same basic shape of the story across decades, which is part of why the broad pattern (frequent meals, meat-and-egg protein anchors, modest and imprecise contest-week manipulation) is treated here as reasonably well corroborated, even though exact numbers are not.`,
-  },
+  "arnold-schwarzenegger-golden-era-volume": ARNOLD_HISTORICAL_DOCS,
 
   "tom-platz-extreme-leg-training": {
     coreTrainingRoutine: `Historical documentation note: the following reconstructs publicly reported training templates associated with Tom Platz's leg-training reputation. It is educational history, not a prescription.
