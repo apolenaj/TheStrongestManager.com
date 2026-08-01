@@ -1,7 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { DM_Sans, Oswald } from "next/font/google";
+import { Anton, DM_Sans } from "next/font/google";
 import { CookieConsentBanner } from "@/components/gdpr/CookieConsentBanner";
 import { WebVitalsReporter } from "@/components/performance/WebVitalsReporter";
 import { PwaInstallPrompt } from "@/components/pwa/PwaInstallPrompt";
@@ -9,11 +9,14 @@ import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { t } from "@/domain/i18n";
 import { routing } from "@/i18n/routing";
 
-/** Athletic condensed display for headings / brand marks (Czech via latin-ext). */
-const display = Oswald({
-  variable: "--font-display",
+/**
+ * Brutalist condensed display for headings / hero type.
+ * Anton ships verified Central European coverage via latin-ext (Í, Á, Ě, Ř, …).
+ */
+const heading = Anton({
+  variable: "--font-heading",
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
+  weight: "400",
 });
 
 /** Clean readable sans for body UI (Czech via latin-ext). */
@@ -47,7 +50,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${display.variable} ${body.variable} antialiased`}>
+      <body className={`${heading.variable} ${body.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <a
             href="#main-content"

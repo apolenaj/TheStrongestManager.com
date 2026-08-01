@@ -1,10 +1,11 @@
 /**
  * Typography tokens.
- * Display: Syne · Body: DM Sans (wired in root layout).
+ * Heading/display: Anton (latin + latin-ext) · Body: DM Sans.
  */
 export const typography = {
   fontFamily: {
-    display: "var(--font-display), system-ui, sans-serif",
+    heading: "var(--font-heading), system-ui, sans-serif",
+    display: "var(--font-display), var(--font-heading), system-ui, sans-serif",
     body: "var(--font-body), system-ui, sans-serif",
     mono: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },

@@ -921,5 +921,29 @@
       "terms": "Podmínky",
       "cookies": "Cookies"
     }
+  },
+  "ToolsPage": {
+    "label": "NÁSTROJE",
+    "title": "Tréninkové kalkulačky",
+    "subtitle": "Užitečná čísla pro plánování — odhadované 1RM, kotouče, DOTS, objem, pokusy a tréninkové maximum. Výstupy slouží jako pomůcka, ne záruka. Každý nástroj je propojený s platformou.",
+    "calc_1rm_title": "Odhad 1RM",
+    "calc_1rm_desc": "Odhadni své maximum na jedno opakování z víceopakovací série pomocí Epleyho rovnice — a pak si do aplikace zapiš reálné jedničky.",
+    "calc_1rm_disc": "Pouze odhad. Odchylka roste s počtem opakování vzdalujícím se od jedničky. Nikdy neber e1RM jako ověřené PR.",
+    "calc_plate_title": "Kalkulačka kotoučů",
+    "calc_plate_desc": "Nalož osu na cílovou váhu pomocí spárovaných metrických kotoučů — a pak odjeď trénink v sekci Dnes.",
+    "calc_plate_disc": "Počítá se spárovanými kotouči a zvolenou osou. Inventář a váha uzávěrů nejsou zahrnuty.",
+    "calc_dots_title": "DOTS kalkulačka",
+    "calc_dots_desc": "Vypočítej si skóre DOTS z totalu a tělesné váhy pomocí ověřených koeficientů z OpenPowerlifting.",
+    "calc_dots_disc": "DOTS je veřejná křivka relativní síly, nejedná se o umístění ani IPF GL body. Federace mohou používat jiné vzorce.",
+    "calc_vol_title": "Kalkulačka objemu",
+    "calc_vol_desc": "Sečti si tonáž ze vzorce zátěž × opakování × série — a pak ji porovnej s týdnem, který reálně odjedeš.",
+    "calc_vol_disc": "Tonáž ≠ kvalita stimulu. Blízkost k selhání, výběr cviků a regenerace nejsou ve vzorci zahrnuty.",
+    "calc_attempt_title": "Plánovač pokusů",
+    "calc_attempt_desc": "Navrhni si základ, druhý pokus a podmíněný třetí pokus ze svého plánovaného maxima — bez jakékoliv garance.",
+    "calc_attempt_disc": "Pouze návrhy — nikdy to není záruka, že pokus na závodním prkně padne.",
+    "calc_tm_title": "Tréninkové maximum (TM)",
+    "calc_tm_desc": "Nastav si tréninkové maximum pro programování (často ~90 % 1RM nebo e1RM), aniž by sis lhal, že jde o testované maximum.",
+    "calc_tm_disc": "TM je konstrukt pro programování. Není to změřené maximum a mělo by se upravit, jakmile narazí na realitu.",
+    "precision_title": "Precizní upřímnost"
   }
 }

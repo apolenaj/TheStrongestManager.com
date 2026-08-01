@@ -921,5 +921,29 @@
       "terms": "Terms",
       "cookies": "Cookies"
     }
+  },
+  "ToolsPage": {
+    "label": "TOOLS",
+    "title": "Training calculators",
+    "subtitle": "Useful numbers for planning — estimated 1RM, plates, DOTS, volume, attempts, and training max. Outputs are aids, not guarantees. Each tool links into the platform.",
+    "calc_1rm_title": "Estimated 1RM",
+    "calc_1rm_desc": "Estimate a one-rep max from a multi-rep set using Epley — then log real singles in the app.",
+    "calc_1rm_disc": "Estimate only. Error grows as reps move away from a single. Never treat an e1RM as a verified PR.",
+    "calc_plate_title": "Plate calculator",
+    "calc_plate_desc": "Load a bar to a target weight with paired metric plates — then run the session in Today.",
+    "calc_plate_disc": "Assumes paired plates and the stated bar. Inventory and collar weight are not modeled.",
+    "calc_dots_title": "DOTS calculator",
+    "calc_dots_desc": "Compute a DOTS score from total and bodyweight with cited OpenPowerlifting coefficients.",
+    "calc_dots_disc": "DOTS is a published relative-strength curve, not a placing and not IPF GL Points. Federations may use other formulas.",
+    "calc_vol_title": "Volume calculator",
+    "calc_vol_desc": "Sum tonnage from load × reps × sets — then compare to the week you actually log.",
+    "calc_vol_disc": "Tonnage ≠ stimulus quality. Proximity to failure, exercise choice, and recovery are not in the formula.",
+    "calc_attempt_title": "Attempt planner",
+    "calc_attempt_desc": "Sketch opener, second, and conditional third from a planning ceiling — never a guarantee.",
+    "calc_attempt_disc": "Sketches only — never a guarantee that any attempt will be made on the platform.",
+    "calc_tm_title": "Training max",
+    "calc_tm_desc": "Set a programming training max (often ~90% of 1RM or e1RM) without pretending it is a tested max.",
+    "calc_tm_disc": "TM is a programming construct. It is not a measured max and should be revised when reality disagrees.",
+    "precision_title": "Precision honesty"
   }
 }

@@ -100,8 +100,9 @@
 @theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
+  /* next/font sets --font-body / --font-heading on <body> — do not self-alias those keys */
   --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-display: var(--font-heading);
 }
 
 html {
@@ -109,6 +110,8 @@ html {
 }
 
 body {
+  /* Bridge: existing components use --font-display; Anton is loaded as --font-heading */
+  --font-display: var(--font-heading);
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body), ui-sans-serif, sans-serif;
@@ -137,9 +140,11 @@ h1,
 h2,
 h3,
 h4,
-.font-display {
-  font-family: var(--font-display), ui-sans-serif, sans-serif;
-  letter-spacing: -0.03em;
+.font-display,
+.font-heading {
+  font-family: var(--font-heading), var(--font-display), ui-sans-serif, sans-serif;
+  /* Anton is already condensed — avoid crushing Czech diacritics with negative tracking */
+  letter-spacing: 0.02em;
 }
 
 .legendary-prose {
