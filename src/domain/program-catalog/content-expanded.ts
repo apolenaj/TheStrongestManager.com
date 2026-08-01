@@ -159,6 +159,24 @@ export const PROGRAM_FAMILY_CONTENT_EXPANDED: Record<string, ProgramFamilyConten
       weeks: "Weeks 9–12",
       priceLabel: "£69",
     }),
+    "iron-foundation-start": compactFamily({
+      familyId: "iron-foundation-start",
+      displayName: "Iron Foundation: Start",
+      tagline:
+        "A safe, linear introduction to strength training and caloric deficit. No complex movements, just building habits, basic strength, and initial fat loss.",
+      whoFor: [
+        "Complete beginners starting strength training and fat loss together",
+        "Lifters who need simple habits before advanced periodization",
+        "Anyone intimidated by high-frequency or undulating systems",
+      ],
+      whoNot: [
+        "Intermediate or advanced lifters seeking aggressive cuts",
+        "Athletes preparing for a near-term meet peak",
+        "Anyone who already has a solid linear base and needs specialization",
+      ],
+      weeks: "Weeks 5–8",
+      priceLabel: "£39",
+    }),
     "iron-cut-aggressive": compactFamily({
       familyId: "iron-cut-aggressive",
       displayName: "Iron Cut: Aggressive",
@@ -394,6 +412,24 @@ export const PROGRAM_FAMILY_CONTENT_EXPANDED_CS: Record<
     ],
     weeksLabel: "Týdny 9–12",
     priceLabel: "£69",
+  }),
+  "iron-foundation-start": compactFamilyCs({
+    familyId: "iron-foundation-start",
+    displayName: "Železný základ: Start",
+    tagline:
+      "Bezpečný, lineární úvod do silového tréninku a kalorického deficitu pro úplné nováčky. Žádné složité cviky, jen budování návyků, základní síly a první pálení tuku.",
+    whoFor: [
+      "Úplné nováčky, kteří začínají sílu a hubnutí zároveň",
+      "Lifery, kteří potřebují jednoduché návyky před pokročilou periodizací",
+      "Kohokoli, koho odrazují vysokofrekvenční nebo undulující systémy",
+    ],
+    whoNot: [
+      "Středně pokročilé nebo pokročilé lifery hledající agresivní řez",
+      "Atlety připravující se na blížící se závodní peak",
+      "Kohokoli se solidním lineárním základem, kdo už potřebuje specializaci",
+    ],
+    weeksLabel: "Týdny 5–8",
+    priceLabel: "£39",
   }),
   "iron-cut-aggressive": compactFamilyCs({
     familyId: "iron-cut-aggressive",

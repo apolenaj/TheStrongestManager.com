@@ -342,7 +342,12 @@
       "cat_lift_specific": "Specifické cviky",
       "cat_transformation": "Transformace těla",
       "cat_athletic": "Atletika a dynamika",
-      "cat_weightlifting": "Vzpírání"
+      "cat_weightlifting": "Vzpírání",
+      "difficulty": "Obtížnost",
+      "diff_all": "Vše",
+      "diff_beginner": "Začátečník",
+      "diff_intermediate": "Středně pokročilý",
+      "diff_advanced": "Pokročilý"
     },
     "card": {
       "duration": "Délka",
@@ -377,7 +382,9 @@
       "methodDup": "DUP",
       "methodBlock": "Bloková periodizace",
       "methodConjugate": "Conjugate",
-      "methodHighFreq": "Vysokofrekvenční trénink"
+      "methodHighFreq": "Vysokofrekvenční trénink",
+      "methodLinearProgression": "Lineární progrese",
+      "techniqueEmphasis": "Důraz na techniku"
     },
     "detail": {
       "startFree": "Spustit 4 týdny zdarma",
@@ -518,7 +525,8 @@
         "iron-recomp-medium": "Železná rekompozice: Střední tempo",
         "sustainable-lean-quality": "Udržitelná čistá hmota: Kvalita",
         "explosive-power-speed": "Explozivní síla a rychlost",
-        "olympic-weightlifting-base": "Základ olympijského vzpírání"
+        "olympic-weightlifting-base": "Základ olympijského vzpírání",
+        "iron-foundation-start": "Železný základ: Start"
       },
       "reasons": {
         "goal": {
@@ -548,7 +556,9 @@
             "recomp": "Transformace těla favorizuje stabilní rekompozici, která brání sílu.",
             "sustainable": "Kvalitní vysekání chrání výkon na závodech během hubnutí.",
             "aggressive": "Agresivní řez sedí lifterům, kteří udrží sílu při vysokém deficitu.",
-            "hybrid": "Powerbuilding doplňky mohou podpořit estetiku během redukce."
+            "hybrid": "Powerbuilding doplňky mohou podpořit estetiku během redukce.",
+            "foundation": "Transformace těla pro nové lifery začíná jednoduchým lineárním základem.",
+            "linear": "Obecné lineární silové šablony mají nižší prioritu, když je primárním cílem transformace a hubnutí."
           },
           "bodybuilding": {
             "golden": "Priorita kulturistiky mapuje na hypertrofii Zlaté éry.",
@@ -583,7 +593,9 @@
             "block": "Skutečná bloková koncentrace je pro začátečníky obvykle zbytečná.",
             "golden": "Objem Zlaté éry je penalizovaný, dokud nejsou základy a regenerace stabilní.",
             "aggressive": "Agresivní řezy jsou pro začátečníky penalizované.",
-            "deadliftPeak": "Specifické peaking bloky jsou pro začátečníky příliš úzké."
+            "deadliftPeak": "Specifické peaking bloky jsou pro začátečníky příliš úzké.",
+            "foundation": "Začátečníci skórují nejvýš na bezpečném lineárním úvodu do síly a hubnutí.",
+            "recomp": "Střední rekompozice je tlumená, dokud nejsou základy ustavené."
           },
           "intermediate": {
             "dup": "Středně pokročilí často dobře reagují na týdenní undulaci.",
@@ -592,7 +604,8 @@
             "linear": "Lineární zůstává životaschopný, pokud preferuješ jednoduchost.",
             "golden": "Středně pokročilí zvládnou vyšší hypertrofický objem se strukturou.",
             "strongman": "Středně pokročilí můžou nainstalovat strongman základový blok.",
-            "recomp": "Středně pokročilým často sedí rekompozice středním tempem."
+            "recomp": "Středně pokročilým často sedí rekompozice středním tempem.",
+            "foundation": "Středně pokročilí už přerůstají šablonu pro úplné začátečníky."
           },
           "advanced": {
             "conjugate": "Pokročilí zvládnou ME/DE rotaci.",
@@ -602,7 +615,8 @@
             "linear": "Dlouhé exkluzivní lineární fáze skórují níž pro pokročilé.",
             "deadliftPeak": "Pokročilí zvládnou brutální a specifický peaking blok.",
             "aggressive": "Pokročilá gramotnost regenerace může podpořit agresivní řez.",
-            "loglift": "Pokročilí sportovci můžou tvrdě specializovat techniku logliftu."
+            "loglift": "Pokročilí sportovci můžou tvrdě specializovat techniku logliftu.",
+            "foundation": "Pokročilí jsou směrováni pryč od absolutně začátečnických základů."
           }
         },
         "days": {
@@ -612,7 +626,8 @@
             "highFreq": "Vysokofrekvenční SBD potřebuje víc než 3 dny, aby dávalo smysl.",
             "conjugate": "Klasická conjugate struktura očekává 4denní týden.",
             "golden": "Objem Zlaté éry obvykle chce víc než 3 tréninkové dny.",
-            "strongman": "Komprimovaný strongman základ se ještě vejde do 3 dnů."
+            "strongman": "Komprimovaný strongman základ se ještě vejde do 3 dnů.",
+            "foundation": "3 tréninkové dny sedí šabloně Železný základ pro začátečníky."
           },
           "4": {
             "dup": "4 dny jsou silný DUP rozpis.",
@@ -658,7 +673,8 @@
             "sustainable": "Špatná regenerace favorizuje pomalejší kvalitní vysekání před agresivním řezem.",
             "aggressive": "Agresivní řezy jsou při špatné regeneraci silně penalizované.",
             "golden": "Vysokoobjemová kulturistika je při špatné regeneraci riziková.",
-            "recomp": "Střední rekompozice je při už špatné regeneraci mírně tlumená."
+            "recomp": "Střední rekompozice je při už špatné regeneraci mírně tlumená.",
+            "foundation": "Špatná regenerace favorizuje nízkovýdejný začátečnický základový blok."
           },
           "okay": {
             "dup": "Ucházející regenerace podporuje umírněný undulující stres.",

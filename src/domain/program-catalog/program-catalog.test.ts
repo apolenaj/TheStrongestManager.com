@@ -14,7 +14,7 @@ describe("program catalog seed", () => {
     const paid = PROGRAM_CATALOG_SEED.filter((p) => p.variant === "paid");
     const bundles = PROGRAM_CATALOG_SEED.filter((p) => p.variant === "bundle");
     expect(free).toHaveLength(6);
-    expect(paid).toHaveLength(17);
+    expect(paid).toHaveLength(18);
     expect(bundles).toHaveLength(1);
     expect(free.every((p) => p.durationWeeks === 4 && p.isFree)).toBe(true);
     expect(

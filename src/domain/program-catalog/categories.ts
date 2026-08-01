@@ -39,6 +39,7 @@ export const PROGRAM_FAMILY_DEFAULT_CATEGORY: Record<
   "bench-press-blueprint": "lift_specific",
   "loglift-mastery": "lift_specific",
   "strongman-base-builder": "strongman",
+  "iron-foundation-start": "transformation",
   "iron-cut-aggressive": "transformation",
   "iron-recomp-medium": "transformation",
   "sustainable-lean-quality": "transformation",

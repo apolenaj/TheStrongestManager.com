@@ -87,6 +87,17 @@ describe("program finder scoring", () => {
     });
     expect(result.primary.familyId).toBe("sustainable-lean-quality");
   });
+
+  it("routes beginner body transformation to Iron Foundation: Start", () => {
+    const result = scoreProgramFinder({
+      goal: "body_transformation",
+      experience: "beginner",
+      days: "3",
+      weakest: "none",
+      recovery: "okay",
+    });
+    expect(result.primary.familyId).toBe("iron-foundation-start");
+  });
 });
 
 describe("1RM validation", () => {

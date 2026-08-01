@@ -342,7 +342,12 @@
       "cat_lift_specific": "Lift Specific",
       "cat_transformation": "Body Transformation",
       "cat_athletic": "Athletic & Dynamic",
-      "cat_weightlifting": "Weightlifting"
+      "cat_weightlifting": "Weightlifting",
+      "difficulty": "Difficulty",
+      "diff_all": "All",
+      "diff_beginner": "Beginner",
+      "diff_intermediate": "Intermediate",
+      "diff_advanced": "Advanced"
     },
     "card": {
       "duration": "Duration",
@@ -377,7 +382,9 @@
       "methodDup": "DUP",
       "methodBlock": "Block periodization",
       "methodConjugate": "Conjugate",
-      "methodHighFreq": "High-frequency training"
+      "methodHighFreq": "High-frequency training",
+      "methodLinearProgression": "Linear progression",
+      "techniqueEmphasis": "Technique emphasis"
     },
     "detail": {
       "startFree": "Start 4 weeks free",
@@ -518,7 +525,8 @@
         "iron-recomp-medium": "Iron Recomp: Medium",
         "sustainable-lean-quality": "Sustainable Lean: Quality",
         "explosive-power-speed": "Explosive Power & Speed",
-        "olympic-weightlifting-base": "Olympic Weightlifting Base"
+        "olympic-weightlifting-base": "Olympic Weightlifting Base",
+        "iron-foundation-start": "Iron Foundation: Start"
       },
       "reasons": {
         "goal": {
@@ -548,7 +556,9 @@
             "recomp": "Body transformation favors steady recomposition that defends strength.",
             "sustainable": "A quality lean approach protects platform performance during fat loss.",
             "aggressive": "Aggressive cuts suit lifters who can protect strength under a steep deficit.",
-            "hybrid": "Powerbuilding accessories can support physique work during a cut."
+            "hybrid": "Powerbuilding accessories can support physique work during a cut.",
+            "foundation": "Body transformation for new lifters starts with a simple linear foundation.",
+            "linear": "General linear strength templates are deprioritized when fat-loss transformation is the primary goal."
           },
           "bodybuilding": {
             "golden": "Bodybuilding priority maps to Golden Era hypertrophy volume.",
@@ -583,7 +593,9 @@
             "block": "True block concentration is usually unnecessary for beginners.",
             "golden": "Golden Era volume is penalized until basics and recovery are stable.",
             "aggressive": "Aggressive cuts are penalized for beginners.",
-            "deadliftPeak": "Specific peaking blocks are too narrow for beginners."
+            "deadliftPeak": "Specific peaking blocks are too narrow for beginners.",
+            "foundation": "Beginners score highest on a safe linear fat-loss and strength introduction.",
+            "recomp": "Medium recomposition is tempered until basics are established."
           },
           "intermediate": {
             "dup": "Intermediate lifters often respond well to weekly undulation.",
@@ -592,7 +604,8 @@
             "linear": "Linear remains viable if you prefer simplicity.",
             "golden": "Intermediates can handle higher hypertrophy volume with structure.",
             "strongman": "Intermediates can install a strongman base block.",
-            "recomp": "Intermediates often suit a medium-pace recomposition."
+            "recomp": "Intermediates often suit a medium-pace recomposition.",
+            "foundation": "Intermediate lifters outgrow the absolute-beginner foundation template."
           },
           "advanced": {
             "conjugate": "Advanced lifters can tolerate ME/DE rotation.",
@@ -602,7 +615,8 @@
             "linear": "Long exclusive linear phases score lower for advanced lifters.",
             "deadliftPeak": "Advanced lifters can run a brutal, specific peaking block.",
             "aggressive": "Advanced recovery literacy can support aggressive cuts.",
-            "loglift": "Advanced athletes can specialize log technique hard."
+            "loglift": "Advanced athletes can specialize log technique hard.",
+            "foundation": "Advanced lifters are steered away from absolute-beginner foundations."
           }
         },
         "days": {
@@ -612,7 +626,8 @@
             "highFreq": "High-frequency SBD needs more than 3 days to make sense.",
             "conjugate": "Classic conjugate structure expects a 4-day week.",
             "golden": "Golden Era volume usually wants more than 3 training days.",
-            "strongman": "A compressed strongman base can still fit 3 days."
+            "strongman": "A compressed strongman base can still fit 3 days.",
+            "foundation": "3 training days match the Iron Foundation beginner template."
           },
           "4": {
             "dup": "4 days is a strong DUP schedule.",
@@ -658,7 +673,8 @@
             "sustainable": "Poor recovery favors a slower, quality lean over aggressive cuts.",
             "aggressive": "Aggressive cuts are heavily penalized when recovery is already poor.",
             "golden": "High-volume bodybuilding is risky with poor recovery.",
-            "recomp": "Medium recomposition is slightly tempered when recovery is already poor."
+            "recomp": "Medium recomposition is slightly tempered when recovery is already poor.",
+            "foundation": "Poor recovery favors a low-demand beginner foundation block."
           },
           "okay": {
             "dup": "Okay recovery supports moderate undulating stress.",

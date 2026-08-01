@@ -16,6 +16,7 @@ export const PROGRAM_FINDER_FAMILIES = [
   "bench-press-blueprint",
   "loglift-mastery",
   "strongman-base-builder",
+  "iron-foundation-start",
   "iron-cut-aggressive",
   "iron-recomp-medium",
   "sustainable-lean-quality",
@@ -106,6 +107,7 @@ const FAMILY_LABEL: Record<ProgramFinderFamilyId, string> = {
   "bench-press-blueprint": "Bench Press Blueprint",
   "loglift-mastery": "Loglift Mastery",
   "strongman-base-builder": "Strongman Base Builder",
+  "iron-foundation-start": "Iron Foundation: Start",
   "iron-cut-aggressive": "Iron Cut: Aggressive",
   "iron-recomp-medium": "Iron Recomp: Medium",
   "sustainable-lean-quality": "Sustainable Lean: Quality",
@@ -136,6 +138,7 @@ function emptyScores(): Record<
     "bench-press-blueprint": { score: 0, reasons: [] },
     "loglift-mastery": { score: 0, reasons: [] },
     "strongman-base-builder": { score: 0, reasons: [] },
+    "iron-foundation-start": { score: 0, reasons: [] },
     "iron-cut-aggressive": { score: 0, reasons: [] },
     "iron-recomp-medium": { score: 0, reasons: [] },
     "sustainable-lean-quality": { score: 0, reasons: [] },
@@ -194,10 +197,12 @@ export function scoreProgramFinder(
       add(scores, "conjugate-strength-system", 2, r("goal.comp.conjugate"));
       break;
     case "body_transformation":
+      add(scores, "iron-foundation-start", 3, r("goal.transform.foundation"));
       add(scores, "iron-recomp-medium", 5, r("goal.transform.recomp"));
       add(scores, "sustainable-lean-quality", 5, r("goal.transform.sustainable"));
       add(scores, "iron-cut-aggressive", 4, r("goal.transform.aggressive"));
       add(scores, "powerbuilding-hybrid", 1, r("goal.transform.hybrid"));
+      add(scores, "linear-strength-builder", -2, r("goal.transform.linear"));
       break;
     case "bodybuilding":
       add(scores, "golden-era-hypertrophy", 8, r("goal.bodybuilding.golden"));
@@ -234,12 +239,14 @@ export function scoreProgramFinder(
   switch (answers.experience) {
     case "beginner":
       add(scores, "linear-strength-builder", 5, r("exp.beginner.linear"));
+      add(scores, "iron-foundation-start", 8, r("exp.beginner.foundation"));
       add(scores, "powerbuilding-hybrid", 1, r("exp.beginner.hybrid"));
       add(scores, "conjugate-strength-system", -4, r("exp.beginner.conjugate"));
       add(scores, "high-frequency-sbd", -3, r("exp.beginner.highFreq"));
       add(scores, "block-periodisation", -2, r("exp.beginner.block"));
       add(scores, "golden-era-hypertrophy", -2, r("exp.beginner.golden"));
       add(scores, "iron-cut-aggressive", -3, r("exp.beginner.aggressive"));
+      add(scores, "iron-recomp-medium", -1, r("exp.beginner.recomp"));
       add(scores, "deadlift-310-peak", -3, r("exp.beginner.deadliftPeak"));
       break;
     case "intermediate":
@@ -260,12 +267,14 @@ export function scoreProgramFinder(
       add(scores, "deadlift-310-peak", 2, r("exp.advanced.deadliftPeak"));
       add(scores, "iron-cut-aggressive", 2, r("exp.advanced.aggressive"));
       add(scores, "loglift-mastery", 2, r("exp.advanced.loglift"));
+      add(scores, "iron-foundation-start", -5, r("exp.advanced.foundation"));
       break;
   }
 
   // --- Days available ---
   if (days <= 3) {
     add(scores, "linear-strength-builder", 3, r("days.3.linear"));
+    add(scores, "iron-foundation-start", 4, r("days.3.foundation"));
     add(scores, "dup-powerlifting-system", 3, r("days.3.dup"));
     add(scores, "high-frequency-sbd", -4, r("days.3.highFreq"));
     add(scores, "conjugate-strength-system", -2, r("days.3.conjugate"));
@@ -316,6 +325,7 @@ export function scoreProgramFinder(
   switch (answers.recovery) {
     case "poor":
       add(scores, "linear-strength-builder", 4, r("rec.poor.linear"));
+      add(scores, "iron-foundation-start", 4, r("rec.poor.foundation"));
       add(scores, "dup-powerlifting-system", 1, r("rec.poor.dup"));
       add(scores, "high-frequency-sbd", -5, r("rec.poor.highFreq"));
       add(scores, "conjugate-strength-system", -4, r("rec.poor.conjugate"));

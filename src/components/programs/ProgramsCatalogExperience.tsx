@@ -39,12 +39,14 @@ const METHOD_IDS = [
   "bundle",
 ] as const;
 const DAYS_IDS = ["all", "3day", "4day", "5day", "6day"] as const;
+const DIFFICULTY_IDS = ["all", "beginner", "intermediate", "advanced"] as const;
 
 type CategoryId = (typeof CATEGORY_IDS)[number];
 type PriceId = (typeof PRICE_IDS)[number];
 type GoalId = (typeof GOAL_IDS)[number];
 type MethodId = (typeof METHOD_IDS)[number];
 type DaysId = (typeof DAYS_IDS)[number];
+type DifficultyId = (typeof DIFFICULTY_IDS)[number];
 
 function buildFamilyCards(
   programs: PublicProgramProduct[],
@@ -147,7 +149,11 @@ function recommendFamily(input: {
   if (input.experience === "advanced" && input.goal === "powerlifting") {
     return input.days === "4day" ? "conjugate-strength-system" : "high-frequency-sbd";
   }
-  if (input.goal === "hypertrophy") return "powerbuilding-hybrid";
+  if (input.goal === "hypertrophy") {
+    return input.experience === "beginner"
+      ? "iron-foundation-start"
+      : "powerbuilding-hybrid";
+  }
   if (input.goal === "competition_prep") {
     return input.experience === "beginner"
       ? "linear-strength-builder"
@@ -159,7 +165,7 @@ function recommendFamily(input: {
       : "dup-powerlifting-system";
   }
   return input.experience === "beginner"
-    ? "linear-strength-builder"
+    ? "iron-foundation-start"
     : "dup-powerlifting-system";
 }
 
@@ -273,11 +279,20 @@ export function ProgramsCatalogExperience({
       : "all"
   ) as CategoryId;
 
+  const difficultyFromUrl = searchParams.get("difficulty");
+  const initialDifficultyId = (
+    DIFFICULTY_IDS.includes(difficultyFromUrl as DifficultyId)
+      ? difficultyFromUrl
+      : "all"
+  ) as DifficultyId;
+
   const [category, setCategory] = useState<CategoryId>(initialCategoryId);
   const [price, setPrice] = useState<PriceId>("all");
   const [goal, setGoal] = useState<GoalId>(initialGoalId);
   const [method, setMethod] = useState<MethodId>("all");
   const [days, setDays] = useState<DaysId>("all");
+  const [difficulty, setDifficulty] =
+    useState<DifficultyId>(initialDifficultyId);
 
   useEffect(() => {
     setGoal(initialGoalId);
@@ -287,9 +302,15 @@ export function ProgramsCatalogExperience({
     setCategory(initialCategoryId);
   }, [initialCategoryId]);
 
+  useEffect(() => {
+    setDifficulty(initialDifficultyId);
+  }, [initialDifficultyId]);
+
   const filtered = useMemo(() => {
     return allCards.filter((card) => {
       if (category !== "all" && card.category !== category) return false;
+
+      if (difficulty !== "all" && card.difficulty !== difficulty) return false;
 
       if (price === "free" && !card.free) return false;
       if (price === "paid" && !card.paid) return false;
@@ -316,7 +337,7 @@ export function ProgramsCatalogExperience({
 
       return true;
     });
-  }, [allCards, category, price, goal, method, days]);
+  }, [allCards, category, difficulty, price, goal, method, days]);
 
   const categoryOptions = CATEGORY_IDS.map((id) => ({
     id,
@@ -396,6 +417,18 @@ export function ProgramsCatalogExperience({
               : t("filters.days6"),
   }));
 
+  const difficultyOptions = DIFFICULTY_IDS.map((id) => ({
+    id,
+    label:
+      id === "all"
+        ? t("filters.diff_all")
+        : id === "beginner"
+          ? t("filters.diff_beginner")
+          : id === "intermediate"
+            ? t("filters.diff_intermediate")
+            : t("filters.diff_advanced"),
+  }));
+
   return (
     <div className="space-y-14">
       <FindMyProgram cards={allCards} />
@@ -425,7 +458,13 @@ export function ProgramsCatalogExperience({
             options={categoryOptions}
             onChange={setCategory}
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            <FilterChipGroup
+              legend={t("filters.difficulty")}
+              value={difficulty}
+              options={difficultyOptions}
+              onChange={setDifficulty}
+            />
             <FilterChipGroup
               legend={t("filters.price")}
               value={price}

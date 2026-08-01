@@ -30,7 +30,11 @@ type ProgramCardProps = {
 function useProgramCardLabels() {
   const t = useTranslations("ProgramsPage.card");
 
-  function methodLabel(methodId: string | null): string {
+  function methodLabel(methodId: string | null, familyId: string): string {
+    // Beginner transformation entry — keep hierarchy simple and non-intimidating.
+    if (familyId === "iron-foundation-start") {
+      return t("methodLinearProgression");
+    }
     if (!methodId) return t("methodMulti");
     const map: Record<string, string> = {
       "linear-periodization": t("methodLinear"),
@@ -138,7 +142,7 @@ export function ProgramCard({ model, className, style }: ProgramCardProps) {
       />
 
       <div className="flex flex-wrap items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-zinc-400">
-        <span>{methodLabel(model.methodId)}</span>
+        <span>{methodLabel(model.methodId, model.familyId)}</span>
         <span aria-hidden className="text-white/20">
           /
         </span>
@@ -187,6 +191,9 @@ export function ProgramCard({ model, className, style }: ProgramCardProps) {
         {recoveryLabel(model.recoveryDemand)}
         {" · "}
         {model.availableSchedules.map(scheduleLabel).join(" · ")}
+        {model.familyId === "iron-foundation-start"
+          ? ` · ${t("techniqueEmphasis")}`
+          : null}
       </p>
 
       <div className="mt-6 flex flex-col gap-2 sm:flex-row">
